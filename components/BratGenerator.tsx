@@ -1,23 +1,26 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
+import { BRAT_GENERATOR_EMBED_HTML } from '@/lib/toolEmbedHtml';
 
 export default function BratGenerator() {
-  const frameRef = useRef<HTMLIFrameElement | null>(null);
   const [height, setHeight] = useState(780);
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       const data = event.data;
       if (!data || typeof data !== 'object') return;
+
       if (data.type === 'brat-generator-height' && Number.isFinite(Number(data.height))) {
-        setHeight(Math.min(2200, Math.max(720, Number(data.height) + 4)));
+        setHeight(Math.min(2400, Math.max(720, Number(data.height) + 6)));
       }
+
       if (data.type === 'brat-generator-download') {
         trackEvent('brat_design_download', { tool_version: 'uploaded-generator' });
       }
     };
+
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
   }, []);
@@ -25,13 +28,12 @@ export default function BratGenerator() {
   return (
     <div className="generator-embed-shell reveal">
       <iframe
-        ref={frameRef}
         className="brat-generator-iframe"
         title="Brat Generator design tool"
-        src="/brat-generator-embed.html"
+        srcDoc={BRAT_GENERATOR_EMBED_HTML}
         style={{ height }}
-        allow="clipboard-write"
-        loading="lazy"
+        allow="clipboard-read; clipboard-write"
+        loading="eager"
       />
     </div>
   );

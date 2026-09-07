@@ -1,12 +1,17 @@
-PRE-LIVE CHECK FIX
+FIX: removes the nested "page inside page" problem on Vercel.
 
-Copy these folders/files into your existing E:\\bratgenerator-build-fixed project and choose Replace.
-This patch does NOT change your page design or tool functionality.
-It only fixes the SEO checker so iframe embed HTML files are checked for noindex instead of canonical tags.
+Replace only these files/folders in your CURRENT Git-connected project:
+- components/BratGenerator.tsx
+- components/BratVideoGenerator.tsx
+- lib/toolEmbedHtml.ts
 
-After copying:
-1) npm run prelive
-2) It should end with: PRE-LIVE BUILD CHECK: PASS
-3) git add .
-4) git commit -m "Fix prelive embed SEO check"
-5) git push
+Do NOT delete your current project, .git, node_modules, or any other files.
+
+After copying/replacing:
+1) npm run dev
+2) Check http://localhost:3000/ and /video-generator/
+3) Stop dev server with Ctrl+C
+4) npm run prelive
+5) git add .
+6) git commit -m "Fix nested generator embeds on Vercel"
+7) git push
