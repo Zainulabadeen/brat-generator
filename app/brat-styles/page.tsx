@@ -131,9 +131,9 @@ export default function BratStylesPage() {
           <div className="container container-wide">
             <div className="section-heading reveal"><p className="eyebrow">Export</p><h2>Export Sizes & <span className="text-pink">Download Formats</span></h2><p>Keep the same style across square, vertical and wide layouts.</p></div>
             <div className="card-grid three">
-              <article className="glass info-card hover-lift reveal"><div className="emoji">⬛</div><h3>Square</h3><p>Use 1500×1500 for an all-purpose cover, playlist graphic, profile image or square social post.</p></article>
-              <article className="glass info-card hover-lift reveal reveal-delay-1"><div className="emoji">📱</div><h3>Vertical</h3><p>Use 1080×1920 for 9:16 Stories, Reels and TikTok, or 1080×1350 for a 4:5 portrait post.</p></article>
-              <article className="glass info-card hover-lift reveal reveal-delay-2"><div className="emoji">🖥️</div><h3>Wide</h3><p>Use 1920×1080 when you need a horizontal banner, desktop-style graphic or wide layout.</p></article>
+              <article className="glass info-card hover-lift reveal"><div className="emoji">⬛</div><h3>Square</h3><p>Use 1000×1000 or 1200×1200 for an all-purpose cover, playlist graphic, profile image or square social post.</p></article>
+              <article className="glass info-card hover-lift reveal reveal-delay-1"><div className="emoji">📱</div><h3>Vertical</h3><p>Use 1080×1920 for 9:16 Stories, Reels and TikTok.</p></article>
+              <article className="glass info-card hover-lift reveal reveal-delay-2"><div className="emoji">🖥️</div><h3>Wide</h3><p>Use 1200×630 when you need a horizontal banner, social preview image or wide layout.</p></article>
             </div>
             <div className="container container-medium article-prose reveal export-copy"><p><strong>PNG</strong> is the safest option for sharp text and high image quality. <strong>JPG</strong> keeps file sizes smaller, while <strong>WebP</strong> is efficient for modern websites. Choose the canvas and file format before downloading.</p></div>
           </div>

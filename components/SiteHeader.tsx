@@ -10,6 +10,7 @@ const navItems = [
   ['Features', pageLinks.features],
   ['How to Use', pageLinks.howTo],
   ['Brat Styles', pageLinks.styles],
+  ['Video Generator', pageLinks.videoGenerator],
   ['Album Cover Guide', pageLinks.albumCoverGuide],
   ['Blog', pageLinks.blog],
 ] as const;

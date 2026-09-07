@@ -16,6 +16,9 @@ const expected = [
   'privacy-policy/index.html',
   'terms/index.html',
   'contact/index.html',
+  'video-generator/index.html',
+  'brat-generator-embed.html',
+  'brat-video-generator-embed.html',
   'robots.txt',
   'sitemap.xml',
   'manifest.webmanifest',
@@ -34,13 +37,30 @@ for (const rel of expected) {
   if (!fs.existsSync(path.join(out, rel))) failures.push(`Missing: out/${rel}`);
 }
 
-const htmlFiles = expected.filter((x) => x.endsWith('.html') && x !== '404.html');
-for (const rel of htmlFiles) {
+// Canonicals are required on real indexable Next.js pages, not on the two
+// standalone HTML files used only inside iframes. Those embed documents should
+// stay noindex instead, so search engines do not treat them as separate pages.
+const pageHtmlFiles = expected.filter(
+  (x) => x.endsWith('.html') && x !== '404.html' && !x.endsWith('-embed.html'),
+);
+for (const rel of pageHtmlFiles) {
   const file = path.join(out, rel);
   if (!fs.existsSync(file)) continue;
   const html = fs.readFileSync(file, 'utf8');
   if (!/<title>[^<]+<\/title>/i.test(html)) failures.push(`No title: out/${rel}`);
   if (!/rel="canonical"/i.test(html)) failures.push(`No canonical: out/${rel}`);
+  if (/brategenrator\.lovable\.app|bratgenerator\.app/i.test(html)) failures.push(`Old/wrong domain found: out/${rel}`);
+}
+
+const embedHtmlFiles = ['brat-generator-embed.html', 'brat-video-generator-embed.html'];
+for (const rel of embedHtmlFiles) {
+  const file = path.join(out, rel);
+  if (!fs.existsSync(file)) continue;
+  const html = fs.readFileSync(file, 'utf8');
+  if (!/<title>[^<]+<\/title>/i.test(html)) failures.push(`No title: out/${rel}`);
+  if (!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html)) {
+    failures.push(`Embed file is not noindex: out/${rel}`);
+  }
   if (/brategenrator\.lovable\.app|bratgenerator\.app/i.test(html)) failures.push(`Old/wrong domain found: out/${rel}`);
 }
 
@@ -61,6 +81,7 @@ if (fs.existsSync(sitemapPath)) {
     'https://bratgeneratorpro.net/blog/',
     'https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/',
     'https://bratgeneratorpro.net/blog/brat-generator-not-working/',
+    'https://bratgeneratorpro.net/video-generator/',
   ];
   for (const url of requiredUrls) if (!sitemap.includes(url)) failures.push(`Sitemap missing: ${url}`);
 }
@@ -75,5 +96,5 @@ console.log('\n==============================================');
 console.log(' PRE-LIVE BUILD CHECK: PASS');
 console.log('==============================================');
 console.log(`Checked ${expected.length} required output files.`);
-console.log('Checked page titles, canonicals, old-domain leakage, robots and sitemap.');
+console.log('Checked page titles, canonicals, embed noindex rules, old-domain leakage, robots and sitemap.');
 console.log('The build is ready for backup/deployment steps.');

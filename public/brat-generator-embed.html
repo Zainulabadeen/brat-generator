@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>Brat Generator Tool</title>
+<style>html,body{margin:0;padding:0;background:transparent;overflow-x:hidden}</style>
+</head>
+<body>
+<!-- Wrapper Div taake styles sirf generator par apply hon -->
+<div class="brat-app-wrapper">
+
+  <div class="app">
+
+    <!-- Top mode bar -->
+    <div class="top-bar">
+      <button class="mode-btn" data-mode="scribble">Scribble</button>
+      <button class="mode-btn on" data-mode="brat">Brat</button>
+      <button class="mode-btn" data-mode="white">Brat White</button>
+      <button class="mode-btn" data-mode="album">Album</button>
+      <button class="mode-btn" data-mode="sweat">Sweat</button>
+      <button class="mode-btn" data-mode="neon">Neon</button>
+      <button class="mode-btn" data-mode="gradient">Gradient</button>
+    </div>
+
+    <div class="body">
+
+      <!-- Canvas -->
+      <div class="canvas-area">
+        <button class="undo-btn" id="undoBtn">&#8617; Undo</button>
+        <div class="canvas-wrap">
+          <div class="checker"></div>
+          <canvas id="cv" width="420" height="420"></canvas>
+        </div>
+        <div class="canvas-actions">
+          <select class="size-sel" id="sizeSel">
+            <option value="800x800">800 &times; 800</option>
+            <option value="1000x1000" selected>1000 &times; 1000</option>
+            <option value="1200x1200">1200 &times; 1200</option>
+            <option value="1080x1920">1080 &times; 1920 &mdash; Story</option>
+            <option value="1200x630">1200 &times; 630 &mdash; Banner</option>
+          </select>
+          <button class="ghost-btn" id="copyBtn">Copy</button>
+          <button class="dl-btn" id="dlBtn">
+            <svg viewBox="0 0 16 16"><path d="M8 12.5L3.5 8H6V2h4v6h2.5L8 12.5zM2 14h12v1.5H2V14z"/></svg>
+            Download Image
+          </button>
+          <button class="ghost-btn" id="resetBtn">Reset All</button>
+        </div>
+      </div>
+
+      <!-- Controls panel -->
+      <div class="panel">
+
+        <div>
+          <div class="field-label">Your Text</div>
+          <input class="text-input" id="txtIn" value="brat" placeholder="type your text&#8230;" />
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="field-label">Background Color</div>
+          <div class="color-row" id="bgColorRow">
+            <div class="csw on"       style="background:#8ace00" data-col="#8ace00"></div>
+            <div class="csw"          style="background:#ff69b4" data-col="#ff69b4"></div>
+            <div class="csw"          style="background:#cc66ff" data-col="#cc66ff"></div>
+            <div class="csw"          style="background:#3355ff" data-col="#3355ff"></div>
+            <div class="csw"          style="background:#00bfff" data-col="#00bfff"></div>
+            <div class="csw outlined" style="background:#ffffff" data-col="#ffffff"></div>
+            <div class="csw"          style="background:#111111" data-col="#111111"></div>
+            <div class="csw"          style="background:#ff4500" data-col="#ff4500"></div>
+            <div class="csw"          style="background:#ffd700" data-col="#ffd700"></div>
+          </div>
+          <div class="bg-text-row">
+            <div class="indicator" id="bgIndicator">
+              <span class="ind-label">BG</span>
+              <div class="ind-swatch" id="bgSwatch" style="background:#8ace00"></div>
+              <input type="color" id="bgPick" value="#8ace00" />
+            </div>
+            <div class="indicator" id="fgIndicator">
+              <span class="ind-label">Text</span>
+              <div class="ind-swatch" id="fgSwatch" style="background:#000000;border-color:#bbb"></div>
+              <input type="color" id="fgPick" value="#000000" />
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="field-label">Font Style</div>
+          <select class="font-sel" id="fontSel">
+            <option value="Arial Narrow">Arial Narrow &mdash; classic brat</option>
+            <option value="Arial Black">Arial Black &mdash; bold</option>
+            <option value="Impact">Impact &mdash; condensed</option>
+            <option value="Arial">Arial &mdash; clean</option>
+            <option value="Georgia">Georgia &mdash; serif</option>
+            <option value="Courier New">Courier New &mdash; mono</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="field-label">Text Size</div>
+          <div class="slider-wrap">
+            <input type="range" min="14" max="190" step="1" value="80" id="fsSl" />
+            <div class="slider-labels">
+              <span>Small</span><span class="slider-val" id="fsVal">80</span><span>Large</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-label">Letter Spacing</div>
+          <div class="slider-wrap">
+            <input type="range" min="-4" max="30" step="1" value="0" id="lsSl" />
+            <div class="slider-labels">
+              <span>Tight</span><span class="slider-val" id="lsVal">0</span><span>Wide</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-label">Blur Effect</div>
+          <div class="slider-wrap">
+            <input type="range" min="0" max="10" step="0.5" value="0" id="blurSl" />
+            <div class="slider-labels">
+              <span>None</span><span class="slider-val" id="blurVal">0</span><span>Max</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="field-label">Effects</div>
+          <div class="effects-grid">
+            <div class="effect-row">
+              <span class="effect-label">Lowercase</span>
+              <label class="toggle"><input type="checkbox" id="fxLower" checked /><span class="tslider"></span></label>
+            </div>
+            <div class="effect-row">
+              <span class="effect-label">Mirror</span>
+              <label class="toggle"><input type="checkbox" id="fxMirror" /><span class="tslider"></span></label>
+            </div>
+            <div class="effect-row">
+              <span class="effect-label">Flip Vertical</span>
+              <label class="toggle"><input type="checkbox" id="fxFlip" /><span class="tslider"></span></label>
+            </div>
+            <div class="effect-row">
+              <span class="effect-label">Noise / Grain</span>
+              <label class="toggle"><input type="checkbox" id="fxNoise" /><span class="tslider"></span></label>
+            </div>
+            <div class="effect-row">
+              <span class="effect-label">Scribble</span>
+              <label class="toggle"><input type="checkbox" id="fxScribble" /><span class="tslider"></span></label>
+            </div>
+            <div class="effect-row">
+              <span class="effect-label">Bold</span>
+              <label class="toggle"><input type="checkbox" id="fxBold" /><span class="tslider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="field-label">Text Alignment</div>
+          <div class="seg" id="alignSeg">
+            <button class="seg-btn" data-al="left">Left</button>
+            <button class="seg-btn on" data-al="center">Center</button>
+            <button class="seg-btn" data-al="right">Right</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="field-label">Export Format</div>
+          <div class="seg" id="fmtSeg">
+            <button class="seg-btn on" data-fmt="png">PNG</button>
+            <button class="seg-btn" data-fmt="jpg">JPG</button>
+            <button class="seg-btn" data-fmt="webp">WebP</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-label">Resolution</div>
+          <div class="seg" id="resSeg">
+            <button class="seg-btn" data-res="1">1&times;</button>
+            <button class="seg-btn on" data-res="2">2&times;</button>
+            <button class="seg-btn" data-res="3">3&times;</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* Sirf brat-app-wrapper ke andar ke elements par resets lagayein */
+  .brat-app-wrapper *, 
+  .brat-app-wrapper *::before, 
+  .brat-app-wrapper *::after { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+  }
+
+  .brat-app-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-family: 'Urbanist', sans-serif;
+  }
+
+  .brat-app-wrapper .app {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,.10);
+    border: 1px solid #e8e8e8;
+  }
+
+  /* ── Top Bar ── */
+  .brat-app-wrapper .top-bar {
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 56px;
+    flex-wrap: wrap;
+  }
+
+  .brat-app-wrapper .mode-btn {
+    padding: 7px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    border-radius: 30px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    transition: all .15s;
+    text-transform: uppercase;
+    font-family: 'Urbanist', sans-serif;
+  }
+  .brat-app-wrapper .mode-btn:hover:not(.on) { color: #444; background: #f5f5f5; }
+  .brat-app-wrapper .mode-btn.on { background: #8ace00; color: #000; }
+
+  /* ── Body ── */
+  .brat-app-wrapper .body {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    min-height: 680px;
+  }
+
+  /* ── Canvas Area ── */
+  .brat-app-wrapper .canvas-area {
+    background: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 28px 24px;
+    gap: 20px;
+    position: relative;
+  }
+
+  .brat-app-wrapper .undo-btn {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    padding: 5px 13px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 7px;
+    background: #fff;
+    color: #777;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    transition: all .12s;
+  }
+  .brat-app-wrapper .undo-btn:hover { color: #111; border-color: #888; }
+
+  .brat-app-wrapper .canvas-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brat-app-wrapper .checker {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+    z-index: 0;
+  }
+
+  .brat-app-wrapper #cv {
+    position: relative;
+    z-index: 1;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 32px rgba(0,0,0,.15);
+    max-width: 100%;
+    max-height: 440px;
+    width: auto;
+    height: auto;
+  }
+
+  .brat-app-wrapper .canvas-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .brat-app-wrapper .size-sel {
+    padding: 9px 32px 9px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1.5px solid #d8d8d8;
+    border-radius: 9px;
+    background: #fff;
+    color: #222;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .brat-app-wrapper .size-sel:focus { border-color: #8ace00; }
+
+  .brat-app-wrapper .dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    transition: opacity .15s;
+  }
+  .brat-app-wrapper .dl-btn:hover { opacity: .8; }
+  .brat-app-wrapper .dl-btn svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
+
+  .brat-app-wrapper .ghost-btn {
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1.5px solid #d8d8d8;
+    border-radius: 9px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    transition: all .12s;
+  }
+  .brat-app-wrapper .ghost-btn:hover { border-color: #888; color: #111; }
+
+  /* ── Panel ── */
+  .brat-app-wrapper .panel {
+    background: #fff;
+    border-left: 1px solid #ebebeb;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+    max-height: 680px;
+  }
+
+  .brat-app-wrapper .field-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #aaa;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'Urbanist', sans-serif;
+  }
+
+  .brat-app-wrapper .text-input {
+    width: 100%;
+    padding: 10px 13px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 9px;
+    font-family: 'Urbanist', sans-serif;
+    color: #111;
+    background: #fafafa;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .brat-app-wrapper .text-input:focus { border-color: #8ace00; }
+
+  /* Color swatches */
+  .brat-app-wrapper .color-row {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .brat-app-wrapper .csw {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all .14s;
+    flex-shrink: 0;
+  }
+  .brat-app-wrapper .csw:hover { transform: scale(1.1); }
+  .brat-app-wrapper .csw.on { border-color: #111; }
+  .brat-app-wrapper .csw.outlined { border: 2px solid #e0e0e0; }
+  .brat-app-wrapper .csw.outlined.on { border: 3px solid #111; }
+
+  .brat-app-wrapper .bg-text-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .brat-app-wrapper .indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f7f7f7;
+    border-radius: 9px;
+    padding: 8px 11px;
+    flex: 1;
+    border: 1.5px solid #eee;
+    cursor: pointer;
+    transition: border-color .12s;
+  }
+  .brat-app-wrapper .indicator:hover { border-color: #bbb; }
+
+  .brat-app-wrapper .ind-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-family: 'Urbanist', sans-serif;
+  }
+
+  .brat-app-wrapper .ind-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+  }
+
+  .brat-app-wrapper input[type="color"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .brat-app-wrapper .font-sel {
+    width: 100%;
+    padding: 10px 32px 10px 13px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 9px;
+    font-family: 'Urbanist', sans-serif;
+    color: #111;
+    background: #fafafa;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .brat-app-wrapper .font-sel:focus { border-color: #8ace00; }
+
+  /* Sliders */
+  .brat-app-wrapper .slider-wrap { display: flex; flex-direction: column; gap: 6px; }
+
+  .brat-app-wrapper .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 500;
+    color: #bbb;
+    font-family: 'Urbanist', sans-serif;
+  }
+  .brat-app-wrapper .slider-val { font-weight: 700; color: #666; }
+
+  .brat-app-wrapper input[type="range"] {
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    background: #e8e8e8;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  .brat-app-wrapper input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #111;
+    cursor: pointer;
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,.22);
+  }
+  .brat-app-wrapper input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #111;
+    cursor: pointer;
+    border: 2.5px solid #fff;
+  }
+
+  /* Effects toggles */
+  .brat-app-wrapper .effects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+  }
+
+  .brat-app-wrapper .effect-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 0;
+  }
+
+  .brat-app-wrapper .effect-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    font-family: 'Urbanist', sans-serif;
+  }
+
+  .brat-app-wrapper .toggle {
+    position: relative;
+    width: 44px;
+    height: 25px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .brat-app-wrapper .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .brat-app-wrapper .tslider {
+    position: absolute;
+    inset: 0;
+    background: #ddd;
+    border-radius: 25px;
+    transition: background .18s;
+  }
+  .brat-app-wrapper .tslider::before {
+    content: '';
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .18s;
+    box-shadow: 0 1px 4px rgba(0,0,0,.18);
+  }
+  .brat-app-wrapper .toggle input:checked + .tslider { background: #8ace00; }
+  .brat-app-wrapper .toggle input:checked + .tslider::before { transform: translateX(19px); }
+
+  /* Divider */
+  .brat-app-wrapper .divider { height: 1px; background: #f2f2f2; }
+
+  /* Segment buttons */
+  .brat-app-wrapper .seg { display: flex; gap: 6px; }
+  .brat-app-wrapper .seg-btn {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    font-family: 'Urbanist', sans-serif;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 9px;
+    background: #fff;
+    color: #999;
+    cursor: pointer;
+    text-align: center;
+    transition: all .12s;
+  }
+  .brat-app-wrapper .seg-btn:hover:not(.on) { border-color: #bbb; color: #444; }
+  .brat-app-wrapper .seg-btn.on { border-color: #111; color: #111; background: #f8f8f8; }
+
+  /* Scrollbar */
+  .brat-app-wrapper .panel::-webkit-scrollbar { width: 4px; }
+  .brat-app-wrapper .panel::-webkit-scrollbar-track { background: transparent; }
+  .brat-app-wrapper .panel::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
+
+  @media (max-width: 800px) {
+    .brat-app-wrapper .body { grid-template-columns: 1fr; }
+    .brat-app-wrapper .panel { max-height: none; border-left: none; border-top: 1px solid #ebebeb; }
+    .brat-app-wrapper .canvas-area { padding: 24px 16px 20px; }
+  }
+</style>
+
+<script>
+  // Script ke selectors ko bhi scoped kiya gaya hai taake koi conflict na ho
+  const cv  = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+
+  const MODES = {
+    brat:      { bg:'#8ace00', fg:'#000000', font:'Arial Narrow', fs:80,  blur:0,   scribble:false, isGrad:false },
+    scribble: { bg:'#8ace00', fg:'#000000', font:'Arial Narrow', fs:80,  blur:0,   scribble:true,  isGrad:false },
+    white:    { bg:'#ffffff', fg:'#000000', font:'Arial Narrow', fs:80,  blur:0,   scribble:false, isGrad:false },
+    album:    { bg:'#8ace00', fg:'#000000', font:'Arial Black',  fs:65,  blur:1.5, scribble:false, isGrad:false },
+    sweat:    { bg:'#111111', fg:'#8ace00', font:'Arial Narrow', fs:80,  blur:0,   scribble:false, isGrad:false },
+    neon:     { bg:'#000000', fg:'#00ffcc', font:'Impact',       fs:80,  blur:0,   scribble:false, isGrad:false },
+    gradient: { bg:'#8ace00', fg:'#000000', font:'Arial Narrow', fs:80,  blur:0,   scribble:false, isGrad:true  },
+  };
+
+  let S = {
+    text:'brat', bg:'#8ace00', fg:'#000000',
+    font:'Arial Narrow', fs:80, ls:0, blur:0,
+    lower:true, mirror:false, flip:false,
+    noise:false, scribble:false, bold:false,
+    align:'center',
+    isGrad:false, g2:'#00c8ff',
+    cw:1000, ch:1000,
+    fmt:'png', res:2,
+    hist:[], hIdx:-1
+  };
+
+  /* ── History ── */
+  function pushHist() {
+    const s = JSON.stringify(S);
+    S.hist = S.hist.slice(0, S.hIdx + 1);
+    S.hist.push(s);
+    if (S.hist.length > 60) S.hist.shift();
+    S.hIdx = S.hist.length - 1;
+  }
+
+  function undo() {
+    if (S.hIdx > 0) {
+      S.hIdx--;
+      Object.assign(S, JSON.parse(S.hist[S.hIdx]));
+      syncUI();
+      draw();
+    }
+  }
+
+  /* ── Draw ── */
+  function draw() {
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0, 0, W, H);
+
+    if (S.isGrad) {
+      const gr = ctx.createLinearGradient(0, 0, W, H);
+      gr.addColorStop(0, S.bg);
+      gr.addColorStop(1, S.g2);
+      ctx.fillStyle = gr;
+    } else {
+      ctx.fillStyle = S.bg;
+    }
+    ctx.fillRect(0, 0, W, H);
+
+    if (S.noise) {
+      const id = ctx.getImageData(0, 0, W, H), d = id.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const n = (Math.random() - .5) * 44;
+        d[i]   = Math.min(255, Math.max(0, d[i]   + n));
+        d[i+1] = Math.min(255, Math.max(0, d[i+1] + n));
+        d[i+2] = Math.min(255, Math.max(0, d[i+2] + n));
+      }
+      ctx.putImageData(id, 0, 0);
+    }
+
+    if (S.scribble) {
+      ctx.save();
+      ctx.globalAlpha = 0.13;
+      ctx.strokeStyle = S.fg;
+      ctx.lineWidth   = W * 0.003;
+      for (let i = 0; i < 30; i++) {
+        ctx.beginPath();
+        const x = Math.random() * W, y = Math.random() * H;
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(
+          x + (Math.random() - .5) * W * .26, y + (Math.random() - .5) * H * .26,
+          x + (Math.random() - .5) * W * .26, y + (Math.random() - .5) * H * .26,
+          x + (Math.random() - .5) * W * .18, y + (Math.random() - .5) * H * .18
+        );
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    let text = S.text || 'brat';
+    if (S.lower) text = text.toLowerCase();
+
+    const scale   = W / 400;
+    const fs      = Math.round(S.fs * scale);
+    const weight  = S.bold ? 'bold ' : '';
+    const fontStr = `${weight}${fs}px "${S.font}", Arial Narrow, Arial`;
+
+    ctx.save();
+    if (S.mirror) { ctx.translate(W, 0); ctx.scale(-1, 1); }
+    if (S.flip)   { ctx.translate(0, H); ctx.scale(1, -1); }
+    if (S.blur > 0) ctx.filter = `blur(${S.blur * scale * 0.6}px)`;
+
+    ctx.font         = fontStr;
+    ctx.fillStyle    = S.fg;
+    ctx.textBaseline = 'middle';
+    ctx.textAlign    = S.align;
+
+    const ax = S.align === 'left' ? W * .07 : S.align === 'right' ? W * .93 : W / 2;
+
+    if (S.ls !== 0) {
+      const chars = text.split('');
+      ctx.textAlign = 'left';
+      let totalW = 0;
+      chars.forEach(ch => { totalW += ctx.measureText(ch).width + S.ls * scale; });
+      let sx = S.align === 'center' ? W / 2 - totalW / 2
+             : S.align === 'right'  ? W * .93 - totalW
+             : W * .07;
+      chars.forEach(ch => {
+        ctx.fillText(ch, sx, H / 2);
+        sx += ctx.measureText(ch).width + S.ls * scale;
+      });
+    } else {
+      ctx.fillText(text, ax, H / 2);
+    }
+
+    ctx.restore();
+    ctx.filter = 'none';
+  }
+
+  /* ── Sync UI ── */
+  function syncUI() {
+    document.getElementById('txtIn').value       = S.text;
+    document.getElementById('fontSel').value     = S.font;
+    document.getElementById('fsSl').value        = S.fs;   document.getElementById('fsVal').textContent   = S.fs;
+    document.getElementById('lsSl').value        = S.ls;   document.getElementById('lsVal').textContent   = S.ls;
+    document.getElementById('blurSl').value      = S.blur; document.getElementById('blurVal').textContent = S.blur;
+    document.getElementById('fxLower').checked   = S.lower;
+    document.getElementById('fxMirror').checked  = S.mirror;
+    document.getElementById('fxFlip').checked    = S.flip;
+    document.getElementById('fxNoise').checked   = S.noise;
+    document.getElementById('fxScribble').checked= S.scribble;
+    document.getElementById('fxBold').checked    = S.bold;
+    document.getElementById('bgSwatch').style.background = S.bg;
+    document.getElementById('fgSwatch').style.background = S.fg;
+    document.getElementById('bgPick').value = S.bg;
+    document.getElementById('fgPick').value = S.fg;
+    document.querySelectorAll('.brat-app-wrapper #bgColorRow .csw').forEach(s => s.classList.toggle('on', s.dataset.col === S.bg));
+    document.querySelectorAll('.brat-app-wrapper #alignSeg .seg-btn').forEach(b => b.classList.toggle('on', b.dataset.al === S.align));
+  }
+
+  /* ── Mode buttons ── */
+  document.querySelectorAll('.brat-app-wrapper .mode-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.brat-app-wrapper .mode-btn').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    const m = MODES[b.dataset.mode];
+    if (!m) return;
+    S.bg = m.bg; S.fg = m.fg; S.font = m.font;
+    S.fs = m.fs; S.blur = m.blur;
+    S.scribble = !!m.scribble; S.isGrad = !!m.isGrad;
+    syncUI(); pushHist(); draw();
+  }));
+
+  /* ── Text input ── */
+  let txtT;
+  document.getElementById('txtIn').addEventListener('input', e => {
+    S.text = e.target.value; draw();
+    clearTimeout(txtT); txtT = setTimeout(pushHist, 500);
+  });
+
+  /* ── Font ── */
+  document.getElementById('fontSel').addEventListener('change', e => {
+    S.font = e.target.value; pushHist(); draw();
+  });
+
+  /* ── BG swatches ── */
+  document.querySelectorAll('.brat-app-wrapper #bgColorRow .csw').forEach(s => s.addEventListener('click', () => {
+    S.bg = s.dataset.col;
+    document.querySelectorAll('.brat-app-wrapper #bgColorRow .csw').forEach(x => x.classList.remove('on'));
+    s.classList.add('on');
+    document.getElementById('bgSwatch').style.background = S.bg;
+    document.getElementById('bgPick').value = S.bg;
+    pushHist(); draw();
+  }));
+
+  /* ── BG custom picker ── */
+  document.getElementById('bgIndicator').addEventListener('click', () => document.getElementById('bgPick').click());
+  document.getElementById('bgPick').addEventListener('input', e => {
+    S.bg = e.target.value;
+    document.getElementById('bgSwatch').style.background = S.bg;
+    document.querySelectorAll('.brat-app-wrapper #bgColorRow .csw').forEach(x => x.classList.remove('on'));
+    draw();
+  });
+  document.getElementById('bgPick').addEventListener('change', () => pushHist());
+
+  /* ── FG custom picker ── */
+  document.getElementById('fgIndicator').addEventListener('click', () => document.getElementById('fgPick').click());
+  document.getElementById('fgPick').addEventListener('input', e => {
+    S.fg = e.target.value;
+    document.getElementById('fgSwatch').style.background = S.fg;
+    draw();
+  });
+  document.getElementById('fgPick').addEventListener('change', () => pushHist());
+
+  /* ── Sliders ── */
+  function wireSlider(id, valId, key, isFloat) {
+    let t;
+    document.getElementById(id).addEventListener('input', e => {
+      S[key] = isFloat ? parseFloat(e.target.value) : parseInt(e.target.value);
+      document.getElementById(valId).textContent = isFloat ? parseFloat(e.target.value).toFixed(1) : e.target.value;
+      draw(); clearTimeout(t); t = setTimeout(pushHist, 400);
+    });
+  }
+  wireSlider('fsSl',   'fsVal',   'fs');
+  wireSlider('lsSl',   'lsVal',   'ls');
+  wireSlider('blurSl', 'blurVal', 'blur', true);
+
+  /* ── Effect toggles ── */
+  ['Lower','Mirror','Flip','Noise','Scribble','Bold'].forEach(n => {
+    document.getElementById('fx' + n).addEventListener('change', e => {
+      S[n.toLowerCase()] = e.target.checked; pushHist(); draw();
+    });
+  });
+
+  /* ── Alignment ── */
+  document.querySelectorAll('.brat-app-wrapper #alignSeg .seg-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.brat-app-wrapper #alignSeg .seg-btn').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); S.align = b.dataset.al; pushHist(); draw();
+  }));
+
+  /* ── Format & Resolution ── */
+  document.querySelectorAll('.brat-app-wrapper #fmtSeg .seg-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.brat-app-wrapper #fmtSeg .seg-btn').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); S.fmt = b.dataset.fmt;
+  }));
+  document.querySelectorAll('.brat-app-wrapper #resSeg .seg-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.brat-app-wrapper #resSeg .seg-btn').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); S.res = parseInt(b.dataset.res);
+  }));
+
+  /* ── Canvas size ── */
+  document.getElementById('sizeSel').addEventListener('change', e => {
+    const [w, h] = e.target.value.split('x').map(Number);
+    S.cw = w; S.ch = h;
+    cv.width  = 420;
+    cv.height = Math.round(420 * h / w);
+    pushHist(); draw();
+  });
+
+  /* ── Undo ── */
+  document.getElementById('undoBtn').addEventListener('click', undo);
+
+  /* ── Reset ── */
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    S = {
+      text:'brat', bg:'#8ace00', fg:'#000000',
+      font:'Arial Narrow', fs:80, ls:0, blur:0,
+      lower:true, mirror:false, flip:false,
+      noise:false, scribble:false, bold:false,
+      align:'center', isGrad:false, g2:'#00c8ff',
+      cw:1000, ch:1000, fmt:'png', res:2,
+      hist:[], hIdx:-1
+    };
+    cv.width = 420; cv.height = 420;
+    document.querySelectorAll('.brat-app-wrapper .mode-btn').forEach((x, i) => x.classList.toggle('on', i === 1));
+    syncUI(); pushHist(); draw();
+  });
+
+  /* ── Export ── */
+  function renderFull() {
+    const w = S.cw * S.res, h = S.ch * S.res;
+    const dc = document.createElement('canvas');
+    dc.width = w; dc.height = h;
+    const dx  = dc.getContext('2d');
+    const ow  = cv.width, oh = cv.height;
+    cv.width  = w; cv.height = h; draw();
+    dx.drawImage(cv, 0, 0);
+    cv.width  = ow; cv.height = oh; draw();
+    return dc;
+  }
+
+  document.getElementById('dlBtn').addEventListener('click', () => {
+    const dc   = renderFull();
+    const mime = S.fmt === 'jpg' ? 'image/jpeg' : S.fmt === 'webp' ? 'image/webp' : 'image/png';
+    const a    = document.createElement('a');
+    a.download = `brat.${S.fmt}`;
+    a.href     = dc.toDataURL(mime, 0.94);
+    a.click();
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    renderFull().toBlob(blob => {
+      navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
+        .then(() => {
+          const btn = document.getElementById('copyBtn');
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 1800);
+        })
+        .catch(() => {
+          const btn = document.getElementById('copyBtn');
+          btn.textContent = 'N/A';
+          setTimeout(() => btn.textContent = 'Copy', 1800);
+        });
+    }, 'image/png');
+  });
+
+  /* ── Keyboard shortcut: Ctrl+Z ── */
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); undo(); }
+  });
+
+  /* ── Init ── */
+  pushHist();
+  draw();
+</script>
+<script>
+(function(){
+  function sendHeight(){
+    try{ parent.postMessage({type:'brat-generator-height',height:Math.max(document.documentElement.scrollHeight,document.body.scrollHeight)},'*'); }catch(e){}
+  }
+  window.addEventListener('load',sendHeight);
+  window.addEventListener('resize',sendHeight);
+  if(window.ResizeObserver){ new ResizeObserver(sendHeight).observe(document.documentElement); }
+  document.addEventListener('click',function(e){
+    var el=e.target && e.target.closest ? e.target.closest('#dlBtn') : null;
+    if(el){ try{ parent.postMessage({type:'brat-generator-download'},'*'); }catch(err){} }
+    setTimeout(sendHeight,80);
+  });
+  setTimeout(sendHeight,250);
+})();
+</script>
+</body>
+</html>

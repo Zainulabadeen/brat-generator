@@ -1,21 +1,10 @@
-# Latest Design + Blog Update
+# Latest Changes — 8 September 2026
 
-1. Standalone source rows removed; citations are inline and natural.
-2. Homepage Help accordion removed and converted into a full troubleshooting article.
-3. New blog article: `/blog/brat-generator-not-working/`.
-4. Blog listing now shows the troubleshooting article, not the Album Cover Guide.
-5. Header order is now: Home, Features, How to Use, Brat Styles, Album Cover Guide, Blog.
-6. Blog is now the last primary nav item.
-7. Album Cover Guide stays promoted in the header.
-8. Sitemap and pre-live checker include the new article.
-9. Internal route/anchor audit passes with no missing targets.
-10. Header active-state logic updated so Album Cover Guide and Blog are not highlighted at the same time on the Album Cover Guide page.
-
-
-## Static export build fix
-- Replaced dynamic `app/sitemap.ts` with static `public/sitemap.xml`.
-- Replaced dynamic `app/robots.ts` with static `public/robots.txt`.
-- Replaced dynamic `app/manifest.ts` with static `public/manifest.webmanifest`.
-- Added the manifest URL to root metadata.
-- Updated the pre-live checker to verify `manifest.webmanifest`.
-- This avoids Next.js static-export metadata-route errors on `/sitemap.xml` and keeps the project fully compatible with `output: 'export'`.
+- Added the real `/video-generator/` page to the Next.js project.
+- Replaced the previous disabled video-tool placeholder with the uploaded Brat Video Generator widget.
+- Added a dedicated same-origin video-tool embed file at `public/brat-video-generator-embed.html`.
+- Added `Video Generator` to the primary header navigation and footer.
+- Added `/video-generator/` to the XML sitemap and pre-live build checks.
+- Added canonical, Open Graph, Twitter metadata, BreadcrumbList and WebApplication structured data for the video page.
+- Preserved the existing main Brat image/text generator and the previously refined heading sizes.
+- Full text/image generator is still not repeated on every content page; content pages use natural CTAs instead.

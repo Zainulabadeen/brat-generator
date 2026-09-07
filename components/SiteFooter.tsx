@@ -21,6 +21,7 @@ export default function SiteFooter() {
             <h4>Create</h4>
             <Link href={pageLinks.home}>Home</Link>
             <Link href={pageLinks.generator}>Open Generator</Link>
+            <Link href={pageLinks.videoGenerator}>Video Generator</Link>
             <Link href={pageLinks.features}>Features</Link>
             <Link href={pageLinks.styles}>Brat Styles</Link>
             <Link href={pageLinks.howTo}>How to Use</Link>

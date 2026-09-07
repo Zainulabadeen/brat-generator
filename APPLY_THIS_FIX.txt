@@ -1,0 +1,12 @@
+PRE-LIVE CHECK FIX
+
+Copy these folders/files into your existing E:\\bratgenerator-build-fixed project and choose Replace.
+This patch does NOT change your page design or tool functionality.
+It only fixes the SEO checker so iframe embed HTML files are checked for noindex instead of canonical tags.
+
+After copying:
+1) npm run prelive
+2) It should end with: PRE-LIVE BUILD CHECK: PASS
+3) git add .
+4) git commit -m "Fix prelive embed SEO check"
+5) git push

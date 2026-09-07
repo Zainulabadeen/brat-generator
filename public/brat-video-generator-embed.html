@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Brat Video Generator</title>
+  <style>html,body{margin:0;padding:0;background:#fff}body{padding:0}</style>
+</head>
+<body>
+<!-- =========================================================================
+     BRAT VIDEO GENERATOR — Self-contained WordPress widget
+     Drop this whole block into a Custom HTML block / Elementor HTML widget.
+     All styles are scoped under #bvg-root and all JS runs inside an IIFE,
+     so nothing here should collide with the rest of a WordPress theme.
+     ========================================================================= -->
+<div id="bvg-root">
+
+  <div class="bvg-card">
+
+    <!-- 1. HEADER BANNER -->
+    <div class="bvg-header">
+      <h2 class="bvg-title">Brat Video Generator</h2>
+      <p class="bvg-subtitle">Create animated brat-style videos</p>
+    </div>
+
+    <!-- 2. TABS & UTILITY BAR -->
+    <div class="bvg-tabbar">
+      <div class="bvg-tabs" role="tablist" aria-label="View">
+        <button class="bvg-tab is-active" type="button" data-view="lyrics">📝 Lyrics</button>
+        <button class="bvg-tab" type="button" data-view="preview">👥 Preview</button>
+      </div>
+      <button class="bvg-fullscreen" type="button" title="Toggle fullscreen" aria-label="Toggle fullscreen">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+          <path d="M16 3h3a2 2 0 0 1 2 2v3"></path>
+          <path d="M21 16v3a2 2 0 0 1-2 2h-3"></path>
+          <path d="M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- VIEW: LYRICS -->
+    <div class="bvg-view is-active" data-view-panel="lyrics">
+
+      <!-- 3. TEXT INPUT SECTION -->
+      <div class="bvg-field-row">
+        <label class="bvg-label" for="bvg-lyrics">Enter text:</label>
+        <div class="bvg-btn-group">
+          <button class="bvg-btn bvg-btn--paste" type="button" id="bvg-paste">Paste Text</button>
+          <button class="bvg-btn bvg-btn--trim" type="button" id="bvg-trim">Trim Text</button>
+        </div>
+      </div>
+
+      <textarea class="bvg-textarea" id="bvg-lyrics" placeholder="Type your brat lyrics here..."></textarea>
+
+      <!-- 4. ACTION DIVIDER BUTTON -->
+      <button class="bvg-btn bvg-btn--divider" type="button" id="bvg-make-sets">
+        ⬇️⬇️⬇️ Create Sets from Lyrics ⬇️⬇️⬇️
+      </button>
+
+      <!-- 5. AUDIO UPLOAD DROPZONE -->
+      <div class="bvg-dropzone" id="bvg-dropzone" tabindex="0" role="button" aria-label="Upload audio file">
+        <input type="file" id="bvg-audio-input" accept="audio/mp3,audio/wav,audio/mpeg,.mp3,.wav" hidden />
+        <div class="bvg-dropzone-plus" aria-hidden="true">+</div>
+        <div class="bvg-dropzone-text" id="bvg-dropzone-text">Drop Your Audio, Babe</div>
+        <div class="bvg-dropzone-sub" id="bvg-dropzone-sub">or click to browse</div>
+      </div>
+
+      <!-- 6. OUTPUT FORMAT TABS -->
+      <div class="bvg-formats" role="tablist" aria-label="Output format">
+        <button class="bvg-format is-active" type="button" data-format="mp4">MP4</button>
+        <button class="bvg-format" type="button" data-format="gif">GIF</button>
+        <button class="bvg-format" type="button" data-format="frames">Frames</button>
+      </div>
+
+      <!-- 7. SETTINGS & EXPORT PANEL -->
+      <div class="bvg-settings">
+        <div class="bvg-settings-row">
+          <label class="bvg-settings-label" for="bvg-fps">Video FPS: <span id="bvg-fps-value">30</span></label>
+          <input type="range" id="bvg-fps" class="bvg-slider" min="10" max="60" step="1" value="30" />
+          <div class="bvg-settings-hint">
+            <span>10 fps</span>
+            <span>Higher FPS = smoother video, larger file size</span>
+            <span>60 fps</span>
+          </div>
+        </div>
+
+        <button class="bvg-export" id="bvg-export" type="button" disabled>
+          <span class="bvg-export-label">Export as MP4</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW: PREVIEW -->
+    <div class="bvg-view" data-view-panel="preview">
+      <div class="bvg-preview-stage">
+        <div class="bvg-preview-text" id="bvg-preview-text">Type your brat lyrics here...</div>
+      </div>
+      <p class="bvg-preview-hint">This is a live preview of your current lyrics in the brat style.</p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* =====================================================================
+     Everything is scoped under #bvg-root to avoid leaking into the theme.
+     ===================================================================== */
+  #bvg-root, #bvg-root * {
+    box-sizing: border-box;
+  }
+  #bvg-root {
+    --bvg-lime: #8AC500;
+    --bvg-lime-dark: #6f9e00;
+    --bvg-orange: #FF9F1C;
+    --bvg-orange-dark: #e08a10;
+    --bvg-blue: #3B82F6;
+    --bvg-blue-dark: #2563eb;
+    --bvg-ink: #1a1a1a;
+
+    all: initial;
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    color: var(--bvg-ink);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+  #bvg-root *, #bvg-root *::before, #bvg-root *::after { box-sizing: border-box; }
+
+  #bvg-root .bvg-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  }
+
+  /* ---- Header ---- */
+  #bvg-root .bvg-header {
+    background: var(--bvg-lime);
+    padding: 15px 20px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
+  #bvg-root .bvg-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #000000;
+    letter-spacing: -0.5px;
+  }
+  #bvg-root .bvg-subtitle {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: rgba(0,0,0,0.65);
+  }
+
+  /* ---- Tab bar ---- */
+  #bvg-root .bvg-tabbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #eaeaea;
+    background: #fafafa;
+  }
+  #bvg-root .bvg-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  #bvg-root .bvg-tab {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #6b6b6b;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  #bvg-root .bvg-tab:hover { color: #333; }
+  #bvg-root .bvg-tab.is-active {
+    color: #000;
+    border-bottom-color: var(--bvg-lime);
+  }
+  #bvg-root .bvg-fullscreen {
+    appearance: none;
+    background: none;
+    border: none;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  #bvg-root .bvg-fullscreen:hover {
+    background: #eeeeee;
+    color: #000;
+  }
+
+  /* ---- Views ---- */
+  #bvg-root .bvg-view {
+    display: none;
+    padding: 18px 20px 22px;
+  }
+  #bvg-root .bvg-view.is-active { display: block; }
+
+  /* ---- Field row / labels / buttons ---- */
+  #bvg-root .bvg-field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  #bvg-root .bvg-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  #bvg-root .bvg-btn-group {
+    display: flex;
+    gap: 8px;
+  }
+  #bvg-root .bvg-btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    transition: filter 0.15s ease, transform 0.05s ease;
+  }
+  #bvg-root .bvg-btn:active { transform: translateY(1px); }
+  #bvg-root .bvg-btn--paste { background: var(--bvg-blue); }
+  #bvg-root .bvg-btn--paste:hover { background: var(--bvg-blue-dark); }
+  #bvg-root .bvg-btn--trim { background: var(--bvg-orange); }
+  #bvg-root .bvg-btn--trim:hover { background: var(--bvg-orange-dark); }
+
+  /* ---- Textarea ---- */
+  #bvg-root .bvg-textarea {
+    width: 100%;
+    height: 300px;
+    resize: vertical;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  #bvg-root .bvg-textarea::placeholder { color: #b3b3b3; }
+  #bvg-root .bvg-textarea:focus {
+    border-color: var(--bvg-lime);
+    box-shadow: 0 0 0 3px rgba(138,197,0,0.15);
+  }
+
+  /* ---- Divider action button ---- */
+  #bvg-root .bvg-btn--divider {
+    display: block;
+    width: 100%;
+    background: var(--bvg-lime);
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin: 14px 0 18px;
+  }
+  #bvg-root .bvg-btn--divider:hover { background: var(--bvg-lime-dark); }
+
+  /* ---- Audio dropzone ---- */
+  #bvg-root .bvg-dropzone {
+    border: 2px dashed var(--bvg-orange);
+    background: #fff8ee;
+    border-radius: 14px;
+    padding: 34px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    margin-bottom: 18px;
+  }
+  #bvg-root .bvg-dropzone:hover,
+  #bvg-root .bvg-dropzone.is-dragover {
+    background: #ffefd6;
+    border-color: var(--bvg-orange-dark);
+  }
+  #bvg-root .bvg-dropzone-plus {
+    width: 46px;
+    height: 46px;
+    line-height: 44px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: var(--bvg-orange);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  #bvg-root .bvg-dropzone-text {
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--bvg-orange-dark);
+  }
+  #bvg-root .bvg-dropzone-sub {
+    font-size: 13px;
+    color: #b98436;
+    margin-top: 2px;
+  }
+
+  /* ---- Output format tabs ---- */
+  #bvg-root .bvg-formats {
+    display: flex;
+    gap: 18px;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 16px;
+  }
+  #bvg-root .bvg-format {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 8px 2px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6b6b6b;
+    cursor: pointer;
+  }
+  #bvg-root .bvg-format.is-active {
+    color: #000;
+    border-bottom-color: var(--bvg-lime);
+  }
+
+  /* ---- Settings panel ---- */
+  #bvg-root .bvg-settings {
+    background: #eef5ff;
+    border: 1px solid #cfe0fb;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  #bvg-root .bvg-settings-label {
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+  }
+  #bvg-root .bvg-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--bvg-blue) 0%, var(--bvg-blue) var(--bvg-fill, 40%), #cddcf7 var(--bvg-fill, 40%), #cddcf7 100%);
+    outline: none;
+    cursor: pointer;
+  }
+  #bvg-root .bvg-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bvg-blue);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--bvg-blue);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bvg-blue);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--bvg-blue);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-settings-hint {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+    color: #5b6b85;
+    margin-top: 6px;
+  }
+  #bvg-root .bvg-settings-hint span:nth-child(2) {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* ---- Export button ---- */
+  #bvg-root .bvg-export {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    background: #b9bfc7;
+    cursor: not-allowed;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s ease;
+  }
+  #bvg-root .bvg-export.is-ready {
+    background: var(--bvg-lime);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-export.is-ready:hover { background: var(--bvg-lime-dark); }
+  #bvg-root .bvg-export.is-processing {
+    background: var(--bvg-lime-dark);
+    cursor: progress;
+  }
+  #bvg-root .bvg-export-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0%;
+    background: rgba(255,255,255,0.25);
+    transition: width 0.15s linear;
+  }
+  #bvg-root .bvg-export-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- Preview view ---- */
+  #bvg-root .bvg-preview-stage {
+    background: #0f0f0f;
+    border-radius: 12px;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #bvg-root .bvg-preview-text {
+    color: var(--bvg-lime);
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1.25;
+    text-align: center;
+    letter-spacing: -0.5px;
+    filter: blur(0.35px);
+    transform: scaleX(0.94);
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  #bvg-root .bvg-preview-hint {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* ---- Responsive ---- */
+  #bvg-root .bvg-card { width: 100%; }
+
+  @media (max-width: 768px) {
+    #bvg-root .bvg-header { padding: 13px 16px; }
+    #bvg-root .bvg-view { padding: 16px 16px 18px; }
+    #bvg-root .bvg-textarea { height: 240px; }
+  }
+
+  @media (max-width: 560px) {
+    #bvg-root .bvg-title { font-size: 19px; }
+    #bvg-root .bvg-subtitle { font-size: 13px; }
+    #bvg-root .bvg-tabbar { padding: 0 10px; }
+    #bvg-root .bvg-tab { padding: 10px 6px; font-size: 13px; }
+    #bvg-root .bvg-view { padding: 14px 12px 16px; }
+    #bvg-root .bvg-field-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    #bvg-root .bvg-btn-group { width: 100%; }
+    #bvg-root .bvg-btn--paste,
+    #bvg-root .bvg-btn--trim { flex: 1; text-align: center; }
+    #bvg-root .bvg-textarea { height: 200px; font-size: 13px; }
+    #bvg-root .bvg-btn--divider { font-size: 13px; padding: 11px 10px; }
+    #bvg-root .bvg-dropzone { padding: 26px 12px; }
+    #bvg-root .bvg-dropzone-text { font-size: 15px; }
+    #bvg-root .bvg-formats { gap: 12px; }
+    #bvg-root .bvg-settings { padding: 14px; }
+    #bvg-root .bvg-settings-hint { flex-direction: column; gap: 2px; }
+    #bvg-root .bvg-settings-hint span:nth-child(2) { text-align: left; }
+    #bvg-root .bvg-preview-stage { min-height: 200px; padding: 18px; }
+    #bvg-root .bvg-preview-text { font-size: 22px; }
+  }
+
+  @media (max-width: 380px) {
+    #bvg-root .bvg-title { font-size: 17px; }
+    #bvg-root .bvg-tab { font-size: 12px; padding: 9px 4px; }
+    #bvg-root .bvg-btn { font-size: 12px; padding: 7px 10px; }
+    #bvg-root .bvg-dropzone-plus { width: 40px; height: 40px; line-height: 38px; font-size: 22px; }
+  }
+</style>
+
+<script>
+  /* =====================================================================
+     All logic lives inside this IIFE — no globals leak into WordPress.
+     ===================================================================== */
+  (function () {
+    'use strict';
+
+    var root = document.getElementById('bvg-root');
+    if (!root) return;
+
+    // ---- Element refs ----
+    var lyricsTextarea   = root.querySelector('#bvg-lyrics');
+    var pasteBtn         = root.querySelector('#bvg-paste');
+    var trimBtn          = root.querySelector('#bvg-trim');
+    var makeSetsBtn      = root.querySelector('#bvg-make-sets');
+    var dropzone         = root.querySelector('#bvg-dropzone');
+    var audioInput       = root.querySelector('#bvg-audio-input');
+    var dropzoneText      = root.querySelector('#bvg-dropzone-text');
+    var dropzoneSub       = root.querySelector('#bvg-dropzone-sub');
+    var fpsSlider         = root.querySelector('#bvg-fps');
+    var fpsValue          = root.querySelector('#bvg-fps-value');
+    var exportBtn         = root.querySelector('#bvg-export');
+    var previewText       = root.querySelector('#bvg-preview-text');
+    var tabs              = root.querySelectorAll('.bvg-tab');
+    var viewPanels        = root.querySelectorAll('[data-view-panel]');
+    var formatTabs        = root.querySelectorAll('.bvg-format');
+    var fullscreenBtn      = root.querySelector('.bvg-fullscreen');
+
+    var state = {
+      hasAudio: false,
+      hasLyrics: false,
+      format: 'mp4',
+      exporting: false
+    };
+
+    // ---- Tab switching: Lyrics / Preview ----
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+
+        var target = tab.getAttribute('data-view');
+        viewPanels.forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.getAttribute('data-view-panel') === target);
+        });
+
+        if (target === 'preview') {
+          syncPreview();
+        }
+      });
+    });
+
+    // ---- Output format tabs: MP4 / GIF / Frames ----
+    formatTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        formatTabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        state.format = tab.getAttribute('data-format');
+        updateExportLabel();
+      });
+    });
+
+    function updateExportLabel() {
+      var labelEl = exportBtn.querySelector('.bvg-export-label');
+      var formatLabel = state.format === 'mp4' ? 'MP4' : (state.format === 'gif' ? 'GIF' : 'Frames');
+      if (!state.exporting) {
+        labelEl.textContent = 'Export as ' + formatLabel;
+      }
+    }
+
+    // ---- Paste Text ----
+    pasteBtn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(function (text) {
+          lyricsTextarea.value = text;
+          onLyricsChanged();
+        }).catch(function () {
+          window.alert('Could not read clipboard. Please paste manually with Ctrl/Cmd+V.');
+        });
+      } else {
+        window.alert('Clipboard access is not supported in this browser. Please paste manually.');
+      }
+    });
+
+    // ---- Trim Text: remove extra whitespace / empty lines ----
+    trimBtn.addEventListener('click', function () {
+      var lines = lyricsTextarea.value.split(/\r?\n/);
+      var trimmedLines = lines
+        .map(function (line) { return line.trim(); })
+        .filter(function (line) { return line.length > 0; });
+      lyricsTextarea.value = trimmedLines.join('\n');
+      onLyricsChanged();
+    });
+
+    // ---- Create Sets from Lyrics (placeholder grouping action) ----
+    makeSetsBtn.addEventListener('click', function () {
+      if (!lyricsTextarea.value.trim()) {
+        window.alert('Add some lyrics first, babe.');
+        return;
+      }
+      // Simple "set" creation: split on blank lines into groups.
+      var sets = lyricsTextarea.value
+        .split(/\n\s*\n/)
+        .map(function (s) { return s.trim(); })
+        .filter(Boolean);
+      window.alert('Created ' + sets.length + ' set(s) from your lyrics.');
+    });
+
+    function onLyricsChanged() {
+      state.hasLyrics = lyricsTextarea.value.trim().length > 0;
+      syncPreview();
+      updateExportReadiness();
+    }
+    lyricsTextarea.addEventListener('input', onLyricsChanged);
+
+    function syncPreview() {
+      previewText.textContent = lyricsTextarea.value.trim() || 'Type your brat lyrics here...';
+    }
+
+    // ---- Audio dropzone: click, drag & drop ----
+    dropzone.addEventListener('click', function () {
+      audioInput.click();
+    });
+    dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        audioInput.click();
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('is-dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('is-dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', function (e) {
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length) {
+        handleAudioFile(files[0]);
+      }
+    });
+
+    audioInput.addEventListener('change', function () {
+      if (audioInput.files && audioInput.files.length) {
+        handleAudioFile(audioInput.files[0]);
+      }
+    });
+
+    function handleAudioFile(file) {
+      var isAudio = /audio\//.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
+      if (!isAudio) {
+        window.alert('Please choose an MP3 or WAV file.');
+        return;
+      }
+      state.hasAudio = true;
+      dropzoneText.textContent = file.name;
+      dropzoneSub.textContent = 'Loaded — click to change';
+      updateExportReadiness();
+    }
+
+    // ---- FPS slider ----
+    function updateSliderFill() {
+      var min = parseInt(fpsSlider.min, 10);
+      var max = parseInt(fpsSlider.max, 10);
+      var val = parseInt(fpsSlider.value, 10);
+      var pct = ((val - min) / (max - min)) * 100;
+      fpsSlider.style.setProperty('--bvg-fill', pct + '%');
+    }
+    fpsSlider.addEventListener('input', function () {
+      fpsValue.textContent = fpsSlider.value;
+      updateSliderFill();
+    });
+    updateSliderFill();
+
+    // ---- Export readiness ----
+    function updateExportReadiness() {
+      var ready = state.hasAudio && state.hasLyrics;
+      exportBtn.disabled = !ready || state.exporting;
+      exportBtn.classList.toggle('is-ready', ready && !state.exporting);
+    }
+
+    // ---- Export as MP4/GIF/Frames: simulated progress ----
+    exportBtn.addEventListener('click', function () {
+      if (exportBtn.disabled || state.exporting) return;
+
+      state.exporting = true;
+      exportBtn.classList.add('is-processing');
+      exportBtn.classList.remove('is-ready');
+
+      var labelEl = exportBtn.querySelector('.bvg-export-label');
+      var fill = document.createElement('div');
+      fill.className = 'bvg-export-fill';
+      exportBtn.appendChild(fill);
+
+      var progress = 0;
+      var interval = setInterval(function () {
+        progress += Math.random() * 12 + 6;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          fill.style.width = '100%';
+          labelEl.textContent = 'Done ✓';
+          setTimeout(function () {
+            state.exporting = false;
+            fill.remove();
+            exportBtn.classList.remove('is-processing');
+            updateExportLabel();
+            updateExportReadiness();
+          }, 1200);
+        } else {
+          fill.style.width = progress + '%';
+          labelEl.textContent = 'Processing… ' + Math.floor(progress) + '%';
+        }
+      }, 220);
+    });
+
+    // ---- Fullscreen toggle ----
+    fullscreenBtn.addEventListener('click', function () {
+      var card = root.querySelector('.bvg-card');
+      if (!document.fullscreenElement) {
+        if (card.requestFullscreen) card.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    });
+
+    // ---- Init ----
+    syncPreview();
+    updateExportReadiness();
+
+  })();
+</script></body>
+</html>

@@ -180,7 +180,7 @@ export default function AlbumCoverGuidePage() {
               <p>Square artwork remains the safest starting point for music platforms because cover art is commonly displayed in square grids and thumbnails. Keep important text away from the edges so minor resizing or cropping does not cut it off.</p>
               <p>If you are making one master version first, create a high-resolution square. It is easier to make a separate vertical social version from a square design than to rebuild a tall Story graphic into a clean album cover.</p>
               <h2>Instagram, TikTok and Social Media</h2>
-              <p>Use a vertical 9:16 version for Stories and TikTok rather than stretching a square image. A separate 4:5 portrait version can suit feed posts, while 16:9 is useful for wide thumbnails and banners.</p>
+              <p>Use the 1080×1920 vertical preset for Stories and TikTok rather than stretching a square image. For wide social previews and banners, use the 1200×630 preset.</p>
             </div>
           </section>
 

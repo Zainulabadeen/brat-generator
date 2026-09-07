@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import BratGenerator from '@/components/BratGenerator';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -24,10 +23,10 @@ export const metadata: Metadata = {
 };
 
 const steps = [
-  ['Step 1', 'Enter Your Text', 'Click the text field and type the phrase you want to display. The counter allows up to 60 characters, but one to four words usually gives the cleanest result because the condensed style stays large and readable. The preview updates as you type, so you can see the layout immediately.'],
+  ['Step 1', 'Enter Your Text', 'Click the text field and type the phrase you want to display. Short phrases usually give the cleanest result because the condensed style stays large and readable. The preview updates as you type, so you can see the layout immediately.'],
   ['Step 2', 'Choose a Colour Preset', 'Use Brat Green for the classic lime look or switch to white, black, pink, or electric blue. You can also open the colour pickers for a completely custom background and text combination. The default Brat Green preset uses #8ACE00.'],
   ['Step 3', 'Adjust Text Colour, Blur & Spacing', 'Use the blur slider to soften the letter edges, then adjust text size and letter spacing. Lower blur values keep text crisp; higher values create a rougher soft-focus look. Tight spacing and lowercase text generally feel closer to the familiar Brat treatment.'],
-  ['Step 4', 'Set the Canvas Ratio', 'Choose where the graphic will be used before you fine-tune the text. Square 1:1 works well for covers and profile images, 4:5 suits portrait feeds, 9:16 is built for Stories and TikTok, and 16:9 works for wide banners and landscape graphics.'],
+  ['Step 4', 'Set the Canvas Ratio', 'Choose where the graphic will be used before you fine-tune the text. The current tool includes 800×800, 1000×1000, and 1200×1200 square presets, 1080×1920 for Stories, and 1200×630 for banners.'],
   ['Step 5', 'Preview Your Design', 'Check spelling, edge spacing, colour contrast, and blur strength in the live preview. If the text feels crowded, shorten the phrase or reduce the text size. Remember that colours may look different across screens because of display calibration.'],
   ['Step 6', 'Download Your File', 'Choose PNG, JPG, or WebP and click Download. The file is rendered in your browser at the selected pixel dimensions with no watermark. On mobile, the result may appear in your Downloads folder rather than Photos depending on the browser.'],
 ];
@@ -103,9 +102,11 @@ export default function HowToUsePage() {
         </section>
 
         <section className="section section-card">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Practice While You Read</p><h2>Open the <span className="text-brat">Live Generator</span></h2><p>Try each step below on the real tool so you can see the change immediately.</p></div>
-            <BratGenerator />
+          <div className="container container-narrow">
+            <div className="glass tool-promo-card reveal">
+              <div><p className="eyebrow left">Practice While You Read</p><h2>Follow the guide, then <span className="text-brat">open the live tool</span></h2><p>The generator stays on the homepage so this guide remains focused and easy to scan.</p></div>
+              <Link className="pill-btn primary glow-brat" href="/#generator">Open Generator →</Link>
+            </div>
           </div>
         </section>
 
@@ -131,9 +132,8 @@ export default function HowToUsePage() {
                 <thead><tr><th>Platform or use</th><th>Recommended size</th><th>Ratio</th></tr></thead>
                 <tbody>
                   <tr><td>TikTok / Instagram Story</td><td>1080 × 1920 px</td><td>9:16</td></tr>
-                  <tr><td>Instagram portrait feed</td><td>1080 × 1350 px</td><td>4:5</td></tr>
-                  <tr><td>Square post / playlist cover</td><td>1500 × 1500 px</td><td>1:1</td></tr>
-                  <tr><td>Wide banner / landscape</td><td>1920 × 1080 px</td><td>16:9</td></tr>
+                  <tr><td>Square post / playlist cover</td><td>1000 × 1000 or 1200 × 1200 px</td><td>1:1</td></tr>
+                  <tr><td>Wide banner / social preview</td><td>1200 × 630 px</td><td>~1.91:1</td></tr>
                 </tbody>
               </table>
             </div>

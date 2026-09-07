@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import BratGenerator from '@/components/BratGenerator';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -27,7 +26,7 @@ const featureCards = [
   ['👁️', 'Real-Time Preview', 'Every change shows up instantly. Type a word, move the blur slider, switch colours, resize text, or change spacing and the live preview updates without making you export repeatedly.', 'glow-brat'],
   ['🎨', 'Brat Green, White & Pink Presets', 'The generator includes #8ACE00 as a one-tap Brat Green preset plus white, black, pink, electric blue, and a full colour picker for custom background and text colours.', 'glow-pink'],
   ['🔤', 'Brat-Style Typography', 'The text uses a condensed Arial Narrow-style treatment with lowercase rendering, adjustable size, letter spacing, and a soft Gaussian blur to recreate the familiar rough anti-design feel.', 'glow-electric'],
-  ['📐', 'Social Media Size Presets', 'Choose 1:1 square, 4:5 portrait, 9:16 Story/TikTok, or 16:9 wide. The preview adapts to the selected ratio and the exported image uses the matching pixel dimensions.', 'glow-brat'],
+  ['📐', 'Social Media Size Presets', 'Choose 800×800, 1000×1000, or 1200×1200 square canvases, plus 1080×1920 Story and 1200×630 banner presets. The exported image uses the selected pixel dimensions.', 'glow-brat'],
   ['⬇️', 'No-Watermark Download', 'What you design is what you download. Choose PNG, JPG, or WebP, then export the finished graphic without a logo stamped over the artwork.', 'glow-pink'],
   ['🔓', 'No Sign-Up. Completely Free.', 'There is no account form, email gate, subscription screen, or software installation. Open the tool, create a design, and download it directly in the browser.', 'glow-electric'],
 ];
@@ -51,7 +50,7 @@ const faqs = [
   ['Can I use Brat Generator for social media?', 'Yes. The built-in canvas presets are useful for TikTok, Instagram Stories and feeds, playlist covers, profile images, banners, and other digital graphics.'],
   ['What is the Brat green hex code?', '#8ACE00 is the default digital Brat Green preset used by this generator. It is a widely used web approximation of the album’s acidic lime-green look.'],
   ['Can I use my images commercially?', 'Personal creative use and commercial use are not the same legally. If you are selling products or advertising with protected names, logos, or artwork, check the relevant rights and seek legal advice if needed.'],
-  ['Is there a character limit?', 'Yes. The text field currently accepts up to 60 characters. Short phrases generally produce better results than long sentences.'],
+  ['Is there a character limit?', 'The current text field is designed for short words and phrases rather than long paragraphs. Short copy usually produces the cleanest Brat-style result.'],
   ['Are my designs stored anywhere?', 'The current generator renders the canvas and file locally in your browser and does not upload the design to a server.'],
 ];
 
@@ -91,9 +90,11 @@ export default function FeaturesPage() {
         </section>
 
         <section className="section section-card">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Try It</p><h2>Use the <span className="text-brat">Brat Generator</span> Now</h2><p>The feature list below matches the working controls in this generator.</p></div>
-            <BratGenerator />
+          <div className="container container-narrow">
+            <div className="glass tool-promo-card reveal">
+              <div><p className="eyebrow left">Try It</p><h2>Ready to use the <span className="text-brat">Brat Generator?</span></h2><p>The feature list below matches the working generator on the homepage. Open it when you are ready to create.</p></div>
+              <Link className="pill-btn primary glow-brat" href="/#generator">Open Generator →</Link>
+            </div>
           </div>
         </section>
 

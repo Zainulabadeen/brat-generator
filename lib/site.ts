@@ -17,6 +17,7 @@ export const pageLinks = {
   blog: '/blog/',
   albumCoverGuide: '/blog/how-to-make-a-brat-album-cover-free/',
   troubleshootingGuide: '/blog/brat-generator-not-working/',
+  videoGenerator: '/video-generator/',
   about: '/about/',
   privacy: '/privacy-policy/',
   terms: '/terms/',

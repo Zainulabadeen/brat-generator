@@ -35,7 +35,7 @@ const features = [
   ['👁️', 'Live Preview', 'Watch every change appear instantly as you edit your text, colours, blur, size, and spacing.', 'glow-brat'],
   ['🎨', 'Brat-Inspired Colour Presets', 'Start with the widely used Brat Green digital approximation #8ACE00, or switch to black, white, pink, blue, or any custom colour.', 'glow-pink'],
   ['🔤', 'Brat-Style Typography', 'Use condensed Arial Narrow-style text, tight spacing, lowercase rendering, and an adjustable Gaussian blur effect.', 'glow-electric'],
-  ['📐', 'Social-Ready Sizes', 'Export square, 4:5 portrait, 9:16 Story/TikTok, or 16:9 wide graphics without rebuilding the design.', 'glow-brat'],
+  ['📐', 'Social-Ready Sizes', 'Choose square presets, a 1080×1920 Story canvas, or a 1200×630 banner without rebuilding the design.', 'glow-brat'],
   ['⬇️', 'High-Quality Downloads', 'Download PNG, JPG, or WebP files with no watermark. The chosen export dimensions are rendered directly in your browser.', 'glow-pink'],
   ['🔓', 'No Sign-Up Required', 'Open the tool, create your design, and download it instantly. No account or separate software installation is required.', 'glow-electric'],
 ];
@@ -340,7 +340,7 @@ export default function Home() {
           <div className="container container-medium article-prose reveal">
             <p className="eyebrow">Export</p>
             <h2>Export Sizes &amp; Download Formats</h2>
-            <p>Use the square 1500×1500 preset for a flexible all-purpose cover. For vertical social graphics, choose 1080×1920 (9:16) or 1080×1350 (4:5). For a wide banner or desktop-style layout, use 1920×1080.</p>
+            <p>Use 1000×1000 or 1200×1200 for a flexible square cover. For vertical social graphics, choose 1080×1920. For a wide social banner or preview image, use 1200×630.</p>
             <p>PNG is the safest choice when you want crisp digital artwork. JPG creates smaller files and WebP is efficient for modern websites. The generator lets you switch the canvas and file format before downloading.</p>
           </div>
         </section>
