@@ -1,0 +1,40 @@
+BRAT GENERATOR — MASTER PROJECT
+===============================
+
+This folder already contains the combined latest code/content/SEO/design/navigation/trust/pre-deployment updates.
+Do NOT merge older ZIPs into this folder.
+
+LOCAL TEST
+1. Open this folder in VS Code.
+2. Open Terminal.
+3. If this is a newly extracted folder, run:
+   npm install
+4. Start local development:
+   npm run dev
+5. Open:
+   http://localhost:3000/
+
+PRODUCTION BUILD (next step before hosting)
+1. Stop the dev server with Ctrl+C.
+2. Run:
+   npm run build
+3. Confirm a new "out" folder is created.
+
+IMPORTANT
+- Do not upload to hosting until the build succeeds.
+- Before replacing WordPress, take a full backup.
+- Create/forward contact@bratgeneratorpro.net before launch, or change the email in lib/site.ts.
+- Search Console, GA4, Bing, live crawl, Core Web Vitals and backlink work are live-domain/account tasks and will be done after deployment.
+
+PRE-LIVE FINALIZATION ADDED:
+- .env.example for GA4/GSC/Bing IDs
+- consent-gated GA4 loader
+- brat_design_download analytics event
+- starter 301 migration redirect map
+- pre-live account setup guide
+- competitor/backlink/outreach research plan
+
+Before the final production build, create .env.local only if you already have GA4 or verification tokens.
+
+LATEST UPDATE:
+- Read LATEST_CHANGES.md for the source-link cleanup, new troubleshooting blog post, and final header order.

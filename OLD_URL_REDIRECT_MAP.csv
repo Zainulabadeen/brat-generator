@@ -1,0 +1,7 @@
+legacy_path,new_path,status,reason
+/how-to,/how-to-use/,301,Legacy/short tutorial slug to canonical tutorial page
+/styles,/brat-styles/,301,Legacy/short styles slug to canonical styles page
+/key-features,/features/,301,Legacy feature slug to canonical feature page
+/brat-generator-features,/features/,301,Alternate feature slug found in content planning
+/how-to-make-a-brat-album-cover,/blog/how-to-make-a-brat-album-cover-free/,301,Legacy article slug to final article URL
+/blog/how-to-make-a-brat-album-cover,/blog/how-to-make-a-brat-album-cover-free/,301,Alternate blog slug to final article URL

@@ -1,0 +1,23 @@
+FINAL LOCAL PRE-LIVE CHECK
+
+Open this project in VS Code, then run:
+
+npm install
+npm run prelive
+
+`npm run prelive` builds the static site and automatically checks the final `out/` folder for:
+- all required pages
+- 404 page
+- robots.txt
+- sitemap.xml
+- OG image / favicon
+- .htaccess
+- title tags
+- canonical tags
+- old Lovable/wrong-domain leakage
+- final sitemap URLs
+
+Success message:
+PRE-LIVE BUILD CHECK: PASS
+
+If you see that PASS message, do not change code before deployment unless necessary.
