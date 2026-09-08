@@ -1,11 +1,15 @@
-CENTERED SECTIONS + HEADING POLISH UPDATE
+HEADING STYLE RESET - CENTER ONLY
 
-1. Stop npm run dev with Ctrl+C.
-2. Copy the app folder from this update into your current E:\bratgenerator-build-fixed folder.
-3. Choose Replace files in the destination.
+1. Copy the app folder from this update.
+2. Paste it into your current E:\bratgenerator-build-fixed project.
+3. Choose Replace files in destination.
 4. Run: npm run dev
-5. Check Home, Features, How to Use, Brat Styles and Album Cover Guide.
-6. When satisfied, stop dev and run: npm run prelive
-7. If PASS: git add . && git commit -m "Center editorial sections and polish headings" && git push
 
-Only app/globals.css is replaced. Content, metadata, routes and tools are unchanged.
+This update only resets decorative editorial heading styling:
+- removes side mini-lines around eyebrow labels
+- removes heading background wash
+- removes green diamond/dot under headings
+- removes extra decorative heading shadows/borders
+- keeps headings, labels and editorial copy centered
+
+The existing one-column Before You Start checklist is left unchanged.
