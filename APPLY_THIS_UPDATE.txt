@@ -1,12 +1,11 @@
-BRAT GENERATOR — CLEAN CONTENT + COMPACT TOOLS UPDATE
+CENTERED SECTIONS + HEADING POLISH UPDATE
 
 1. Stop npm run dev with Ctrl+C.
-2. Copy the app and lib folders from this update into your current:
-   E:\bratgenerator-build-fixed
-3. Choose Replace files in destination.
+2. Copy the app folder from this update into your current E:\bratgenerator-build-fixed folder.
+3. Choose Replace files in the destination.
 4. Run: npm run dev
-5. Check Home, Features, How to Use, Brat Styles, Video Generator, Album Cover Guide, and Not Working article.
-6. Then run: npm run prelive
-7. If PASS: git add . && git commit -m "Clean repeated sections and compact tools" && git push
+5. Check Home, Features, How to Use, Brat Styles and Album Cover Guide.
+6. When satisfied, stop dev and run: npm run prelive
+7. If PASS: git add . && git commit -m "Center editorial sections and polish headings" && git push
 
-This update removes repeated/extra sections from secondary pages and makes the image/video tool areas more compact without changing the generator functionality.
+Only app/globals.css is replaced. Content, metadata, routes and tools are unchanged.

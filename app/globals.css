@@ -591,3 +591,175 @@ main h3,
   .centered-prose > p{font-size:16px;line-height:1.68}
   .about-grid-wide{width:min(100% - 30px,1280px)}
 }
+
+/* September 2026: sitewide editorial centering + subtle heading polish.
+   Keeps tools/forms/navigation usable while making explanatory content read as one design system. */
+
+/* Center the main explanatory/editorial content across inner pages and guides. */
+.article-prose,
+.prose-split > div:first-child,
+.source-note,
+.guide-step > div:last-child,
+.simple-table th,
+.simple-table td{
+  text-align:center !important;
+}
+
+.article-prose{
+  margin-left:auto;
+  margin-right:auto;
+}
+.article-prose > p,
+.article-prose > ul,
+.article-prose > ol,
+.prose-split > div:first-child > p,
+.source-note{
+  margin-left:auto;
+  margin-right:auto;
+}
+.article-prose > p,
+.prose-split > div:first-child > p{
+  max-width:980px;
+}
+
+/* Small labels now feel attached to their section instead of floating as plain text. */
+.article-prose > .eyebrow,
+.prose-split .eyebrow,
+.section-heading .eyebrow,
+.video-tool-heading .eyebrow{
+  display:table;
+  width:auto;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  padding:7px 12px;
+  border:1px solid rgba(138,206,0,.18);
+  border-radius:999px;
+  background:rgba(138,206,0,.065);
+  color:#5f9200;
+  text-align:center !important;
+  letter-spacing:.18em;
+}
+
+/* Light branded treatment for editorial headings: centered, balanced, with a short lime rule. */
+.article-prose > h2,
+.prose-heading{
+  position:relative;
+  max-width:980px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  padding-bottom:18px;
+  text-align:center !important;
+  text-wrap:balance;
+}
+.article-prose > h2::after,
+.prose-heading::after{
+  content:'';
+  display:block;
+  width:58px;
+  height:3px;
+  margin:16px auto 0;
+  border-radius:999px;
+  background:var(--green);
+  box-shadow:0 0 18px rgba(138,206,0,.22);
+}
+.article-prose > h3{
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center !important;
+  text-wrap:balance;
+}
+
+/* The step-by-step cards retain their useful number marker, but the content itself is centered. */
+.guide-step{
+  align-items:center;
+}
+.guide-step-no{
+  text-align:center;
+}
+.guide-step .guide-kicker,
+.guide-step h3,
+.guide-step p{
+  text-align:center !important;
+}
+
+/* Tables and notes follow the same centered visual rhythm. */
+.simple-table th,
+.simple-table td{
+  vertical-align:middle;
+}
+.source-note{
+  max-width:900px;
+  text-align:center !important;
+}
+
+/* Special polish for the "Before You Start" checklist: compact 2x2 utility cards. */
+.check-list{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  max-width:980px;
+  margin:30px auto 0;
+}
+.check-list li{
+  min-height:118px;
+  padding:22px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+  border-radius:18px;
+  border:1px solid rgba(17,17,17,.09);
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(138,206,0,.045));
+  box-shadow:0 8px 24px rgba(17,17,17,.035);
+}
+.check-list li::before{
+  position:static;
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:50%;
+  margin:0;
+  color:#5f9500;
+  background:rgba(138,206,0,.14);
+  border:1px solid rgba(138,206,0,.22);
+  font-size:18px;
+  line-height:1;
+}
+
+/* Keep the colour-guide split layout, but visually center both halves. */
+.prose-split{
+  align-items:center;
+}
+.prose-split > div:first-child .eyebrow,
+.prose-split > div:first-child .eyebrow.left{
+  text-align:center !important;
+}
+.colour-fact-card,
+.colour-fact-card dl,
+.colour-fact-card dt,
+.colour-fact-card dd{
+  text-align:center;
+}
+.colour-swatch{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Section spacing is kept consistent so centered content does not feel detached. */
+.article-prose > .eyebrow + h2,
+.prose-split .eyebrow + .prose-heading{
+  margin-top:0;
+}
+
+@media (max-width:760px){
+  .check-list{grid-template-columns:1fr;gap:12px}
+  .check-list li{min-height:100px;padding:19px 16px}
+  .article-prose > h2,
+  .prose-heading{padding-bottom:14px}
+  .article-prose > h2::after,
+  .prose-heading::after{margin-top:13px;width:50px}
+}
