@@ -532,3 +532,62 @@ main h3,
   .tool-container{width:min(100% - 24px,1080px)}
   .generator-embed-shell,.video-generator-embed-shell{border-radius:14px}
 }
+
+
+/* September 2026: centered editorial sections + full-width homepage About.
+   Apply only to selected short explanatory sections; long articles/forms stay left-aligned. */
+.centered-prose{
+  text-align:center;
+}
+.centered-prose > .eyebrow,
+.centered-prose > h2,
+.centered-prose > p{
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+.centered-prose > h2{
+  max-width:900px;
+  font-size:clamp(34px,3.2vw,48px);
+  line-height:1.06;
+  text-wrap:balance;
+}
+.centered-prose > p{
+  max-width:980px;
+  font-size:17px;
+  line-height:1.72;
+}
+.centered-prose .section-cta{
+  display:flex;
+  justify-content:center;
+}
+
+.about-grid-wide{
+  grid-template-columns:minmax(360px,.92fr) minmax(0,1.08fr);
+  gap:64px;
+  width:min(100% - 40px,1280px);
+}
+.about-grid-wide .about-art{
+  width:100%;
+  max-width:none;
+}
+.about-grid-wide .about-copy{
+  max-width:none;
+  width:100%;
+}
+.about-grid-wide .about-copy h2{
+  max-width:760px;
+}
+.about-grid-wide .about-copy p{
+  max-width:820px;
+}
+
+@media (max-width:1050px){
+  .about-grid-wide{grid-template-columns:1fr;gap:42px}
+  .about-grid-wide .about-art{max-width:680px;margin-inline:auto}
+}
+@media (max-width:760px){
+  .centered-prose > h2{font-size:clamp(30px,8vw,40px)}
+  .centered-prose > p{font-size:16px;line-height:1.68}
+  .about-grid-wide{width:min(100% - 30px,1280px)}
+}

@@ -153,7 +153,7 @@ export default function Home() {
         </section>
 
         <section className="section">
-          <div className="container container-medium about-grid">
+          <div className="container container-wide about-grid about-grid-wide">
             <div className="reveal"><div className="about-art"><span className="brat-text about-brat">brat</span></div></div>
             <div className="reveal reveal-delay-1 about-copy">
               <p className="eyebrow left">About</p>

@@ -99,7 +99,7 @@ export default function FeaturesPage() {
         </section>
 
         <section className="section section-card">
-          <div className="container container-medium article-prose reveal">
+          <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Trust</p><h2>Limitations to Know</h2>
             <p>This tool is intentionally specialised. It is not a replacement for Photoshop if you need layered photo editing, advanced compositing, or precise professional print workflows. Colours may also look slightly different across screens because display calibration varies.</p>
             <p>The typography is an approximation of the visual treatment associated with the Brat artwork, not an official downloadable font supplied by the artist or label.</p>

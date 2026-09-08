@@ -66,7 +66,7 @@ export default function BratStylesPage() {
         />
 
         <section className="section section-tight">
-          <div className="container container-medium article-prose reveal">
+          <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Quick Guide</p>
             <h2>Create Every Brat Style</h2>
             <p>Green is the colour most closely associated with the original Brat artwork and Brat Summer, but the aesthetic is not limited to one shade. A <strong>brat generator black</strong> design feels darker and more understated, while a <strong>brat generator white</strong> version looks cleaner and more minimalist. A <strong>brat generator pink</strong> style keeps the familiar lowercase treatment while giving the design a softer, more playful personality.</p>
@@ -113,7 +113,7 @@ export default function BratStylesPage() {
         </section>
 
         <section className="section section-card">
-          <div className="container container-medium article-prose reveal">
+          <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Typography</p>
             <h2>What Makes the Brat Text Style Work?</h2>
             <p>The look is not created by one magic font. Most Brat font generator tools use <strong>Arial Narrow</strong> or an Arial Narrow-style condensed typeface as a starting point. The recognisable effect comes from the treatment: large lowercase typography, fairly tight letter spacing, and a light <strong>Gaussian blur</strong>.</p>
@@ -122,7 +122,7 @@ export default function BratStylesPage() {
         </section>
 
         <section className="section section-card">
-          <div className="container container-medium article-prose reveal">
+          <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Use Cases</p>
             <h2>Where Different Brat Styles Work Best</h2>
             <p>Classic green is the obvious choice when you want the most recognisable Brat reference. Black works well for darker fan edits and understated graphics. White is useful when you want a cleaner minimal layout, while pink gives the same format a softer, playful feel. Custom colours are useful for playlists, memes, wallpapers, profile pictures and social posts where you want the Brat-inspired layout to match your own palette.</p>
