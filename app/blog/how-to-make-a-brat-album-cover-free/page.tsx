@@ -90,9 +90,9 @@ export default function AlbumCoverGuidePage() {
             </div>
           </section>
 
-          <section className="section section-card">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Create Alongside the Guide</p><h2>Free Brat Album <span className="text-brat">Cover Maker</span></h2><p>Use the live generator below while you follow the four steps.</p></div>
+          <section className="section section-card tool-section-compact">
+            <div className="container tool-container">
+              <div className="section-heading reveal tool-section-heading"><p className="eyebrow">Create Alongside the Guide</p><h2>Free Brat Album <span className="text-brat">Cover Maker</span></h2><p>Use the live generator below while you follow the four steps.</p></div>
               <BratGenerator />
             </div>
           </section>
@@ -185,32 +185,12 @@ export default function AlbumCoverGuidePage() {
             </div>
           </section>
 
-          <section className="section section-card">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Comparison</p><h2>Brat Album Cover Generator vs <span className="text-brat">Canva vs Photoshop</span></h2><p>These tools solve different jobs. A specialist generator wins on speed; general editors win when the project becomes more complex.</p></div>
-              <div className="simple-table glass reveal" role="region" aria-label="Album cover generator comparison" tabIndex={0}>
-                <table>
-                  <thead><tr><th>Feature</th><th>Brat Generator</th><th>Canva</th><th>Photoshop</th></tr></thead>
-                  <tbody>
-                    <tr><td>Best for</td><td>Fast Brat-style covers</td><td>Template-based design</td><td>Advanced editing</td></tr>
-                    <tr><td>Learning curve</td><td>Very low</td><td>Low</td><td>High</td></tr>
-                    <tr><td>Sign-up</td><td>Not required</td><td>Usually required</td><td>Account/subscription</td></tr>
-                    <tr><td>Manual font setup</td><td>Minimal</td><td>Usually</td><td>Yes</td></tr>
-                    <tr><td>Manual blur setup</td><td>Dedicated slider</td><td>Manual workaround</td><td>Manual filter/effect</td></tr>
-                    <tr><td>Advanced editing</td><td>Focused controls</td><td>Moderate</td><td>Extensive</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </section>
-
           <RelatedPages items={[
             { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Jump straight into the live tool and create your own cover.', accent: 'green' },
             { href: '/how-to-use/', eyebrow: 'Tutorial', title: 'Full Generator Tutorial', description: 'See every control and troubleshooting step in one guide.', accent: 'blue' },
             { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Compare green, black, white, pink and custom colour directions.', accent: 'pink' },
           ]} />
 
-          <section className="cta-section"><div className="cta-box reveal"><span className="cta-orb pink"/><span className="cta-orb blue"/><h2>Make Your Own <span className="brat-text cta-brat">brat</span> Album Cover</h2><p>Customise the text, background, spacing, blur, size, and export format — all in your browser.</p><Link className="cta-button" href="/#generator">Create Your Brat Cover →</Link></div></section>
         </article>
       </main>
       <SiteFooter />

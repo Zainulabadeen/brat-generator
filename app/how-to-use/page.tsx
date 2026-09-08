@@ -31,21 +31,7 @@ const steps = [
   ['Step 6', 'Download Your File', 'Choose PNG, JPG, or WebP and click Download. The file is rendered in your browser at the selected pixel dimensions with no watermark. On mobile, the result may appear in your Downloads folder rather than Photos depending on the browser.'],
 ];
 
-const problems = [
-  ['Why is my text not fitting?', 'Shorten the phrase, reduce the text-size slider, or choose a wider canvas. Long sentences rarely work as well as one to four short words in this condensed style.'],
-  ['Why does my export look blurry?', 'A little text blur is intentional. If the whole image looks soft, try lowering the blur, exporting again, and avoid resizing a smaller downloaded image upward afterward.'],
-  ['Why do the colours look different?', 'Screen brightness, colour profiles, and social-app compression can make the same hex value look different. The numeric colour value does not change.'],
-  ['Why can’t I find the download?', 'Check the browser download list or your device Downloads folder. If clicking does nothing, confirm that the browser allows file downloads from the site.'],
-  ['Why is Brat Generator not working?', 'Refresh the tab, update your browser, temporarily disable an extension that may be interfering, or try the tool in another modern browser.'],
-];
 
-const faqs = [
-  ['Does Brat Generator work on mobile?', 'Yes. It runs directly in modern mobile browsers, so there is no separate app to install. The controls and preview adapt to smaller screens.'],
-  ['Can I make a Brat album cover with my own text?', 'Yes. Replace the default text with your own name, phrase, lyric fragment, or caption and use a square canvas for a cover-style result.'],
-  ['Why does my design not look like the original album?', 'The look depends on several things working together: the lime colour, condensed lowercase typography, tight spacing, and a light blur. Adjusting only the font is usually not enough.'],
-  ['Can I download without a watermark?', 'Yes. The current generator exports the design without adding a watermark.'],
-  ['Is Brat Generator affiliated with Charli XCX?', 'No. It is an independent fan-made design tool inspired by the visual style associated with the Brat album.'],
-];
 
 export default function HowToUsePage() {
   const breadcrumb = {
@@ -102,15 +88,6 @@ export default function HowToUsePage() {
           </div>
         </section>
 
-        <section className="section section-card">
-          <div className="container container-narrow">
-            <div className="glass tool-promo-card reveal">
-              <div><p className="eyebrow left">Practice While You Read</p><h2>Follow the guide, then <span className="text-brat">open the live tool</span></h2><p>The generator stays on the homepage so this guide remains focused and easy to scan.</p></div>
-              <Link className="pill-btn primary glow-brat" href="/#generator">Open Generator →</Link>
-            </div>
-          </div>
-        </section>
-
         <section className="section">
           <div className="container container-wide">
             <div className="section-heading reveal"><p className="eyebrow">Step by Step</p><h2>How to Use Brat Generator <span className="text-brat">From Start to Download</span></h2><p>Follow these six steps from a blank text field to a finished Brat-style image.</p></div>
@@ -142,62 +119,12 @@ export default function HowToUsePage() {
           </div>
         </section>
 
-        <section className="section">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Comparison</p><h2>Brat Generator vs <span className="text-brat">Canva vs Photoshop</span></h2><p>Choose the tool that matches the job rather than assuming one editor is best for everything.</p></div>
-            <div className="simple-table glass reveal" role="region" aria-label="Brat Generator Canva Photoshop comparison" tabIndex={0}>
-              <table>
-                <thead><tr><th>Feature</th><th>Brat Generator</th><th>Canva</th><th>Photoshop</th></tr></thead>
-                <tbody>
-                  <tr><td>Ready-made Brat styling</td><td>Yes</td><td>Manual setup</td><td>Manual setup</td></tr>
-                  <tr><td>Beginner-friendly for this style</td><td>Very easy</td><td>Easy</td><td>Advanced</td></tr>
-                  <tr><td>Sign-up needed</td><td>No</td><td>Usually</td><td>Account/subscription</td></tr>
-                  <tr><td>Detailed editing</td><td>Focused controls</td><td>Moderate</td><td>Extensive</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p className="article-lead reveal">Canva and Photoshop can recreate the Brat look, but a dedicated generator is faster when all you need is a short Brat-style graphic. Photoshop remains better when you need layered editing, masking, compositing, or other advanced work.</p>
-          </div>
-        </section>
-
-        <section className="section section-card" id="troubleshooting">
-          <div className="container container-faq">
-            <div className="section-heading reveal"><p className="eyebrow">Troubleshooting</p><h2>Common Brat Generator <span className="text-electric">Problems</span></h2><p>These fixes cover the most common “not working,” text-fitting, blur, colour, and download issues.</p></div>
-            <div className="accordion-list">{problems.map(([q,a])=><details className="glass accordion reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}</div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Ideas</p><h2>Creative Ways to Use Your Brat Design</h2>
-            <p>Once you have a design you like, use it for TikTok caption cards, Brat meme-style jokes, personal playlist artwork, mood boards, Spotify playlist covers, Instagram Highlights, profile pictures, or a quick visual refresh for a social account.</p>
-            <p>If you are uploading artwork to a commercial platform or using it in a business context, check that platform’s artwork rules and the rights associated with any names, logos, or protected material you include.</p>
-            <div className="section-cta"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">Read the Brat album cover guide →</Link></div>
-          </div>
-        </section>
-
-        <section className="section section-card">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Safety & Legal</p><h2>Is It Safe and Legal to Use?</h2>
-            <p>The current generator processes your text and canvas locally in the browser. No account is required, and the tool does not upload your design to a server as part of the generation workflow.</p>
-            <p>Legally, personal fan use is different from using an artist’s name, album identity, or protected artwork in commercial products. Brat Generator is not affiliated with Charli XCX or her label. If you plan to sell merchandise, run paid advertising, or closely reproduce protected branding, consider the applicable laws and get qualified advice when needed.</p>
-          </div>
-        </section>
-
-        <section className="section" id="faq">
-          <div className="container container-faq">
-            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>How to Use Brat Generator <span className="text-brat">FAQs</span></h2></div>
-            <div className="accordion-list">{faqs.map(([q,a])=><details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}</div>
-          </div>
-        </section>
-
         <RelatedPages items={[
           { href: '/features/', eyebrow: 'Features', title: 'See Every Generator Feature', description: 'Understand the controls, presets, formats and browser workflow.', accent: 'green' },
           { href: '/brat-styles/', eyebrow: 'Styles', title: 'Choose a Brat Style', description: 'Pick green, black, white, pink or a custom colour direction.', accent: 'pink' },
           { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Guide', title: 'Make a Brat Album Cover', description: 'Use the same controls to build a complete cover for social or music artwork.', accent: 'blue' },
         ]} />
 
-        <section className="cta-section"><div className="cta-box reveal"><span className="cta-orb pink"/><span className="cta-orb blue"/><h2>Create and Download Your <span className="brat-text cta-brat">brat</span> Design</h2><p>Choose your text, colour, blur, size, and file format — then download with no watermark.</p><Link className="cta-button" href="/#generator">Start Creating →</Link></div></section>
       </main>
       <SiteFooter />
     </>

@@ -74,14 +74,6 @@ const faqs = [
   ['Is this official or affiliated with Charli XCX?', 'No. Brat Generator is an independent fan-made design tool inspired by the Brat aesthetic and is not affiliated with Charli XCX, Atlantic Records, or Warner Music.'],
 ];
 
-const compare = [
-  ['Browser-based', 'Yes', 'Yes', 'Desktop + web options'],
-  ['No sign-up required for this tool', 'Yes', 'Usually account-based', 'Account/subscription based'],
-  ['Brat-specific presets', 'Purpose-built', 'Manual setup', 'Manual setup'],
-  ['Font, spacing & blur controls', 'Dedicated controls', 'Manual adjustments', 'Manual layers/effects'],
-  ['Fast one-style workflow', 'Seconds', 'A few minutes', 'More setup for beginners'],
-  ['Learning curve for this use case', 'Very low', 'Low', 'Moderate to high'],
-];
 
 export default function Home() {
   const websiteSchema = {
@@ -149,9 +141,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section" id="generator">
-          <div className="container container-wide">
-            <div className="section-heading reveal">
+        <section className="section tool-section-compact" id="generator">
+          <div className="container tool-container">
+            <div className="section-heading reveal tool-section-heading">
               <p className="eyebrow">Generator</p>
               <h2>Create Your Brat Design <span className="text-brat">Right Now</span></h2>
               <p>Type your text, customise the colours and blur, choose an export size, then download your Brat-inspired design instantly. No signup. No software to install.</p>
@@ -244,25 +236,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-card">
-          <div className="container container-medium prose-split">
-            <div className="reveal">
-              <p className="eyebrow left">Colour Guide</p>
-              <h2 className="prose-heading">Brat Green Colour Guide</h2>
-              <p>The generator uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. It is a common digital approximation associated with the album’s acidic lime look, but screens and colour-management systems can display the same hex value differently.</p>
-              <p>Use the preset for consistency, then try black, white, pink, blue, or any custom hex value if you want the familiar Brat layout with a different personality.</p>
-            </div>
-            <div className="colour-fact-card glass reveal reveal-delay-1">
-              <span className="colour-swatch" aria-hidden="true" />
-              <dl>
-                <div><dt>Hex</dt><dd>#8ACE00</dd></div>
-                <div><dt>RGB</dt><dd>138, 206, 0</dd></div>
-                <div><dt>Use</dt><dd>Default web preset</dd></div>
-              </dl>
-            </div>
-          </div>
-        </section>
-
         <section className="section">
           <div className="container container-wide">
             <div className="section-heading reveal"><p className="eyebrow">Content Ideas</p><h2>What Can You <span className="text-pink">Create?</span></h2><p>The same Brat text generator style can work across personal artwork, memes, playlists, profile graphics, and social media.</p></div>
@@ -273,19 +246,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-card">
-          <div className="container container-narrow">
-            <div className="glass safety-box reveal">
-              <p className="eyebrow left">Safety</p>
-              <h2>Privacy, Commercial Use &amp; <span className="text-brat">Official Status</span></h2>
-              <p><strong>This is a fan-made tool.</strong> It is not affiliated with Charli XCX, Atlantic Records, or Warner Music, and it is not the official generator released alongside the album.</p>
-              <p>For privacy, the generator preview and export run locally in your browser. Your design text and generated canvas are not sent to a server by this tool.</p>
-              <p>Commercial use depends on what you create and the laws that apply where you are. Selling products or advertising a business with protected names, logos, or artwork can raise different rights issues than personal memes or fan posts. When in doubt, get appropriate legal advice.</p>
-              <div className="safety-badges"><span>🔒 Browser processing</span><span>✅ No sign-up</span><span>🚫 No watermark</span></div>
-            </div>
-          </div>
-        </section>
-
         <section className="section section-card" id="faq">
           <div className="container container-faq">
             <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Frequently Asked <span className="text-brat">Questions</span></h2><p>Clear answers to the most common Brat Generator questions.</p></div>
@@ -293,55 +253,6 @@ export default function Home() {
               {faqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
             </div>
             <div className="section-cta reveal"><Link className="text-link" href="/blog/brat-generator-not-working/">Need help? Open the Common Problems &amp; Quick Fixes guide →</Link></div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Why Us</p><h2>Why Use This <span className="text-brat">Brat Generator</span></h2><p>Built around one specific visual style, so you can spend less time setting up a general design editor and more time creating.</p></div>
-            <div className="stats-grid">
-              <div className="glass stat-card reveal"><strong>100%</strong><span>Free to use</span></div>
-              <div className="glass stat-card reveal reveal-delay-1"><strong>0</strong><span>Watermarks</span></div>
-              <div className="glass stat-card reveal reveal-delay-2"><strong>4</strong><span>Canvas presets</span></div>
-              <div className="glass stat-card reveal reveal-delay-3"><strong>3</strong><span>Export formats</span></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-card">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Comparison</p><h2>Brat Generator vs <span className="text-pink">Canva &amp; Photoshop</span></h2><p>General-purpose editors offer much deeper control. This tool is designed for a faster, focused Brat-style workflow.</p></div>
-            <div className="comparison glass reveal" role="region" aria-label="Brat Generator comparison table" tabIndex={0}>
-              <div className="compare-row compare-head"><div>Feature</div><div>This Tool</div><div>Canva</div><div>Photoshop</div></div>
-              {compare.map((row) => <div className="compare-row" key={row[0]}>{row.map((cell, i) => <div key={`${row[0]}-${i}`}>{cell}</div>)}</div>)}
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Pop Culture</p>
-            <h2>Why the Brat Aesthetic Still Resonates in the UK</h2>
-            <p>Charli XCX was born in Cambridge, and Brat became a particularly visible British pop-culture moment before spreading worldwide. <a className="inline-source-link" href="https://blog.collinsdictionary.com/language-lovers/a-year-when-hedonism-and-anxiety-combine/" target="_blank" rel="noopener noreferrer">Collins Dictionary’s 2024 Word of the Year selection</a> pushed “brat” beyond an album title into everyday language, while the <a className="inline-source-link" href="https://www.brits.co.uk/history?page=1&quicktabs_1=1" target="_blank" rel="noopener noreferrer">BRIT Awards 2025</a> later named <em>BRAT</em> Album of the Year and Charli xcx Artist of the Year.</p>
-            <p>The reason the visual language still gets reused is simple: it is easy to recognise, easy to remix, and intentionally unpolished. People now reference it in memes, fashion, language, playlists, posters, and everyday digital design rather than only recreating the original cover.</p>
-          </div>
-        </section>
-
-        <section className="section section-card">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Typography</p>
-            <h2>What Font Does Brat Use?</h2>
-            <p>The Brat look is not created by choosing one magic “Brat font.” The original cover is widely understood to rely on manipulated Arial-style typography that was stretched, enlarged, and softened until it felt intentionally rough. This generator uses an Arial Narrow-style condensed font as a practical starting point; people searching for a Brat font generator are usually trying to recreate this overall treatment rather than download one official font file.</p>
-            <p>For a convincing result, keep the text short and lowercase, tighten the letter spacing, then add only enough blur to soften the edges. The treatment matters as much as the font family.</p>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Export</p>
-            <h2>Export Sizes &amp; Download Formats</h2>
-            <p>Use 1000×1000 or 1200×1200 for a flexible square cover. For vertical social graphics, choose 1080×1920. For a wide social banner or preview image, use 1200×630.</p>
-            <p>PNG is the safest choice when you want crisp digital artwork. JPG creates smaller files and WebP is efficient for modern websites. The generator lets you switch the canvas and file format before downloading.</p>
           </div>
         </section>
 

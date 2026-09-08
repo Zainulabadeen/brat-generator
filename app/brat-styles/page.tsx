@@ -36,13 +36,6 @@ const styleCards = [
   ['your text', 'Custom Colours', 'Use the colour picker or a custom hex value to create a familiar Brat-style layout in your own palette.', 'brat-custom', '#fff'],
 ];
 
-const faqs = [
-  ['What is the Brat green hex code?', '#8ACE00 (RGB 138, 206, 0) is the default digital Brat Green preset used by this generator. Screen rendering can vary, but the hex value remains the same.'],
-  ['Can I make a black Brat design?', 'Yes. Choose a black background and pair it with white or green text for a darker Brat-style variation.'],
-  ['Can I use white or pink instead of green?', 'Yes. White and pink are useful alternatives when you want the same condensed lowercase treatment with a cleaner or more playful colour palette.'],
-  ['Can I use my own colour?', 'Yes. The generator includes custom background and text colour controls, so you can enter your own hex value instead of using a preset.'],
-  ['What makes the text look like the Brat style?', 'The effect comes from the combination of a condensed Arial Narrow-style typeface, lowercase typography, tight letter spacing, large text, and a light Gaussian blur.'],
-];
 
 export default function BratStylesPage() {
   const breadcrumb = {
@@ -128,18 +121,6 @@ export default function BratStylesPage() {
           </div>
         </section>
 
-        <section className="section">
-          <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Export</p><h2>Export Sizes & <span className="text-pink">Download Formats</span></h2><p>Keep the same style across square, vertical and wide layouts.</p></div>
-            <div className="card-grid three">
-              <article className="glass info-card hover-lift reveal"><div className="emoji">⬛</div><h3>Square</h3><p>Use 1000×1000 or 1200×1200 for an all-purpose cover, playlist graphic, profile image or square social post.</p></article>
-              <article className="glass info-card hover-lift reveal reveal-delay-1"><div className="emoji">📱</div><h3>Vertical</h3><p>Use 1080×1920 for 9:16 Stories, Reels and TikTok.</p></article>
-              <article className="glass info-card hover-lift reveal reveal-delay-2"><div className="emoji">🖥️</div><h3>Wide</h3><p>Use 1200×630 when you need a horizontal banner, social preview image or wide layout.</p></article>
-            </div>
-            <div className="container container-medium article-prose reveal export-copy"><p><strong>PNG</strong> is the safest option for sharp text and high image quality. <strong>JPG</strong> keeps file sizes smaller, while <strong>WebP</strong> is efficient for modern websites. Choose the canvas and file format before downloading.</p></div>
-          </div>
-        </section>
-
         <section className="section section-card">
           <div className="container container-medium article-prose reveal">
             <p className="eyebrow">Use Cases</p>
@@ -149,20 +130,12 @@ export default function BratStylesPage() {
           </div>
         </section>
 
-        <section className="section" id="faq">
-          <div className="container container-faq">
-            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Brat Styles <span className="text-brat">FAQs</span></h2></div>
-            <div className="accordion-list">{faqs.map(([q,a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}</div>
-          </div>
-        </section>
-
         <RelatedPages items={[
           { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Apply any of these colour styles to your own text and download the result.', accent: 'green' },
           { href: '/how-to-use/', eyebrow: 'Guide', title: 'How to Use the Tool', description: 'Follow the full step-by-step workflow for text, blur, sizing and export.', accent: 'blue' },
           { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
         ]} />
 
-        <section className="cta-section"><div className="cta-box reveal"><span className="cta-orb pink"/><span className="cta-orb blue"/><h2>Pick a Style and Make It <span className="brat-text cta-brat">yours</span></h2><p>Green, black, white, pink or completely custom — choose a palette, adjust the blur and download your design.</p><Link className="cta-button" href="/#generator">Start Creating →</Link></div></section>
       </main>
       <SiteFooter />
     </>

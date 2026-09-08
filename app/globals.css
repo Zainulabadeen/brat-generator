@@ -274,3 +274,261 @@ main h3,
   .section-heading h2{font-size:clamp(30px,8.6vw,40px);line-height:1.05}
   .video-generator-hero h1{font-size:clamp(32px,9vw,44px);line-height:1.04}
 }
+
+/* September 2026: breadcrumb-as-kicker + sitewide visual consistency.
+   On inner pages the breadcrumb now occupies the small kicker position above the
+   hero title. Marketing/display sections share a centered rhythm and consistent
+   type scale, while long-form article copy, tables, legal text, forms and tool
+   controls remain left-aligned for readability/usability. */
+
+/* Breadcrumb becomes the hero kicker instead of sitting as a separate row. */
+.breadcrumb-before-hero{
+  padding-top:112px;
+  padding-bottom:0;
+  text-align:center;
+}
+.breadcrumb-before-hero .breadcrumbs{
+  padding:0;
+  margin:0 auto;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.3;
+  font-weight:750;
+  letter-spacing:.08em;
+}
+.breadcrumb-before-hero .breadcrumbs ol{
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+}
+.breadcrumb-before-hero .breadcrumbs li{
+  justify-content:center;
+  gap:7px;
+}
+.breadcrumb-before-hero .breadcrumbs a{
+  color:#6b6b72;
+}
+.breadcrumb-before-hero .breadcrumbs li:last-child > span:not(.crumb-sep){
+  color:var(--green);
+  font-weight:850;
+}
+.breadcrumb-before-hero .crumb-sep{
+  color:#9a9aa0;
+  opacity:.65;
+}
+
+/* The old eyebrow/kicker is redundant once the breadcrumb takes that position. */
+.breadcrumb-before-hero + .inner-hero .eyebrow,
+.breadcrumb-before-hero + .video-generator-hero .eyebrow{
+  display:none;
+}
+
+/* Pull the hero up so breadcrumb + heading read as one centered composition. */
+.breadcrumb-before-hero + .inner-hero{
+  padding-top:30px;
+  padding-bottom:76px;
+}
+.breadcrumb-before-hero + .video-generator-hero{
+  padding-top:30px;
+  padding-bottom:64px;
+}
+
+/* A consistent centered rhythm for page and section introductions. */
+.inner-hero-content,
+.video-generator-hero-inner,
+.section-heading,
+.video-tool-heading{
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+.inner-hero-copy,
+.video-generator-hero-inner > p:last-child,
+.section-heading > p:last-child,
+.video-tool-heading > p:last-child{
+  max-width:760px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+/* Standardise the small section labels. */
+.section-heading .eyebrow,
+.video-tool-heading .eyebrow,
+.article-prose > .eyebrow:not(.left),
+.safety-box > .eyebrow:not(.left){
+  text-align:center;
+  font-size:12px;
+  line-height:1.3;
+  letter-spacing:.20em;
+  margin-bottom:16px;
+}
+
+/* Keep major section headings on one shared scale instead of every section
+   feeling like a different design system. */
+.section-heading h2,
+.video-tool-heading h2,
+.safety-box h2,
+.cta-box h2{
+  max-width:840px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:clamp(32px,3.35vw,46px);
+  line-height:1.04;
+  letter-spacing:-.018em;
+  text-align:center;
+  text-wrap:balance;
+}
+
+/* About uses a split layout; keep the block structurally intact but align its
+   heading/copy consistently when it appears as a promotional section. */
+.about-copy{
+  text-align:center;
+}
+.about-copy .eyebrow,
+.about-copy .eyebrow.left{
+  text-align:center;
+}
+.about-copy h2{
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:clamp(32px,3.35vw,46px);
+  line-height:1.04;
+  text-align:center;
+  text-wrap:balance;
+}
+.about-copy p{
+  max-width:720px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+/* Center compact marketing cards. Long articles/tables/forms/tools intentionally
+   stay left aligned because centered long text is harder to read and use. */
+.info-card,
+.step-card,
+.idea-card,
+.style-card,
+.related-page-card{
+  text-align:center;
+}
+.info-card h3,
+.step-card h3,
+.idea-card h3,
+.style-card h3,
+.related-page-card h3{
+  max-width:360px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:clamp(18px,1.8vw,21px);
+  line-height:1.18;
+  text-align:center;
+  text-wrap:balance;
+}
+.info-card p,
+.step-card p,
+.idea-card p,
+.related-page-card p{
+  max-width:390px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+.related-page-eyebrow{
+  text-align:center;
+}
+.related-page-arrow{
+  margin-left:auto;
+  margin-right:auto;
+}
+.safety-box{
+  text-align:center;
+}
+.safety-box .eyebrow.left{
+  text-align:center;
+}
+.safety-badges{
+  justify-content:center;
+}
+.section-cta{
+  text-align:center;
+}
+
+/* Preserve readable alignment where centered copy would be unnatural. */
+.article-prose,
+.legal-prose,
+.guide-step,
+.simple-table,
+.contact-card,
+.generator-controls,
+.video-tool-body,
+.footer-grid{
+  text-align:left;
+}
+.article-prose h2,
+.legal-prose h2,
+.guide-step h3,
+.contact-card h2{
+  text-align:left;
+}
+.article-prose > .eyebrow,
+.legal-prose > .eyebrow,
+.contact-card > .eyebrow{
+  text-align:left;
+}
+
+@media (max-width:900px){
+  .breadcrumb-before-hero{padding-top:96px}
+  .breadcrumb-before-hero + .inner-hero{padding-top:26px;padding-bottom:64px}
+  .breadcrumb-before-hero + .video-generator-hero{padding-top:26px;padding-bottom:54px}
+  .section-heading h2,
+  .video-tool-heading h2,
+  .safety-box h2,
+  .cta-box h2,
+  .about-copy h2{font-size:clamp(31px,6vw,42px)}
+}
+
+@media (max-width:600px){
+  .breadcrumb-before-hero{padding-top:84px}
+  .breadcrumb-before-hero .breadcrumbs{font-size:11px;letter-spacing:.045em}
+  .breadcrumb-before-hero + .inner-hero{padding-top:22px;padding-bottom:52px}
+  .breadcrumb-before-hero + .video-generator-hero{padding-top:22px;padding-bottom:46px}
+  .section-heading h2,
+  .video-tool-heading h2,
+  .safety-box h2,
+  .cta-box h2,
+  .about-copy h2{font-size:clamp(29px,8.2vw,38px);line-height:1.06}
+  .section-heading > p:last-child,
+  .inner-hero-copy,
+  .video-generator-hero-inner > p:last-child{font-size:15px}
+}
+
+/* September 2026: content cleanup + compact tool presentation.
+   Dedicated pages now carry the detailed material; the homepage stays an overview.
+   Tool areas are visually contained so they read as working utilities, not giant page blocks. */
+.tool-section-compact{padding-top:64px;padding-bottom:64px}
+.tool-container{width:min(100% - 40px,1080px);margin-inline:auto}
+.tool-section-heading{max-width:720px;margin-bottom:34px}
+.tool-section-heading h2{max-width:720px}
+.generator-embed-shell{max-width:1040px;border-radius:18px;box-shadow:0 12px 36px rgba(17,17,17,.065)}
+.video-generator-embed-shell{max-width:1040px;border-radius:16px;box-shadow:0 12px 36px rgba(17,17,17,.065)}
+.video-generator-tool-section{padding-top:48px;padding-bottom:64px}
+.video-generator-tool-section .video-tool-heading{margin-bottom:28px}
+
+/* Keep page endings light: related links act as the navigation bridge, so pages
+   do not need another oversized repeated call-to-action immediately afterward. */
+.related-pages-section{padding-bottom:72px}
+
+@media (max-width:900px){
+  .tool-section-compact{padding-top:52px;padding-bottom:52px}
+  .tool-section-heading{margin-bottom:28px}
+  .tool-container{width:min(100% - 32px,1080px)}
+}
+@media (max-width:600px){
+  .tool-section-compact{padding-top:42px;padding-bottom:42px}
+  .tool-section-heading{margin-bottom:24px}
+  .tool-container{width:min(100% - 24px,1080px)}
+  .generator-embed-shell,.video-generator-embed-shell{border-radius:14px}
+}

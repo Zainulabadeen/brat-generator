@@ -75,9 +75,9 @@ export default function VideoGeneratorPage() {
           </div>
         </section>
 
-        <section className="section video-generator-tool-section" id="video-tool">
-          <div className="container container-wide">
-            <div className="section-heading reveal video-tool-heading">
+        <section className="section video-generator-tool-section tool-section-compact" id="video-tool">
+          <div className="container tool-container">
+            <div className="section-heading reveal video-tool-heading tool-section-heading">
               <p className="eyebrow">Create</p>
               <h2>Generate yours <span className="text-brat">now</span></h2>
               <p>Type your text, upload audio, preview the result, adjust FPS, and use the output controls below.</p>

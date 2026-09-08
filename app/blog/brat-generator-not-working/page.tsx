@@ -168,14 +168,6 @@ export default function TroubleshootingGuidePage() {
             { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Try green, black, white, pink, blue and custom colour directions.', accent: 'pink' },
           ]} />
 
-          <section className="cta-section">
-            <div className="cta-box reveal">
-              <span className="cta-orb pink" /><span className="cta-orb blue" />
-              <h2>Try the Fix in the <span className="brat-text cta-brat">brat</span> Generator</h2>
-              <p>Open the tool, make one change at a time, and use the live preview before downloading again.</p>
-              <Link href="/#generator" className="cta-button">Open Generator →</Link>
-            </div>
-          </section>
         </article>
       </main>
       <SiteFooter />
