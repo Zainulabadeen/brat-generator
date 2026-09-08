@@ -69,7 +69,7 @@ export default function VideoGeneratorPage() {
           <div className="container container-wide">
             <div className="video-generator-hero-inner reveal">
               <p className="eyebrow">Video Generator</p>
-              <h1>BRAT VIDEO GENERATOR.</h1>
+              <h1>Brat video generator.</h1>
               <p>Text in motion, lime green, messy, and customisable. Create your own Brat-style video in your browser.</p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function VideoGeneratorPage() {
           <div className="container container-wide">
             <div className="section-heading reveal video-tool-heading">
               <p className="eyebrow">Create</p>
-              <h2>GENERATE YOURS <span className="text-brat">NOW</span></h2>
+              <h2>Generate yours <span className="text-brat">now</span></h2>
               <p>Type your text, upload audio, preview the result, adjust FPS, and use the output controls below.</p>
             </div>
             <div className="reveal">

@@ -1,9 +1,21 @@
-HOME HERO BUTTONS RESTORE
+BALANCED HERO HEADING FIX
 
-This patch restores the original Home page hero buttons only:
-- Start Creating →
-- See Examples
+What this changes:
+- Inner-page hero headings are narrower, centered and easier to read.
+- If a PageHero title contains a colon, the text before the colon stays on line 1 and the remaining text + green accent moves to line 2.
+- Example:
+  Brat Generator Key Features:
+  Free Tool & How It Works
+- Home hero is slightly narrower so it does not stretch too far across the screen.
+- Section headings are also given a calmer readable width.
+- Video Generator hero heading is reduced to match the rest of the site.
+- Mobile/tablet sizes are included.
 
-No inner-page hero buttons are restored.
-
-Copy the app folder into your current bratgenerator-build-fixed project and choose Replace files in destination.
+How to apply:
+1. Stop npm run dev with Ctrl+C.
+2. Copy the app and components folders from this patch into E:\bratgenerator-build-fixed.
+3. Choose Replace files in destination.
+4. Run: npm run dev
+5. Check Home, Features, How to Use, Brat Styles, Video Generator, Album Cover Guide.
+6. If correct: Ctrl+C, then npm run prelive.
+7. If PASS: git add . && git commit -m "Balance sitewide hero headings" && git push
