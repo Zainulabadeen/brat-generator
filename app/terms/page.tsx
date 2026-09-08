@@ -45,6 +45,9 @@ export default function TermsPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Terms & Disclaimer' }]} /></div>
+
+
         <PageHero
           eyebrow="Terms"
           title="Terms of Use &"
@@ -55,8 +58,6 @@ export default function TermsPage() {
           secondaryHref="/privacy-policy/"
           secondaryLabel="Privacy Policy"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Terms & Disclaimer' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose legal-prose reveal">

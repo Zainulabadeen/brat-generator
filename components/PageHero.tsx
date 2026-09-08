@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export default function PageHero({
   eyebrow,
   title,
@@ -32,12 +30,6 @@ export default function PageHero({
           {title} {accent ? <span className="text-brat">{accent}</span> : null}
         </h1>
         <p className="inner-hero-copy reveal is-visible hero-delay-2">{description}</p>
-        <div className="hero-buttons reveal is-visible hero-delay-3">
-          <Link className="pill-btn primary glow-brat" href={primaryHref}>{primaryLabel}</Link>
-          {secondaryHref && secondaryLabel ? (
-            <Link className="pill-btn secondary" href={secondaryHref}>{secondaryLabel}</Link>
-          ) : null}
-        </div>
       </div>
     </section>
   );

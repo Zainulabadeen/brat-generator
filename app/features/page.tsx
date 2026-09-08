@@ -70,6 +70,9 @@ export default function FeaturesPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Features' }]} /></div>
+
+
         <PageHero
           eyebrow="Features"
           title="Brat Generator Key Features: Free Tool &"
@@ -78,8 +81,6 @@ export default function FeaturesPage() {
           secondaryHref="/how-to-use/"
           secondaryLabel="How to Use It"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Features' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">

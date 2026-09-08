@@ -39,6 +39,9 @@ export default function AboutPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} /></div>
+
+
         <PageHero
           eyebrow="About"
           title="A Focused Tool for"
@@ -47,8 +50,6 @@ export default function AboutPage() {
           secondaryHref="/features/"
           secondaryLabel="Explore Features"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">

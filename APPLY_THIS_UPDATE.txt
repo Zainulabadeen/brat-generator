@@ -1,0 +1,9 @@
+HOME HERO BUTTONS RESTORE
+
+This patch restores the original Home page hero buttons only:
+- Start Creating →
+- See Examples
+
+No inner-page hero buttons are restored.
+
+Copy the app folder into your current bratgenerator-build-fixed project and choose Replace files in destination.

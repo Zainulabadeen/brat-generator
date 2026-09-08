@@ -46,6 +46,9 @@ export default function ContactPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} /></div>
+
+
         <PageHero
           eyebrow="Contact"
           title="Questions, Feedback or"
@@ -56,8 +59,6 @@ export default function ContactPage() {
           secondaryHref="/how-to-use/"
           secondaryLabel="Read the Help Guide"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium contact-grid">

@@ -76,6 +76,9 @@ export default function HowToUsePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'How to Use Brat Generator' }]} /></div>
+
+
         <PageHero
           eyebrow="Guide"
           title="How to Use Brat Generator:"
@@ -84,8 +87,6 @@ export default function HowToUsePage() {
           secondaryHref="/features/"
           secondaryLabel="See All Features"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'How to Use Brat Generator' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">

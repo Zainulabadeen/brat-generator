@@ -95,6 +95,11 @@ export default function TroubleshootingGuidePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Common Problems & Quick Fixes' }]} />
+        </div>
+
+
         <PageHero
           eyebrow="Troubleshooting Guide"
           title="Brat Generator Not Working?"
@@ -105,10 +110,6 @@ export default function TroubleshootingGuidePage() {
           secondaryHref="/how-to-use/"
           secondaryLabel="Full How-to Guide"
         />
-
-        <div className="container container-wide">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Common Problems & Quick Fixes' }]} />
-        </div>
 
         <article>
           <section className="section section-tight">

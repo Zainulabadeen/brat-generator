@@ -60,6 +60,9 @@ export default function BratStylesPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Brat Styles' }]} /></div>
+
+
         <PageHero
           eyebrow="Brat Styles"
           title="Create Every Brat Style in"
@@ -68,8 +71,6 @@ export default function BratStylesPage() {
           secondaryHref="/#generator"
           secondaryLabel="Open Generator"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Brat Styles' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">

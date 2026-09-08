@@ -47,6 +47,9 @@ export default function PrivacyPolicyPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} /></div>
+
+
         <PageHero
           eyebrow="Privacy"
           title="Privacy Policy for"
@@ -57,8 +60,6 @@ export default function PrivacyPolicyPage() {
           secondaryHref="/contact/"
           secondaryLabel="Contact"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} /></div>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose legal-prose reveal">

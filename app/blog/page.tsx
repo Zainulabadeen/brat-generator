@@ -33,8 +33,10 @@ export default function BlogPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} /></div>
+
+
         <PageHero eyebrow="Guides" title="Brat Generator" accent="Guides" description="Practical tutorials for creating Brat-inspired covers, social graphics, text effects, and downloads without unnecessary design software." primaryHref="/#generator" primaryLabel="Open Generator →" />
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} /></div>
         <section className="section">
           <div className="container container-wide">
             <div className="blog-grid">

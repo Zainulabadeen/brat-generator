@@ -69,6 +69,9 @@ export default function AlbumCoverGuidePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
+        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Album Cover Guide' }]} /></div>
+
+
         <PageHero
           eyebrow="Album Cover Guide"
           title="How to Make a Brat Album Cover:"
@@ -77,8 +80,6 @@ export default function AlbumCoverGuidePage() {
           secondaryHref="/how-to-use/"
           secondaryLabel="Full Generator Tutorial"
         />
-
-        <div className="container container-wide"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Album Cover Guide' }]} /></div>
 
         <article>
           <section className="section section-tight">

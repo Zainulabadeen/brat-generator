@@ -60,6 +60,11 @@ export default function VideoGeneratorPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content" className="video-generator-page">
+        <div className="container container-wide breadcrumb-before-hero video-breadcrumb-wrap">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Video Generator' }]} />
+        </div>
+
+
         <section className="video-generator-hero">
           <div className="container container-wide">
             <div className="video-generator-hero-inner reveal">
@@ -69,10 +74,6 @@ export default function VideoGeneratorPage() {
             </div>
           </div>
         </section>
-
-        <div className="container container-wide video-breadcrumb-wrap">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Video Generator' }]} />
-        </div>
 
         <section className="section video-generator-tool-section" id="video-tool">
           <div className="container container-wide">
