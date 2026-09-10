@@ -1,21 +1,17 @@
+import Breadcrumbs from '@/components/Breadcrumbs';
+
 export default function PageHero({
   eyebrow,
   title,
   accent,
   description,
-  primaryHref = '/#generator',
-  primaryLabel = 'Start Creating →',
-  secondaryHref,
-  secondaryLabel,
+  breadcrumbs,
 }: {
   eyebrow: string;
   title: string;
   accent?: string;
   description: string;
-  primaryHref?: string;
-  primaryLabel?: string;
-  secondaryHref?: string;
-  secondaryLabel?: string;
+  breadcrumbs?: Array<{ label: string; href?: string }>;
 }) {
   const colonIndex = accent ? title.indexOf(':') : -1;
 
@@ -32,14 +28,20 @@ export default function PageHero({
     : '';
 
   return (
-    <section className="inner-hero">
+    <section className="inner-hero page-hero-section">
       <div className="hero-blobs" aria-hidden="true">
         <span className="blob blob-green" />
         <span className="blob blob-pink" />
         <span className="blob blob-blue" />
       </div>
-      <div className="container container-medium inner-hero-content">
-        <p className="eyebrow reveal is-visible">{eyebrow}</p>
+      <div className="container container-hero inner-hero-content">
+        {breadcrumbs?.length ? (
+          <div className="page-hero-breadcrumb reveal is-visible">
+            <Breadcrumbs items={breadcrumbs} />
+          </div>
+        ) : (
+          <div className="page-hero-kicker reveal is-visible">{eyebrow}</div>
+        )}
         <h1 className="inner-hero-title reveal is-visible hero-delay-1">
           <span className="inner-hero-title-main">{firstLine}</span>
           {secondLine ? (

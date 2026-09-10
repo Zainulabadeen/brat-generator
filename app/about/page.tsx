@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -39,16 +38,12 @@ export default function AboutPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}
           eyebrow="About"
           title="A Focused Tool for"
           accent="Brat-Inspired Design"
           description="Brat Generator is a free, independent browser-based design tool built to make Brat-inspired text, cover art, memes and social graphics fast without forcing users into a complex editor."
-          secondaryHref="/features/"
-          secondaryLabel="Explore Features"
         />
 
         <section className="section section-tight">

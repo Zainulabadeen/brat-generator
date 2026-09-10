@@ -1,15 +1,16 @@
-HEADING STYLE RESET - CENTER ONLY
+BRAT GENERATOR — PERFORMANCE + LAYOUT UPDATE
 
-1. Copy the app folder from this update.
-2. Paste it into your current E:\bratgenerator-build-fixed project.
-3. Choose Replace files in destination.
-4. Run: npm run dev
+1. Make a backup of your current working project folder.
+2. Extract this ZIP.
+3. Copy everything from the extracted folder into your current project folder.
+4. Choose “Replace the files in the destination” when Windows asks.
+5. In VS Code run: npm run dev
+6. Check Home, Features, How to Use, Brat Styles, Video Generator and Blog.
+7. Stop the dev server with Ctrl+C.
+8. Run: npm run prelive
+9. If PASS appears, push to GitHub:
+   git add .
+   git commit -m "Improve performance and unify page layout"
+   git push
 
-This update only resets decorative editorial heading styling:
-- removes side mini-lines around eyebrow labels
-- removes heading background wash
-- removes green diamond/dot under headings
-- removes extra decorative heading shadows/borders
-- keeps headings, labels and editorial copy centered
-
-The existing one-column Before You Start checklist is left unchanged.
+The Album Cover Guide is now treated as a Blog post and removed from the header.

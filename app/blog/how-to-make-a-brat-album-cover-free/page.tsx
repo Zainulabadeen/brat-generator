@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import BratGenerator from '@/components/BratGenerator';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
@@ -39,7 +38,8 @@ export default function AlbumCoverGuidePage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Album Cover Guide', item: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog/` },
+      { '@type': 'ListItem', position: 3, name: 'Album Cover Guide', item: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/` },
     ],
   };
 
@@ -69,16 +69,12 @@ export default function AlbumCoverGuidePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Album Cover Guide' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Album Cover Guide' }]}
           eyebrow="Album Cover Guide"
           title="How to Make a Brat Album Cover:"
           accent="Free, No-Sign-Up Method"
           description="A green background, condensed lowercase type, and a controlled blur are the core ingredients. This guide shows how to make a Brat album cover step by step, choose the right size, and export it free in your browser."
-          secondaryHref="/how-to-use/"
-          secondaryLabel="Full Generator Tutorial"
         />
 
         <article>

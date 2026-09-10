@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -62,16 +61,12 @@ export default function HowToUsePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'How to Use Brat Generator' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'How to Use' }]}
           eyebrow="Guide"
           title="How to Use Brat Generator:"
           accent="Step-by-Step Guide"
           description="Type your text, choose a background colour, adjust the blur, size and spacing, pick the canvas ratio, then download your image. The whole Brat Generator workflow runs in your browser with no account and no watermark."
-          secondaryHref="/features/"
-          secondaryLabel="See All Features"
         />
 
         <section className="section section-tight">

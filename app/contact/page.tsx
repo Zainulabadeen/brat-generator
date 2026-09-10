@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -46,18 +45,12 @@ export default function ContactPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
           eyebrow="Contact"
           title="Questions, Feedback or"
           accent="Rights Concerns?"
           description="Use the contact channel below for generator bugs, content feedback, privacy questions, rights concerns or general website enquiries."
-          primaryHref={`mailto:${siteConfig.contactEmail}`}
-          primaryLabel="Send an Email →"
-          secondaryHref="/how-to-use/"
-          secondaryLabel="Read the Help Guide"
         />
 
         <section className="section section-tight">

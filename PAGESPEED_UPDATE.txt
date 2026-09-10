@@ -1,0 +1,35 @@
+PAGESPEED PERFORMANCE UPDATE — SEPTEMBER 2026
+
+This patch targets the exact mobile PageSpeed issues from the supplied report:
+- Performance 86
+- FCP 3.0 s
+- LCP 3.3 s
+- TBT 0 ms
+- CLS 0
+
+Changes made:
+1. Removed the external Google Fonts / Urbanist request from the Brat image generator and switched it to the site's system-ui stack.
+2. Removed the iframe height transition that Lighthouse flagged as a non-composited animation.
+3. Removed the huge embedded HTML string from the main React bundle. The tools now load from their lightweight public embed files only when the tool area is near the viewport.
+4. Removed a duplicate header scroll listener.
+5. Replaced the blurred logo glow with a cheaper box-shadow glow.
+6. Disabled the expensive animated background blobs and delayed hero entrance animations on mobile only. Desktop keeps the motion.
+7. Added reduced-motion handling.
+
+HOW TO APPLY
+Copy the folders/files from this ZIP into your CURRENT bratgenerator-build-fixed project and choose Replace when Windows asks.
+
+Then in VS Code terminal run:
+npm run dev
+
+Check the homepage and generator. Stop with Ctrl+C, then run:
+npm run prelive
+
+If PRE-LIVE BUILD CHECK says PASS, run:
+git add .
+git commit -m "Improve mobile PageSpeed performance"
+git push
+
+Vercel will redeploy automatically. When Vercel says Ready, run PageSpeed Insights again for Mobile and Desktop.
+
+Note: Lighthouse scores vary between runs, so the exact numeric score cannot be guaranteed.

@@ -18,14 +18,8 @@ export default function RevealSetup() {
     );
     reveal.forEach((el) => observer.observe(el));
 
-    const header = document.querySelector<HTMLElement>('.site-header');
-    const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-
     return () => {
       observer.disconnect();
-      window.removeEventListener('scroll', onScroll);
     };
   }, []);
 

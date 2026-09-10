@@ -1,0 +1,13 @@
+VIDEO GENERATOR MIGRATION NOTE
+
+The two TXT files uploaded in this chat are byte-for-byte identical and both contain the Brat image/text generator code (Scribble / Brat / Brat White / Album / Sweat / Neon / Gradient).
+
+No MP4/GIF/Frames video-generator code is present in either TXT file.
+
+What has been prepared:
+- /video-generator/ route
+- screenshot-inspired page shell
+- noindex while the actual video tool is missing
+- route included in the production build check
+
+To finish the video page, replace the placeholder with the correct video-generator HTML/CSS/JS source, then enable indexing and add it to the main navigation/sitemap.

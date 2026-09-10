@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -45,18 +44,12 @@ export default function TermsPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Terms & Disclaimer' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Terms & Disclaimer' }]}
           eyebrow="Terms"
           title="Terms of Use &"
           accent="Disclaimer"
           description="These terms explain the basic rules for using Brat Generator, the independent status of the site and the limits of what the tool can promise."
-          primaryHref="/#generator"
-          primaryLabel="Use the Generator →"
-          secondaryHref="/privacy-policy/"
-          secondaryLabel="Privacy Policy"
         />
 
         <section className="section section-tight">

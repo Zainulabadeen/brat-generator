@@ -1,0 +1,12 @@
+BRAT GENERATOR - COMBINED PERFORMANCE + LAYOUT UPDATE
+
+This package keeps the earlier PageSpeed optimisations and adds the requested site cleanup:
+- Album Cover Guide removed from primary header and listed as a Blog post.
+- Inner-page hero sections now use the same visual system as the homepage.
+- Breadcrumbs are shown inside the hero as a compact pill.
+- Brat Generator and Video Generator embeds use the full site container width.
+- Homepage Key Features reduced from 6 cards to 3 cards; Explore all features link remains.
+- Features page Quick Answer / What Is a Brat Generator section removed.
+- Video Generator hero now uses the shared PageHero design.
+
+Test locally with npm run dev. If everything looks correct, run npm run prelive before pushing to GitHub.

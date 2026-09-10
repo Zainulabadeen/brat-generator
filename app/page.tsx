@@ -188,8 +188,8 @@ export default function Home() {
               <h2>Why You’ll Love This <span className="text-brat">Brat Generator</span></h2>
               <p>Everything you need to create Brat-style text, album covers, memes, and social graphics right in your browser.</p>
             </div>
-            <div className="card-grid feature-grid">
-              {features.map(([icon, title, body, glow], i) => (
+            <div className="card-grid feature-grid home-feature-grid">
+              {features.slice(0, 3).map(([icon, title, body, glow], i) => (
                 <div className={`reveal reveal-delay-${i % 3}`} key={title}>
                   <article className={`glass info-card ${glow} hover-lift`}><div className="emoji">{icon}</div><h3>{title}</h3><p>{body}</p></article>
                 </div>

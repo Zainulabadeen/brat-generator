@@ -11,7 +11,6 @@ const navItems = [
   ['How to Use', pageLinks.howTo],
   ['Brat Styles', pageLinks.styles],
   ['Video Generator', pageLinks.videoGenerator],
-  ['Album Cover Guide', pageLinks.albumCoverGuide],
   ['Blog', pageLinks.blog],
 ] as const;
 
@@ -33,10 +32,8 @@ export default function SiteHeader() {
     if (href === '/') return pathname === '/';
 
     const cleanHref = href.replace(/\/$/, '');
-    const albumGuidePath = pageLinks.albumCoverGuide.replace(/\/$/, '');
-
     if (href === pageLinks.blog) {
-      return pathname === cleanHref || (pathname.startsWith(`${cleanHref}/`) && !pathname.startsWith(albumGuidePath));
+      return pathname === cleanHref || pathname.startsWith(`${cleanHref}/`);
     }
 
     return pathname === cleanHref || pathname.startsWith(`${cleanHref}/`);

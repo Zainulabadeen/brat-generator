@@ -2,93 +2,84 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
-import { BRAT_VIDEO_GENERATOR_EMBED_HTML } from '@/lib/toolEmbedHtml';
 
 export default function BratVideoGenerator() {
+  const shellRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<HTMLIFrameElement | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [height, setHeight] = useState(0);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoad(true);
+        observer.disconnect();
+      },
+      { rootMargin: '120px 0px', threshold: 0 }
+    );
+
+    observer.observe(shell);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => () => resizeObserverRef.current?.disconnect(), []);
+
+  const measureTool = () => {
     const frame = frameRef.current;
     if (!frame) return;
 
-    let cancelled = false;
-    let resizeObserver: ResizeObserver | null = null;
-    const timers: number[] = [];
-
-    const measureTool = () => {
-      if (cancelled) return;
-      try {
-        const doc = frame.contentDocument;
-        if (!doc) return;
-
-        const toolRoot = doc.querySelector<HTMLElement>('#bvg-root');
-        if (!toolRoot) return;
-
-        const rectHeight = Math.ceil(toolRoot.getBoundingClientRect().height);
-        const contentHeight = Math.ceil(toolRoot.scrollHeight || 0);
-        const nextHeight = Math.max(rectHeight, contentHeight, 1);
-
-        if (nextHeight > 1) {
-          setHeight(nextHeight);
-          setReady(true);
-        }
-      } catch {
-        // Keep the shell collapsed if the embedded document is not measurable yet.
-      }
-    };
-
     try {
       const doc = frame.contentDocument;
-      if (!doc) return;
+      const toolRoot = doc?.querySelector<HTMLElement>('#bvg-root');
+      if (!toolRoot) return;
 
-      doc.open();
-      doc.write(BRAT_VIDEO_GENERATOR_EMBED_HTML);
-      doc.close();
+      const rectHeight = Math.ceil(toolRoot.getBoundingClientRect().height);
+      const contentHeight = Math.ceil(toolRoot.scrollHeight || 0);
+      const nextHeight = Math.max(rectHeight, contentHeight, 1);
 
-      const attachObserver = () => {
-        if (cancelled) return;
-        try {
-          const embeddedDoc = frame.contentDocument;
-          const toolRoot = embeddedDoc?.querySelector<HTMLElement>('#bvg-root');
-          if (!toolRoot) {
-            timers.push(window.setTimeout(attachObserver, 80));
-            return;
-          }
-
-          measureTool();
-          if (typeof ResizeObserver !== 'undefined') {
-            resizeObserver = new ResizeObserver(() => measureTool());
-            resizeObserver.observe(toolRoot);
-          }
-        } catch {
-          // Leave collapsed; a later timer can retry.
-        }
-      };
-
-      timers.push(window.setTimeout(attachObserver, 30));
-      timers.push(window.setTimeout(measureTool, 150));
-      timers.push(window.setTimeout(measureTool, 600));
+      if (nextHeight > 1) {
+        setHeight(nextHeight);
+        setReady(true);
+      }
     } catch {
-      setReady(false);
-      setHeight(0);
+      // Keep the shell collapsed if the embedded document is not measurable yet.
+    }
+  };
+
+  const handleLoad = () => {
+    resizeObserverRef.current?.disconnect();
+    measureTool();
+
+    try {
+      const toolRoot = frameRef.current?.contentDocument?.querySelector<HTMLElement>('#bvg-root');
+      if (toolRoot && typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(measureTool);
+        observer.observe(toolRoot);
+        resizeObserverRef.current = observer;
+      }
+    } catch {
+      // Keep the fallback collapsed if the embedded document cannot be measured.
     }
 
-    return () => {
-      cancelled = true;
-      resizeObserver?.disconnect();
-      timers.forEach((timer) => window.clearTimeout(timer));
-    };
-  }, []);
+    window.setTimeout(measureTool, 120);
+    window.setTimeout(measureTool, 500);
+  };
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       const data = event.data;
       if (!data || typeof data !== 'object') return;
-
-      // Ignore legacy height messages for the same reason as the image tool:
-      // the real widget root is measured directly instead of document.scrollHeight.
       if (data.type === 'brat-video-generator-export') {
         trackEvent('brat_video_export_click', { tool_version: 'uploaded-video-generator' });
       }
@@ -100,23 +91,28 @@ export default function BratVideoGenerator() {
 
   return (
     <div
+      ref={shellRef}
       className="video-generator-embed-shell"
-      style={!ready ? { minHeight: 0, borderColor: 'transparent', boxShadow: 'none' } : undefined}
+      style={!ready ? { minHeight: 1, borderColor: 'transparent', boxShadow: 'none' } : undefined}
     >
-      <iframe
-        ref={frameRef}
-        className="brat-video-generator-iframe"
-        title="Brat Video Generator"
-        style={{
-          height: ready ? `${height}px` : '0px',
-          minHeight: 0,
-          opacity: ready ? 1 : 0,
-          overflow: 'hidden',
-        }}
-        scrolling="no"
-        loading="eager"
-        allow="clipboard-read; clipboard-write; fullscreen"
-      />
+      {shouldLoad && (
+        <iframe
+          ref={frameRef}
+          src="/brat-video-generator-embed.html"
+          className="brat-video-generator-iframe"
+          title="Brat Video Generator"
+          onLoad={handleLoad}
+          style={{
+            height: ready ? `${height}px` : '1px',
+            minHeight: 0,
+            opacity: ready ? 1 : 0,
+            overflow: 'hidden',
+          }}
+          scrolling="no"
+          loading="lazy"
+          allow="clipboard-read; clipboard-write; fullscreen"
+        />
+      )}
     </div>
   );
 }

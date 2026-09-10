@@ -1,10 +1,18 @@
-# Latest Changes — 8 September 2026
+# Latest Changes — 10 September 2026
 
-- Added the real `/video-generator/` page to the Next.js project.
-- Replaced the previous disabled video-tool placeholder with the uploaded Brat Video Generator widget.
-- Added a dedicated same-origin video-tool embed file at `public/brat-video-generator-embed.html`.
-- Added `Video Generator` to the primary header navigation and footer.
-- Added `/video-generator/` to the XML sitemap and pre-live build checks.
-- Added canonical, Open Graph, Twitter metadata, BreadcrumbList and WebApplication structured data for the video page.
-- Preserved the existing main Brat image/text generator and the previously refined heading sizes.
-- Full text/image generator is still not repeated on every content page; content pages use natural CTAs instead.
+## Combined performance + layout pass
+
+- Kept the PageSpeed optimisations from the previous performance package.
+- Removed Album Cover Guide from the primary header navigation.
+- Kept the album-cover guide at `/blog/how-to-make-a-brat-album-cover-free/` and added it to the Blog listing as a real post.
+- Blog navigation now stays active on all Blog posts, including the album-cover guide.
+- Moved visual breadcrumbs inside the shared inner-page hero and styled them as a compact rounded pill.
+- Standardised Features, How to Use, Brat Styles, Blog, About, Contact, Privacy, Terms, troubleshooting, album-cover guide and Video Generator hero sections around the same visual language as the homepage.
+- Replaced the separate Video Generator hero with the shared PageHero component.
+- Expanded both generator embeds to the full 1280px site content container.
+- Reduced homepage Key Features from six cards to three cards while keeping the “Explore all Brat Generator features” link.
+- Removed the repeated “Quick Answer / What Is a Brat Generator?” block from the Features page.
+
+## 2026-09-10 Type-check fix
+- Removed obsolete `primaryHref` prop from `app/contact/page.tsx` because the current `PageHero` component no longer accepts CTA props.
+- This resolves TS2322 during `npm run prelive`.

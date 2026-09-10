@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -47,18 +46,12 @@ export default function PrivacyPolicyPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]}
           eyebrow="Privacy"
           title="Privacy Policy for"
           accent="Brat Generator"
           description="This page explains how the generator handles your design locally in the browser and what ordinary technical data may still be processed when you visit a website."
-          primaryHref="/#generator"
-          primaryLabel="Open Generator →"
-          secondaryHref="/contact/"
-          secondaryLabel="Contact"
         />
 
         <section className="section section-tight">

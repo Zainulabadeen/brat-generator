@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -33,14 +32,26 @@ export default function BlogPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} /></div>
+        <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+          eyebrow="Guides"
+          title="Brat Generator"
+          accent="Guides"
+          description="Practical tutorials for creating Brat-inspired covers, social graphics, text effects, and downloads without unnecessary design software."
+        />
 
-
-        <PageHero eyebrow="Guides" title="Brat Generator" accent="Guides" description="Practical tutorials for creating Brat-inspired covers, social graphics, text effects, and downloads without unnecessary design software." primaryHref="/#generator" primaryLabel="Open Generator →" />
         <section className="section">
           <div className="container container-wide">
             <div className="blog-grid">
               <article className="glass blog-card reveal">
+                <div className="blog-card-art brat-green"><span className="brat-text">album cover</span></div>
+                <p className="eyebrow left">Album Cover Guide</p>
+                <h2><Link href="/blog/how-to-make-a-brat-album-cover-free/">How to Make a Brat Album Cover Free</Link></h2>
+                <p>Learn the Brat-inspired colour, typography, blur, sizing, and four-step workflow for creating an album cover in your browser.</p>
+                <Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">Read the album cover guide →</Link>
+              </article>
+
+              <article className="glass blog-card reveal reveal-delay-1">
                 <div className="blog-card-art brat-electric"><span className="brat-text">quick fixes</span></div>
                 <p className="eyebrow left">Troubleshooting</p>
                 <h2><Link href="/blog/brat-generator-not-working/">Brat Generator Not Working? Common Problems &amp; Quick Fixes</Link></h2>

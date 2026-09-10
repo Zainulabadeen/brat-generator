@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -50,25 +49,13 @@ export default function FeaturesPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Features' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Features' }]}
           eyebrow="Features"
           title="Brat Generator Key Features: Free Tool &"
           accent="How It Works"
           description="A fast Brat text generator with real-time preview, #8ACE00 colour presets, condensed typography, adjustable blur, social-ready canvas sizes, and clean no-watermark downloads — all in your browser."
-          secondaryHref="/how-to-use/"
-          secondaryLabel="How to Use It"
         />
-
-        <section className="section section-tight">
-          <div className="container container-medium article-prose reveal">
-            <p className="eyebrow">Quick Answer</p>
-            <h2>What Is a Brat Generator?</h2>
-            <p>A Brat generator is a browser-based design tool for creating graphics inspired by the flat colour, condensed lowercase text, and blurred anti-design aesthetic associated with Charli XCX’s <em>Brat</em> era. This one focuses on speed: type, customise, preview, and download without opening a full design editor.</p>
-          </div>
-        </section>
 
         <section className="section">
           <div className="container container-wide">

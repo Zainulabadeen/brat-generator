@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -53,16 +52,12 @@ export default function BratStylesPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero"><Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Brat Styles' }]} /></div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Brat Styles' }]}
           eyebrow="Brat Styles"
           title="Create Every Brat Style in"
           accent="Green, Black, White, Pink & More"
           description="Explore the most popular Brat colour variations, then keep the same condensed lowercase typography, tight spacing and soft blur while changing the palette to fit your own design."
-          secondaryHref="/#generator"
-          secondaryLabel="Open Generator"
         />
 
         <section className="section section-tight">

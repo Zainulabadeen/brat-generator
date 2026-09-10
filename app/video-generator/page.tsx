@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import BratVideoGenerator from '@/components/BratVideoGenerator';
 import JsonLd from '@/components/JsonLd';
+import PageHero from '@/components/PageHero';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -60,20 +60,13 @@ export default function VideoGeneratorPage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content" className="video-generator-page">
-        <div className="container container-wide breadcrumb-before-hero video-breadcrumb-wrap">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Video Generator' }]} />
-        </div>
-
-
-        <section className="video-generator-hero">
-          <div className="container container-wide">
-            <div className="video-generator-hero-inner reveal">
-              <p className="eyebrow">Video Generator</p>
-              <h1>Brat video generator.</h1>
-              <p>Text in motion, lime green, messy, and customisable. Create your own Brat-style video in your browser.</p>
-            </div>
-          </div>
-        </section>
+        <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Video Generator' }]}
+          eyebrow="Video Generator"
+          title="Brat Video"
+          accent="Generator"
+          description="Text in motion, lime green, messy, and customisable. Create your own Brat-style video in your browser."
+        />
 
         <section className="section video-generator-tool-section tool-section-compact" id="video-tool">
           <div className="container tool-container">

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RelatedPages from '@/components/RelatedPages';
@@ -95,20 +94,12 @@ export default function TroubleshootingGuidePage() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <div className="container container-wide breadcrumb-before-hero">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Common Problems & Quick Fixes' }]} />
-        </div>
-
-
         <PageHero
+          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Common Problems & Quick Fixes' }]}
           eyebrow="Troubleshooting Guide"
           title="Brat Generator Not Working?"
           accent="Common Problems & Quick Fixes"
           description="If a download fails, the text looks too blurry, your phrase clips at the edge, colours seem different, or a mobile export is hard to find, use these quick checks before changing your design from scratch."
-          primaryHref="/#generator"
-          primaryLabel="Open Generator →"
-          secondaryHref="/how-to-use/"
-          secondaryLabel="Full How-to Guide"
         />
 
         <article>
