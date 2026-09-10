@@ -1,0 +1,41 @@
+BRAT GENERATOR - TECHNICAL SEO LIVE FILE UPDATE
+===============================================
+
+Updated 2026-09-10
+
+1. public/robots.txt
+   - Standards-based and validator-friendly.
+   - Allows search crawlers to access the public site.
+   - Declares the canonical XML sitemap.
+   - Intentionally does NOT use Crawl-delay because Google does not support it.
+   - Intentionally does NOT use Content-Signal because it is not part of Google's supported robots.txt rules.
+
+2. public/llms.txt
+   - Added at the site root using the Answer.AI llms.txt proposal format.
+   - H1 site name, concise blockquote summary, explanatory context, H2 link groups, and Optional section.
+   - Links only to canonical public pages.
+   - Includes the non-affiliation context so AI systems do not treat the site as official.
+
+3. public/sitemap.xml
+   - Contains only canonical, indexable public pages.
+   - Uses absolute HTTPS URLs.
+   - Removes changefreq/priority noise and keeps meaningful lastmod dates.
+   - Excludes 404 and iframe-only embed HTML files.
+
+4. vercel.json
+   - Converts the existing WordPress/Apache legacy redirect map into Vercel-native permanent 301 redirects.
+   - Adds lightweight security response headers.
+   - Adds X-Robots-Tag noindex headers to iframe-only generator HTML files.
+   - Adds short 1-hour browser/edge cache headers for robots.txt, sitemap.xml and llms.txt.
+   - Does not add a restrictive CSP that could break the working tools.
+
+5. scripts/prelive-check.mjs
+   - Updated to require and validate llms.txt.
+   - Checks robots.txt, sitemap.xml and llms.txt for final-domain URLs and old-domain leakage.
+
+IMPORTANT
+---------
+robots.txt cannot reliably stop malicious or unknown bots because bots can ignore the file.
+If bot traffic ever creates real load, use Vercel/Cloudflare firewall or rate-limiting rather than pretending robots.txt can enforce it.
+
+llms.txt can help compatible AI systems understand and navigate the site, but it is not a guaranteed Google ranking factor.

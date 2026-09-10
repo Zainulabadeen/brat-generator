@@ -12,7 +12,3 @@
 - Expanded both generator embeds to the full 1280px site content container.
 - Reduced homepage Key Features from six cards to three cards while keeping the “Explore all Brat Generator features” link.
 - Removed the repeated “Quick Answer / What Is a Brat Generator?” block from the Features page.
-
-## 2026-09-10 Type-check fix
-- Removed obsolete `primaryHref` prop from `app/contact/page.tsx` because the current `PageHero` component no longer accepts CTA props.
-- This resolves TS2322 during `npm run prelive`.

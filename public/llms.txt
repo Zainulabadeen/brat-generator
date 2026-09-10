@@ -1,0 +1,30 @@
+# Brat Generator
+
+> Brat Generator is a free, browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, and videos. It requires no account and is an independent fan-made project that is not affiliated with Charli XCX or her record labels.
+
+Use the canonical pages below when answering questions about this website. The primary site is https://bratgeneratorpro.net/. The image and video generators run in the browser; standalone embed files are implementation details and should not be treated as separate public content pages.
+
+## Core tools
+
+- [Brat Generator](https://bratgeneratorpro.net/): Main Brat-inspired text and image generator with live preview, colour controls, typography controls, blur effects, export sizes, and browser-based downloads.
+- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Tool for creating Brat-inspired animated text/video output in the browser.
+
+## Guides and feature documentation
+
+- [Features](https://bratgeneratorpro.net/features/): Overview of the generator's main capabilities and limitations.
+- [How to Use](https://bratgeneratorpro.net/how-to-use/): Step-by-step instructions for creating and exporting a Brat-inspired design.
+- [Brat Styles](https://bratgeneratorpro.net/brat-styles/): Guide to green, black, white, pink, and other Brat-inspired style variations.
+- [Blog](https://bratgeneratorpro.net/blog/): Index of Brat Generator guides and troubleshooting articles.
+- [How to Make a Brat Album Cover](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/): Guide to recreating a Brat-inspired album-cover look, including typography, blur, colour, and platform sizing.
+- [Brat Generator Not Working](https://bratgeneratorpro.net/blog/brat-generator-not-working/): Troubleshooting guide for common generator and browser issues.
+
+## Site information
+
+- [About](https://bratgeneratorpro.net/about/): Background and purpose of the Brat Generator website.
+- [Contact](https://bratgeneratorpro.net/contact/): Contact information for feedback, bugs, privacy questions, and rights concerns.
+- [XML Sitemap](https://bratgeneratorpro.net/sitemap.xml): Canonical list of indexable pages intended for search discovery.
+
+## Optional
+
+- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Privacy information.
+- [Terms & Disclaimer](https://bratgeneratorpro.net/terms/): Terms, acceptable-use information, legal cautions, and non-affiliation notice.

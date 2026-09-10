@@ -1,0 +1,99 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/how-to",
+      "destination": "/how-to-use/",
+      "statusCode": 301
+    },
+    {
+      "source": "/styles",
+      "destination": "/brat-styles/",
+      "statusCode": 301
+    },
+    {
+      "source": "/key-features",
+      "destination": "/features/",
+      "statusCode": 301
+    },
+    {
+      "source": "/brat-generator-features",
+      "destination": "/features/",
+      "statusCode": 301
+    },
+    {
+      "source": "/how-to-make-a-brat-album-cover",
+      "destination": "/blog/how-to-make-a-brat-album-cover-free/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-make-a-brat-album-cover",
+      "destination": "/blog/how-to-make-a-brat-album-cover-free/",
+      "statusCode": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/brat-generator-embed.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/brat-video-generator-embed.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    }
+  ]
+}

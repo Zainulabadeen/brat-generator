@@ -1,3 +1,7 @@
+# Brat Generator robots.txt
+# Canonical site: https://bratgeneratorpro.net/
+# Keep this file standards-based so search crawlers and validators can parse it cleanly.
+
 User-agent: *
 Allow: /
 
