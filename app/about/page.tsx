@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     url: '/about/',
     title: 'About Brat Generator',
     description: 'A free browser-based tool for creating Brat-inspired text, covers, memes and social graphics.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'About Brat Generator' }],
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'About Brat Generator' }],
   },
-  twitter: { card: 'summary_large_image', title: 'About Brat Generator', description: 'Learn how the free browser-based Brat-inspired design tool works.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'About Brat Generator', description: 'Learn how the free browser-based Brat-inspired design tool works.', images: ['/brat-generator-free-online-tool.png'] },
 };
 
 export default function AboutPage() {

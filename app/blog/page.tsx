@@ -9,11 +9,11 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Generator Guides' },
-  description: 'Practical Brat Generator guides covering album covers, colours, blur, typography, sizes, and browser-based creation.',
+  title: { absolute: 'Brat Generator Guides: Covers, Colours, Fonts & Fixes' },
+  description: 'Browse Brat Generator guides for album covers, Brat green, typography, blur, sizes, downloads and troubleshooting. Practical tutorials, no fluff.',
   alternates: { canonical: '/blog/' },
-  openGraph: { url: '/blog/', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
-  twitter: { card: 'summary_large_image', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: ['/og-image.png'] },
+  openGraph: { url: '/blog/', title: 'Brat Generator Guides: Covers, Colours, Fonts & Fixes', description: 'Practical guides for Brat covers, colours, font treatment, downloads and troubleshooting.', images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
+  twitter: { card: 'summary_large_image', title: 'Brat Generator Guides: Covers, Colours, Fonts & Fixes', description: 'Practical guides for Brat covers, colours, font treatment, downloads and troubleshooting.', images: ['/brat-generator-free-online-tool.png'] },
 };
 
 export default function BlogPage() {
@@ -35,10 +35,18 @@ export default function BlogPage() {
         <PageHero
           breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
           eyebrow="Guides"
-          title="Brat Generator"
-          accent="Guides"
+          title="Brat Generator Guides:"
+          accent="Covers, Colours, Fonts & Fixes"
           description="Practical tutorials for creating Brat-inspired covers, social graphics, text effects, and downloads without unnecessary design software."
         />
+
+        <section className="section section-tight">
+          <div className="container container-medium article-prose centered-prose reveal">
+            <p className="eyebrow">Start Here</p>
+            <h2>Practical Brat Generator Guides for Creating, Styling and Fixing Designs</h2>
+            <p>Use this guide hub when you need more than the live tool itself. Learn how to make a Brat album cover, choose the Brat green colour and typography treatment, pick useful export sizes, or fix common download and browser problems.</p>
+          </div>
+        </section>
 
         <section className="section">
           <div className="container container-wide">
@@ -48,7 +56,7 @@ export default function BlogPage() {
                 <p className="eyebrow left">Album Cover Guide</p>
                 <h2><Link href="/blog/how-to-make-a-brat-album-cover-free/">How to Make a Brat Album Cover Free</Link></h2>
                 <p>Learn the Brat-inspired colour, typography, blur, sizing, and four-step workflow for creating an album cover in your browser.</p>
-                <Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">Read the album cover guide →</Link>
+                <Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">Read the Brat album cover guide →</Link>
               </article>
 
               <article className="glass blog-card reveal reveal-delay-1">
@@ -56,7 +64,7 @@ export default function BlogPage() {
                 <p className="eyebrow left">Troubleshooting</p>
                 <h2><Link href="/blog/brat-generator-not-working/">Brat Generator Not Working? Common Problems &amp; Quick Fixes</Link></h2>
                 <p>Fix download issues, excessive blur, clipped text, colour differences, and confusing mobile download locations with a simple step-by-step checklist.</p>
-                <Link className="text-link" href="/blog/brat-generator-not-working/">Open the troubleshooting guide →</Link>
+                <Link className="text-link" href="/blog/brat-generator-not-working/">Open the Brat Generator troubleshooting guide →</Link>
               </article>
             </div>
           </div>

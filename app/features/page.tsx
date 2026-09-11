@@ -9,16 +9,16 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Generator Key Features, Free Tool & How It Works' },
-  description: 'Free Brat Generator with real-time preview, Brat green presets, blur effects, social-ready sizes and no-watermark downloads. No sign-up required.',
+  title: { absolute: 'Brat Generator Features: Free, No Watermark & No Sign-Up' },
+  description: 'See every Brat Generator feature: live preview, Brat green presets, blur controls, social sizes, PNG/JPG/WebP exports, no watermark and no sign-up.',
   alternates: { canonical: '/features/' },
   openGraph: {
     url: '/features/',
-    title: 'Brat Generator Key Features, Free Tool & How It Works',
-    description: 'Explore the live preview, colours, blur, sizes, formats, privacy, and free no-watermark workflow.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator features' }],
+    title: 'Brat Generator Features: Free, No Watermark & No Sign-Up',
+    description: 'Explore live preview, Brat green presets, blur, social sizes, export formats and the free no-sign-up, no-watermark workflow.',
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator features' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Brat Generator Key Features', description: 'See how the free Brat Generator works.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'Brat Generator Features', description: 'See the live preview, colours, blur, sizes, exports and no-watermark workflow.', images: ['/brat-generator-free-online-tool.png'] },
 };
 
 const featureCards = [
@@ -52,10 +52,19 @@ export default function FeaturesPage() {
         <PageHero
           breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Features' }]}
           eyebrow="Features"
-          title="Brat Generator Key Features: Free Tool &"
-          accent="How It Works"
-          description="A fast Brat text generator with real-time preview, #8ACE00 colour presets, condensed typography, adjustable blur, social-ready canvas sizes, and clean no-watermark downloads — all in your browser."
+          title="Brat Generator Features:"
+          accent="Live Preview, Colours & Downloads"
+          description="See the controls that make the free Brat Generator quick to use: live preview, Brat green presets, condensed type, adjustable blur, social-ready sizes, and no-watermark downloads."
         />
+
+        <section className="section section-tight">
+          <div className="container container-medium article-prose centered-prose reveal">
+            <p className="eyebrow">Quick Answer</p>
+            <h2>What Features Does a Brat Generator Need?</h2>
+            <p>A useful Brat generator should give you a live preview, a Brat green starting preset, condensed lowercase typography, adjustable blur and spacing, practical canvas sizes, and clean image exports. This tool combines those controls in one browser-based workflow with no sign-up and no watermark.</p>
+            <p>New to the controls? Follow the <Link className="inline-source-link" href="/how-to-use/">6-step Brat Generator tutorial</Link>, or compare <Link className="inline-source-link" href="/brat-styles/">Brat green, black, white and pink styles</Link> before you start.</p>
+          </div>
+        </section>
 
         <section className="section">
           <div className="container container-wide">

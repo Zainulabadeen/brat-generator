@@ -9,20 +9,20 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Styles: Green, Black, White, Pink & Custom Colours' },
-  description: 'Explore Brat styles in green, black, white, pink and custom colours. Learn the Brat green hex, typography, blur settings and export formats.',
+  title: { absolute: 'Brat Styles & Colours: Green Hex, Black, White & Pink' },
+  description: 'Explore Brat styles and colours: Brat green #8ACE00, black, white, pink and custom palettes, plus typography, blur settings and export tips.',
   alternates: { canonical: '/brat-styles/' },
   openGraph: {
     url: '/brat-styles/',
-    title: 'Brat Styles: Green, Black, White, Pink & Custom Colours',
-    description: 'Explore Brat colour styles, the #8ACE00 green preset, condensed typography, blur, and custom colour combinations.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator colour styles' }],
+    title: 'Brat Styles & Colours: Green Hex, Black, White & Pink',
+    description: 'Explore Brat green #8ACE00, black, white, pink and custom colour styles with condensed typography and blur tips.',
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator colour styles' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Brat Styles: Green, Black, White, Pink & Custom Colours',
-    description: 'Explore Brat colour styles, typography, blur and custom colour combinations.',
-    images: ['/og-image.png'],
+    title: 'Brat Styles & Colours: Green Hex, Black, White & Pink',
+    description: 'Explore Brat green, black, white, pink and custom colour styles, typography and blur.',
+    images: ['/brat-generator-free-online-tool.png'],
   },
 };
 
@@ -35,6 +35,12 @@ const styleCards = [
   ['your text', 'Custom Colours', 'Use the colour picker or a custom hex value to create a familiar Brat-style layout in your own palette.', 'brat-custom', '#fff'],
 ];
 
+const styleFaqs = [
+  ['What is the Brat green hex code?', '#8ACE00 is a widely used digital approximation for the lime-green Brat look and is the default green preset in this generator. Display calibration can make the same hex value look slightly different across screens.'],
+  ['Can I make a black or white Brat-style image?', 'Yes. Keep the condensed lowercase typography and light blur, then switch the background and text colours for a black, white or high-contrast variation.'],
+  ['Can I make a pink Brat-style design?', 'Yes. Pink changes the mood while the recognisable structure comes from the short lowercase text, tight spacing, flat colour field and controlled blur.'],
+  ['What font works best for the Brat style?', 'The original artwork is based on manipulated Arial-style typography. This generator uses an Arial Narrow-style condensed starting point because the treatment, stretching, spacing and blur matter as much as the exact font name.'],
+];
 
 export default function BratStylesPage() {
   const breadcrumb = {
@@ -55,10 +61,18 @@ export default function BratStylesPage() {
         <PageHero
           breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Brat Styles' }]}
           eyebrow="Brat Styles"
-          title="Create Every Brat Style in"
-          accent="Green, Black, White, Pink & More"
+          title="Brat Styles & Colours:"
+          accent="Green Hex, Black, White, Pink & More"
           description="Explore the most popular Brat colour variations, then keep the same condensed lowercase typography, tight spacing and soft blur while changing the palette to fit your own design."
         />
+
+        <section className="section section-tight">
+          <div className="container container-medium article-prose centered-prose reveal">
+            <p className="eyebrow">Quick Answer</p>
+            <h2>What Is Brat Green and Which Colours Fit the Brat Style?</h2>
+            <p>Brat green is the acidic lime colour most associated with the album artwork. For web recreations, <strong>#8ACE00</strong> is a widely used approximation. Black, white, pink and custom colours can also work when you keep the same short lowercase text, condensed typography and soft blur.</p>
+          </div>
+        </section>
 
         <section className="section section-tight">
           <div className="container container-wide article-prose centered-prose reveal">
@@ -84,7 +98,7 @@ export default function BratStylesPage() {
                 </article>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="pill-btn primary glow-brat" href="/#generator">Create Your Own Style →</Link></div>
+            <div className="section-cta reveal"><Link className="pill-btn primary glow-brat" href="/#generator">Create a Brat Style in the Generator →</Link></div>
           </div>
         </section>
 
@@ -92,8 +106,8 @@ export default function BratStylesPage() {
           <div className="container container-medium prose-split">
             <div className="reveal">
               <p className="eyebrow left">Colour Guide</p>
-              <h2 className="prose-heading">Official Brat Green Colour Guide</h2>
-              <p>The generator uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. It is the shade most people are trying to recreate when they search for the Brat green colour code or Brat green hex.</p>
+              <h2 className="prose-heading">Brat Green Colour Guide: #8ACE00 Web Approximation</h2>
+              <p>The generator uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. It is a widely used digital approximation for the shade people are trying to recreate when they search for the Brat green colour code or Brat green hex.</p>
               <p>Enter #8ACE00 in the colour picker for a consistent digital starting point, then pair it with black or white text depending on the contrast you want.</p>
             </div>
             <div className="colour-fact-card glass reveal reveal-delay-1">
@@ -122,6 +136,15 @@ export default function BratStylesPage() {
             <h2>Where Different Brat Styles Work Best</h2>
             <p>Classic green is the obvious choice when you want the most recognisable Brat reference. Black works well for darker fan edits and understated graphics. White is useful when you want a cleaner minimal layout, while pink gives the same format a softer, playful feel. Custom colours are useful for playlists, memes, wallpapers, profile pictures and social posts where you want the Brat-inspired layout to match your own palette.</p>
             <div className="section-cta"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
+          </div>
+        </section>
+
+        <section className="section" id="brat-colour-faq">
+          <div className="container container-faq">
+            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Brat Style &amp; Colour <span className="text-brat">Questions</span></h2><p>Quick answers about Brat green, alternative colours and the typography treatment.</p></div>
+            <div className="accordion-list">
+              {styleFaqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
+            </div>
           </div>
         </section>
 

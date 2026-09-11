@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     url: '/contact/',
     title: 'Contact Brat Generator | Support & Rights Concerns',
     description: 'Contact Brat Generator for feedback, bug reports, privacy questions, rights concerns or website-related enquiries.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Contact Brat Generator' }],
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Contact Brat Generator' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact Brat Generator | Support & Rights Concerns',
     description: 'Contact Brat Generator for feedback, bug reports, privacy questions, rights concerns or website-related enquiries.',
-    images: ['/og-image.png'],
+    images: ['/brat-generator-free-online-tool.png'],
   },
 };
 

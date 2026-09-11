@@ -26,6 +26,7 @@ const expected = [
   'llms.txt',
   'manifest.webmanifest',
   'og-image.png',
+  'brat-generator-free-online-tool.png',
   'favicon.svg',
   '.htaccess',
 ];
@@ -43,6 +44,17 @@ const canonicalPages = [
   ['contact/index.html', 'https://bratgeneratorpro.net/contact/'],
   ['privacy-policy/index.html', 'https://bratgeneratorpro.net/privacy-policy/'],
   ['terms/index.html', 'https://bratgeneratorpro.net/terms/'],
+];
+
+const onPageKeywordExpectations = [
+  ['index.html', 'brat generator'],
+  ['features/index.html', 'brat generator features'],
+  ['how-to-use/index.html', 'how to use brat generator'],
+  ['brat-styles/index.html', 'brat styles'],
+  ['video-generator/index.html', 'brat video generator'],
+  ['blog/index.html', 'brat generator guides'],
+  ['blog/how-to-make-a-brat-album-cover-free/index.html', 'brat album cover'],
+  ['blog/brat-generator-not-working/index.html', 'brat generator not working'],
 ];
 
 const readText = (file) => fs.readFileSync(file, 'utf8');
@@ -81,6 +93,32 @@ for (const [rel, expectedCanonical] of canonicalPages) {
 
   const h1Count = (html.match(/<h1\b/gi) || []).length;
   if (h1Count !== 1) failures.push(`Expected exactly one H1 in out/${rel}, found ${h1Count}`);
+
+  if (titleMatch) {
+    const titleLength = titleMatch[1].replace(/&amp;/gi, '&').length;
+    if (titleLength < 20 || titleLength > 70) failures.push(`SEO title length looks unusual in out/${rel}: ${titleLength} characters`);
+  }
+  if (descriptionMatch) {
+    const descriptionLength = descriptionMatch[1].replace(/&amp;/gi, '&').length;
+    if (descriptionLength < 70 || descriptionLength > 180) failures.push(`Meta description length looks unusual in out/${rel}: ${descriptionLength} characters`);
+  }
+
+  const keywordExpectation = onPageKeywordExpectations.find(([page]) => page === rel)?.[1];
+  if (keywordExpectation) {
+    const normalize = (value) => value
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/&#39;|&apos;/gi, "'")
+      .replace(/&quot;/gi, '"')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    const h1Match = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+    const titleText = normalize(titleMatch?.[1] || '');
+    const h1Text = normalize(h1Match?.[1] || '');
+    if (!titleText.includes(keywordExpectation)) failures.push(`Primary keyword "${keywordExpectation}" missing from title: out/${rel}`);
+    if (!h1Text.includes(keywordExpectation)) failures.push(`Primary keyword "${keywordExpectation}" missing from H1: out/${rel}`);
+  }
 
   if (/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html)) {
     failures.push(`Indexable page contains noindex: out/${rel}`);
@@ -325,6 +363,30 @@ for (const [rel] of canonicalPages) {
   }
 }
 
+
+// On-page anchor-text safeguard: avoid weak generic anchors on indexable pages.
+for (const [rel] of canonicalPages) {
+  const file = path.join(out, rel);
+  if (!fs.existsSync(file)) continue;
+  const html = readText(file);
+  for (const match of html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const anchorText = match[2]
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    if (/^(click here|read more|learn more|more|here)$/.test(anchorText)) {
+      failures.push(`Generic anchor text "${anchorText}" found in out/${rel} -> ${match[1]}`);
+    }
+  }
+}
+
+// The descriptive social image is part of the current on-page SEO baseline.
+if (!fs.existsSync(path.join(out, 'brat-generator-free-online-tool.png'))) {
+  failures.push('Descriptive Open Graph image filename is missing from out/');
+}
+
 if (failures.length) {
   console.error('\n==============================================');
   console.error(' PRE-LIVE BUILD CHECK: FAILED');
@@ -337,5 +399,5 @@ console.log('\n==============================================');
 console.log(' PRE-LIVE BUILD CHECK: PASS');
 console.log('==============================================');
 console.log(`Checked ${expected.length} required output files and ${canonicalPages.length} canonical pages.`);
-console.log('Checked titles, descriptions, H1s, canonicals, duplicate metadata, JSON-LD presence, embed noindex rules, redirects, security/cache headers, robots.txt, sitemap.xml, llms.txt, manifest and PageSpeed safeguards.');
+console.log('Checked titles, description ranges, one-H1 rules, page-to-keyword mapping, canonicals, duplicate metadata, JSON-LD presence, descriptive anchors/images, embed noindex rules, redirects, security/cache headers, robots.txt, sitemap.xml, llms.txt, manifest and PageSpeed safeguards.');
 console.log('Account/live-data tasks still require production checks: Search Console verification, sitemap submission, URL Inspection, Rich Results Test, live HTTP/HTTPS redirects and Core Web Vitals field data.');

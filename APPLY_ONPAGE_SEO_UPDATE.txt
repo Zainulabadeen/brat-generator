@@ -1,0 +1,16 @@
+BRAT GENERATOR — ON-PAGE SEO COMPLETE UPDATE
+Updated: 11 September 2026
+
+1. Back up your current project folder.
+2. Extract the final On-Page SEO ZIP.
+3. Copy all extracted files/folders into your current project folder.
+4. Choose “Replace the files in the destination”.
+5. Do not delete your existing .git or node_modules folders.
+6. Run: npm run dev
+7. Check the main pages visually.
+8. Stop with Ctrl+C.
+9. Run: npm run prelive
+10. Deploy only if PRE-LIVE BUILD CHECK: PASS appears.
+
+Performance note:
+The performance-critical generator/iframe/CSS files were intentionally preserved from the previous technical-SEO + good PageSpeed base. This update focuses on titles, descriptions, intent separation, semantic content, snippets/PAA readiness, anchors, image metadata and page-by-page on-page checks.

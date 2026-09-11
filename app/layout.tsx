@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     title: 'Brat Generator Free Brat Text & Album Cover Maker',
     description: siteConfig.description,
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator preview on brat green background' }],
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator preview on brat green background' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Brat Generator Free Brat Text & Album Cover Maker',
     description: siteConfig.description,
-    images: ['/og-image.png'],
+    images: ['/brat-generator-free-online-tool.png'],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,

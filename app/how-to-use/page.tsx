@@ -9,16 +9,16 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'How to Use Brat Generator: Step-by-Step Guide (2026)' },
-  description: 'Learn how to use Brat Generator step by step. Type text, pick Brat green, adjust blur and size, choose a canvas, and download free with no watermark.',
+  title: { absolute: 'How to Use Brat Generator: 6 Easy Steps (2026)' },
+  description: 'Learn how to use Brat Generator in 6 easy steps: type text, choose Brat green, adjust blur and size, pick a canvas, then download with no watermark.',
   alternates: { canonical: '/how-to-use/' },
   openGraph: {
     url: '/how-to-use/',
-    title: 'How to Use Brat Generator: Step-by-Step Guide (2026)',
+    title: 'How to Use Brat Generator: 6 Easy Steps (2026)',
     description: 'A beginner-friendly walkthrough for creating and downloading a Brat-style graphic.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'How to use Brat Generator' }],
+    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'How to use Brat Generator' }],
   },
-  twitter: { card: 'summary_large_image', title: 'How to Use Brat Generator', description: 'Step-by-step Brat Generator tutorial.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'How to Use Brat Generator', description: 'Step-by-step Brat Generator tutorial.', images: ['/brat-generator-free-online-tool.png'] },
 };
 
 const steps = [
@@ -30,7 +30,12 @@ const steps = [
   ['Step 6', 'Download Your File', 'Choose PNG, JPG, or WebP and click Download. The file is rendered in your browser at the selected pixel dimensions with no watermark. On mobile, the result may appear in your Downloads folder rather than Photos depending on the browser.'],
 ];
 
-
+const howToFaqs = [
+  ['How do I use Brat Generator?', 'Type a short phrase, choose a background and text colour, adjust blur, size and spacing, select the canvas ratio, preview the result, then download the file in your preferred format.'],
+  ['What size should I choose for a Brat image?', 'Use a square preset for covers and profile graphics, 1080×1920 for Stories or TikTok-style vertical posts, and 1200×630 for wide social previews or banners.'],
+  ['Should I download PNG, JPG or WebP?', 'PNG is the safest choice for sharp text and general sharing. JPG can be smaller for simple opaque artwork, while WebP is efficient for modern websites and browsers.'],
+  ['Does Brat Generator work on mobile?', 'Yes. The interface is responsive in modern mobile browsers. Depending on your phone and browser, downloaded files may appear in Downloads or Files before you move them into Photos.'],
+];
 
 export default function HowToUsePage() {
   const breadcrumb = {
@@ -45,12 +50,12 @@ export default function HowToUsePage() {
   const article = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'How to Use Brat Generator: Step-by-Step Guide',
+    headline: 'How to Use Brat Generator: 6 Easy Steps (2026)',
     description: metadata.description,
     mainEntityOfPage: `${siteConfig.url}/how-to-use/`,
-    image: `${siteConfig.url}/og-image.png`,
+    image: `${siteConfig.url}/brat-generator-free-online-tool.png`,
     datePublished: '2026-09-07T00:00:00+05:00',
-    dateModified: '2026-09-07T00:00:00+05:00',
+    dateModified: '2026-09-11T00:00:00+05:00',
     author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
     publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
   };
@@ -65,9 +70,17 @@ export default function HowToUsePage() {
           breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'How to Use' }]}
           eyebrow="Guide"
           title="How to Use Brat Generator:"
-          accent="Step-by-Step Guide"
+          accent="6 Easy Steps"
           description="Type your text, choose a background colour, adjust the blur, size and spacing, pick the canvas ratio, then download your image. The whole Brat Generator workflow runs in your browser with no account and no watermark."
         />
+
+        <section className="section section-tight">
+          <div className="container container-medium article-prose centered-prose reveal">
+            <p className="eyebrow">Quick Answer</p>
+            <h2>How Do You Use Brat Generator?</h2>
+            <p>Type your text, choose Brat green or another colour, adjust the text size, letter spacing and blur, select a square, vertical or wide canvas, preview the result, then download it as PNG, JPG or WebP. No account or separate app is required.</p>
+          </div>
+        </section>
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">
@@ -111,6 +124,23 @@ export default function HowToUsePage() {
               </table>
             </div>
             <p className="source-note reveal">Platform requirements can change. If you are preparing artwork for a specific publishing platform, check that platform’s current upload specifications before final release.</p>
+          </div>
+        </section>
+
+        <section className="section" id="troubleshooting">
+          <div className="container container-medium article-prose centered-prose reveal">
+            <p className="eyebrow">Troubleshooting</p>
+            <h2>If the Brat Generator Does Not Look or Download Correctly</h2>
+            <p>Start with a short phrase, reset blur close to zero, confirm the text and background colours are different, and check your browser&apos;s Downloads list. If the issue continues, use the <Link className="inline-source-link" href="/blog/brat-generator-not-working/">Brat Generator troubleshooting guide</Link> for the matching fix.</p>
+          </div>
+        </section>
+
+        <section className="section section-card" id="how-to-faq">
+          <div className="container container-faq">
+            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Brat Generator Tutorial <span className="text-brat">Questions</span></h2><p>Short answers to common questions people ask while creating their first design.</p></div>
+            <div className="accordion-list">
+              {howToFaqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
+            </div>
           </div>
         </section>
 
