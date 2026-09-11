@@ -8,20 +8,20 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Generator – Free Brat Text & Album Cover Maker' },
-  description: 'Make Brat-style text, album covers and memes free online. Customise Brat green, font, blur and sizes, then download PNG, JPG or WebP with no sign-up or watermark.',
+  title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
+  description: 'Create Brat text, album covers, and memes in seconds with our free Brat Generator. Customize colours, font effects, blur, sizes, and download instantly.',
   alternates: { canonical: '/' },
   openGraph: {
     url: '/',
-    title: 'Brat Generator – Free Brat Text & Album Cover Maker',
-    description: 'Make Brat-style text, album covers and memes free in your browser with custom colours, blur and instant no-watermark downloads.',
-    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator on lime green background' }],
+    title: 'Brat Generator Free Brat Text & Album Cover Maker',
+    description: 'Create Brat-style text, album covers, and memes free in your browser. No sign-up, no watermark.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator on lime green background' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Brat Generator – Free Brat Text & Album Cover Maker',
-    description: 'Make Brat-style text, album covers and memes free with custom colours, blur and instant browser-based downloads.',
-    images: ['/brat-generator-free-online-tool.png'],
+    title: 'Brat Generator Free Brat Text & Album Cover Maker',
+    description: 'Create Brat-style text, album covers, and memes free in your browser.',
+    images: ['/og-image.png'],
   },
 };
 
@@ -64,7 +64,7 @@ const ideas = [
 const faqs = [
   ['What is a Brat Generator?', 'It is a browser-based design tool that recreates the visual language associated with Charli XCX’s 2024 Brat era: flat colour, condensed lowercase text, and a soft blur. You can replace the text, colours, size, and export format.'],
   ['Is Brat Generator free?', 'Yes. This tool is free to use, does not require an account, and does not add a watermark to the exported image.'],
-  ['What font is used for the Brat look?', 'The cover designer has described Arial as the base of the original artwork, with stretching and low-resolution softness helping create the final look. This generator uses an Arial Narrow-style condensed starting point with spacing and blur controls to create a similar effect.'],
+  ['What font is used for the Brat look?', 'The original artwork is widely described as using heavily manipulated Arial-style typography rather than a special downloadable “Brat font.” This generator uses an Arial Narrow-style condensed font as a practical starting point and adds spacing and blur controls.'],
   ['What is the Brat green hex code?', '#8ACE00 is a widely used digital approximation for the lime-green Brat look and is the default preset in this generator. Screen rendering can vary, so treat it as a practical web colour rather than a guaranteed physical colour match.'],
   ['How do I use Brat Generator?', 'Enter your text, choose the background and text colours, adjust blur, size, and spacing, pick a canvas size and export format, then download the finished image.'],
   ['Is there a Brat Generator app?', 'No separate app is required. The generator runs in modern mobile and desktop browsers.'],
@@ -107,9 +107,22 @@ export default function Home() {
     ],
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: answer,
+      },
+    })),
+  };
+
   return (
     <>
-      <JsonLd data={[websiteSchema, appSchema]} />
+      <JsonLd data={[websiteSchema, appSchema, faqSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -131,7 +144,7 @@ export default function Home() {
             <p className="hero-copy reveal is-visible hero-delay-2">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
             <div className="hero-buttons reveal is-visible hero-delay-3">
               <Link href="#generator" className="pill-btn primary glow-brat">Start Creating →</Link>
-              <Link href="#styles" className="pill-btn secondary">Explore Brat Styles</Link>
+              <Link href="#styles" className="pill-btn secondary">See Examples</Link>
             </div>
             <div className="hero-proof reveal is-visible hero-delay-4">
               <span>⚡ Browser-based</span>
@@ -158,7 +171,7 @@ export default function Home() {
             <div className="reveal reveal-delay-1 about-copy">
               <p className="eyebrow left">About</p>
               <h2>What Is a <span className="text-brat">Brat Generator</span> and How Does It Work?</h2>
-              <p>A Brat generator is a free online design tool that turns a word or phrase into a graphic inspired by the lime-green, lowercase, slightly blurred visual style associated with Charli XCX’s <em>Brat</em> album. Type your text, choose colours, adjust blur and spacing, and preview the result instantly.</p>
+              <p>A Brat generator turns a word or phrase into a graphic inspired by the lime-green, lowercase, slightly blurred visual style associated with Charli XCX’s <em>Brat</em> album. Type your text, choose colours, adjust the blur and spacing, and watch the result update immediately.</p>
               <p>This free Brat generator runs in your browser with no signup and no watermark. The current design canvas is processed locally, so your text and generated image do not need to be uploaded to a server.</p>
             </div>
           </div>
@@ -203,8 +216,8 @@ export default function Home() {
           <div className="container container-wide">
             <div className="section-heading reveal">
               <p className="eyebrow">Tutorial</p>
-              <h2>Create a Brat-Style Graphic in <span className="text-brat">4 Steps</span></h2>
-              <p>Use this quick workflow for a first design, then open the full tutorial if you want every control explained.</p>
+              <h2>How to Use the <span className="text-brat">Brat Generator</span></h2>
+              <p>Making a Brat-style graphic is simple. Here is the quick four-step workflow.</p>
             </div>
             <div className="card-grid four">
               {steps.map(([number, title, body], i) => (
@@ -213,7 +226,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/how-to-use/">See the full Brat Generator tutorial →</Link></div>
+            <div className="section-cta reveal"><Link className="text-link" href="/how-to-use/">Read the complete step-by-step guide →</Link></div>
           </div>
         </section>
 

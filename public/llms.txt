@@ -1,6 +1,6 @@
 # Brat Generator
 
-> Brat Generator is a free browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, social graphics, and Brat-inspired animated-text previews without requiring an account.
+> Brat Generator is a free browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, social graphics, and animated videos without requiring an account.
 
 Canonical site: https://bratgeneratorpro.net/
 
@@ -8,14 +8,14 @@ Important notes:
 - Brat Generator is an independent fan-made project and is not affiliated with Charli XCX, Atlantic Records, or Warner Music.
 - The website's main public content is the canonical pages linked below. Standalone embed HTML files are implementation details, not separate editorial pages.
 - The image generator renders previews and downloadable output in the user's browser. The site includes adjustable colours, text size, letter spacing, blur, export dimensions, and PNG/JPG/WebP output.
-- The video generator provides a browser-based Brat-inspired animated-text workflow with text, audio, live preview, FPS, and output-setting controls.
+- The video generator provides a browser-based Brat-inspired video workflow with text, audio, preview, FPS, and export controls.
 - The default Brat Green preset uses #8ACE00 as a practical digital approximation; appearance can vary by display.
 - For legal or commercial-use questions, use the Terms & Disclaimer page rather than inferring permission from the existence of the tool.
 
 ## Tools
 
 - [Brat Generator](https://bratgeneratorpro.net/): Main free Brat-inspired text, album-cover, meme, and social-graphic generator with live preview and browser-based downloads.
-- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Browser-based Brat-inspired animated-text tool with custom text, audio, live preview, FPS, and output-setting controls.
+- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Browser-based tool for creating animated Brat-inspired videos with custom text, audio, preview, FPS, and output controls.
 
 ## Guides
 

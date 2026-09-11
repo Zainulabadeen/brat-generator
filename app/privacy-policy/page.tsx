@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     url: '/privacy-policy/',
     title: 'Privacy Policy | Brat Generator',
     description: 'Read the Brat Generator privacy policy, including local browser processing, technical hosting logs, cookies, analytics and third-party links.',
-    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator privacy policy' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator privacy policy' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Privacy Policy | Brat Generator',
     description: 'Read the Brat Generator privacy policy, including local browser processing, technical hosting logs, cookies, analytics and third-party links.',
-    images: ['/brat-generator-free-online-tool.png'],
+    images: ['/og-image.png'],
   },
 };
 

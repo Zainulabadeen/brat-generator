@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     url: '/terms/',
     title: 'Terms of Use & Disclaimer | Brat Generator',
     description: 'Read the Brat Generator terms of use and disclaimer covering acceptable use, user responsibility, independent fan-made status and commercial use.',
-    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'Brat Generator terms and disclaimer' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator terms and disclaimer' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Terms of Use & Disclaimer | Brat Generator',
     description: 'Read the Brat Generator terms of use and disclaimer covering acceptable use, user responsibility, independent fan-made status and commercial use.',
-    images: ['/brat-generator-free-online-tool.png'],
+    images: ['/og-image.png'],
   },
 };
 

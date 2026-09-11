@@ -10,19 +10,19 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'How to Make a Brat Album Cover Free (2026 Guide)' },
-  description: 'Make a Brat album cover free in 4 steps. Use Brat green, an Arial-style treatment, light blur and a square canvas, then download with no watermark.',
+  title: { absolute: 'How to Make a Brat Album Cover Free | Brat Generator' },
+  description: 'Learn how to make a Brat album cover in four simple steps using the right colour, font, blur, and image size. Create yours free with no sign-up or watermark.',
   alternates: { canonical: '/blog/how-to-make-a-brat-album-cover-free/' },
   openGraph: {
     type: 'article',
     url: '/blog/how-to-make-a-brat-album-cover-free/',
-    title: 'How to Make a Brat Album Cover Free (2026 Guide)',
+    title: 'How to Make a Brat Album Cover Free | Brat Generator',
     description: 'A practical four-step guide to making a Brat-inspired album cover free in your browser.',
     publishedTime: '2026-07-18T00:00:00Z',
-    modifiedTime: '2026-09-11T00:00:00Z',
-    images: [{ url: '/brat-generator-free-online-tool.png', width: 1200, height: 630, alt: 'How to make a Brat album cover' }],
+    modifiedTime: '2026-09-07T00:00:00Z',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'How to make a Brat album cover' }],
   },
-  twitter: { card: 'summary_large_image', title: 'How to Make a Brat Album Cover Free', description: 'Colour, font treatment, blur, sizes, and a four-step browser workflow.', images: ['/brat-generator-free-online-tool.png'] },
+  twitter: { card: 'summary_large_image', title: 'How to Make a Brat Album Cover Free', description: 'Colour, font treatment, blur, sizes, and a four-step browser workflow.', images: ['/og-image.png'] },
 };
 
 const coverSteps = [
@@ -30,14 +30,6 @@ const coverSteps = [
   ['02', 'Choose the Background Colour', 'Start with the lime-green preset if you want the classic Brat-inspired look. The generator uses #8ACE00 as a common digital approximation, but you can also choose pink, white, black, blue, or any custom colour.'],
   ['03', 'Adjust Font, Size & Blur', 'Centre the text, tighten the spacing, scale it until the word fills the canvas comfortably, then add blur gradually. The goal is slightly imperfect rather than unreadable. Check the design at a smaller size before exporting.'],
   ['04', 'Preview & Download the Cover', 'Choose the target canvas ratio and preview the result. PNG is the safest default for crisp digital artwork; JPG creates smaller files and WebP is efficient for websites. Download only after the text remains readable at thumbnail size.'],
-];
-
-const albumFaqs = [
-  ['How do I make a Brat album cover for free?', 'Type a short lowercase title, start with Brat green or another flat colour, use a condensed Arial-style treatment, add a light blur, choose a square canvas, then download the finished image.'],
-  ['What colour is Brat green?', '#8ACE00 is a widely used web approximation for the lime-green Brat look. The original artwork has also been described with print colour references, so a web hex should be treated as a practical digital match rather than an official universal specification.'],
-  ['What font is used for the Brat album cover?', 'The cover designer has described Arial as the base. The final look also depends on stretching, spacing, scale and low-resolution softness, so the treatment matters more than selecting one untouched font file.'],
-  ['What size should a Brat album cover be?', 'Use a square canvas for album or playlist artwork. This generator offers square presets up to 1200×1200; check the current requirements of the music platform before using artwork for an official release.'],
-  ['Do I need Photoshop or Canva?', 'No for a simple Brat-style cover. A focused browser generator already provides the flat colour, text, blur and export controls. Broader editors are useful only when you need advanced layers or photo compositing.'],
 ];
 
 export default function AlbumCoverGuidePage() {
@@ -54,19 +46,19 @@ export default function AlbumCoverGuidePage() {
   const article = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: 'How to Make a Brat Album Cover Free (2026 Guide)',
+    headline: 'How to Make a Brat Album Cover: Free, No-Sign-Up Method',
     description: metadata.description,
     url: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`,
     mainEntityOfPage: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`,
     image: {
       '@type': 'ImageObject',
-      url: `${siteConfig.url}/brat-generator-free-online-tool.png`,
+      url: `${siteConfig.url}/og-image.png`,
       width: 1200,
       height: 630,
       caption: 'Brat Generator album cover guide preview',
     },
     datePublished: '2026-07-18T00:00:00+05:00',
-    dateModified: '2026-09-11T00:00:00+05:00',
+    dateModified: '2026-09-07T00:00:00+05:00',
     author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
     publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
   };
@@ -88,9 +80,8 @@ export default function AlbumCoverGuidePage() {
         <article>
           <section className="section section-tight">
             <div className="container container-medium article-prose reveal">
-              <p className="article-meta">Published 18 July 2026 · Updated 11 September 2026</p>
-              <p className="article-lead"><strong>Quick answer:</strong> To make a Brat album cover, type a short lowercase title, start with Brat green or another flat colour, use a condensed Arial-style treatment, add a light blur, choose a square canvas, then download the finished image. No sign-up or design software is required.</p>
-              <p>The Brat-inspired album-cover look is easier to recreate than it first appears. The strongest results keep the text short, preserve clear contrast, and use enough blur to feel intentionally rough without losing legibility.</p>
+              <p className="article-meta">Published 18 July 2026 · Updated 7 September 2026</p>
+              <p className="article-lead">The Brat-inspired album-cover look is easier to recreate than it first appears. Use a flat lime background, short lowercase text, a narrow typeface, tight spacing, and enough blur to feel intentionally rough without losing legibility.</p>
               <p>This guide explains how to make a Brat album cover with a free browser-based generator, including colour values, typography, blur, recommended dimensions, and platform considerations. No account or design software is required, and the export has no watermark.</p>
             </div>
           </section>
@@ -136,7 +127,7 @@ export default function AlbumCoverGuidePage() {
             <div className="container container-medium article-prose reveal">
               <p className="eyebrow">Typography</p>
               <h2>The Font and Typography</h2>
-              <p>The cover designer has described Arial as the base of the artwork. The important part is not only the font family: the lettering was treated, stretched, scaled and softened so it feels less polished than normal digital typography. Arial Narrow is therefore a practical recreation shortcut rather than a claim that the untouched font alone reproduces the original cover.</p>
+              <p>Ask what font is used on the Brat album cover and you will often see Arial or Arial Narrow mentioned as practical references. The important part is not only the font family: the text is condensed, stretched, lowercased, enlarged, and softened so it feels less polished than normal digital typography.</p>
               <p>This generator uses an Arial Narrow-style starting point with adjustable text size and letter spacing. Keep the phrase short and the spacing tight, then use blur to move from ordinary type toward the rougher Brat-inspired treatment.</p>
             </div>
           </section>
@@ -187,15 +178,6 @@ export default function AlbumCoverGuidePage() {
               <p>If you are making one master version first, create a high-resolution square. It is easier to make a separate vertical social version from a square design than to rebuild a tall Story graphic into a clean album cover.</p>
               <h2>Instagram, TikTok and Social Media</h2>
               <p>Use the 1080×1920 vertical preset for Stories and TikTok rather than stretching a square image. For wide social previews and banners, use the 1200×630 preset.</p>
-            </div>
-          </section>
-
-          <section className="section section-card" id="album-cover-faq">
-            <div className="container container-faq">
-              <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Brat Album Cover <span className="text-brat">Questions</span></h2><p>Direct answers about the colour, font treatment, size and free browser workflow.</p></div>
-              <div className="accordion-list">
-                {albumFaqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
-              </div>
             </div>
           </section>
 

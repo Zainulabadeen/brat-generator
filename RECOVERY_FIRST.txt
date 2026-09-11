@@ -1,0 +1,29 @@
+BRAT GENERATOR - FULL PROJECT RECOVERY
+
+This ZIP is a COMPLETE project snapshot. It is not a small patch.
+It restores the full Next.js project structure and includes the completed technical SEO, PageSpeed safeguards, layout work, and on-page SEO baseline.
+
+SAFE RECOVERY (Windows)
+1. Stop the dev server in VS Code with Ctrl+C.
+2. Rename your current folder:
+   E:\bratgenerator-build-fixed
+   to:
+   E:\bratgenerator-build-fixed-BROKEN-BACKUP
+3. Extract this ZIP to E:\bratgenerator-build-fixed
+4. Copy ONLY these two folders from the broken backup into the recovered folder if they exist:
+   - node_modules
+   - .git
+   Do not copy app, components, lib, public, scripts, .next or out from the broken folder.
+5. Open E:\bratgenerator-build-fixed in VS Code.
+6. Run: npm run dev
+7. Check the full site.
+8. Stop with Ctrl+C and run: npm run prelive
+9. Only after PASS, use these commands ONE AT A TIME:
+   git add .
+   git commit -m "Recover full project and complete on-page SEO"
+   git push
+
+IMPORTANT
+- Never type the PowerShell prompt characters >> yourself.
+- Do not copy a terminal output line that begins with >>.
+- Do not delete the broken backup until the recovered site is live and verified.

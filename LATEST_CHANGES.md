@@ -1,21 +1,3 @@
-# Latest Changes — On-Page SEO Pass
-
-Updated: 11 September 2026
-
-- Completed page-to-keyword mapping and cannibalization separation for the main landing pages.
-- Refined unique SEO titles and meta descriptions for clearer search intent and stronger SERP readability.
-- Added/expanded direct-answer sections and FAQs for featured-snippet/PAA readiness.
-- Strengthened semantic coverage for generator features, how-to steps, colours/styles, video-preview intent, album-cover workflow and troubleshooting.
-- Audited contextual internal-link anchor text and kept links pointed at final canonical destinations.
-- Added descriptive Open Graph image filename `brat-generator-free-online-tool.png` while retaining the old asset for compatibility.
-- Updated article modified dates and sitemap lastmod values for substantively changed pages.
-- Added on-page regression checks to `npm run prelive`.
-- Preserved the previous performance-critical PageSpeed implementation unchanged.
-
-See `ONPAGE_KEYWORD_MAP.csv`, `ONPAGE_SEO_AUDIT.md` and `ONPAGE_TESTING_GUIDE.md` for details.
-
----
-
 # Latest Changes — 2026-09-11
 
 This build starts from the previously successful `bratgenerator-pagespeed-layout-final-update-v2` codebase so the PageSpeed/layout implementation is preserved.
