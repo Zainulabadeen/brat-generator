@@ -57,16 +57,20 @@ export default function ContactPage() {
             <article className="contact-card glass reveal">
               <span className="contact-icon">✉️</span>
               <p className="eyebrow left">Email</p>
-              <h2>{siteConfig.contactEmail}</h2>
+              <h2 dangerouslySetInnerHTML={{ __html: `<!--email_off-->${siteConfig.contactEmail}<!--/email_off-->` }} />
               <p>Use this address for bug reports, feedback, privacy questions, rights concerns and general enquiries.</p>
-              <Link className="pill-btn primary glow-brat" href={`mailto:${siteConfig.contactEmail}`}>Email Brat Generator →</Link>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `<!--email_off--><a class="pill-btn primary glow-brat" href="mailto:${siteConfig.contactEmail}">Email Brat Generator →</a><!--/email_off-->`,
+                }}
+              />
             </article>
             <article className="contact-card glass reveal reveal-delay-1">
               <span className="contact-icon">🛠️</span>
               <p className="eyebrow left">Bug Report</p>
               <h2>Include the Details</h2>
               <p>If something is not working, include your browser, device, the page URL and a short description of what happened. A screenshot is helpful when the issue is visual.</p>
-              <Link className="text-link" href="/how-to-use/#troubleshooting">Check Troubleshooting <span aria-hidden="true">→</span></Link>
+              <Link className="text-link" href="/blog/brat-generator-not-working/">Check Troubleshooting <span aria-hidden="true">→</span></Link>
             </article>
           </div>
         </section>

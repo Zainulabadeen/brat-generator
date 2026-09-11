@@ -125,7 +125,7 @@ export default function Home() {
             </div>
             <h1 className="hero-title reveal is-visible hero-delay-1">
               Brat Generator: Create Text, Album Covers &amp; Memes<br />
-              <span className="brat-text hero-brat">charli xcx style</span><br />
+              <span className="brat-text hero-brat">Brat Style</span><br />
               <span>For Free</span>
             </h1>
             <p className="hero-copy reveal is-visible hero-delay-2">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>

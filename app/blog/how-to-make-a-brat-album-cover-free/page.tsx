@@ -11,7 +11,7 @@ import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: { absolute: 'How to Make a Brat Album Cover Free | Brat Generator' },
-  description: 'Learn how to make a Brat album cover in four simple steps using the right colour, font, blur, and image size. Create yours free with no sign-up or watermark.',
+  description: 'Learn how to make a Brat album cover in four simple steps using the right colour, font, blur, and image size. Create yours with no sign-up or watermark.',
   alternates: { canonical: '/blog/how-to-make-a-brat-album-cover-free/' },
   openGraph: {
     type: 'article',
