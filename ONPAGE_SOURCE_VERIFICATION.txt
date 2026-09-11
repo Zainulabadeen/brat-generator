@@ -1,0 +1,14 @@
+BRAT GENERATOR — ON-PAGE SOURCE VERIFICATION
+Updated: 11 September 2026
+
+User-content preservation checks:
+- Visible “Quick answer” blocks: 0
+- Homepage FAQ text differences vs pre-change source: 0
+- Blog index redundant RelatedPages block: removed
+- Video Generator approved explanatory content: retained and restyled
+
+Source checks:
+- git diff --check: PASS
+- TypeScript: PASS with `npx tsc --noEmit`
+
+Full Next.js production build was not executed in the Linux sandbox because this project copy contains Windows SWC binaries and the sandbox has no package-registry network access. Run `npm install` and `npm run onpage` on Windows for the final local production-build audit.

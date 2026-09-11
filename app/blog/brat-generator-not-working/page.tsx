@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
+import RelatedPosts from '@/components/RelatedPosts';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -153,11 +153,7 @@ export default function TroubleshootingGuidePage() {
             </div>
           </section>
 
-          <RelatedPages title="Continue Creating" items={[
-            { href: '/how-to-use/', eyebrow: 'Tutorial', title: 'How to Use Brat Generator', description: 'See every control in order, from text and colour to canvas size and export.', accent: 'green' },
-            { href: '/features/', eyebrow: 'Features', title: 'See Every Generator Feature', description: 'Review preview, colour, blur, spacing, size and download controls.', accent: 'blue' },
-            { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Try green, black, white, pink, blue and custom colour directions.', accent: 'pink' },
-          ]} />
+          <RelatedPosts currentSlug="brat-generator-not-working" />
 
         </article>
       </main>

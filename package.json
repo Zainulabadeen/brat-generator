@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prelive": "npm run build && node scripts/prelive-check.mjs"
+    "prelive": "npm run build && node scripts/prelive-check.mjs",
+    "onpage": "npm run build && node scripts/onpage-check.mjs",
+    "onpage:check": "node scripts/onpage-check.mjs"
   },
   "dependencies": {
     "next": "latest",

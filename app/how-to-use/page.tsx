@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -114,11 +113,6 @@ export default function HowToUsePage() {
           </div>
         </section>
 
-        <RelatedPages items={[
-          { href: '/features/', eyebrow: 'Features', title: 'See Every Generator Feature', description: 'Understand the controls, presets, formats and browser workflow.', accent: 'green' },
-          { href: '/brat-styles/', eyebrow: 'Styles', title: 'Choose a Brat Style', description: 'Pick green, black, white, pink or a custom colour direction.', accent: 'pink' },
-          { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Guide', title: 'Make a Brat Album Cover', description: 'Use the same controls to build a complete cover for social or music artwork.', accent: 'blue' },
-        ]} />
 
       </main>
       <SiteFooter />

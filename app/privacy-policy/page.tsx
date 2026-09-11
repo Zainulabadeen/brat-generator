@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -83,11 +82,6 @@ export default function PrivacyPolicyPage() {
           </div>
         </section>
 
-        <RelatedPages title="Trust & Site Information" items={[
-          { href: '/about/', eyebrow: 'About', title: 'About Brat Generator', description: 'Learn why the tool exists and how the browser-based workflow is designed.', accent: 'green' },
-          { href: '/terms/', eyebrow: 'Legal', title: 'Terms & Disclaimer', description: 'Review acceptable use, non-affiliation and commercial-use considerations.', accent: 'pink' },
-          { href: '/contact/', eyebrow: 'Support', title: 'Contact', description: 'Find the contact channel for feedback, privacy questions and rights concerns.', accent: 'blue' },
-        ]} />
       </main>
       <SiteFooter />
     </>

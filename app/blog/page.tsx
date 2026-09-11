@@ -2,18 +2,17 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Generator Guides' },
+  title: { absolute: 'Brat Generator Guides: Tutorials, Styles & Fixes' },
   description: 'Practical Brat Generator guides covering album covers, colours, blur, typography, sizes, and browser-based creation.',
   alternates: { canonical: '/blog/' },
-  openGraph: { url: '/blog/', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
-  twitter: { card: 'summary_large_image', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: ['/og-image.png'] },
+  openGraph: { url: '/blog/', title: 'Brat Generator Guides: Tutorials, Styles & Fixes', description: 'Practical Brat Generator tutorials and creative guides.', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
+  twitter: { card: 'summary_large_image', title: 'Brat Generator Guides: Tutorials, Styles & Fixes', description: 'Practical Brat Generator tutorials and creative guides.', images: ['/og-image.png'] },
 };
 
 export default function BlogPage() {
@@ -61,12 +60,6 @@ export default function BlogPage() {
             </div>
           </div>
         </section>
-
-        <RelatedPages title="Explore the Brat Generator" items={[
-          { href: '/how-to-use/', eyebrow: 'Tutorial', title: 'How to Use Brat Generator', description: 'Follow the full beginner-friendly workflow from text entry to download.', accent: 'green' },
-          { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Compare green, black, white, pink and custom colour variations.', accent: 'pink' },
-          { href: '/features/', eyebrow: 'Features', title: 'See Every Feature', description: 'Review preview, colour, blur, canvas and export controls in one place.', accent: 'blue' },
-        ]} />
       </main>
       <SiteFooter />
     </>

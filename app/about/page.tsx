@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -73,11 +72,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <RelatedPages items={[
-          { href: '/features/', eyebrow: 'Tool', title: 'Key Features', description: 'See exactly what the generator can do and how each control works.', accent: 'green' },
-          { href: '/how-to-use/', eyebrow: 'Guide', title: 'How to Use It', description: 'Follow the full step-by-step workflow from text entry to download.', accent: 'blue' },
-          { href: '/privacy-policy/', eyebrow: 'Trust', title: 'Privacy Policy', description: 'See what is processed locally and what technical data may be handled by hosting.', accent: 'pink' },
-        ]} />
       </main>
       <SiteFooter />
     </>

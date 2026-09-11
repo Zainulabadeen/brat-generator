@@ -8,9 +8,16 @@ Run:
 npm run dev
 ```
 
-Check Home, Features, How to Use, Brat Styles, Video Generator, Blog, Album Cover Guide and Troubleshooting. Confirm the layout is unchanged where expected and new FAQ/answer sections look normal on desktop and mobile.
+Check Home, Features, How to Use, Brat Styles, Video Generator, Blog, Album Cover Guide and Troubleshooting.
 
-## 2. Full build + existing technical SEO check
+Confirm:
+
+- Existing visible copy and FAQs look the same as before.
+- No “Quick answer” block appears on any page.
+- The Video Generator keeps its approved explanatory sections and those sections match the site’s existing visual style.
+- The Blog index ends after the real blog-post cards and does not show the redundant page-navigation card block.
+
+## 2. Full build + technical pre-live check
 
 Stop the dev server with Ctrl+C, then run:
 
@@ -32,7 +39,11 @@ Run:
 npm run onpage:check
 ```
 
-Because `npm run prelive` already creates `out/`, this is the quickest second check. Or run `npm run onpage` by itself to build and then audit.
+If `out/` does not exist yet, run:
+
+```bash
+npm run onpage
+```
 
 Expected result:
 
@@ -40,8 +51,8 @@ Expected result:
 ON-PAGE SEO CHECK: PASS
 ```
 
-The checker tests unique/title lengths, meta-description lengths, one H1, H2 structure, primary-keyword mapping, concise answer passages, image-alt coverage and internal-anchor hygiene.
+The checker validates title/description length and uniqueness, canonical URLs, indexability, Open Graph/Twitter metadata, structured data, H1/H2 structure, keyword mapping, image-alt coverage, keyword overuse and internal-anchor hygiene. It does **not** require adding “Quick answer” copy.
 
 ## 4. Live checks after deployment
 
-After Vercel deploys, inspect these pages in Google Search results / Search Console when access is available. Do not expect rankings to change instantly. Track impressions, clicks, CTR and average position by page/query, then refine titles or descriptions only when the data supports a change.
+After deployment, use Search Console data for impressions, clicks, CTR and average position. Do not rewrite visible content simply to satisfy a guessed SEO rule; use real data and get approval before content changes.

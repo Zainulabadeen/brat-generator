@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -125,11 +124,6 @@ export default function BratStylesPage() {
           </div>
         </section>
 
-        <RelatedPages items={[
-          { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Apply any of these colour styles to your own text and download the result.', accent: 'green' },
-          { href: '/how-to-use/', eyebrow: 'Guide', title: 'How to Use the Tool', description: 'Follow the full step-by-step workflow for text, blur, sizing and export.', accent: 'blue' },
-          { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
-        ]} />
 
       </main>
       <SiteFooter />

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -81,11 +80,6 @@ export default function TermsPage() {
           </div>
         </section>
 
-        <RelatedPages title="Useful Site Pages" items={[
-          { href: '/privacy-policy/', eyebrow: 'Privacy', title: 'Privacy Policy', description: 'Understand local browser processing and ordinary technical hosting data.', accent: 'green' },
-          { href: '/about/', eyebrow: 'About', title: 'About the Tool', description: 'See why Brat Generator was built and what it is designed to do.', accent: 'pink' },
-          { href: '/contact/', eyebrow: 'Support', title: 'Contact', description: 'Use the contact page for feedback, rights concerns or policy questions.', accent: 'blue' },
-        ]} />
       </main>
       <SiteFooter />
     </>

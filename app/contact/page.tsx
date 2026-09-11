@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -73,11 +72,6 @@ export default function ContactPage() {
         </section>
 
 
-        <RelatedPages title="Helpful Links" items={[
-          { href: '/how-to-use/', eyebrow: 'Help', title: 'How to Use', description: 'Find the full generator workflow and common troubleshooting steps.', accent: 'green' },
-          { href: '/privacy-policy/', eyebrow: 'Privacy', title: 'Privacy Policy', description: 'Read how generator content and technical website data are handled.', accent: 'blue' },
-          { href: '/terms/', eyebrow: 'Legal', title: 'Terms & Disclaimer', description: 'Review acceptable use, commercial-use cautions and non-affiliation.', accent: 'pink' },
-        ]} />
       </main>
       <SiteFooter />
     </>

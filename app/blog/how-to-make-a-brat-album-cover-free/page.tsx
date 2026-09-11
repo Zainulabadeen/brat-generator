@@ -3,7 +3,7 @@ import Link from 'next/link';
 import BratGenerator from '@/components/BratGenerator';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
+import RelatedPosts from '@/components/RelatedPosts';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -181,11 +181,7 @@ export default function AlbumCoverGuidePage() {
             </div>
           </section>
 
-          <RelatedPages items={[
-            { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Jump straight into the live tool and create your own cover.', accent: 'green' },
-            { href: '/how-to-use/', eyebrow: 'Tutorial', title: 'Full Generator Tutorial', description: 'See every control and troubleshooting step in one guide.', accent: 'blue' },
-            { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Compare green, black, white, pink and custom colour directions.', accent: 'pink' },
-          ]} />
+          <RelatedPosts currentSlug="how-to-make-a-brat-album-cover-free" />
 
         </article>
       </main>

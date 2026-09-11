@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const root = process.cwd();
 const out = path.join(root, 'out');
+const siteBase = 'https://bratgeneratorpro.net';
 const failures = [];
 const notes = [];
 
@@ -12,14 +13,14 @@ if (!fs.existsSync(out)) {
 }
 
 const pages = [
-  { rel: 'index.html', url: '/', keyword: 'brat generator', quick: true },
-  { rel: 'features/index.html', url: '/features/', keyword: 'brat generator features' },
-  { rel: 'how-to-use/index.html', url: '/how-to-use/', keyword: 'how to use brat generator', quick: true },
-  { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles', quick: true },
-  { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator', quick: true },
+  { rel: 'index.html', url: '/', keyword: 'brat generator' },
+  { rel: 'features/index.html', url: '/features/', keyword: 'brat generator key features' },
+  { rel: 'how-to-use/index.html', url: '/how-to-use/', keyword: 'how to use brat generator' },
+  { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles' },
+  { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator' },
   { rel: 'blog/index.html', url: '/blog/', keyword: 'brat generator guides' },
-  { rel: 'blog/how-to-make-a-brat-album-cover-free/index.html', url: '/blog/how-to-make-a-brat-album-cover-free/', keyword: 'brat album cover generator', quick: true },
-  { rel: 'blog/brat-generator-not-working/index.html', url: '/blog/brat-generator-not-working/', keyword: 'brat generator not working', quick: true },
+  { rel: 'blog/how-to-make-a-brat-album-cover-free/index.html', url: '/blog/how-to-make-a-brat-album-cover-free/', keyword: 'how to make a brat album cover' },
+  { rel: 'blog/brat-generator-not-working/index.html', url: '/blog/brat-generator-not-working/', keyword: 'brat generator not working' },
   { rel: 'about/index.html', url: '/about/' },
   { rel: 'contact/index.html', url: '/contact/' },
   { rel: 'privacy-policy/index.html', url: '/privacy-policy/' },
@@ -72,6 +73,35 @@ for (const page of pages) {
   const h2s = [...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => cleanInner(m[1]));
   const visible = textOnly(html);
 
+  const canonical = decode(
+    html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
+    || html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical["']/i)?.[1]
+    || ''
+  ).trim();
+  const expectedCanonical = `${siteBase}${page.url}`;
+  if (!canonical) failures.push(`${page.url}: missing canonical URL`);
+  else if (canonical !== expectedCanonical) failures.push(`${page.url}: canonical mismatch (${canonical} !== ${expectedCanonical})`);
+
+  const robotsMeta = decode(
+    html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']*)["']/i)?.[1]
+    || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+name=["']robots["']/i)?.[1]
+    || ''
+  ).toLowerCase();
+  if (robotsMeta.includes('noindex') || robotsMeta.includes('nofollow')) failures.push(`${page.url}: robots meta blocks indexing or following`);
+
+  const ogTitle = decode(html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']*)["']/i)?.[1] || '').trim();
+  const ogDesc = decode(html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']*)["']/i)?.[1] || '').trim();
+  const twitterCard = decode(html.match(/<meta[^>]+name=["']twitter:card["'][^>]+content=["']([^"']*)["']/i)?.[1] || '').trim();
+  if (!ogTitle) failures.push(`${page.url}: missing Open Graph title`);
+  if (!ogDesc) failures.push(`${page.url}: missing Open Graph description`);
+  if (!twitterCard) failures.push(`${page.url}: missing Twitter card metadata`);
+
+  if (page.url !== '/' && !html.includes('BreadcrumbList')) failures.push(`${page.url}: missing BreadcrumbList structured data`);
+  if (page.url === '/' && !html.includes('FAQPage')) failures.push(`${page.url}: missing FAQPage structured data for visible FAQ content`);
+  if ((page.url === '/' || page.url === '/video-generator/') && !html.includes('WebApplication')) failures.push(`${page.url}: missing WebApplication structured data`);
+  if ((page.url.includes('/blog/') && page.url !== '/blog/') && !html.includes('BlogPosting')) failures.push(`${page.url}: missing BlogPosting structured data`);
+  if (page.url === '/how-to-use/' && !html.includes('Article')) failures.push(`${page.url}: missing Article structured data`);
+
   if (!title) failures.push(`${page.url}: missing title`);
   else {
     if (title.length < 30 || title.length > 65) failures.push(`${page.url}: title length ${title.length} (target 30–65)`);
@@ -91,21 +121,17 @@ for (const page of pages) {
 
   if (page.keyword) {
     const key = norm(page.keyword);
-    if (!norm(title).includes(key)) failures.push(`${page.url}: primary keyword missing from title: ${page.keyword}`);
-    if (!h1s[0] || !norm(h1s[0]).includes(key)) failures.push(`${page.url}: primary keyword missing from H1: ${page.keyword}`);
-    if (!norm(desc).includes(key)) failures.push(`${page.url}: primary keyword missing from meta description: ${page.keyword}`);
-
     const visibleNorm = norm(visible);
     const exactCount = visibleNorm.split(key).length - 1;
     const wordCount = Math.max(1, visibleNorm.split(/\s+/).length);
     const keywordWords = key.split(/\s+/).length;
     const density = (exactCount * keywordWords / wordCount) * 100;
+
+    if (!norm(title).includes(key)) failures.push(`${page.url}: primary keyword missing from title: ${page.keyword}`);
     if (exactCount < 1) failures.push(`${page.url}: primary keyword not found in visible copy`);
     if (density > 4.5) failures.push(`${page.url}: primary keyword looks overused (${density.toFixed(2)}% exact-phrase density)`);
     notes.push(`${page.url}: ${page.keyword} — ${exactCount} exact visible mention(s), ${density.toFixed(2)}% phrase density`);
   }
-
-  if (page.quick && !/quick answer:/i.test(visible)) failures.push(`${page.url}: missing concise “Quick answer” passage`);
 
   const imgs = [...html.matchAll(/<img\b[^>]*>/gi)].map((m) => m[0]);
   for (const img of imgs) {
@@ -132,4 +158,4 @@ if (failures.length) {
 }
 
 console.log('\nON-PAGE SEO CHECK: PASS');
-console.log('Titles, descriptions, H1/H2 structure, keyword mapping, quick-answer passages, image alt coverage and internal anchor hygiene passed the automated checks.');
+console.log('Titles, descriptions, canonicals, indexability, social metadata, structured data, H1/H2 structure, keyword mapping, image alt coverage and internal anchor hygiene passed the automated checks.');
