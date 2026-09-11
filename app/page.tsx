@@ -107,22 +107,9 @@ export default function Home() {
     ],
   };
 
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(([question, answer]) => ({
-      '@type': 'Question',
-      name: question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: answer,
-      },
-    })),
-  };
-
   return (
     <>
-      <JsonLd data={[websiteSchema, appSchema, faqSchema]} />
+      <JsonLd data={[websiteSchema, appSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

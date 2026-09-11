@@ -9,11 +9,11 @@ import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Brat Generator Blog: Guides, Tips & Tutorials' },
-  description: 'Read Brat Generator guides, tips and tutorials for album covers, colours, typography, blur, sizing, downloads and common problems.',
+  title: { absolute: 'Brat Generator Guides' },
+  description: 'Practical Brat Generator guides covering album covers, colours, blur, typography, sizes, and browser-based creation.',
   alternates: { canonical: '/blog/' },
-  openGraph: { url: '/blog/', title: 'Brat Generator Blog: Guides, Tips & Tutorials', description: 'Practical Brat Generator tutorials, creative guides and troubleshooting tips.', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
-  twitter: { card: 'summary_large_image', title: 'Brat Generator Blog: Guides, Tips & Tutorials', description: 'Practical Brat Generator tutorials, creative guides and troubleshooting tips.', images: ['/og-image.png'] },
+  openGraph: { url: '/blog/', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator guides and tutorials' }] },
+  twitter: { card: 'summary_large_image', title: 'Brat Generator Guides', description: 'Practical Brat Generator tutorials and creative guides.', images: ['/og-image.png'] },
 };
 
 export default function BlogPage() {
