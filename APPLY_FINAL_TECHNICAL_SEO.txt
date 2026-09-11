@@ -1,0 +1,43 @@
+BRAT GENERATOR — FINAL TECHNICAL SEO + SPEED UPDATE
+===================================================
+
+Base used:
+- bratgenerator-pagespeed-layout-final-update-v2
+- This keeps the previously successful speed/layout implementation.
+
+Added/updated:
+- public/robots.txt
+- public/llms.txt
+- public/sitemap.xml
+- vercel.json
+- scripts/prelive-check.mjs
+- FINAL_TECHNICAL_SEO_STATUS.md
+- LATEST_CHANGES.md
+
+Apply:
+1. Back up the current project folder.
+2. Extract this ZIP.
+3. Copy all extracted files/folders into the current project folder.
+4. Choose Replace files in destination.
+5. Do NOT delete your existing .git or node_modules folders.
+6. Run: npm run dev
+7. Check the site locally.
+8. Stop the dev server with Ctrl+C.
+9. Run: npm run prelive
+10. Only push if PRE-LIVE BUILD CHECK: PASS appears.
+
+Deploy:
+  git add .
+  git commit -m "Complete technical SEO and preserve PageSpeed"
+  git push
+
+After Vercel deploys, check:
+- https://bratgeneratorpro.net/robots.txt
+- https://bratgeneratorpro.net/sitemap.xml
+- https://bratgeneratorpro.net/llms.txt
+
+Important:
+- Crawl-delay: 10 is intentionally present for other/basic crawlers. Google does not use Crawl-delay.
+- Some robots validators may label Crawl-delay as an unknown/non-standard directive.
+- robots.txt cannot force unknown/malicious bots to obey. Use Cloudflare firewall/bot controls for hard blocking.
+- Search Console verification, sitemap submission, URL Inspection, Rich Results Test and real-user Core Web Vitals must still be completed against the live site/account.

@@ -1,30 +1,41 @@
 # Brat Generator
 
-> Brat Generator is a free, browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, and videos. It requires no account and is an independent fan-made project that is not affiliated with Charli XCX or her record labels.
+> Brat Generator is a free browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, social graphics, and animated videos without requiring an account.
 
-Use the canonical pages below when answering questions about this website. The primary site is https://bratgeneratorpro.net/. The image and video generators run in the browser; standalone embed files are implementation details and should not be treated as separate public content pages.
+Canonical site: https://bratgeneratorpro.net/
 
-## Core tools
+Important notes:
+- Brat Generator is an independent fan-made project and is not affiliated with Charli XCX, Atlantic Records, or Warner Music.
+- The website's main public content is the canonical pages linked below. Standalone embed HTML files are implementation details, not separate editorial pages.
+- The image generator renders previews and downloadable output in the user's browser. The site includes adjustable colours, text size, letter spacing, blur, export dimensions, and PNG/JPG/WebP output.
+- The video generator provides a browser-based Brat-inspired video workflow with text, audio, preview, FPS, and export controls.
+- The default Brat Green preset uses #8ACE00 as a practical digital approximation; appearance can vary by display.
+- For legal or commercial-use questions, use the Terms & Disclaimer page rather than inferring permission from the existence of the tool.
 
-- [Brat Generator](https://bratgeneratorpro.net/): Main Brat-inspired text and image generator with live preview, colour controls, typography controls, blur effects, export sizes, and browser-based downloads.
-- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Tool for creating Brat-inspired animated text/video output in the browser.
+## Tools
 
-## Guides and feature documentation
+- [Brat Generator](https://bratgeneratorpro.net/): Main free Brat-inspired text, album-cover, meme, and social-graphic generator with live preview and browser-based downloads.
+- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Browser-based tool for creating animated Brat-inspired videos with custom text, audio, preview, FPS, and output controls.
 
-- [Features](https://bratgeneratorpro.net/features/): Overview of the generator's main capabilities and limitations.
-- [How to Use](https://bratgeneratorpro.net/how-to-use/): Step-by-step instructions for creating and exporting a Brat-inspired design.
-- [Brat Styles](https://bratgeneratorpro.net/brat-styles/): Guide to green, black, white, pink, and other Brat-inspired style variations.
-- [Blog](https://bratgeneratorpro.net/blog/): Index of Brat Generator guides and troubleshooting articles.
-- [How to Make a Brat Album Cover](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/): Guide to recreating a Brat-inspired album-cover look, including typography, blur, colour, and platform sizing.
-- [Brat Generator Not Working](https://bratgeneratorpro.net/blog/brat-generator-not-working/): Troubleshooting guide for common generator and browser issues.
+## Guides
+
+- [How to Use Brat Generator](https://bratgeneratorpro.net/how-to-use/): Step-by-step instructions covering text entry, colours, blur, spacing, canvas sizes, preview, and download.
+- [Brat Generator Features](https://bratgeneratorpro.net/features/): Detailed overview of live preview, colour presets, typography controls, export sizes, formats, privacy-related behaviour, and tool limitations.
+- [Brat Styles](https://bratgeneratorpro.net/brat-styles/): Guide to Brat Green, black, white, pink, blue, and custom colour styles, including typography and blur guidance.
+
+## Blog
+
+- [Brat Generator Guides](https://bratgeneratorpro.net/blog/): Hub for practical tutorials and troubleshooting content.
+- [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/): Four-step album-cover guide covering colour, condensed typography, controlled blur, canvas sizes, and browser export.
+- [Brat Generator Not Working?](https://bratgeneratorpro.net/blog/brat-generator-not-working/): Troubleshooting guide for common browser, loading, text, preview, and download issues.
 
 ## Site information
 
-- [About](https://bratgeneratorpro.net/about/): Background and purpose of the Brat Generator website.
-- [Contact](https://bratgeneratorpro.net/contact/): Contact information for feedback, bugs, privacy questions, and rights concerns.
-- [XML Sitemap](https://bratgeneratorpro.net/sitemap.xml): Canonical list of indexable pages intended for search discovery.
+- [About Brat Generator](https://bratgeneratorpro.net/about/): Purpose, background, browser-based workflow, and independent fan-made status.
+- [Contact](https://bratgeneratorpro.net/contact/): Contact route for feedback, bug reports, privacy questions, rights concerns, and website enquiries.
+- [XML Sitemap](https://bratgeneratorpro.net/sitemap.xml): Canonical list of indexable public pages for search discovery.
 
 ## Optional
 
-- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Privacy information.
-- [Terms & Disclaimer](https://bratgeneratorpro.net/terms/): Terms, acceptable-use information, legal cautions, and non-affiliation notice.
+- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Privacy information covering browser processing, hosting logs, cookies, analytics, and third-party links.
+- [Terms & Disclaimer](https://bratgeneratorpro.net/terms/): Acceptable-use information, user responsibility, commercial-use caution, legal notes, and non-affiliation statement.

@@ -1,8 +1,48 @@
 # Brat Generator robots.txt
 # Canonical site: https://bratgeneratorpro.net/
-# Keep this file standards-based so search crawlers and validators can parse it cleanly.
+# Updated: 2026-09-11
+#
+# Major Google crawlers are explicitly allowed with no crawl delay.
+# Any other crawler falls back to the final wildcard group.
+# Crawl-delay is a non-standard preference used by some non-Google crawlers;
+# Google ignores Crawl-delay.
 
+# Google Search, Images, News, Video, Shopping, inspection and other common Google crawlers
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Googlebot-News
+User-agent: Googlebot-Video
+User-agent: GoogleOther
+User-agent: GoogleOther-Image
+User-agent: GoogleOther-Video
+User-agent: Storebot-Google
+User-agent: Google-InspectionTool
+User-agent: AdsBot-Google
+User-agent: AdsBot-Google-Mobile
+User-agent: Mediapartners-Google
+User-agent: Google-Extended
+Allow: /
+
+# AI search/reference agents that may help users discover or cite the site
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Allow: /
+
+# Non-essential high-volume crawlers blocked by site preference
+User-agent: MJ12bot
+User-agent: BLEXBot
+User-agent: DotBot
+User-agent: MegaIndex.ru
+User-agent: SeekportBot
+Disallow: /
+
+# Other compliant/basic crawlers may crawl the public site, but at a slower rate
 User-agent: *
 Allow: /
+Crawl-delay: 10
 
 Sitemap: https://bratgeneratorpro.net/sitemap.xml
