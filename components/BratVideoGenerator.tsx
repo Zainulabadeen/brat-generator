@@ -2,38 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
+import { BRAT_VIDEO_GENERATOR_EMBED_HTML } from '@/lib/embedDocuments';
+
+const DEFAULT_HEIGHT = 940;
 
 export default function BratVideoGenerator() {
-  const shellRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<HTMLIFrameElement | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
-  const [height, setHeight] = useState(0);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const shell = shellRef.current;
-    if (!shell) return;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setShouldLoad(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setShouldLoad(true);
-        observer.disconnect();
-      },
-      { rootMargin: '120px 0px', threshold: 0 }
-    );
-
-    observer.observe(shell);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => () => resizeObserverRef.current?.disconnect(), []);
+  const [height, setHeight] = useState(DEFAULT_HEIGHT);
 
   const measureTool = () => {
     const frame = frameRef.current;
@@ -46,14 +22,10 @@ export default function BratVideoGenerator() {
 
       const rectHeight = Math.ceil(toolRoot.getBoundingClientRect().height);
       const contentHeight = Math.ceil(toolRoot.scrollHeight || 0);
-      const nextHeight = Math.max(rectHeight, contentHeight, 1);
-
-      if (nextHeight > 1) {
-        setHeight(nextHeight);
-        setReady(true);
-      }
+      const nextHeight = Math.max(rectHeight, contentHeight, 820);
+      setHeight(Math.min(nextHeight, 2200));
     } catch {
-      // Keep the shell collapsed if the embedded document is not measurable yet.
+      setHeight(DEFAULT_HEIGHT);
     }
   };
 
@@ -69,7 +41,7 @@ export default function BratVideoGenerator() {
         resizeObserverRef.current = observer;
       }
     } catch {
-      // Keep the fallback collapsed if the embedded document cannot be measured.
+      // The default height keeps the video tool visible if measurement is unavailable.
     }
 
     window.setTimeout(measureTool, 120);
@@ -81,38 +53,30 @@ export default function BratVideoGenerator() {
       const data = event.data;
       if (!data || typeof data !== 'object') return;
       if (data.type === 'brat-video-generator-export') {
-        trackEvent('brat_video_export_click', { tool_version: 'uploaded-video-generator' });
+        trackEvent('brat_video_export_click', { tool_version: 'embedded-video-generator' });
       }
     };
 
     window.addEventListener('message', onMessage);
-    return () => window.removeEventListener('message', onMessage);
+    return () => {
+      window.removeEventListener('message', onMessage);
+      resizeObserverRef.current?.disconnect();
+    };
   }, []);
 
   return (
-    <div
-      ref={shellRef}
-      className="video-generator-embed-shell"
-      style={!ready ? { minHeight: 1, borderColor: 'transparent', boxShadow: 'none' } : undefined}
-    >
-      {shouldLoad && (
-        <iframe
-          ref={frameRef}
-          src="/brat-video-generator-embed.html"
-          className="brat-video-generator-iframe"
-          title="Brat Video Generator"
-          onLoad={handleLoad}
-          style={{
-            height: ready ? `${height}px` : '1px',
-            minHeight: 0,
-            opacity: ready ? 1 : 0,
-            overflow: 'hidden',
-          }}
-          scrolling="no"
-          loading="lazy"
-          allow="clipboard-read; clipboard-write; fullscreen"
-        />
-      )}
+    <div className="video-generator-embed-shell">
+      <iframe
+        ref={frameRef}
+        srcDoc={BRAT_VIDEO_GENERATOR_EMBED_HTML}
+        className="brat-video-generator-iframe"
+        title="Brat Video Generator"
+        onLoad={handleLoad}
+        style={{ height: `${height}px` }}
+        scrolling="no"
+        loading="eager"
+        allow="clipboard-read; clipboard-write; fullscreen"
+      />
     </div>
   );
 }
