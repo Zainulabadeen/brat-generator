@@ -131,33 +131,27 @@ export default function Home() {
               <span className="brat-text hero-brat">Brat Style</span><br />
               <span>For Free</span>
             </h1>
+            <p className="hero-copy reveal is-visible hero-delay-2">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
+            <div className="hero-buttons reveal is-visible hero-delay-3">
+              <Link href="#generator" className="pill-btn primary glow-brat">Start Creating →</Link>
+              <Link href="#styles" className="pill-btn secondary">See Examples</Link>
+            </div>
+            <div className="hero-proof reveal is-visible hero-delay-4">
+              <span>⚡ Browser-based</span>
+              <span>📱 Mobile friendly</span>
+              <span>🚫 No watermark</span>
+            </div>
           </div>
         </section>
 
         <section className="section tool-section-compact" id="generator">
           <div className="container tool-container">
-            <BratGenerator />
-
-            <div className="section-heading reveal tool-section-heading tool-section-heading-below">
+            <div className="section-heading reveal tool-section-heading">
               <p className="eyebrow">Generator</p>
               <h2>Create Your Brat Design <span className="text-brat">Right Now</span></h2>
               <p>Type your text, customise the colours and blur, choose an export size, then download your Brat-inspired design instantly. No signup. No software to install.</p>
             </div>
-
-            <div className="generator-benefits reveal" aria-label="Brat Generator benefits">
-              <div className="generator-benefit">
-                <span className="generator-benefit-icon" aria-hidden="true">⚡</span>
-                <div><strong>Browser-based</strong><span>Works instantly in your browser</span></div>
-              </div>
-              <div className="generator-benefit">
-                <span className="generator-benefit-icon" aria-hidden="true">📱</span>
-                <div><strong>Mobile friendly</strong><span>Phone, tablet and desktop</span></div>
-              </div>
-              <div className="generator-benefit">
-                <span className="generator-benefit-icon" aria-hidden="true">🚫</span>
-                <div><strong>No watermark</strong><span>Clean downloads, ready to use</span></div>
-              </div>
-            </div>
+            <BratGenerator />
           </div>
         </section>
 
