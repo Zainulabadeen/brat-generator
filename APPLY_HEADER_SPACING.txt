@@ -1,0 +1,16 @@
+BRAT GENERATOR — HEADER SPACING UPDATE
+
+Changed file:
+  app/globals.css
+
+What changed:
+- Uses more horizontal header width on desktop.
+- Adds more breathing room between Home / Brat Video / Brat Meme / etc.
+- Shifts the navigation slightly toward the language/login side while keeping the brand balanced.
+- Keeps the existing mobile drawer and tablet behavior unchanged.
+
+Apply:
+1. Extract this ZIP into the existing project root.
+2. Replace app/globals.css when prompted.
+3. Run: npm run dev
+4. Check the header at 100% browser zoom.
