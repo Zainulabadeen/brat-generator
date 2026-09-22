@@ -48,7 +48,7 @@ export default function PageHero({
             <span className="inner-hero-title-accent text-brat">{secondLine}</span>
           ) : null}
         </h1>
-        <p className="inner-hero-copy reveal is-visible hero-delay-2">{description}</p>
+        {description ? <p className="inner-hero-copy reveal is-visible hero-delay-2">{description}</p> : null}
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Guides: Tutorials, Styles & Fixes' },
@@ -25,9 +26,20 @@ export default function BlogPage() {
     ],
   };
 
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${siteConfig.url}/blog/#blog`,
+    url: `${siteConfig.url}/blog/`,
+    name: 'Brat Generator Guides',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, blogSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

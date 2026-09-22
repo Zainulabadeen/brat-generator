@@ -1222,3 +1222,337 @@ main h3,
 .example-card strong{color:#111}
 @media (max-width:900px){.example-gallery{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.example-gallery{grid-template-columns:1fr}.guide-example{padding:12px}.example-card{padding:12px}}
+
+/* September 2026: homepage tool-first hierarchy requested by owner.
+   Keep the existing visual language, move the working generator to the first
+   primary content position, and keep the original marketing block immediately
+   below it without deleting content. */
+.hero-tool-first{
+  padding-top:118px;
+  padding-bottom:82px;
+}
+.hero-tool-first .hero-content{
+  max-width:1180px;
+}
+.hero-tool-first .hero-micro-wrap{
+  margin-bottom:0;
+}
+.hero-tool-first .micro-pill{
+  margin-bottom:24px;
+}
+.tool-first-title{
+  max-width:900px;
+  margin:0 auto 34px;
+  font-family:var(--font-ui);
+  font-size:clamp(40px,4.25vw,60px);
+  line-height:1;
+  letter-spacing:-.022em;
+  font-weight:900;
+  text-align:center;
+  text-wrap:balance;
+}
+.hero-generator-block{
+  position:relative;
+  z-index:1;
+}
+.hero-generator-shell{
+  width:min(100%,1080px);
+  margin:0 auto;
+}
+.hero-tool-first .generator-embed-shell{
+  max-width:1080px;
+  margin-inline:auto;
+}
+.hero-after-tool{
+  max-width:1050px;
+  margin:72px auto 0;
+  text-align:center;
+}
+.hero-secondary-title{
+  max-width:1040px;
+  margin:0 auto;
+  font-family:var(--font-ui);
+  font-size:clamp(40px,4.4vw,64px);
+  line-height:.98;
+  letter-spacing:-.024em;
+  font-weight:900;
+  text-align:center;
+  text-wrap:balance;
+}
+.hero-after-tool .hero-brat{
+  font-size:clamp(58px,6vw,88px);
+}
+.hero-after-tool .hero-copy{
+  margin-top:26px;
+}
+.hero-after-tool .hero-buttons{
+  margin-top:30px;
+}
+.hero-after-tool .hero-proof{
+  margin-top:26px;
+}
+
+@media (max-width:900px){
+  .hero-tool-first{padding-top:104px;padding-bottom:72px}
+  .hero-tool-first .micro-pill{margin-bottom:20px}
+  .tool-first-title{font-size:clamp(36px,7vw,50px);margin-bottom:28px;max-width:760px}
+  .hero-after-tool{margin-top:58px}
+  .hero-secondary-title{font-size:clamp(36px,6.8vw,52px);max-width:800px}
+  .hero-after-tool .hero-brat{font-size:clamp(52px,9vw,72px)}
+}
+
+@media (max-width:600px){
+  .hero-tool-first{padding-top:88px;padding-bottom:58px}
+  .hero-tool-first .micro-pill{margin-bottom:16px}
+  .tool-first-title{font-size:clamp(32px,9vw,43px);line-height:1.04;margin-bottom:22px}
+  .hero-generator-shell{width:100%}
+  .hero-after-tool{margin-top:46px}
+  .hero-secondary-title{font-size:clamp(32px,9vw,44px);line-height:1.02}
+  .hero-after-tool .hero-brat{font-size:clamp(48px,12vw,64px)}
+  .hero-after-tool .hero-copy{margin-top:20px}
+  .hero-after-tool .hero-buttons{margin-top:24px}
+  .hero-after-tool .hero-proof{margin-top:22px}
+}
+
+/* September 2026 multi-tool navigation, auth, language and tool-suite update */
+.header-inner{width:min(100% - 32px,1420px)}
+.tool-nav{gap:13px;font-size:12.5px;font-weight:650}
+.tool-nav a{white-space:nowrap}
+.header-actions{gap:8px}
+.language-menu,.login-control{position:relative}
+.language-trigger,.login-trigger{height:40px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.82);display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 12px;font-weight:750;font-size:12px;cursor:pointer;box-shadow:0 2px 10px rgba(20,20,20,.035)}
+.language-trigger:hover,.login-trigger:hover{border-color:rgba(17,17,17,.2);background:#fff}
+.language-caret{font-size:11px;opacity:.6}
+.language-popover,.account-popover{position:absolute;right:0;top:calc(100% + 10px);z-index:1200;width:230px;max-height:430px;overflow:auto;padding:8px;border:1px solid var(--border);border-radius:16px;background:#fff;box-shadow:0 20px 60px rgba(17,17,17,.14)}
+.language-popover button{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:transparent;padding:10px 11px;border-radius:10px;text-align:left;cursor:pointer;font-size:13px}
+.language-popover button:hover,.language-popover button.active{background:#f3f5ee}
+.login-trigger img{width:23px;height:23px;border-radius:50%;object-fit:cover}
+.account-popover{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.account-popover>img{width:58px;height:58px;border-radius:50%}.account-popover>span{font-size:12px;color:var(--muted)}.account-popover>button{margin-top:8px;width:100%;border:0;border-radius:10px;padding:10px;background:#f3f3ef;cursor:pointer;font-weight:700}
+.login-modal-backdrop{position:fixed;inset:0;z-index:3000;background:rgba(8,10,12,.58);display:grid;place-items:center;padding:20px}
+.login-modal{position:relative;width:min(100%,510px);border-radius:18px;background:#fff;padding:42px 42px 40px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.25)}
+.login-close{position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;border-radius:50%;background:#f1f1ed;cursor:pointer;font-size:24px}
+.login-brand-mark{width:78px;height:78px;margin:0 auto 26px;display:grid;place-items:center;background:var(--green);font-size:32px;font-weight:900;text-transform:lowercase}
+.login-modal h2{margin:0;font-size:30px}.login-modal p{margin:18px 0 30px;color:var(--muted);font-size:18px}.google-render-button{min-height:44px;display:flex;justify-content:center}.google-login-setup{padding:18px;border:1px solid #f1d79b;border-radius:12px;background:#fff9e9;display:flex;flex-direction:column;gap:5px;font-size:13px;color:#6e5416}
+.mobile-language-login{display:flex;gap:8px;align-items:center;padding:10px 6px 4px}
+
+/* Let the homepage hero dissolve into the next section instead of ending as a block. */
+.hero-tool-first{background:linear-gradient(135deg,rgba(138,206,0,.085) 0%,rgba(253,253,251,.9) 42%,rgba(255,122,182,.07) 100%);border-bottom:0;padding-bottom:58px}
+.hero-tool-first::after{content:'';position:absolute;left:0;right:0;bottom:0;height:130px;background:linear-gradient(180deg,rgba(253,253,251,0),var(--bg));pointer-events:none;z-index:0}
+.hero-tool-first + .section{margin-top:-2px;padding-top:72px;background:linear-gradient(180deg,rgba(253,253,251,.98),var(--bg) 170px)}
+
+/* Breadcrumbs use the same compact visual language as the homepage 100% pill. */
+.page-hero-breadcrumb{margin-bottom:36px}
+.page-hero-breadcrumb .breadcrumbs{padding:7px 17px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.78)}
+.page-hero-breadcrumb .breadcrumbs li:first-child::before{width:7px;height:7px;background:var(--green)}
+.page-hero-section{padding-top:138px}
+
+/* Reusable creative workspaces */
+.tool-page-workspace{padding-top:54px}
+.creative-tool{width:100%;border:1px solid var(--border);border-radius:24px;background:#fff;box-shadow:0 20px 65px rgba(17,17,17,.08);overflow:hidden}
+.creative-tool-head{min-height:64px;padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(90deg,rgba(138,206,0,.07),rgba(255,255,255,.9))}
+.creative-tool-head>div{display:flex;align-items:center;gap:8px}.creative-tool-head>span{font-size:12px;color:var(--muted);text-align:right;max-width:560px}.tool-live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(138,206,0,.12)}
+.creative-tool-grid{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(480px,1.18fr);min-height:680px}
+.creative-tool-controls{padding:24px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:17px;background:#fbfbf8}
+.tool-field{display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:800;color:#44444c}.tool-field textarea,.tool-field input[type=text],.tool-field input:not([type]),.tool-field select,.creative-tool-controls input,.creative-tool-controls select{width:100%}.tool-field textarea,.tool-field input,.tool-field select,.creative-tool-controls select{border:1px solid var(--border);border-radius:10px;background:#fff;padding:11px 12px;outline:none}.tool-field textarea{resize:vertical;min-height:70px}.tool-field textarea:focus,.tool-field input:focus,.tool-field select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(138,206,0,.13)}
+.tool-row{display:grid;gap:12px}.tool-row.two{grid-template-columns:1fr 1fr}.color-input{display:flex;gap:8px;align-items:center;height:43px;padding:5px 8px;border:1px solid var(--border);border-radius:10px;background:#fff}.color-input input[type=color]{width:34px;height:30px;border:0;padding:0;background:transparent}.color-input code{font-size:12px;color:#666}
+.tool-preset-row{display:flex;gap:9px;flex-wrap:wrap}.tool-preset-row button{width:34px;height:34px;border-radius:9px;border:2px solid rgba(17,17,17,.08);cursor:pointer}.tool-preset-row button:hover{transform:scale(1.06)}
+.tool-slider{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:800;color:#444}.tool-slider>span{display:flex;justify-content:space-between}.tool-slider input{accent-color:var(--green)}
+.tool-upload input[type=file]{padding:8px}.tool-upload small{font-weight:500;color:var(--muted)}.tool-static-note{padding:11px 12px;border-radius:10px;background:rgba(138,206,0,.09);font-size:12px;font-weight:750}.tool-toggle-row{display:flex;gap:12px;flex-wrap:wrap}.tool-toggle-row label{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:11px;font-weight:700;cursor:pointer}.tool-toggle-row input{width:auto;accent-color:var(--green)}
+.creative-tool-preview-wrap{padding:24px;display:flex;flex-direction:column;min-width:0;background:#fff}.creative-tool-preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:12px;font-weight:800;color:#666}.creative-tool-canvas-shell{flex:1;min-height:480px;border-radius:18px;background:repeating-conic-gradient(#f4f4f1 0 25%,#ecece8 0 50%) 50%/24px 24px;display:grid;place-items:center;padding:16px;overflow:hidden}.creative-tool-canvas-shell canvas{display:block;max-width:100%;max-height:620px;width:auto;height:auto;border-radius:12px;box-shadow:0 15px 45px rgba(0,0,0,.12)}
+.creative-tool-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.creative-tool-actions select,.tool-action{height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;padding:0 13px;font-weight:750;cursor:pointer}.tool-action.primary{background:var(--green);border-color:var(--green);padding-inline:22px}.tool-action.subtle{color:#666}.tool-action:hover{transform:translateY(-1px)}
+.compact-howto-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.compact-howto-grid .guide-step{height:100%}.tool-tip-grid .info-card{min-height:150px}.tool-related-links{margin-top:28px;display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.moved-page{min-height:100vh;display:grid;place-items:center;padding:120px 20px;background:var(--bg)}.moved-card{max-width:700px;padding:42px;border:1px solid var(--border);border-radius:24px;background:#fff;text-align:center}.moved-card h1{font-size:clamp(36px,5vw,58px);line-height:1;margin:0}.moved-card p:not(.eyebrow){color:var(--muted);font-size:17px;line-height:1.7;margin:22px 0 28px}
+
+/* Arabic needs direction without reversing the canvas/tool geometry. */
+html[dir="rtl"] .creative-tool-controls{text-align:right}html[dir="rtl"] .site-header,html[dir="rtl"] .site-footer{direction:rtl}
+
+@media (max-width:1320px){.desktop-nav{display:none}.menu-btn{display:inline-grid;place-items:center}.mobile-menu{position:absolute;top:100%;left:20px;right:20px;border:1px solid var(--border);border-radius:16px;background:rgba(253,253,251,.98);box-shadow:0 18px 50px rgba(0,0,0,.08);padding:10px;flex-direction:column}.mobile-menu.open{display:flex}.mobile-menu a{padding:10px 12px;border-radius:9px;font-size:13px}.mobile-menu a:hover{background:#f3f3ef}}
+@media (max-width:900px){.creative-tool-grid{grid-template-columns:1fr}.creative-tool-controls{border-right:0;border-bottom:1px solid var(--border)}.creative-tool-preview-wrap{min-height:620px}.compact-howto-grid{grid-template-columns:1fr}.page-hero-section{padding-top:118px}.hero-tool-first + .section{padding-top:58px}}
+@media (max-width:620px){.header-inner{width:calc(100% - 24px)}.brand{font-size:18px}.brand-mark,.brand-mark svg{width:22px;height:22px}.language-trigger{padding:0 9px}.language-trigger span:first-child{display:none}.login-trigger{padding:0 10px}.login-trigger span{max-width:68px;overflow:hidden;text-overflow:ellipsis}.header-actions{gap:6px}.creative-tool-head{align-items:flex-start;flex-direction:column}.creative-tool-head>span{text-align:left}.creative-tool-controls,.creative-tool-preview-wrap{padding:16px}.tool-row.two{grid-template-columns:1fr}.creative-tool-canvas-shell{min-height:360px;padding:9px}.creative-tool-actions>*{flex:1 1 46%}.page-hero-section{padding-top:104px}.page-hero-breadcrumb{margin-bottom:24px}.page-hero-breadcrumb .breadcrumbs{font-size:10px;letter-spacing:.08em;max-width:calc(100vw - 30px);overflow-x:auto}.login-modal{padding:36px 20px 28px}.hero-tool-first + .section{padding-top:46px}}
+
+/* September 2026: desktop navigation fit + matching breadcrumb rhythm + mobile drawer. */
+/* Keep the full tool navigation visible on normal desktop widths instead of
+   switching to the menu button too early. */
+@media (min-width:1181px) and (max-width:1420px){
+  .header-inner{width:calc(100% - 24px)}
+  .brand{font-size:20px;gap:6px}
+  .brand-mark,.brand-mark svg{width:24px;height:24px}
+  .tool-nav{gap:8px;font-size:11.25px;letter-spacing:-.01em}
+  .header-actions{gap:6px}
+  .language-trigger,.login-trigger{height:36px;padding-inline:9px;font-size:11px}
+}
+
+/* Inner-page breadcrumbs now occupy exactly the same visual rhythm as the
+   homepage 100% FREE pill: same top position and same gap before the H1. */
+.page-hero-section{padding-top:118px}
+.page-hero-breadcrumb{margin-bottom:24px}
+.page-hero-breadcrumb .breadcrumbs{
+  padding:7px 17px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.14em;
+  line-height:1.35;
+}
+
+/* Use the mobile navigation only when the available width genuinely needs it. */
+@media (max-width:1180px){
+  .desktop-nav{display:none}
+  .menu-btn{display:inline-grid;place-items:center}
+
+  .mobile-menu-backdrop{
+    position:fixed;
+    inset:0;
+    z-index:1390;
+    border:0;
+    padding:0;
+    background:rgba(12,14,12,.34);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .25s ease,visibility .25s ease;
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  .mobile-menu-backdrop.open{opacity:1;visibility:visible;pointer-events:auto}
+
+  .mobile-menu{
+    display:flex;
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:auto;
+    z-index:1400;
+    width:min(390px,92vw);
+    border:0;
+    border-left:1px solid var(--border);
+    border-radius:0;
+    padding:0;
+    background:rgba(253,253,251,.98);
+    box-shadow:-28px 0 70px rgba(0,0,0,.14);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    flex-direction:column;
+    transform:translateX(102%);
+    visibility:hidden;
+    transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility .28s ease;
+  }
+  .mobile-menu.open{display:flex;transform:translateX(0);visibility:visible}
+  .mobile-menu-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:76px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--border);
+  }
+  .mobile-menu-brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:19px;letter-spacing:-.025em}
+  .mobile-menu-dot{width:20px;height:20px;border-radius:7px;background:var(--green);box-shadow:0 0 20px rgba(138,206,0,.35)}
+  .mobile-menu-close{width:40px;height:40px;border:1px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;font-size:27px;line-height:1}
+  .mobile-menu-scroll{flex:1;overflow:auto;padding:18px}
+  .mobile-menu-label{margin:0 0 9px;color:#7a7a80;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+  .mobile-tool-links,.mobile-secondary-links{display:flex;flex-direction:column;gap:5px}
+  .mobile-menu .mobile-tool-links a,
+  .mobile-menu .mobile-secondary-links a{
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 12px;
+    border-radius:11px;
+    font-size:14px;
+    font-weight:720;
+    transition:background .18s ease,color .18s ease,transform .18s ease;
+  }
+  .mobile-menu .mobile-tool-links a:hover,
+  .mobile-menu .mobile-secondary-links a:hover{background:#f1f4e9;transform:translateX(-2px)}
+  .mobile-menu .mobile-tool-links a.active{background:rgba(138,206,0,.16);color:#111}
+  .mobile-menu .mobile-tool-links a.active span:last-child{color:#69a300}
+  .mobile-menu-divider{height:1px;margin:18px 0;background:var(--border)}
+  .mobile-language-login{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    padding:14px 18px calc(14px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border);
+    background:rgba(255,255,255,.82);
+  }
+  .mobile-language-login .language-trigger,
+  .mobile-language-login .login-trigger{width:100%;height:42px}
+}
+
+@media (max-width:760px){
+  /* The language and login controls live inside the drawer on phones, leaving a
+     clean brand + menu button header. */
+  .header-actions > .language-menu,
+  .header-actions > .login-control{display:none}
+  .header-actions{gap:0}
+  .menu-btn{width:42px;height:42px;background:rgba(255,255,255,.88)}
+  .page-hero-section{padding-top:104px}
+  .page-hero-breadcrumb{margin-bottom:20px}
+  .page-hero-breadcrumb .breadcrumbs{padding:7px 14px;font-size:10px;letter-spacing:.08em}
+}
+
+/* Override the older 1320px collapse rule: keep desktop nav through 1181px. */
+@media (min-width:1181px) and (max-width:1320px){
+  .desktop-nav{display:flex}
+  .menu-btn{display:none}
+  .mobile-menu{display:none}
+  .mobile-menu-backdrop{display:none}
+}
+
+/* September 2026: final compact tool-page hero rhythm + whole-site translation polish. */
+.hero-tool-first{padding-top:96px}
+.hero-tool-first .micro-pill{margin-bottom:18px}
+.tool-first-title{margin-bottom:26px}
+
+.page-hero-section{padding-top:96px;padding-bottom:42px}
+.page-hero-breadcrumb{margin-bottom:18px}
+.page-hero-section .inner-hero-title{font-size:clamp(36px,3.65vw,54px);line-height:1;max-width:900px}
+.page-hero-section .inner-hero-copy{margin-top:20px}
+
+/* Tool pages are action-first: compact keyword heading, then the working tool. */
+.tool-page .page-hero-section,
+.video-generator-page .page-hero-section{padding-bottom:26px}
+.tool-page .page-hero-section .inner-hero-title,
+.video-generator-page .page-hero-section .inner-hero-title{font-size:clamp(34px,3.35vw,50px);max-width:840px}
+.tool-page-workspace{padding-top:22px}
+.video-generator-tool-section{padding-top:22px}
+.video-generator-tool-section .tool-container{margin-top:0}
+
+/* Runtime translation host stays out of the visual layout. */
+.google-translate-host{position:fixed!important;left:-10000px!important;top:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+.goog-te-banner-frame.skiptranslate,.goog-te-banner-frame{display:none!important}
+body{top:0!important}
+#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+
+@media (max-width:900px){
+  .hero-tool-first{padding-top:88px}
+  .page-hero-section{padding-top:88px;padding-bottom:36px}
+  .page-hero-breadcrumb{margin-bottom:16px}
+  .tool-page .page-hero-section .inner-hero-title,
+  .video-generator-page .page-hero-section .inner-hero-title{font-size:clamp(32px,6.2vw,46px)}
+  .tool-page-workspace,.video-generator-tool-section{padding-top:18px}
+}
+@media (max-width:620px){
+  .hero-tool-first{padding-top:80px}
+  .page-hero-section{padding-top:80px;padding-bottom:30px}
+  .page-hero-breadcrumb{margin-bottom:14px}
+  .tool-page .page-hero-section .inner-hero-title,
+  .video-generator-page .page-hero-section .inner-hero-title{font-size:clamp(30px,8.8vw,42px)}
+  .tool-page-workspace,.video-generator-tool-section{padding-top:14px}
+}
+
+
+/* Keep the hidden Google translation engine functional without showing its legacy toolbar. */
+html{margin-top:0!important}
+body{top:0!important;margin-top:0!important}
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos,
+body>.skiptranslate:not(.google-translate-host){display:none!important;visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important}
+.google-translate-host,.google-translate-host *{position:absolute!important;left:-10000px!important;top:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}

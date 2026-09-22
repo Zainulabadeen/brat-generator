@@ -6,7 +6,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationEntity, organizationSchema } from '@/lib/schema';
+import { organizationEntity, organizationSchema, websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
@@ -62,6 +62,16 @@ const ideas = [
   ['✨', 'One Style Across Platforms', 'Switch export sizes while keeping the same visual treatment for Instagram, TikTok, playlists, banners, and other creative projects.'],
 ];
 
+
+const toolCards = [
+  ['/video-generator/', 'Brat Video Generator', 'Create animated Brat-style text with optional audio, GIF, video and frame exports.'],
+  ['/brat-meme-generator/', 'Brat Meme Generator', 'Make Brat-style memes with photo upload, top and bottom text, effects and image export.'],
+  ['/brat-image-generator/', 'Brat Image Generator', 'Build custom Brat-style images with uploaded backgrounds, text, effects and multiple ratios.'],
+  ['/brat-font-generator/', 'Brat Font Generator', 'Create Brat-style typography with font, blur, spacing, alignment and transparent export controls.'],
+  ['/brat-album-cover-generator/', 'Brat Album Cover Generator', 'Create square Brat-style album and playlist covers with title, artist line and high-resolution export.'],
+  ['/brat-styles/', 'Brat Styles', 'Compare Brat green, black, white, pink and custom colour directions before you create.'],
+];
+
 const faqs = [
   ['What is a Brat Generator?', 'It is a browser-based design tool that recreates the visual language associated with Charli XCX’s 2024 Brat era: flat colour, condensed lowercase text, and a soft blur. You can replace the text, colours, size, and export format.'],
   ['Is Brat Generator free?', 'Yes. This tool is free to use, does not require an account, and does not add a watermark to the exported image.'],
@@ -80,17 +90,20 @@ export default function Home() {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': websiteId,
     name: 'Brat Generator',
     alternateName: 'brat.generator',
     url: `${siteConfig.url}/`,
     description: metadata.description,
     inLanguage: 'en-GB',
     publisher: organizationEntity,
+    hasPart: toolCards.slice(0, 5).map(([url, name]) => ({ '@type': 'WebPage', name, url: `${siteConfig.url}${url}` })),
   };
 
   const appSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
+    '@id': `${siteConfig.url}/#app`,
     name: 'Brat Generator',
     url: `${siteConfig.url}/`,
     applicationCategory: 'DesignApplication',
@@ -116,42 +129,41 @@ export default function Home() {
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
-        <section className="hero-section" id="top">
+        <section className="hero-section hero-tool-first" id="top">
           <div className="hero-blobs" aria-hidden="true">
             <span className="blob blob-green" />
             <span className="blob blob-pink" />
             <span className="blob blob-blue" />
           </div>
           <div className="container container-hero hero-content">
-            <div className="reveal is-visible hero-delay-0">
+            <div className="reveal is-visible hero-delay-0 hero-micro-wrap">
               <span className="micro-pill glass"><span className="micro-dot" />100% free · no sign-up · instant</span>
             </div>
-            <h1 className="hero-title reveal is-visible hero-delay-1">
-              Brat Generator: Create Text, Album Covers &amp; Memes<br />
-              <span className="brat-text hero-brat">Brat Style</span><br />
-              <span>For Free</span>
-            </h1>
-            <p className="hero-copy reveal is-visible hero-delay-2">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
-            <div className="hero-buttons reveal is-visible hero-delay-3">
-              <Link href="#generator" className="pill-btn primary glow-brat">Start Creating →</Link>
-              <Link href="#styles" className="pill-btn secondary">See Examples</Link>
-            </div>
-            <div className="hero-proof reveal is-visible hero-delay-4">
-              <span>⚡ Browser-based</span>
-              <span>📱 Mobile friendly</span>
-              <span>🚫 No watermark</span>
-            </div>
-          </div>
-        </section>
 
-        <section className="section tool-section-compact" id="generator">
-          <div className="container tool-container">
-            <div className="section-heading reveal tool-section-heading">
-              <p className="eyebrow">Generator</p>
-              <h2>Create Your Brat Design <span className="text-brat">Right Now</span></h2>
-              <p>Type your text, customise the colours and blur, choose an export size, then download your Brat-inspired design instantly. No signup. No software to install.</p>
+            <div id="generator" className="hero-generator-block reveal is-visible hero-delay-1">
+              <h1 className="tool-first-title">Create Your Brat Design <span className="text-brat">Right Now</span></h1>
+              <div className="hero-generator-shell">
+                <BratGenerator />
+              </div>
             </div>
-            <BratGenerator />
+
+            <div className="hero-after-tool reveal is-visible hero-delay-2">
+              <h2 className="hero-secondary-title">
+                Brat Generator: Create Text, Album Covers &amp; Memes<br />
+                <span className="brat-text hero-brat">Brat Style</span><br />
+                <span>For Free</span>
+              </h2>
+              <p className="hero-copy">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
+              <div className="hero-buttons">
+                <Link href="#generator" className="pill-btn primary glow-brat">Start Creating →</Link>
+                <Link href="#styles" className="pill-btn secondary">See Examples</Link>
+              </div>
+              <div className="hero-proof">
+                <span>⚡ Browser-based</span>
+                <span>📱 Mobile friendly</span>
+                <span>🚫 No watermark</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -160,7 +172,7 @@ export default function Home() {
             <div className="reveal"><div className="about-art"><span className="brat-text about-brat">brat</span></div></div>
             <div className="reveal reveal-delay-1 about-copy">
               <p className="eyebrow left">About</p>
-              <h2>What Is a <span className="text-brat">Brat Generator</span> and How Does It Work?</h2>
+              <h2>What Is a <span className="text-brat">Brat Generator</span>?</h2>
               <p>A Brat generator turns a word or phrase into a graphic inspired by the lime-green, lowercase, slightly blurred visual style associated with Charli XCX’s <em>Brat</em> album. Type your text, choose colours, adjust the blur and spacing, and watch the result update immediately.</p>
               <p>This free Brat generator runs in your browser with no signup and no watermark. The current design canvas is processed locally, so your text and generated image do not need to be uploaded to a server.</p>
             </div>
@@ -202,6 +214,26 @@ export default function Home() {
           </div>
         </section>
 
+
+        <section className="section section-card" id="tools">
+          <div className="container container-wide">
+            <div className="section-heading reveal">
+              <p className="eyebrow">More Tools</p>
+              <h2>Explore More <span className="text-brat">Brat Tools</span></h2>
+              <p>Use the dedicated tool that matches what you want to create, then move between tools without rebuilding the same style from scratch.</p>
+            </div>
+            <div className="card-grid three">
+              {toolCards.map(([href, title, body]) => (
+                <article className="glass info-card reveal hover-lift" key={href}>
+                  <h3><Link href={href}>{title}</Link></h3>
+                  <p>{body}</p>
+                  <Link className="text-link" href={href}>Open {title} →</Link>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="section section-card" id="how-to">
           <div className="container container-wide">
             <div className="section-heading reveal">
@@ -216,7 +248,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/how-to-use/">Read the complete step-by-step guide →</Link></div>
+            <div className="section-cta reveal"><Link className="text-link" href="/#how-to">Read the complete step-by-step guide →</Link></div>
           </div>
         </section>
 

@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Key Features, Free Tool & How It Works' },
@@ -42,9 +44,21 @@ export default function FeaturesPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${siteConfig.url}/features/#webpage`,
+    url: `${siteConfig.url}/features/`,
+    name: 'Brat Generator Key Features',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -63,9 +77,6 @@ export default function FeaturesPage() {
               {featureCards.map(([icon, title, body, glow], i) => (
                 <div className={`reveal reveal-delay-${i % 3}`} key={title}><article className={`glass info-card ${glow} hover-lift`}><div className="emoji">{icon}</div><h3>{title}</h3><p>{body}</p></article></div>
               ))}
-            </div>
-            <div className="container container-medium article-prose centered-prose reveal feature-keyword-note">
-              <p>If you arrived looking for a <strong>Brat font generator</strong>, the distinction is simple: this tool creates the condensed, blurred text appearance inside an image, but it does not provide an installable font file. The typography controls are designed for Brat-style graphics rather than font downloads.</p>
             </div>
           </div>
         </section>
@@ -95,6 +106,11 @@ export default function FeaturesPage() {
           </div>
         </section>
 
+        <RelatedPages items={[
+          { href: '/#generator', eyebrow: 'Tool', title: 'Create Brat Text', description: 'Open the main Brat Generator and create a text graphic immediately.', accent: 'green' },
+          { href: '/brat-styles/', eyebrow: 'Styles', title: 'Explore Brat Styles', description: 'Compare green, black, white, pink and custom colour variations.', accent: 'pink' },
+          { href: '/brat-album-cover-generator/', eyebrow: 'Tool', title: 'Brat Album Cover Generator', description: 'Create a square Brat-style cover with title, artist line and export controls.', accent: 'blue' },
+        ]} />
 
       </main>
       <SiteFooter />

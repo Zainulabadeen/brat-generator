@@ -60,7 +60,7 @@ export default function AlbumCoverGuidePage() {
       caption: 'Green Brat-style album cover example created with Brat Generator',
     },
     datePublished: '2026-07-18T00:00:00+05:00',
-    dateModified: '2026-09-22T00:00:00+05:00',
+    dateModified: '2026-09-23T00:00:00+05:00',
     author: organizationEntity,
     publisher: organizationEntity,
   };
@@ -82,9 +82,9 @@ export default function AlbumCoverGuidePage() {
         <article>
           <section className="section section-tight">
             <div className="container container-medium article-prose reveal">
-              <p className="article-meta">Published 18 July 2026 · Updated 22 September 2026 · Reviewed against the current generator controls</p>
+              <p className="article-meta">Published 18 July 2026 · Updated 23 September 2026 · Reviewed against the current generator controls</p>
               <p className="article-lead">The Brat-inspired album-cover look is easier to recreate than it first appears. Use a flat lime background, short lowercase text, a narrow typeface, tight spacing, and enough blur to feel intentionally rough without losing legibility.</p>
-              <p>This guide explains how to make a Brat album cover with a free browser-based generator, including colour values, typography, blur, recommended dimensions, and platform considerations. The built-in Brat album cover maker is designed for this focused workflow rather than general-purpose editing. No account or design software is required, and the export has no watermark. If you are new to the controls, start with the <Link href="/how-to-use/">complete Brat Generator tutorial</Link>.</p>
+              <p>This guide explains how to make a Brat album cover with a free browser-based generator, including colour values, typography, blur, recommended dimensions, and platform considerations. The dedicated Brat album cover maker is designed for this focused workflow rather than general-purpose editing. No account or design software is required, and the export has no watermark. If you are new to the controls, start with the <Link href="/#how-to">complete Brat Generator tutorial</Link>.</p>
             </div>
           </section>
 
@@ -149,7 +149,7 @@ export default function AlbumCoverGuidePage() {
               <div className="guide-step-list">
                 {coverSteps.map(([n,t,b],i)=><article className={`glass guide-step reveal reveal-delay-${i % 3}`} key={n}><div className="guide-step-no">{n}</div><div><h3>{t}</h3><p>{b}</p></div></article>)}
               </div>
-              <div className="section-cta reveal"><Link className="text-link" href="/#generator">Open the Brat Album Cover Generator →</Link></div>
+              <div className="section-cta reveal"><Link className="text-link" href="/brat-album-cover-generator/">Open the Brat Album Cover Generator →</Link></div>
             </div>
           </section>
 
@@ -229,7 +229,7 @@ export default function AlbumCoverGuidePage() {
               <p>Start with the correct aspect ratio and keep important text away from the edges. Make a separate vertical version for Stories or TikTok instead of stretching a square cover.</p>
               <h3>The downloaded image looks pixelated</h3>
               <p>Export from one of the built-in canvas sizes and avoid enlarging a smaller download afterward. For more browser and download fixes, see the <Link href="/blog/brat-generator-not-working/">Brat Generator troubleshooting guide</Link>.</p>
-              <p>Want a control-by-control walkthrough? Read <Link href="/how-to-use/">how to use Brat Generator</Link>, or review the <Link href="/features/">current feature list</Link>.</p>
+              <p>Want a control-by-control walkthrough? Read <Link href="/#how-to">how to use Brat Generator</Link>, or review the <Link href="/features/">current feature list</Link>.</p>
             </div>
           </section>
 

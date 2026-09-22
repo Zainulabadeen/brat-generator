@@ -1,11 +1,13 @@
 import { siteConfig } from '@/lib/site';
 
 export const organizationId = `${siteConfig.url}/#organization`;
+export const websiteId = `${siteConfig.url}/#website`;
 
 export const organizationEntity = {
   '@type': 'Organization',
   '@id': organizationId,
   name: siteConfig.name,
+  alternateName: siteConfig.shortName,
   url: `${siteConfig.url}/`,
   email: siteConfig.contactEmail,
   logo: {
@@ -26,3 +28,16 @@ export const organizationSchema = {
   '@context': 'https://schema.org',
   ...organizationEntity,
 };
+
+export function breadcrumbSchema(items: Array<{ name: string; url: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}

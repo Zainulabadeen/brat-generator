@@ -84,7 +84,7 @@ export default function TroubleshootingGuidePage() {
       caption: 'Brat Generator troubleshooting guide',
     },
     datePublished: '2026-09-07T00:00:00+05:00',
-    dateModified: '2026-09-07T00:00:00+05:00',
+    dateModified: '2026-09-23T00:00:00+05:00',
     author: organizationEntity,
     publisher: organizationEntity,
   };
@@ -106,7 +106,7 @@ export default function TroubleshootingGuidePage() {
         <article>
           <section className="section section-tight">
             <div className="container container-medium article-prose reveal">
-              <p className="article-meta">Published 7 September 2026 · Troubleshooting guide</p>
+              <p className="article-meta">Published 7 September 2026 · Updated 23 September 2026 · Troubleshooting guide</p>
               <p className="article-lead">Most Brat Generator problems are caused by browser download behaviour, an aggressive blur setting, text that is too long for the selected canvas, or differences between devices. Work through the fixes below in order; you usually will not need to reinstall anything because the generator runs directly in your browser.</p>
             </div>
           </section>
@@ -150,7 +150,7 @@ export default function TroubleshootingGuidePage() {
               <p className="eyebrow">Still Stuck?</p>
               <h2>Reset the Design Before You Start Over</h2>
               <p>If the generator itself loads but the result looks wrong, return to a simple setup first: use a short lowercase phrase, the default Brat Green background, dark text, a moderate text size, and very little blur. Once that version looks correct, add your custom colour, spacing, and stronger effects one setting at a time.</p>
-              <p>If the issue is about how a specific control works, the <Link className="inline-source-link" href="/how-to-use/">step-by-step Brat Generator guide</Link> explains the full workflow from text entry through download.</p>
+              <p>If the issue is about how a specific control works, the <Link className="inline-source-link" href="/#how-to">step-by-step Brat Generator guide</Link> explains the full workflow from text entry through download.</p>
             </div>
           </section>
 

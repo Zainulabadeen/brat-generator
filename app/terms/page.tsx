@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Terms of Use & Disclaimer | Brat Generator' },
@@ -37,9 +39,21 @@ export default function TermsPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${siteConfig.url}/terms/#webpage`,
+    url: `${siteConfig.url}/terms/`,
+    name: 'Terms of Use & Disclaimer',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -53,7 +67,7 @@ export default function TermsPage() {
 
         <section className="section section-tight">
           <div className="container container-medium article-prose legal-prose reveal">
-            <p className="article-meta">Last updated: 7 September 2026</p>
+            <p className="article-meta">Last updated: 23 September 2026</p>
             <h2>1. Use of the Website</h2>
             <p>Brat Generator is provided as a creative browser-based tool. You may use it to create personal graphics, covers, memes, profile images and other designs, subject to these terms and any laws or platform rules that apply to your use.</p>
 
@@ -80,6 +94,11 @@ export default function TermsPage() {
           </div>
         </section>
 
+        <RelatedPages title="Useful Site Pages" items={[
+          { href: '/privacy-policy/', eyebrow: 'Privacy', title: 'Privacy Policy', description: 'Understand local browser processing and ordinary technical hosting data.', accent: 'green' },
+          { href: '/about/', eyebrow: 'About', title: 'About the Tool', description: 'See why Brat Generator was built and what it is designed to do.', accent: 'pink' },
+          { href: '/contact/', eyebrow: 'Support', title: 'Contact', description: 'Use the contact page for feedback, rights concerns or policy questions.', accent: 'blue' },
+        ]} />
       </main>
       <SiteFooter />
     </>

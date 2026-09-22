@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Styles: Green, Black, White, Pink & Custom Colours' },
@@ -45,9 +47,21 @@ export default function BratStylesPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${siteConfig.url}/brat-styles/#webpage`,
+    url: `${siteConfig.url}/brat-styles/`,
+    name: 'Brat Styles',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -91,7 +105,7 @@ export default function BratStylesPage() {
           <div className="container container-medium prose-split">
             <div className="reveal">
               <p className="eyebrow left">Colour Guide</p>
-              <h2 className="prose-heading">Official Brat Green Colour Guide</h2>
+              <h2 className="prose-heading">Brat Green Colour Guide</h2>
               <p>The generator uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. It is the shade most people are trying to recreate when they search for the Brat green colour code or Brat green hex.</p>
               <p>Enter #8ACE00 in the colour picker for a consistent digital starting point, then pair it with black or white text depending on the contrast you want.</p>
             </div>
@@ -124,6 +138,11 @@ export default function BratStylesPage() {
           </div>
         </section>
 
+        <RelatedPages items={[
+          { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Apply any of these colour styles to your own text and download the result.', accent: 'green' },
+          { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use the Brat Generator', description: 'Follow the quick homepage workflow for text, blur, sizing and export.', accent: 'blue' },
+          { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
+        ]} />
 
       </main>
       <SiteFooter />

@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Privacy Policy | Brat Generator' },
@@ -39,9 +41,21 @@ export default function PrivacyPolicyPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${siteConfig.url}/privacy-policy/#webpage`,
+    url: `${siteConfig.url}/privacy-policy/`,
+    name: 'Privacy Policy',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -55,7 +69,7 @@ export default function PrivacyPolicyPage() {
 
         <section className="section section-tight">
           <div className="container container-medium article-prose legal-prose reveal">
-            <p className="article-meta">Last updated: 7 September 2026</p>
+            <p className="article-meta">Last updated: 23 September 2026</p>
             <h2>1. Generator Content</h2>
             <p>The generator is designed so that the text you enter, colour choices, blur settings and image rendering are processed in your browser. The generator does not need to upload your design to an application server in order to create or download the image.</p>
 
@@ -82,6 +96,11 @@ export default function PrivacyPolicyPage() {
           </div>
         </section>
 
+        <RelatedPages title="Trust & Site Information" items={[
+          { href: '/about/', eyebrow: 'About', title: 'About Brat Generator', description: 'Learn why the tool exists and how the browser-based workflow is designed.', accent: 'green' },
+          { href: '/terms/', eyebrow: 'Legal', title: 'Terms & Disclaimer', description: 'Review acceptable use, non-affiliation and commercial-use considerations.', accent: 'pink' },
+          { href: '/contact/', eyebrow: 'Support', title: 'Contact', description: 'Find the contact channel for feedback, privacy questions and rights concerns.', accent: 'blue' },
+        ]} />
       </main>
       <SiteFooter />
     </>

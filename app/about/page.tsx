@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationSchema } from '@/lib/schema';
+import { organizationSchema, websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'About Brat Generator | Free Browser-Based Design Tool' },
@@ -32,9 +33,21 @@ export default function AboutPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${siteConfig.url}/about/#webpage`,
+    url: `${siteConfig.url}/about/`,
+    name: 'About Brat Generator',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={[breadcrumb, organizationSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema, organizationSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -73,6 +86,11 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <RelatedPages items={[
+          { href: '/features/', eyebrow: 'Tool', title: 'Key Features', description: 'See exactly what the generator can do and how each control works.', accent: 'green' },
+          { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use It', description: 'Follow the quick homepage workflow from text entry to download.', accent: 'blue' },
+          { href: '/privacy-policy/', eyebrow: 'Trust', title: 'Privacy Policy', description: 'See what is processed locally and what technical data may be handled by hosting.', accent: 'pink' },
+        ]} />
       </main>
       <SiteFooter />
     </>

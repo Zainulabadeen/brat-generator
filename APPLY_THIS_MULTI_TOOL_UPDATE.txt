@@ -1,0 +1,76 @@
+BRAT GENERATOR — MULTI-TOOL + HEADER + LANGUAGE + LOGIN UPDATE
+22 September 2026
+
+WHAT THIS PATCH DOES
+- Blends the homepage tool-first hero into the next section more naturally.
+- Makes inner-page breadcrumbs use the same compact pill language as the homepage free/no-sign-up badge.
+- Replaces Home/How-to navigation with a tool-first header:
+  Brat Text, Video, Meme, Image, Font, Album Cover, Features, Brat Styles, Blog.
+- Adds new working browser-based tool pages:
+  /brat-text-generator/
+  /brat-meme-generator/
+  /brat-image-generator/
+  /brat-font-generator/
+  /brat-album-cover-generator/
+- Keeps the existing /video-generator/ page and its own how-to section.
+- Each new tool page has a simple on-page How to Use section.
+- /how-to-use/ is removed from normal navigation and redirects to the Brat Text tool guide in production.
+- Adds a language selector before Login.
+- Adds browser-locale/timezone language preference detection.
+- Adds Google Sign-In UI using Google Identity Services.
+- Updates sitemap, redirects, llms.txt, security/CSP rules and automated SEO checks.
+
+IMPORTANT — GOOGLE LOGIN SETUP
+The Login button needs YOUR Google OAuth client ID. Create a Web Application OAuth Client in Google Cloud.
+Authorized JavaScript origins should include:
+  http://localhost:3000
+  https://bratgeneratorpro.net
+
+Then create .env.local in your project root:
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID=YOUR_CLIENT_ID.apps.googleusercontent.com
+
+Restart npm run dev after changing .env.local.
+The current implementation is a client-side sign-in/profile display for this static site. Do not use it as a server-side authorization system for protected/private data without adding backend token verification.
+
+IMPORTANT — LANGUAGE BEHAVIOUR
+- Header/navigation labels use built-in translations for all included languages.
+- Initial locale is selected from browser language, with timezone fallback for target markets.
+- Full visible-page translation is attempted through the browser's built-in Translator API where supported.
+- That browser Translator API is experimental and is not supported by every browser/device, so universal full-page automatic translation cannot be guaranteed without creating dedicated translated routes or using a translation service/API.
+
+HOW TO APPLY
+1. Extract this ZIP.
+2. Copy all files/folders into the SAME existing Brat Generator project root.
+3. Choose Replace files in destination when Windows asks.
+4. In VS Code terminal run:
+     npm run technical:check
+     npm run build
+     npm run dev
+5. Check these URLs locally:
+     /
+     /brat-text-generator/
+     /video-generator/
+     /brat-meme-generator/
+     /brat-image-generator/
+     /brat-font-generator/
+     /brat-album-cover-generator/
+     /features/
+     /brat-styles/
+     /blog/
+6. Test all new tools: type text, change controls, upload an optional background where offered, Copy Image, and PNG/JPG/WebP downloads.
+7. Configure Google Client ID before testing Login.
+
+GIT PUSH AFTER LOCAL TEST
+  git status
+  git add .
+  git commit -m "Add Brat tool suite, language selector and Google login"
+  git push origin main
+
+VERIFICATION ALREADY RUN IN THE BUILD WORKSPACE
+- TypeScript: PASS
+- npm run technical:check: PASS (0 failures, 0 warnings)
+- vercel.json JSON: PASS
+- sitemap.xml XML: PASS
+
+NOTE ABOUT FULL NEXT BUILD IN THE ASSISTANT WORKSPACE
+The full Next.js build could not be completed here because this isolated Linux runtime tries to download a platform-specific Next SWC package from npm and outbound network/DNS is disabled. Run npm run build on your normal Windows project before pushing.

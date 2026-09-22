@@ -1,41 +1,37 @@
 # Brat Generator
 
-> Brat Generator is a free browser-based creative tool for making Brat-inspired text graphics, album-cover-style images, memes, social graphics, and animated videos without requiring an account.
+> Brat Generator is a free browser-based suite of Brat-inspired creative tools for text, memes, images, typography, album-cover-style artwork and animated video.
 
 Canonical site: https://bratgeneratorpro.net/
 
 Important notes:
 - Brat Generator is an independent fan-made project and is not affiliated with Charli XCX, Atlantic Records, or Warner Music.
-- The website's main public content is the canonical pages linked below. Standalone embed HTML files are implementation details, not separate editorial pages.
-- The image generator renders previews and downloadable output in the user's browser. The site includes adjustable colours, text size, letter spacing, blur, export dimensions, and PNG/JPG/WebP output.
-- The video generator provides a browser-based Brat-inspired video workflow with text, audio, preview, FPS, and export controls.
-- The default Brat Green preset uses #8ACE00 as a practical digital approximation; appearance can vary by display.
-- For legal or commercial-use questions, use the Terms & Disclaimer page rather than inferring permission from the existence of the tool.
+- The main Brat text generator lives on the homepage.
+- The image-based tools process the active design in the browser; uploaded background images are used locally by the current editor workflow.
+- The default Brat Green preset uses #8ACE00 as a practical digital approximation; display appearance can vary.
+- The site does not claim an official downloadable "Brat font"; the font tool creates typography graphics using practical condensed-font approximations and styling controls.
+- For legal or commercial-use questions, see the Terms & Disclaimer page.
 
 ## Tools
 
-- [Brat Generator](https://bratgeneratorpro.net/): Main free Brat-inspired text, album-cover, meme, and social-graphic generator with live preview and browser-based downloads.
-- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Browser-based tool for creating animated Brat-inspired videos with custom text, audio, preview, FPS, and output controls.
+- [Brat Generator / Text Tool](https://bratgeneratorpro.net/#generator): Main Brat text generator with colour, blur, spacing, canvas and PNG/JPG/WebP export controls.
+- [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Animated Brat-style text workflow with optional audio, FPS controls and video/GIF/frame exports.
+- [Brat Meme Generator](https://bratgeneratorpro.net/brat-meme-generator/): Meme workspace with top/bottom text, photo upload, colour controls, blur, lo-fi effects and image export.
+- [Brat Image Generator](https://bratgeneratorpro.net/brat-image-generator/): Image creator with custom text, background upload, colour presets, effects and multiple canvas ratios.
+- [Brat Font Generator](https://bratgeneratorpro.net/brat-font-generator/): Typography image tool with font choices, size, spacing, alignment, blur, colours and transparent-background export.
+- [Brat Album Cover Generator](https://bratgeneratorpro.net/brat-album-cover-generator/): Square cover-art creator with title, artist line, colours, blur, optional background image and high-resolution export.
 
-## Guides
+Each dedicated tool page includes its own short how-to-use section, feature summary, use cases, tips and related internal links.
 
-- [How to Use Brat Generator](https://bratgeneratorpro.net/how-to-use/): Step-by-step instructions covering text entry, colours, blur, spacing, canvas sizes, preview, and download.
-- [Brat Generator Features](https://bratgeneratorpro.net/features/): Detailed overview of live preview, colour presets, typography controls, export sizes, formats, privacy-related behaviour, and tool limitations.
-- [Brat Styles](https://bratgeneratorpro.net/brat-styles/): Guide to Brat Green, black, white, pink, blue, and custom colour styles, including typography and blur guidance.
+## Guides and site information
 
-## Blog
-
-- [Brat Generator Guides](https://bratgeneratorpro.net/blog/): Hub for practical tutorials and troubleshooting content.
-- [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/): Four-step album-cover guide covering colour, condensed typography, controlled blur, canvas sizes, and browser export.
-- [Brat Generator Not Working?](https://bratgeneratorpro.net/blog/brat-generator-not-working/): Troubleshooting guide for common browser, loading, text, preview, and download issues.
-
-## Site information
-
-- [About Brat Generator](https://bratgeneratorpro.net/about/): Purpose, background, browser-based workflow, and independent fan-made status.
-- [Contact](https://bratgeneratorpro.net/contact/): Contact route for feedback, bug reports, privacy questions, rights concerns, and website enquiries.
-- [XML Sitemap](https://bratgeneratorpro.net/sitemap.xml): Canonical list of indexable public pages for search discovery.
-
-## Optional
-
-- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Privacy information covering browser processing, hosting logs, cookies, analytics, and third-party links.
-- [Terms & Disclaimer](https://bratgeneratorpro.net/terms/): Acceptable-use information, user responsibility, commercial-use caution, legal notes, and non-affiliation statement.
+- [Brat Generator Features](https://bratgeneratorpro.net/features/)
+- [Brat Styles](https://bratgeneratorpro.net/brat-styles/)
+- [Blog](https://bratgeneratorpro.net/blog/)
+- [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/)
+- [Brat Generator Not Working?](https://bratgeneratorpro.net/blog/brat-generator-not-working/)
+- [About](https://bratgeneratorpro.net/about/)
+- [Contact](https://bratgeneratorpro.net/contact/)
+- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/)
+- [Terms & Disclaimer](https://bratgeneratorpro.net/terms/)
+- [XML Sitemap](https://bratgeneratorpro.net/sitemap.xml)

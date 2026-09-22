@@ -1,16 +1,27 @@
-BRAT GENERATOR — PERFORMANCE + LAYOUT UPDATE
+BRAT GENERATOR — COMPACT TOOL HERO + FULL-SITE LANGUAGE UPDATE
 
-1. Make a backup of your current working project folder.
-2. Extract this ZIP.
-3. Copy everything from the extracted folder into your current project folder.
-4. Choose “Replace the files in the destination” when Windows asks.
-5. In VS Code run: npm run dev
-6. Check Home, Features, How to Use, Brat Styles, Video Generator and Blog.
-7. Stop the dev server with Ctrl+C.
-8. Run: npm run prelive
-9. If PASS appears, push to GitHub:
-   git add .
-   git commit -m "Improve performance and unify page layout"
-   git push
+Apply:
+1. Extract this ZIP.
+2. Copy all folders/files into the existing Brat Generator project root.
+3. Choose Replace files when Windows asks.
+4. Run:
+   npm run technical:check
+   npm run build
+   npm run dev
 
-The Album Cover Guide is now treated as a Blog post and removed from the header.
+What changed:
+- Header: Brat Font + Brat Album Cover labels.
+- Homepage 100% FREE pill moved slightly higher with smaller surrounding spacing.
+- Inner-page breadcrumb pills use the same compact top rhythm.
+- Brat Video/Meme/Image/Font/Album tool-page H1s are smaller and more compact.
+- Hero description text under those tool headings is removed.
+- Working tools move closer to the H1/breadcrumb area.
+- Video page's extra pre-tool marketing heading is removed so the actual video tool appears sooner.
+- Language selection now attempts whole-page translation, not only header labels.
+- Translation preference persists across navigation and can auto-detect browser/timezone language on first visit.
+- Embedded Brat Text and Brat Video tools also receive the selected runtime language through their own translation layer.
+- Vercel and Apache CSP allow the translation service resources.
+
+Important:
+- Runtime full-page translation requires an internet connection and the Google Translate runtime service to be reachable.
+- This is a visitor-facing language feature. It does NOT create separate SEO-indexable /es/, /id/, /hi/ etc. pages or hreflang URLs.

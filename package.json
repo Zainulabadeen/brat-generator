@@ -9,9 +9,9 @@
     "prelive": "npm run build && node scripts/prelive-check.mjs",
     "onpage": "npm run build && node scripts/onpage-check.mjs",
     "onpage:check": "node scripts/onpage-check.mjs",
-    "technical": "npm run build && node scripts/technical-check.mjs",
     "technical:check": "node scripts/technical-check.mjs",
-    "technical:live": "node scripts/live-technical-check.mjs https://bratgeneratorpro.net"
+    "technical:live": "node scripts/technical-live-check.mjs",
+    "seo:check": "npm run build && node scripts/onpage-check.mjs && node scripts/technical-check.mjs && node scripts/prelive-check.mjs"
   },
   "dependencies": {
     "next": "latest",

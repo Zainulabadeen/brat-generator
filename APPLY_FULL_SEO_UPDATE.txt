@@ -1,0 +1,29 @@
+BRAT GENERATOR — FULL ON-PAGE + TECHNICAL SEO UPDATE
+
+1. Extract this ZIP.
+2. Paste its folders/files into the SAME existing project root.
+3. Choose Replace files when Windows asks.
+4. Do NOT delete your .env.local or node_modules folder.
+5. Run:
+
+npm run technical:check
+npm run build
+npm run onpage:check
+npm run dev
+
+6. Check these pages locally:
+/
+/video-generator/
+/brat-meme-generator/
+/brat-image-generator/
+/brat-font-generator/
+/brat-album-cover-generator/
+/features/
+/brat-styles/
+/blog/
+/sitemap.xml
+/robots.txt
+
+7. After deployment run:
+
+npm run technical:live

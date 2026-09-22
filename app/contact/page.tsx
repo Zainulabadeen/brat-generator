@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
+import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity, websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Contact Brat Generator | Support & Rights Concerns' },
@@ -38,9 +40,22 @@ export default function ContactPage() {
     ],
   };
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${siteConfig.url}/contact/#webpage`,
+    url: `${siteConfig.url}/contact/`,
+    name: 'Contact Brat Generator',
+    description: metadata.description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': websiteId },
+    about: organizationEntity,
+    dateModified: '2026-09-23',
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -57,25 +72,26 @@ export default function ContactPage() {
             <article className="contact-card glass reveal">
               <span className="contact-icon">✉️</span>
               <p className="eyebrow left">Email</p>
-              <h2 dangerouslySetInnerHTML={{ __html: `<!--email_off-->${siteConfig.contactEmail}<!--/email_off-->` }} />
+              <h2>{siteConfig.contactEmail}</h2>
               <p>Use this address for bug reports, feedback, privacy questions, rights concerns and general enquiries.</p>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: `<!--email_off--><a class="pill-btn primary glow-brat" href="mailto:${siteConfig.contactEmail}">Email Brat Generator →</a><!--/email_off-->`,
-                }}
-              />
+              <Link className="pill-btn primary glow-brat" href={`mailto:${siteConfig.contactEmail}`}>Email Brat Generator →</Link>
             </article>
             <article className="contact-card glass reveal reveal-delay-1">
               <span className="contact-icon">🛠️</span>
               <p className="eyebrow left">Bug Report</p>
               <h2>Include the Details</h2>
               <p>If something is not working, include your browser, device, the page URL and a short description of what happened. A screenshot is helpful when the issue is visual.</p>
-              <Link className="text-link" href="/blog/brat-generator-not-working/">Check Troubleshooting <span aria-hidden="true">→</span></Link>
+              <Link className="text-link" href="/blog/brat-generator-not-working/">Open Troubleshooting Guide <span aria-hidden="true">→</span></Link>
             </article>
           </div>
         </section>
 
 
+        <RelatedPages title="Helpful Links" items={[
+          { href: '/blog/brat-generator-not-working/', eyebrow: 'Help', title: 'Troubleshooting Guide', description: 'Fix common download, text, colour and browser issues.', accent: 'green' },
+          { href: '/privacy-policy/', eyebrow: 'Privacy', title: 'Privacy Policy', description: 'Read how generator content and technical website data are handled.', accent: 'blue' },
+          { href: '/terms/', eyebrow: 'Legal', title: 'Terms & Disclaimer', description: 'Review acceptable use, commercial-use cautions and non-affiliation.', accent: 'pink' },
+        ]} />
       </main>
       <SiteFooter />
     </>

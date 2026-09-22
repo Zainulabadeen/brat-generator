@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { siteConfig } from '@/lib/site';
 import SiteAnalytics from '@/components/SiteAnalytics';
+import LanguageProvider from '@/components/LanguageProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -69,9 +70,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-GB" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <a className="skip-link" href="#main-content">Skip to main content</a>
-        {children}
-        <SiteAnalytics />
+        <LanguageProvider>
+          <a className="skip-link" href="#main-content">Skip to main content</a>
+          {children}
+          <SiteAnalytics />
+        </LanguageProvider>
       </body>
     </html>
   );
