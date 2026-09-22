@@ -1,0 +1,28 @@
+BRAT GENERATOR — FINAL ON-PAGE RESEARCH UPDATE
+
+This ZIP contains ONLY changed/new files. It is not a full project.
+
+HOW TO APPLY
+1. Extract this ZIP.
+2. Copy all extracted folders/files into the ROOT of your existing Brat Generator Next.js project.
+3. Choose Replace files in the destination when Windows asks.
+4. In VS Code terminal run:
+
+   npm run build
+   npm run onpage
+   npm run dev
+
+5. Check these pages locally:
+   /
+   /features/
+   /how-to-use/
+   /blog/how-to-make-a-brat-album-cover-free/
+
+6. If all are correct, push:
+
+   git status
+   git add .
+   git commit -m "Complete final on-page SEO research updates"
+   git push origin main
+
+The update does not change package.json or dependencies.

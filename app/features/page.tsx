@@ -64,6 +64,9 @@ export default function FeaturesPage() {
                 <div className={`reveal reveal-delay-${i % 3}`} key={title}><article className={`glass info-card ${glow} hover-lift`}><div className="emoji">{icon}</div><h3>{title}</h3><p>{body}</p></article></div>
               ))}
             </div>
+            <div className="container container-medium article-prose centered-prose reveal feature-keyword-note">
+              <p>If you arrived looking for a <strong>Brat font generator</strong>, the distinction is simple: this tool creates the condensed, blurred text appearance inside an image, but it does not provide an installable font file. The typography controls are designed for Brat-style graphics rather than font downloads.</p>
+            </div>
           </div>
         </section>
 

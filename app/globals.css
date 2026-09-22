@@ -1210,3 +1210,15 @@ main h3,
   .page-hero-section .inner-hero-copy{font-size:15px;margin-top:24px}
   .tool-container{width:min(100% - 24px,1280px)!important}
 }
+
+
+/* On-page SEO examples: original generator-style outputs used in guides */
+.guide-example{max-width:620px;margin:0 auto;padding:18px;border-radius:22px;text-align:center}
+.guide-example img{display:block;width:100%;height:auto;border-radius:14px}
+.guide-example figcaption,.example-card figcaption{margin:14px 4px 2px;color:var(--muted);font-size:14px;line-height:1.65}
+.example-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.example-card{margin:0;padding:14px;border-radius:20px;overflow:hidden}
+.example-card img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:13px}
+.example-card strong{color:#111}
+@media (max-width:900px){.example-gallery{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.example-gallery{grid-template-columns:1fr}.guide-example{padding:12px}.example-card{padding:12px}}

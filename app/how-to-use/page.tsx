@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
@@ -49,7 +50,7 @@ export default function HowToUsePage() {
     mainEntityOfPage: `${siteConfig.url}/how-to-use/`,
     image: `${siteConfig.url}/og-image.png`,
     datePublished: '2026-09-07T00:00:00+05:00',
-    dateModified: '2026-09-07T00:00:00+05:00',
+    dateModified: '2026-09-22T00:00:00+05:00',
     author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
     publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
   };
@@ -70,6 +71,7 @@ export default function HowToUsePage() {
 
         <section className="section section-tight">
           <div className="container container-medium article-prose reveal">
+            <p className="article-meta">Updated 22 September 2026 · Reviewed against the current Brat Generator controls</p>
             <p className="eyebrow">Before You Start</p>
             <h2>What You Need Before You Start</h2>
             <p>Not much: a phone, tablet, laptop, or desktop computer with a modern browser; the text you want to display; and, optionally, a colour or platform size in mind. There is no Brat Generator app to install and no design software required.</p>
@@ -79,6 +81,7 @@ export default function HowToUsePage() {
               <li>An optional target size such as square, Story, portrait, or wide</li>
               <li>No account, plugin, or separate mobile app</li>
             </ul>
+            <p>If you want a quick overview before starting, see the <Link href="/features/">Brat Generator features</Link>. For a music-cover workflow, use the dedicated <Link href="/blog/how-to-make-a-brat-album-cover-free/">Brat album cover guide</Link>.</p>
           </div>
         </section>
 
@@ -98,6 +101,32 @@ export default function HowToUsePage() {
 
         <section className="section section-card">
           <div className="container container-wide">
+            <div className="section-heading reveal"><p className="eyebrow">Example Output</p><h2>What a Finished <span className="text-brat">Brat-Style Design</span> Can Look Like</h2><p>This original example uses the same simple ingredients described above: a flat Brat Green background, condensed lowercase text, and a light soft-focus effect.</p></div>
+            <figure className="guide-example glass reveal">
+              <Image src="/images/brat-cover-example-green.webp" alt="Example Brat-style green design created with condensed lowercase text and a light blur" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 560px" />
+              <figcaption>Example output: #8ACE00 background, dark condensed text, and a restrained blur. Use the live generator above the homepage to create your own wording and colours.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container container-medium article-prose reveal">
+            <p className="eyebrow">Troubleshooting</p>
+            <h2>Common Brat Generator Problems and Quick Fixes</h2>
+            <h3>Brat Generator text not fitting</h3>
+            <p>Shorten the phrase first, then reduce the text-size slider or choose a wider canvas. One to four words normally fit the condensed style more cleanly than a long sentence.</p>
+            <h3>Brat Generator blurry image</h3>
+            <p>A small amount of text blur is intentional. If the whole export looks soft, reduce the blur control and download again at one of the built-in pixel sizes instead of enlarging a smaller file afterward.</p>
+            <h3>How to download a Brat Generator image</h3>
+            <p>Choose PNG, JPG, or WebP, then press Download below the preview. On some phones the file appears in Downloads rather than Photos. If the button does not respond, try a current browser and check whether downloads are being blocked.</p>
+            <h3>Colours look different on another screen</h3>
+            <p>Brightness, colour profiles, and app compression can change how the same hex value appears. The selected hex code stays the same even when two displays render it slightly differently.</p>
+            <p>For a longer checklist, open <Link href="/blog/brat-generator-not-working/">Brat Generator not working: common problems and fixes</Link>.</p>
+          </div>
+        </section>
+
+        <section className="section section-card">
+          <div className="container container-wide">
             <div className="section-heading reveal"><p className="eyebrow">Sizing</p><h2>Best Sizes for <span className="text-pink">Each Platform</span></h2><p>Match the canvas ratio to the destination before fine-tuning the text so the final crop stays predictable.</p></div>
             <div className="simple-table glass reveal" role="region" aria-label="Recommended Brat Generator sizes" tabIndex={0}>
               <table>
@@ -109,10 +138,28 @@ export default function HowToUsePage() {
                 </tbody>
               </table>
             </div>
-            <p className="source-note reveal">Platform requirements can change. If you are preparing artwork for a specific publishing platform, check that platform’s current upload specifications before final release.</p>
+            <p className="source-note reveal">For a Brat Generator design for TikTok or an Instagram Story, start with 1080 × 1920. For a Brat PFP, keep important text away from the edges because many apps crop square profile images into circles. Platform requirements can change, so check the destination platform’s current upload specifications before final release.</p>
           </div>
         </section>
 
+        <section className="section">
+          <div className="container container-wide">
+            <div className="section-heading reveal"><p className="eyebrow">Comparison</p><h2>Brat Generator vs <span className="text-brat">Canva and Photoshop</span></h2><p>All three can produce a similar visual direction, but they solve different jobs.</p></div>
+            <div className="simple-table glass reveal" role="region" aria-label="Brat Generator vs Canva vs Photoshop" tabIndex={0}>
+              <table>
+                <thead><tr><th>Point</th><th>This Brat Generator</th><th>Canva</th><th>Photoshop</th></tr></thead>
+                <tbody>
+                  <tr><td>Brat-style setup</td><td>Ready-made controls</td><td>Manual styling in a general editor</td><td>Manual layers, type and effects</td></tr>
+                  <tr><td>Learning curve</td><td>Focused and beginner-friendly</td><td>Broad template workflow</td><td>More advanced editing workflow</td></tr>
+                  <tr><td>Best fit</td><td>Fast Brat-style text and cover graphics</td><td>Multi-purpose social and design work</td><td>Detailed compositing and professional editing</td></tr>
+                  <tr><td>Editing depth</td><td>Purpose-built controls</td><td>Broader general design tools</td><td>Extensive manual control</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="source-note reveal">If your goal is specifically a Brat album cover maker workflow, use the <Link href="/blog/how-to-make-a-brat-album-cover-free/">album-cover guide</Link> for square artwork, platform sizes, and original examples.</p>
+            <div className="section-cta reveal"><Link className="text-link" href="/#generator">Create your design in the live Brat Generator →</Link></div>
+          </div>
+        </section>
 
       </main>
       <SiteFooter />

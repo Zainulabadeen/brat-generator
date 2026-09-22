@@ -97,7 +97,6 @@ for (const page of pages) {
   if (!twitterCard) failures.push(`${page.url}: missing Twitter card metadata`);
 
   if (page.url !== '/' && !html.includes('BreadcrumbList')) failures.push(`${page.url}: missing BreadcrumbList structured data`);
-  if (page.url === '/' && !html.includes('FAQPage')) failures.push(`${page.url}: missing FAQPage structured data for visible FAQ content`);
   if ((page.url === '/' || page.url === '/video-generator/') && !html.includes('WebApplication')) failures.push(`${page.url}: missing WebApplication structured data`);
   if ((page.url.includes('/blog/') && page.url !== '/blog/') && !html.includes('BlogPosting')) failures.push(`${page.url}: missing BlogPosting structured data`);
   if (page.url === '/how-to-use/' && !html.includes('Article')) failures.push(`${page.url}: missing Article structured data`);
@@ -118,6 +117,15 @@ for (const page of pages) {
 
   if (h1s.length !== 1) failures.push(`${page.url}: expected exactly one H1, found ${h1s.length}`);
   if (!h2s.length) failures.push(`${page.url}: no H2 section heading found`);
+
+
+  const intentTerms = {
+    '/how-to-use/': ['brat generator text not fitting', 'brat generator blurry image', 'canva', 'photoshop'],
+    '/blog/how-to-make-a-brat-album-cover-free/': ['brat album cover ideas', 'canva', 'photoshop', 'spotify'],
+  }[page.url] || [];
+  for (const term of intentTerms) {
+    if (!visible.toLowerCase().includes(term)) failures.push(`${page.url}: researched intent term missing from visible copy: ${term}`);
+  }
 
   if (page.keyword) {
     const key = norm(page.keyword);

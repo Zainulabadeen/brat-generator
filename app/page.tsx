@@ -9,7 +9,7 @@ import { siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
-  description: 'Create Brat text, album covers, and memes in seconds with our free Brat Generator. Customize colours, font effects, blur, sizes, and download instantly.',
+  description: 'Create Brat text, album covers, and memes in seconds with our free Brat Generator. Customise colours, font effects, blur, sizes, and download instantly.',
   alternates: { canonical: '/' },
   openGraph: {
     url: '/',
@@ -56,7 +56,7 @@ const styleCards = [
 
 const ideas = [
   ['🎬', 'Album Covers & Playlist Artwork', 'Use the Brat album cover generator workflow for fan-made cover concepts, playlist artwork, artist names, moods, and inside jokes in a familiar Brat-inspired layout.'],
-  ['🎧', 'Memes & Quick Social Posts', 'Use the green square and blurred lowercase text for reactions, one-liners, TikTok thumbnails, Instagram Stories, or X posts.'],
+  ['🎧', 'Memes & Quick Social Posts', 'Use the tool as a lightweight Brat meme generator for reactions, one-liners, TikTok thumbnails, Instagram Stories, or X posts.'],
   ['💬', 'Wallpapers, PFPs & Banners', 'Make phone wallpapers, profile pictures, Discord banners, WhatsApp DPs, and other personal graphics.'],
   ['✨', 'One Style Across Platforms', 'Switch export sizes while keeping the same visual treatment for Instagram, TikTok, playlists, banners, and other creative projects.'],
 ];
@@ -259,7 +259,7 @@ export default function Home() {
         <section className="cta-section">
           <div className="cta-box reveal">
             <span className="cta-orb pink" /><span className="cta-orb blue" />
-            <h2>Create Your <span className="brat-text cta-brat">brat</span> Design Now</h2>
+            <h2>Create Your <span className="brat-text cta-brat">Brat</span> Design Now</h2>
             <p>Free · No sign-up · Browser-based · No watermark</p>
             <Link href="#generator" className="cta-button">Start Creating →</Link>
           </div>
