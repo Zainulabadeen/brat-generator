@@ -6,6 +6,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'About Brat Generator | Free Browser-Based Design Tool' },
@@ -33,7 +34,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <JsonLd data={breadcrumb} />
+      <JsonLd data={[breadcrumb, organizationSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

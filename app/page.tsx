@@ -6,6 +6,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity, organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
@@ -84,6 +85,7 @@ export default function Home() {
     url: `${siteConfig.url}/`,
     description: metadata.description,
     inLanguage: 'en-GB',
+    publisher: organizationEntity,
   };
 
   const appSchema = {
@@ -95,6 +97,7 @@ export default function Home() {
     operatingSystem: 'Any',
     browserRequirements: 'Requires a modern web browser with HTML5 Canvas support',
     description: 'A free browser-based generator for Brat-inspired text, cover art, memes, and social graphics.',
+    provider: organizationEntity,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     isAccessibleForFree: true,
     featureList: [
@@ -109,7 +112,7 @@ export default function Home() {
 
   return (
     <>
-      <JsonLd data={[websiteSchema, appSchema]} />
+      <JsonLd data={[websiteSchema, appSchema, organizationSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

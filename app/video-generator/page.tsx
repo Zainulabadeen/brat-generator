@@ -7,15 +7,16 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Video Generator | Create Animated Brat-Style Videos' },
   description:
-    'Use the free Brat Video Generator to create animated Brat-style videos with custom text, audio upload, live preview, FPS controls, and export options.',
+    'Use the free Brat Video Generator to create animated Brat-style videos with custom text, optional audio, live preview, FPS controls, real video export, GIF, and frame ZIP downloads.',
   alternates: { canonical: '/video-generator/' },
   openGraph: {
     title: 'Brat Video Generator',
-    description: 'Create animated Brat-style videos in your browser.',
+    description: 'Create Brat-style animations in your browser and export a real video file, GIF, or PNG frame ZIP.',
     url: '/video-generator/',
     type: 'website',
     images: ['/og-image.png'],
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Brat Video Generator',
-    description: 'Create animated Brat-style videos in your browser.',
+    description: 'Create Brat-style animations in your browser and export a video, GIF, or frame ZIP.',
     images: ['/og-image.png'],
   },
 };
@@ -47,7 +48,17 @@ export default function VideoGeneratorPage() {
     operatingSystem: 'Any',
     browserRequirements: 'Requires JavaScript and a modern web browser',
     description:
-      'Browser-based Brat-style video generator with text, audio upload, preview and output controls.',
+      'Browser-based Brat-style animation generator with text, optional audio, live preview, FPS controls, real video export, GIF export and PNG frame ZIP export.',
+    provider: organizationEntity,
+    isAccessibleForFree: true,
+    featureList: [
+      'Animated Brat-style text rendering',
+      'Optional audio track for video export',
+      'Browser-supported MP4 or WebM video export',
+      'Animated GIF export',
+      'PNG frame ZIP export',
+      'Adjustable FPS',
+    ],
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -74,7 +85,7 @@ export default function VideoGeneratorPage() {
             <div className="section-heading reveal video-tool-heading tool-section-heading">
               <p className="eyebrow">Create</p>
               <h2>Generate yours <span className="text-brat">now</span></h2>
-              <p>Type your text, upload audio, preview the result, adjust FPS, and use the output controls below.</p>
+              <p>Type your text, optionally upload audio, preview the result, adjust FPS, then export a real video file, animated GIF, or PNG frame ZIP. Video uses MP4 when the browser supports it and WebM otherwise.</p>
             </div>
             <div className="reveal">
               <BratVideoGenerator />
@@ -111,7 +122,7 @@ export default function VideoGeneratorPage() {
                 <div className="guide-step-no">03</div>
                 <div>
                   <h3>Add audio and preview</h3>
-                  <p>Upload audio when needed, then check timing and readability in the live preview.</p>
+                  <p>Audio is optional. Add it when you want sound in the video export, then check timing and readability in the live preview.</p>
                 </div>
               </article>
 
@@ -119,7 +130,7 @@ export default function VideoGeneratorPage() {
                 <div className="guide-step-no">04</div>
                 <div>
                   <h3>Choose output settings</h3>
-                  <p>Set the FPS and use the available export option that matches your project.</p>
+                  <p>Set the FPS, then choose Video, GIF, or Frames. Video exports in the best recording format your browser supports; Frames download as a ZIP of PNG images.</p>
                 </div>
               </article>
             </div>

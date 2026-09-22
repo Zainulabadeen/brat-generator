@@ -7,6 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Not Working? Common Problems & Quick Fixes' },
@@ -84,8 +85,8 @@ export default function TroubleshootingGuidePage() {
     },
     datePublished: '2026-09-07T00:00:00+05:00',
     dateModified: '2026-09-07T00:00:00+05:00',
-    author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
-    publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
+    author: organizationEntity,
+    publisher: organizationEntity,
   };
 
   return (

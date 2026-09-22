@@ -7,6 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'How to Use Brat Generator: Step-by-Step Guide (2026)' },
@@ -16,9 +17,9 @@ export const metadata: Metadata = {
     url: '/how-to-use/',
     title: 'How to Use Brat Generator: Step-by-Step Guide (2026)',
     description: 'A beginner-friendly walkthrough for creating and downloading a Brat-style graphic.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'How to use Brat Generator' }],
+    images: [{ url: '/images/brat-cover-example-green.webp', width: 1200, height: 1200, alt: 'Brat-style green design created with Brat Generator' }],
   },
-  twitter: { card: 'summary_large_image', title: 'How to Use Brat Generator', description: 'Step-by-step Brat Generator tutorial.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'How to Use Brat Generator', description: 'Step-by-step Brat Generator tutorial.', images: ['/images/brat-cover-example-green.webp'] },
 };
 
 const steps = [
@@ -48,11 +49,17 @@ export default function HowToUsePage() {
     headline: 'How to Use Brat Generator: Step-by-Step Guide',
     description: metadata.description,
     mainEntityOfPage: `${siteConfig.url}/how-to-use/`,
-    image: `${siteConfig.url}/og-image.png`,
+    image: {
+      '@type': 'ImageObject',
+      url: `${siteConfig.url}/images/brat-cover-example-green.webp`,
+      width: 1200,
+      height: 1200,
+      caption: 'Brat-style example created with Brat Generator',
+    },
     datePublished: '2026-09-07T00:00:00+05:00',
     dateModified: '2026-09-22T00:00:00+05:00',
-    author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
-    publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
+    author: organizationEntity,
+    publisher: organizationEntity,
   };
 
   return (

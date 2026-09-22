@@ -61,7 +61,7 @@
 
       <!-- 5. AUDIO UPLOAD DROPZONE -->
       <div class="bvg-dropzone" id="bvg-dropzone" tabindex="0" role="button" aria-label="Upload audio file">
-        <input type="file" id="bvg-audio-input" accept="audio/mp3,audio/wav,audio/mpeg,.mp3,.wav" hidden />
+        <input type="file" id="bvg-audio-input" accept="audio/mpeg,audio/wav,audio/mp4,audio/aac,audio/ogg,.mp3,.wav,.m4a,.aac,.ogg" hidden />
         <div class="bvg-dropzone-plus" aria-hidden="true">+</div>
         <div class="bvg-dropzone-text" id="bvg-dropzone-text">Drop Your Audio, Babe</div>
         <div class="bvg-dropzone-sub" id="bvg-dropzone-sub">or click to browse</div>
@@ -69,10 +69,11 @@
 
       <!-- 6. OUTPUT FORMAT TABS -->
       <div class="bvg-formats" role="tablist" aria-label="Output format">
-        <button class="bvg-format is-active" type="button" data-format="mp4">MP4</button>
+        <button class="bvg-format is-active" type="button" data-format="video" id="bvg-video-format">Video</button>
         <button class="bvg-format" type="button" data-format="gif">GIF</button>
         <button class="bvg-format" type="button" data-format="frames">Frames</button>
       </div>
+      <p class="bvg-export-note" id="bvg-export-note">Video export uses the best format supported by your browser. GIF and frame exports are silent.</p>
 
       <!-- 7. SETTINGS & EXPORT PANEL -->
       <div class="bvg-settings">
@@ -87,7 +88,7 @@
         </div>
 
         <button class="bvg-export" id="bvg-export" type="button" disabled>
-          <span class="bvg-export-label">Export as MP4</span>
+          <span class="bvg-export-label">Export Video</span>
         </button>
       </div>
     </div>
@@ -341,6 +342,13 @@
     border-bottom-color: var(--bvg-lime);
   }
 
+  #bvg-root .bvg-export-note {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #666;
+  }
+
   /* ---- Settings panel ---- */
   #bvg-root .bvg-settings {
     background: #eef5ff;
@@ -534,9 +542,36 @@
     var state = {
       hasAudio: false,
       hasLyrics: false,
-      format: 'mp4',
+      audioFile: null,
+      format: 'video',
       exporting: false
     };
+
+    var videoFormatTab = root.querySelector('#bvg-video-format');
+    var exportNote = root.querySelector('#bvg-export-note');
+
+    function getPreferredVideoSpec() {
+      if (typeof MediaRecorder === 'undefined') return null;
+      var candidates = [
+        { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4', label: 'MP4' },
+        { mime: 'video/mp4', ext: 'mp4', label: 'MP4' },
+        { mime: 'video/webm;codecs=vp9,opus', ext: 'webm', label: 'WebM' },
+        { mime: 'video/webm;codecs=vp8,opus', ext: 'webm', label: 'WebM' },
+        { mime: 'video/webm', ext: 'webm', label: 'WebM' }
+      ];
+      for (var i = 0; i < candidates.length; i += 1) {
+        if (!MediaRecorder.isTypeSupported || MediaRecorder.isTypeSupported(candidates[i].mime)) return candidates[i];
+      }
+      return null;
+    }
+
+    var videoSpec = getPreferredVideoSpec();
+    if (videoFormatTab) videoFormatTab.textContent = videoSpec ? videoSpec.label : 'Video';
+    if (exportNote) {
+      exportNote.textContent = videoSpec
+        ? ('Video exports as ' + videoSpec.label + ' in this browser. GIF and frame exports are silent.')
+        : 'This browser does not support in-browser video recording. GIF and frame exports are still available.';
+    }
 
     // ---- Tab switching: Lyrics / Preview ----
     tabs.forEach(function (tab) {
@@ -549,28 +584,27 @@
           panel.classList.toggle('is-active', panel.getAttribute('data-view-panel') === target);
         });
 
-        if (target === 'preview') {
-          syncPreview();
-        }
+        if (target === 'preview') syncPreview();
       });
     });
 
-    // ---- Output format tabs: MP4 / GIF / Frames ----
+    // ---- Output format tabs ----
     formatTabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
         formatTabs.forEach(function (t) { t.classList.remove('is-active'); });
         tab.classList.add('is-active');
         state.format = tab.getAttribute('data-format');
         updateExportLabel();
+        updateExportReadiness();
       });
     });
 
     function updateExportLabel() {
       var labelEl = exportBtn.querySelector('.bvg-export-label');
-      var formatLabel = state.format === 'mp4' ? 'MP4' : (state.format === 'gif' ? 'GIF' : 'Frames');
-      if (!state.exporting) {
-        labelEl.textContent = 'Export as ' + formatLabel;
-      }
+      if (state.exporting) return;
+      if (state.format === 'video') labelEl.textContent = 'Export ' + (videoSpec ? videoSpec.label : 'Video');
+      else if (state.format === 'gif') labelEl.textContent = 'Export GIF';
+      else labelEl.textContent = 'Export Frames ZIP';
     }
 
     // ---- Paste Text ----
@@ -587,28 +621,22 @@
       }
     });
 
-    // ---- Trim Text: remove extra whitespace / empty lines ----
+    // ---- Trim Text ----
     trimBtn.addEventListener('click', function () {
       var lines = lyricsTextarea.value.split(/\r?\n/);
-      var trimmedLines = lines
-        .map(function (line) { return line.trim(); })
-        .filter(function (line) { return line.length > 0; });
+      var trimmedLines = lines.map(function (line) { return line.trim(); }).filter(Boolean);
       lyricsTextarea.value = trimmedLines.join('\n');
       onLyricsChanged();
     });
 
-    // ---- Create Sets from Lyrics (placeholder grouping action) ----
+    // ---- Create Sets from Lyrics ----
     makeSetsBtn.addEventListener('click', function () {
       if (!lyricsTextarea.value.trim()) {
-        window.alert('Add some lyrics first, babe.');
+        window.alert('Add some lyrics first.');
         return;
       }
-      // Simple "set" creation: split on blank lines into groups.
-      var sets = lyricsTextarea.value
-        .split(/\n\s*\n/)
-        .map(function (s) { return s.trim(); })
-        .filter(Boolean);
-      window.alert('Created ' + sets.length + ' set(s) from your lyrics.');
+      var sets = lyricsTextarea.value.split(/\n\s*\n/).map(function (part) { return part.trim(); }).filter(Boolean);
+      window.alert('Created ' + sets.length + ' set(s) from your lyrics. Each non-empty line will animate during export.');
     });
 
     function onLyricsChanged() {
@@ -623,9 +651,7 @@
     }
 
     // ---- Audio dropzone: click, drag & drop ----
-    dropzone.addEventListener('click', function () {
-      audioInput.click();
-    });
+    dropzone.addEventListener('click', function () { audioInput.click(); });
     dropzone.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -650,26 +676,23 @@
 
     dropzone.addEventListener('drop', function (e) {
       var files = e.dataTransfer && e.dataTransfer.files;
-      if (files && files.length) {
-        handleAudioFile(files[0]);
-      }
+      if (files && files.length) handleAudioFile(files[0]);
     });
 
     audioInput.addEventListener('change', function () {
-      if (audioInput.files && audioInput.files.length) {
-        handleAudioFile(audioInput.files[0]);
-      }
+      if (audioInput.files && audioInput.files.length) handleAudioFile(audioInput.files[0]);
     });
 
     function handleAudioFile(file) {
-      var isAudio = /audio\//.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
+      var isAudio = /audio\//.test(file.type) || /\.(mp3|wav|m4a|aac|ogg)$/i.test(file.name);
       if (!isAudio) {
-        window.alert('Please choose an MP3 or WAV file.');
+        window.alert('Please choose a supported audio file such as MP3, WAV, M4A, AAC, or OGG.');
         return;
       }
       state.hasAudio = true;
+      state.audioFile = file;
       dropzoneText.textContent = file.name;
-      dropzoneSub.textContent = 'Loaded — click to change';
+      dropzoneSub.textContent = 'Loaded — video export will include this audio when the browser can decode it';
       updateExportReadiness();
     }
 
@@ -687,46 +710,360 @@
     });
     updateSliderFill();
 
-    // ---- Export readiness ----
+    // ---- Export helpers ----
     function updateExportReadiness() {
-      var ready = state.hasAudio && state.hasLyrics;
+      var supported = state.format !== 'video' || !!videoSpec;
+      var ready = state.hasLyrics && supported;
       exportBtn.disabled = !ready || state.exporting;
       exportBtn.classList.toggle('is-ready', ready && !state.exporting);
     }
 
-    // ---- Export as MP4/GIF/Frames: simulated progress ----
-    exportBtn.addEventListener('click', function () {
-      if (exportBtn.disabled || state.exporting) return;
+    function getLines() {
+      var lines = lyricsTextarea.value.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
+      if (!lines.length) lines = ['brat'];
+      return lines;
+    }
 
+    function createCanvas(width, height) {
+      var canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      return canvas;
+    }
+
+    function drawWrappedText(ctx, text, maxWidth, x, y, maxLines) {
+      var words = text.split(/\s+/);
+      var lines = [];
+      var current = '';
+      words.forEach(function (word) {
+        var trial = current ? current + ' ' + word : word;
+        if (ctx.measureText(trial).width > maxWidth && current) {
+          lines.push(current);
+          current = word;
+        } else current = trial;
+      });
+      if (current) lines.push(current);
+      lines = lines.slice(0, maxLines || 3);
+      var lineHeight = Math.round(parseInt(ctx.font, 10) * 1.05) || 72;
+      var top = y - ((lines.length - 1) * lineHeight) / 2;
+      lines.forEach(function (line, index) { ctx.fillText(line, x, top + index * lineHeight); });
+    }
+
+    function renderFrame(canvas, seconds, duration, lines) {
+      var ctx = canvas.getContext('2d', { alpha: false });
+      var w = canvas.width;
+      var h = canvas.height;
+      var progress = duration > 0 ? Math.max(0, Math.min(0.999999, seconds / duration)) : 0;
+      var lineIndex = Math.min(lines.length - 1, Math.floor(progress * lines.length));
+      var localProgress = (progress * lines.length) - lineIndex;
+      var phrase = (lines[lineIndex] || 'brat').toLowerCase();
+      ctx.save();
+      ctx.fillStyle = '#8ACE00';
+      ctx.fillRect(0, 0, w, h);
+      var fade = Math.min(1, localProgress * 5, (1 - localProgress) * 5 + 0.15);
+      var drift = Math.sin(seconds * 2.2) * h * 0.008;
+      var fontSize = Math.max(28, Math.min(w * 0.13, h * 0.28));
+      ctx.globalAlpha = Math.max(0.15, fade);
+      ctx.fillStyle = '#101010';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '700 ' + Math.round(fontSize) + 'px "Arial Narrow", Arial, sans-serif';
+      ctx.filter = 'blur(' + Math.max(0.35, w / 1500) + 'px)';
+      ctx.translate(w / 2, h / 2 + drift);
+      ctx.scale(0.88 + Math.sin(seconds * 1.6) * 0.015, 1);
+      drawWrappedText(ctx, phrase, w * 0.82, 0, 0, 3);
+      ctx.restore();
+    }
+
+    function triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 3000);
+    }
+
+    function startProgress(label) {
       state.exporting = true;
+      exportBtn.disabled = true;
       exportBtn.classList.add('is-processing');
       exportBtn.classList.remove('is-ready');
-
       var labelEl = exportBtn.querySelector('.bvg-export-label');
       var fill = document.createElement('div');
       fill.className = 'bvg-export-fill';
       exportBtn.appendChild(fill);
+      labelEl.textContent = label;
+      return { labelEl: labelEl, fill: fill };
+    }
 
-      var progress = 0;
-      var interval = setInterval(function () {
-        progress += Math.random() * 12 + 6;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          fill.style.width = '100%';
-          labelEl.textContent = 'Done ✓';
-          setTimeout(function () {
-            state.exporting = false;
-            fill.remove();
-            exportBtn.classList.remove('is-processing');
-            updateExportLabel();
-            updateExportReadiness();
-          }, 1200);
-        } else {
-          fill.style.width = progress + '%';
-          labelEl.textContent = 'Processing… ' + Math.floor(progress) + '%';
+    function setProgress(ui, percent, label) {
+      var value = Math.max(0, Math.min(100, percent));
+      ui.fill.style.width = value + '%';
+      ui.labelEl.textContent = label || ('Processing… ' + Math.round(value) + '%');
+    }
+
+    function finishProgress(ui, success) {
+      setProgress(ui, 100, success ? 'Downloaded ✓' : 'Export failed');
+      setTimeout(function () {
+        state.exporting = false;
+        ui.fill.remove();
+        exportBtn.classList.remove('is-processing');
+        updateExportLabel();
+        updateExportReadiness();
+      }, 1200);
+    }
+
+    function waitForRecorderStop(recorder) {
+      return new Promise(function (resolve, reject) {
+        recorder.addEventListener('stop', resolve, { once: true });
+        recorder.addEventListener('error', function (event) { reject(event.error || new Error('Video recording failed.')); }, { once: true });
+      });
+    }
+
+    async function decodeAudioFile(file) {
+      if (!file) return null;
+      var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      var audioContext = new AudioContextClass();
+      try {
+        if (audioContext.state === 'suspended') await audioContext.resume();
+        var arrayBuffer = await file.arrayBuffer();
+        var audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0));
+        return { audioContext: audioContext, audioBuffer: audioBuffer };
+      } catch (error) {
+        try { await audioContext.close(); } catch (ignore) {}
+        throw new Error('The selected audio could not be decoded by this browser. Try MP3 or WAV.');
+      }
+    }
+
+    async function exportVideo(ui) {
+      if (!videoSpec || !HTMLCanvasElement.prototype.captureStream) throw new Error('Video export is not supported in this browser. Try GIF or Frames instead.');
+      var fps = parseInt(fpsSlider.value, 10) || 30;
+      var lines = getLines();
+      var canvas = createCanvas(1280, 720);
+      var canvasStream = canvas.captureStream(fps);
+      var audioPack = null;
+      var audioSource = null;
+      var duration = Math.max(4, lines.length * 2.2);
+
+      if (state.audioFile) {
+        audioPack = await decodeAudioFile(state.audioFile);
+        if (audioPack && audioPack.audioBuffer) duration = Math.max(0.25, audioPack.audioBuffer.duration);
+        if (audioPack) {
+          var destination = audioPack.audioContext.createMediaStreamDestination();
+          audioSource = audioPack.audioContext.createBufferSource();
+          audioSource.buffer = audioPack.audioBuffer;
+          audioSource.connect(destination);
+          destination.stream.getAudioTracks().forEach(function (track) { canvasStream.addTrack(track); });
         }
-      }, 220);
+      }
+
+      var chunks = [];
+      var recorder = new MediaRecorder(canvasStream, {
+        mimeType: videoSpec.mime,
+        videoBitsPerSecond: 5000000,
+        audioBitsPerSecond: 128000
+      });
+      recorder.addEventListener('dataavailable', function (event) { if (event.data && event.data.size) chunks.push(event.data); });
+      var stopped = waitForRecorderStop(recorder);
+      recorder.start(250);
+      if (audioSource) audioSource.start(0);
+      var start = performance.now();
+
+      await new Promise(function (resolve) {
+        function frame(now) {
+          var elapsed = Math.min(duration, (now - start) / 1000);
+          renderFrame(canvas, elapsed, duration, lines);
+          setProgress(ui, Math.min(98, (elapsed / duration) * 100), 'Recording… ' + Math.round((elapsed / duration) * 100) + '%');
+          if (elapsed >= duration || recorder.state === 'inactive') resolve();
+          else requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      });
+
+      if (audioSource) { try { audioSource.stop(); } catch (ignore) {} }
+      if (recorder.state !== 'inactive') recorder.stop();
+      await stopped;
+      canvasStream.getTracks().forEach(function (track) { track.stop(); });
+      if (audioPack) { try { await audioPack.audioContext.close(); } catch (ignore) {} }
+      if (!chunks.length) throw new Error('The browser did not produce a video file.');
+      triggerDownload(new Blob(chunks, { type: videoSpec.mime }), 'brat-video.' + videoSpec.ext);
+    }
+
+    function pushU16(arr, value) { arr.push(value & 255, (value >>> 8) & 255); }
+    function pushAscii(arr, value) { for (var i = 0; i < value.length; i += 1) arr.push(value.charCodeAt(i) & 255); }
+    function gifPalette() {
+      var palette = [];
+      for (var r = 0; r < 8; r += 1) for (var g = 0; g < 8; g += 1) for (var b = 0; b < 4; b += 1) {
+        palette.push(Math.round(r * 255 / 7), Math.round(g * 255 / 7), Math.round(b * 255 / 3));
+      }
+      return palette;
+    }
+    function pixelsToPalette(imageData) {
+      var src = imageData.data;
+      var out = new Uint8Array(src.length / 4);
+      for (var i = 0, p = 0; i < src.length; i += 4, p += 1) out[p] = ((src[i] >> 5) << 5) | ((src[i + 1] >> 5) << 2) | (src[i + 2] >> 6);
+      return out;
+    }
+    function literalGifLzw(indices) {
+      var bytes = [];
+      var bitBuffer = 0;
+      var bitCount = 0;
+      function emit(code) {
+        bitBuffer |= code << bitCount;
+        bitCount += 9;
+        while (bitCount >= 8) {
+          bytes.push(bitBuffer & 255);
+          bitBuffer >>>= 8;
+          bitCount -= 8;
+        }
+      }
+      emit(256);
+      for (var i = 0; i < indices.length; i += 1) {
+        emit(indices[i]);
+        emit(256);
+      }
+      emit(257);
+      if (bitCount > 0) bytes.push(bitBuffer & 255);
+      return bytes;
+    }
+    function pushGifSubBlocks(out, bytes) {
+      var offset = 0;
+      while (offset < bytes.length) {
+        var size = Math.min(255, bytes.length - offset);
+        out.push(size);
+        for (var i = 0; i < size; i += 1) out.push(bytes[offset + i]);
+        offset += size;
+      }
+      out.push(0);
+    }
+
+    async function exportGif(ui) {
+      var fps = Math.max(6, Math.min(10, Math.round((parseInt(fpsSlider.value, 10) || 30) / 3)));
+      var lines = getLines();
+      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var frameCount = Math.max(1, Math.round(duration * fps));
+      var canvas = createCanvas(320, 180);
+      var ctx = canvas.getContext('2d', { alpha: false });
+      var out = [];
+      pushAscii(out, 'GIF89a');
+      pushU16(out, canvas.width); pushU16(out, canvas.height);
+      out.push(0xF7, 0, 0);
+      var palette = gifPalette();
+      for (var pi = 0; pi < palette.length; pi += 1) out.push(palette[pi]);
+      out.push(0x21, 0xFF, 0x0B); pushAscii(out, 'NETSCAPE2.0'); out.push(3, 1, 0, 0, 0);
+      var delay = Math.max(2, Math.round(100 / fps));
+
+      for (var frameIndex = 0; frameIndex < frameCount; frameIndex += 1) {
+        var t = frameCount <= 1 ? 0 : (frameIndex / (frameCount - 1)) * duration;
+        renderFrame(canvas, t, duration, lines);
+        var indexed = pixelsToPalette(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        out.push(0x21, 0xF9, 0x04, 0x00); pushU16(out, delay); out.push(0, 0);
+        out.push(0x2C); pushU16(out, 0); pushU16(out, 0); pushU16(out, canvas.width); pushU16(out, canvas.height); out.push(0);
+        out.push(8);
+        pushGifSubBlocks(out, literalGifLzw(indexed));
+        setProgress(ui, ((frameIndex + 1) / frameCount) * 98, 'Encoding GIF… ' + Math.round(((frameIndex + 1) / frameCount) * 100) + '%');
+        if (frameIndex % 3 === 0) await new Promise(function (resolve) { setTimeout(resolve, 0); });
+      }
+      out.push(0x3B);
+      triggerDownload(new Blob([new Uint8Array(out)], { type: 'image/gif' }), 'brat-animation.gif');
+    }
+
+    function crc32(bytes) {
+      var table = crc32.table;
+      if (!table) {
+        table = [];
+        for (var n = 0; n < 256; n += 1) {
+          var c = n;
+          for (var k = 0; k < 8; k += 1) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+        crc32.table = table;
+      }
+      var crc = 0 ^ (-1);
+      for (var i = 0; i < bytes.length; i += 1) crc = (crc >>> 8) ^ table[(crc ^ bytes[i]) & 0xFF];
+      return (crc ^ (-1)) >>> 0;
+    }
+    function le16(value) { return new Uint8Array([value & 255, (value >>> 8) & 255]); }
+    function le32(value) { return new Uint8Array([value & 255, (value >>> 8) & 255, (value >>> 16) & 255, (value >>> 24) & 255]); }
+    function concatBytes(parts) {
+      var length = parts.reduce(function (sum, part) { return sum + part.length; }, 0);
+      var out = new Uint8Array(length);
+      var offset = 0;
+      parts.forEach(function (part) { out.set(part, offset); offset += part.length; });
+      return out;
+    }
+    function buildStoredZip(files) {
+      var encoder = new TextEncoder();
+      var locals = [];
+      var centrals = [];
+      var offset = 0;
+      files.forEach(function (file) {
+        var name = encoder.encode(file.name);
+        var data = file.data;
+        var crc = crc32(data);
+        var local = concatBytes([
+          le32(0x04034b50), le16(20), le16(0), le16(0), le16(0), le16(33), le32(crc), le32(data.length), le32(data.length), le16(name.length), le16(0), name, data
+        ]);
+        locals.push(local);
+        var central = concatBytes([
+          le32(0x02014b50), le16(20), le16(20), le16(0), le16(0), le16(0), le16(33), le32(crc), le32(data.length), le32(data.length), le16(name.length), le16(0), le16(0), le16(0), le16(0), le32(0), le32(offset), name
+        ]);
+        centrals.push(central);
+        offset += local.length;
+      });
+      var centralBytes = concatBytes(centrals);
+      var body = concatBytes(locals.concat([centralBytes]));
+      var eocd = concatBytes([le32(0x06054b50), le16(0), le16(0), le16(files.length), le16(files.length), le32(centralBytes.length), le32(offset), le16(0)]);
+      return concatBytes([body, eocd]);
+    }
+
+    function canvasToPngBytes(canvas) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (!blob) return reject(new Error('Could not render a PNG frame.'));
+          blob.arrayBuffer().then(function (buffer) { resolve(new Uint8Array(buffer)); }, reject);
+        }, 'image/png');
+      });
+    }
+
+    async function exportFrames(ui) {
+      var fps = Math.max(6, Math.min(12, parseInt(fpsSlider.value, 10) || 12));
+      var lines = getLines();
+      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var frameCount = Math.min(60, Math.max(12, Math.round(duration * fps)));
+      var canvas = createCanvas(640, 360);
+      var files = [];
+      for (var i = 0; i < frameCount; i += 1) {
+        var t = frameCount <= 1 ? 0 : (i / (frameCount - 1)) * duration;
+        renderFrame(canvas, t, duration, lines);
+        var bytes = await canvasToPngBytes(canvas);
+        files.push({ name: 'frame-' + String(i + 1).padStart(3, '0') + '.png', data: bytes });
+        setProgress(ui, ((i + 1) / frameCount) * 95, 'Rendering frames… ' + (i + 1) + '/' + frameCount);
+      }
+      setProgress(ui, 97, 'Packaging ZIP…');
+      var zip = buildStoredZip(files);
+      triggerDownload(new Blob([zip], { type: 'application/zip' }), 'brat-video-frames.zip');
+    }
+
+    // ---- Real exports: video / GIF / PNG frame ZIP ----
+    exportBtn.addEventListener('click', async function () {
+      if (exportBtn.disabled || state.exporting) return;
+      var ui = startProgress('Preparing export…');
+      try {
+        if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'brat-video-generator-export', format: state.format }, '*');
+        if (state.format === 'video') await exportVideo(ui);
+        else if (state.format === 'gif') await exportGif(ui);
+        else await exportFrames(ui);
+        finishProgress(ui, true);
+      } catch (error) {
+        console.error(error);
+        finishProgress(ui, false);
+        window.alert(error && error.message ? error.message : 'Export failed in this browser.');
+      }
     });
 
     // ---- Fullscreen toggle ----
@@ -741,6 +1078,7 @@
 
     // ---- Init ----
     syncPreview();
+    updateExportLabel();
     updateExportReadiness();
 
   })();

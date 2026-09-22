@@ -1,0 +1,39 @@
+BRAT GENERATOR — FINAL TECHNICAL SEO UPDATE
+Date: 22 September 2026
+
+HOW TO APPLY
+1. Extract this ZIP.
+2. Copy everything inside it into the ROOT of your existing Brat Generator VS Code project.
+3. Choose Replace when Windows asks about existing files.
+4. Do NOT delete your project first. This is a changed-files patch, not a full project.
+
+LOCAL CHECKS
+Run:
+  npm run technical:check
+  npm run build
+  npm run dev
+
+Then check:
+  /
+  /how-to-use/
+  /video-generator/
+  /blog/how-to-make-a-brat-album-cover-free/
+  /robots.txt
+  /sitemap.xml
+
+VIDEO GENERATOR TEST
+- Enter text.
+- Audio is optional.
+- Test Video export. It uses MP4 where the browser supports MediaRecorder MP4; otherwise it exports WebM and labels the UI accordingly.
+- Test GIF export.
+- Test Frames export; it downloads a ZIP containing PNG frames.
+
+AFTER DEPLOYMENT
+Run:
+  npm run technical:live
+
+That live checker tests HTTPS/non-www behaviour, homepage security headers, robots.txt, sitemap.xml, and a real 404 response.
+
+Still checked separately later in Google tools:
+- Google Search Console indexing / Google-selected canonical / crawl date
+- Core Web Vitals and PageSpeed field data

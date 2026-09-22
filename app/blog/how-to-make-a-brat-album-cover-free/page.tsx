@@ -9,6 +9,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
+import { organizationEntity } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'How to Make a Brat Album Cover Free | Brat Generator' },
@@ -21,9 +22,9 @@ export const metadata: Metadata = {
     description: 'A practical four-step guide to making a Brat-inspired album cover free in your browser.',
     publishedTime: '2026-07-18T00:00:00Z',
     modifiedTime: '2026-09-22T00:00:00Z',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'How to make a Brat album cover' }],
+    images: [{ url: '/images/brat-cover-example-green.webp', width: 1200, height: 1200, alt: 'Green Brat-style album cover example made with Brat Generator' }],
   },
-  twitter: { card: 'summary_large_image', title: 'How to Make a Brat Album Cover Free', description: 'Colour, font treatment, blur, sizes, and a four-step browser workflow.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'How to Make a Brat Album Cover Free', description: 'Colour, font treatment, blur, sizes, and a four-step browser workflow.', images: ['/images/brat-cover-example-green.webp'] },
 };
 
 const coverSteps = [
@@ -53,15 +54,15 @@ export default function AlbumCoverGuidePage() {
     mainEntityOfPage: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`,
     image: {
       '@type': 'ImageObject',
-      url: `${siteConfig.url}/og-image.png`,
+      url: `${siteConfig.url}/images/brat-cover-example-green.webp`,
       width: 1200,
-      height: 630,
-      caption: 'Brat Generator album cover guide preview',
+      height: 1200,
+      caption: 'Green Brat-style album cover example created with Brat Generator',
     },
     datePublished: '2026-07-18T00:00:00+05:00',
     dateModified: '2026-09-22T00:00:00+05:00',
-    author: { '@type': 'Organization', name: 'Brat Generator', url: `${siteConfig.url}/about/` },
-    publisher: { '@type': 'Organization', name: 'Brat Generator', url: siteConfig.url },
+    author: organizationEntity,
+    publisher: organizationEntity,
   };
 
   return (
