@@ -1,22 +1,16 @@
-BRAT GENERATOR — FINAL UI CLEANUP UPDATE
-Date: 2026-09-23
+BRAT GENERATOR — TEXT WIDTH ONLY FIX (2026-09-23)
+
+What this fixes:
+- Restores wide/full section and card-grid layout across the site.
+- Keeps only section heading + supporting paragraph at a readable centered width.
+- Does NOT shrink cards, images, tools, section backgrounds, or main layout wrappers.
+- Keeps the previous language-selector update unchanged (US, ID, PH, IN, MY, TR + globe icon).
 
 Apply:
-1. Extract this ZIP.
-2. Paste the folders/files into the existing project root.
-3. Choose Replace files in destination.
-4. Run:
-   npm run technical:check
-   npm run dev
+1. Extract this ZIP into the existing project root.
+2. Replace files when Windows asks.
+3. Run: npm run dev
+4. Hard refresh localhost with Ctrl+F5.
 
-Main changes:
-- Homepage H1 changed to: Brat Generator: Create Text, Album Covers & Memes Brat Style For Free.
-- Old "Create Your Brat Design Right Now" heading and below-tool duplicate promo/buttons removed.
-- Homepage tool and wide sections use a consistent wider shell.
-- Header uses the same shell, navigation has more breathing room and sits farther right.
-- Login button removed from desktop and mobile navigation.
-- Brat Font Generator removed from navigation, footer, sitemap, llms and internal tool cards.
-- Old /brat-font-generator/ is redirected to the homepage.
-- Main generator iframe minimum height reduced to remove unnecessary blank space.
-- Brat Image Generator changed to a simpler prompt -> generate -> preview workflow.
-- Image Generator metadata/how-to/features updated to match the actual interface.
+Changed file:
+- app/globals.css

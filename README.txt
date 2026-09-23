@@ -1,25 +1,22 @@
-BRAT GENERATOR — NEXT.JS SEO BUILD
-=================================
+BRAT GENERATOR — FINAL LOVABLE-STYLE TEXT/HEADING LAYOUT
 
-LOCAL RUN
-1. Open this folder in VS Code.
-2. First time only in this folder:
-   npm install
-3. Run:
-   npm run dev
-4. Open:
-   http://localhost:3000
+Replace only:
+  app/globals.css
 
-PRODUCTION BUILD
-1. Stop the dev server with Ctrl+C.
-2. Run:
-   npm run build
-3. Because next.config.mjs uses output: 'export', Next.js creates an `out` folder.
-4. Back up the current hosting before replacing anything.
-5. Upload the CONTENTS of `out` to the final web root (usually public_html).
+What this changes:
+- Major H1/H2 marketing headings are centered and balanced.
+- Coloured/accent phrases in section headings move to a natural second line.
+- Supporting intro copy uses a shorter centered reading measure.
+- About, cards, guide cards and promo/CTA text regain the centered reference presentation.
+- Inner page hero titles use intentional stacked title/accent lines.
 
-IMPORTANT
-- Do not delete the current WordPress site until a backup is saved.
-- Check that `.htaccess` is present in the deployed web root. It contains HTTPS + non-www redirect rules and the custom 404 setup for Apache/cPanel.
-- Search Console, GA4, Bing, live PageSpeed, indexing and DNS work should be done only after this final build is live on https://bratgeneratorpro.net.
-- See SEO_IMPLEMENTATION.md for the full completed/pending SEO checklist.
+What this DOES NOT change:
+- Font sizes
+- Font families
+- Section/card/tool widths
+- Header/navigation
+- Language selector
+- Generator functionality
+- Images
+- SEO metadata, sitemap, robots, redirects or schema
+- Long-form article/legal body layout

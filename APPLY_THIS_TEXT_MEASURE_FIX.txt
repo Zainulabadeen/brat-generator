@@ -1,0 +1,17 @@
+BRAT GENERATOR — LOVABLE REFERENCE TEXT-MEASURE-ONLY FIX
+Date: 23 September 2026
+
+Replace only:
+  app/globals.css
+
+What this changes:
+- Restores wide section/card layout.
+- Narrows only readable text measures (headings/supporting copy/editorial paragraphs)
+  to match the visual rhythm of https://brategenrator.lovable.app/.
+- DOES NOT change font sizes.
+- DOES NOT change cards, grids, tools, header, language selector, SEO, sitemap,
+  robots, redirects, images, or page content.
+
+After replacing:
+  npm run dev
+Then hard refresh browser with Ctrl + F5.

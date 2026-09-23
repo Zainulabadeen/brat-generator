@@ -1,9 +1,11 @@
-Brat Generator first-page iframe fit fix
+Brat Generator — Original Content Width Restore (2026-09-23)
 
-Replace:
-  lib/embedDocuments.ts
+Change made:
+- Restores normal editorial/content sections to the original centered 1280px content width.
+- Header and working tool shells remain roomy/wide.
+- Existing language selector, SEO, redirects, generators, content, typography, and other design are unchanged.
 
-This removes the embedded generator's own 20px top/bottom wrapper padding and duplicate inner border/shadow, so the tool sits flush inside the existing outer tool shell like the other tools.
-
-Then run:
-  npm run dev
+Apply:
+Extract this ZIP into the existing project root and replace files when prompted.
+Then run: npm run dev
+Hard refresh browser: Ctrl + F5

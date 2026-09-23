@@ -2,24 +2,13 @@ export type LocaleCode =
   | 'en' | 'id' | 'fil' | 'hi' | 'ms' | 'tr' | 'es' | 'de' | 'fr' | 'pt'
   | 'ar' | 'ja' | 'ko' | 'zh-Hans' | 'zh-Hant' | 'th' | 'it';
 
-export const localeOptions: Array<{ code: LocaleCode; label: string; short: string }> = [
-  { code: 'en', label: 'English', short: 'EN' },
-  { code: 'id', label: 'Bahasa Indonesia', short: 'ID' },
-  { code: 'fil', label: 'Filipino', short: 'PH' },
-  { code: 'hi', label: 'हिन्दी', short: 'HI' },
-  { code: 'ms', label: 'Bahasa Melayu', short: 'MS' },
-  { code: 'tr', label: 'Türkçe', short: 'TR' },
-  { code: 'es', label: 'Español', short: 'ES' },
-  { code: 'de', label: 'Deutsch', short: 'DE' },
-  { code: 'fr', label: 'Français', short: 'FR' },
-  { code: 'pt', label: 'Português', short: 'PT' },
-  { code: 'ar', label: 'العربية', short: 'AR' },
-  { code: 'ja', label: '日本語', short: 'JA' },
-  { code: 'ko', label: '한국어', short: 'KO' },
-  { code: 'zh-Hans', label: '简体中文', short: '简' },
-  { code: 'zh-Hant', label: '繁體中文', short: '繁' },
-  { code: 'th', label: 'ไทย', short: 'TH' },
-  { code: 'it', label: 'Italiano', short: 'IT' },
+export const localeOptions: Array<{ code: LocaleCode; label: string; short: string; flag: string }> = [
+  { code: 'en', label: 'English (US)', short: 'US', flag: '🇺🇸' },
+  { code: 'id', label: 'Bahasa Indonesia', short: 'ID', flag: '🇮🇩' },
+  { code: 'fil', label: 'Filipino', short: 'PH', flag: '🇵🇭' },
+  { code: 'hi', label: 'हिन्दी (Hindi)', short: 'IN', flag: '🇮🇳' },
+  { code: 'ms', label: 'Bahasa Melayu', short: 'MY', flag: '🇲🇾' },
+  { code: 'tr', label: 'Türkçe', short: 'TR', flag: '🇹🇷' },
 ];
 
 const common: Record<LocaleCode, Record<string, string>> = {
@@ -48,22 +37,11 @@ export function commonText(locale: LocaleCode, key: string) {
 
 export function normalizeLocale(input?: string | null): LocaleCode {
   const value = (input || '').toLowerCase().replace('_', '-');
-  if (value.startsWith('zh-tw') || value.startsWith('zh-hk') || value.includes('hant')) return 'zh-Hant';
-  if (value.startsWith('zh')) return 'zh-Hans';
   if (value.startsWith('id')) return 'id';
   if (value.startsWith('fil') || value.startsWith('tl')) return 'fil';
   if (value.startsWith('hi')) return 'hi';
   if (value.startsWith('ms')) return 'ms';
   if (value.startsWith('tr')) return 'tr';
-  if (value.startsWith('es')) return 'es';
-  if (value.startsWith('de')) return 'de';
-  if (value.startsWith('fr')) return 'fr';
-  if (value.startsWith('pt')) return 'pt';
-  if (value.startsWith('ar')) return 'ar';
-  if (value.startsWith('ja')) return 'ja';
-  if (value.startsWith('ko')) return 'ko';
-  if (value.startsWith('th')) return 'th';
-  if (value.startsWith('it')) return 'it';
   return 'en';
 }
 
@@ -74,14 +52,6 @@ export function localeFromTimezone(zone?: string): LocaleCode {
   if (/Kolkata|Calcutta/.test(z)) return 'hi';
   if (/Kuala_Lumpur|Kuching/.test(z)) return 'ms';
   if (/Istanbul/.test(z)) return 'tr';
-  if (/Madrid|Canary/.test(z)) return 'es';
-  if (/Berlin/.test(z)) return 'de';
-  if (/Paris/.test(z)) return 'fr';
-  if (/Lisbon/.test(z)) return 'pt';
-  if (/Tokyo/.test(z)) return 'ja';
-  if (/Seoul/.test(z)) return 'ko';
-  if (/Bangkok/.test(z)) return 'th';
-  if (/Rome/.test(z)) return 'it';
   return 'en';
 }
 
