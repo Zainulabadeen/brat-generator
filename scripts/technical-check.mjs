@@ -14,7 +14,6 @@ const expected = [
   ['/video-generator/', 'app/video-generator/page.tsx'],
   ['/brat-meme-generator/', 'app/brat-meme-generator/page.tsx'],
   ['/brat-image-generator/', 'app/brat-image-generator/page.tsx'],
-  ['/brat-font-generator/', 'app/brat-font-generator/page.tsx'],
   ['/brat-album-cover-generator/', 'app/brat-album-cover-generator/page.tsx'],
   ['/features/', 'app/features/page.tsx'],
   ['/brat-styles/', 'app/brat-styles/page.tsx'],

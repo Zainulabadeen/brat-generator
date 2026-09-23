@@ -1,0 +1,38 @@
+BRAT GENERATOR — LIGHTHOUSE PERFORMANCE / ACCESSIBILITY FIX
+Date: 2026-09-23
+
+APPLY
+1. Extract this ZIP into the existing project root.
+2. Replace the matching files.
+3. Run:
+   npm run technical:check
+   npm run build
+
+IMPORTANT: DO NOT judge performance using `npm run dev`.
+This project uses Next.js and `next dev` intentionally serves development-only JavaScript, source maps, Fast Refresh/Turbopack code, and unminified assets. Lighthouse will report much higher JS work and unused/minification opportunities in dev mode.
+
+CORRECT LOCAL LIGHTHOUSE TEST FOR THIS STATIC EXPORT PROJECT
+1. Stop npm run dev.
+2. Run:
+   npm run build
+3. Serve the generated /out folder with Python:
+   python -m http.server 3000 -d out
+4. Open Chrome Incognito/Guest window with extensions disabled.
+5. Open http://localhost:3000/
+6. DevTools > Lighthouse > Analyze page load.
+
+WHY INCOGNITO / EXTENSIONS OFF
+The supplied Lighthouse screenshots explicitly show browser extensions affecting the run. They also list SEOquake/Similarweb/extension resources, third-party cookies, console errors and JavaScript that do not belong to the Brat Generator website.
+
+CHANGES IN THIS PATCH
+- Fixed the heading-order accessibility issue by replacing footer H4 group labels with non-heading semantic labels.
+- Google Translate is no longer injected inside the Brat Generator iframe when English is active.
+- Same translation optimization applied to Brat Video Generator.
+- The expensive document-wide Google Translate MutationObserver now runs only for non-English locales.
+- Generator iframe resize measurements are batched with requestAnimationFrame to reduce repeated forced layout/reflow work.
+- Height state updates are skipped when the measured height is effectively unchanged.
+- Google Analytics (when configured and consented) now uses lazyOnload instead of afterInteractive.
+- Existing multilingual functionality remains available when a non-English language is selected.
+
+EXPECTED DIFFERENCE
+The production/Incognito Lighthouse result should be materially better than the supplied dev-mode report. Exact scores are device/run dependent and cannot be guaranteed.

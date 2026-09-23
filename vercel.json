@@ -12,6 +12,16 @@
       "statusCode": 301
     },
     {
+      "source": "/brat-font-generator/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/brat-font-generator",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
       "source": "/how-to",
       "destination": "/#how-to",
       "statusCode": 301

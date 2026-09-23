@@ -65,7 +65,7 @@ main{min-height:100vh;overflow:hidden}
 .comparison{border-radius:18px;overflow:hidden}.compare-row{display:grid;grid-template-columns:1.6fr repeat(3,1fr);align-items:center;padding:16px 24px;border-top:1px solid var(--border);font-size:14px}.compare-row>div:not(:first-child){text-align:center}.compare-head{background:rgba(138,206,0,.12);border-top:0;font-family:var(--font-ui);text-transform:uppercase;font-size:13px}.yes{color:var(--green);font-weight:900;font-size:20px}.no{color:#bbb;font-size:20px}
 .pop-wrap{text-align:center}.pop-copy{max-width:800px;margin:auto}.pop-copy>p{color:var(--muted);font-size:17px;line-height:1.7}.hashtags{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:36px}.hashtags span{padding:9px 18px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid var(--border);font-size:14px;transition:.2s}.hashtags span:hover{background:var(--green)}
 .cta-section{padding:96px 20px}.cta-box{position:relative;overflow:hidden;max-width:1152px;margin:auto;background:var(--gradient-brat);border-radius:28px;padding:80px 40px;text-align:center}.cta-orb{position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(55px);opacity:.35}.cta-orb.pink{left:-80px;top:-80px;background:var(--pink)}.cta-orb.blue{right:-70px;bottom:-85px;background:var(--electric)}.cta-box h2{position:relative;font-size:clamp(36px,4.4vw,52px)}.cta-brat{color:#111;font-size:1.1em}.cta-box p{position:relative;color:rgba(17,17,17,.66);font-size:16px;margin:22px auto 0}.cta-button{position:relative;display:inline-flex;margin-top:30px;padding:17px 37px;border-radius:999px;background:#111;color:var(--green);font-size:17px;font-weight:800;transition:.2s}.cta-button:hover{transform:scale(1.05)}
-.site-footer{border-top:1px solid var(--border);padding:56px 0 28px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}.footer-about p{max-width:430px;color:var(--muted);font-size:14px}.footer-grid>div:not(.footer-about){display:flex;flex-direction:column;align-items:flex-start;gap:9px}.footer-grid h4{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:0 0 8px}.footer-grid a:not(.brand){font-size:14px}.socials{display:flex;gap:12px;margin-top:8px}.socials a{width:36px;height:36px!important;border-radius:999px;display:grid;place-items:center;border:1px solid var(--border)}.footer-bottom{border-top:1px solid var(--border);margin-top:40px;padding-top:22px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px}
+.site-footer{border-top:1px solid var(--border);padding:56px 0 28px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}.footer-about p{max-width:430px;color:var(--muted);font-size:14px}.footer-grid>div:not(.footer-about){display:flex;flex-direction:column;align-items:flex-start;gap:9px}.footer-heading{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:0 0 8px}.footer-grid a:not(.brand){font-size:14px}.socials{display:flex;gap:12px;margin-top:8px}.socials a{width:36px;height:36px!important;border-radius:999px;display:grid;place-items:center;border:1px solid var(--border)}.footer-bottom{border-top:1px solid var(--border);margin-top:40px;padding-top:22px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px}
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.75,.2,1)}.reveal.is-visible{opacity:1;transform:translateY(0)}.reveal-delay-1{transition-delay:.08s}.reveal-delay-2{transition-delay:.16s}.reveal-delay-3{transition-delay:.24s}.reveal-delay-4{transition-delay:.32s}.reveal-delay-5{transition-delay:.40s}.hero-delay-0{animation:fadeUp .6s .05s both}.hero-delay-1{animation:fadeUp .7s .14s both}.hero-delay-2{animation:fadeUp .7s .23s both}.hero-delay-3{animation:fadeUp .7s .32s both}.hero-delay-4{animation:fadeUp .7s .41s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}@keyframes pulse{50%{opacity:.35;transform:scale(.8)}}@keyframes floatA{50%{transform:translate(24px,25px) scale(1.06)}}@keyframes floatB{50%{transform:translate(-26px,20px) scale(.96)}}
@@ -1595,4 +1595,161 @@ body>.skiptranslate:not(.google-translate-host){display:none!important;visibilit
   .header-actions{
     margin-left:4px;
   }
+}
+
+
+/* September 23, 2026: final width + hero + navigation polish requested by owner. */
+:root{--site-shell:1480px}
+
+/* Keep the header and main wide sections on one shared visual grid. */
+.header-inner,
+.container-wide,
+.tool-container,
+.container-hero{
+  width:min(calc(100% - 48px),var(--site-shell))!important;
+  max-width:var(--site-shell)!important;
+}
+
+/* Main generator and video/tool surfaces use the available content width. */
+.generator-embed-shell,
+.video-generator-embed-shell{max-width:none!important;width:100%!important}
+.hero-generator-shell{width:100%!important;max-width:none!important}
+
+/* The new homepage H1 owns the keyword intent; remove the old below-tool promo rhythm. */
+.hero-primary-title{
+  max-width:1180px!important;
+  margin:0 auto 20px!important;
+  font-size:clamp(44px,4.45vw,72px)!important;
+  line-height:.99!important;
+  letter-spacing:-.045em!important;
+  text-align:center;
+}
+.hero-primary-copy{
+  max-width:1120px;
+  margin:0 auto 34px;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.65;
+  text-align:center;
+}
+.hero-generator-block{width:100%}
+.hero-tool-first{padding-bottom:34px!important}
+
+/* Reduce artificial empty room created by the old fixed iframe minimum. */
+.hero-tool-first .generator-embed-shell{margin-bottom:0!important}
+
+/* Header: no login; give navigation breathing room and move it toward the right side. */
+.header-inner{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;column-gap:34px!important}
+.tool-nav{
+  justify-self:end;
+  justify-content:flex-end;
+  gap:24px!important;
+  margin:0 10px 0 60px!important;
+}
+.header-actions{justify-self:end;margin-left:0!important}
+
+/* Prompt-first Brat Image Generator: simple input -> generate -> result flow. */
+.image-prompt-tool{max-width:none!important}
+.image-prompt-main{padding:30px;display:flex;flex-direction:column;gap:20px;background:#fff}
+.image-prompt-field{display:flex;flex-direction:column;gap:9px;font-size:13px;font-weight:850;color:#35353b}
+.image-prompt-field textarea{
+  width:100%;min-height:108px;resize:vertical;border:1px solid var(--border);border-radius:14px;
+  padding:17px 18px;background:#f6f7f8;color:#111;font:inherit;font-weight:560;line-height:1.5;outline:none
+}
+.image-prompt-field textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(138,206,0,.12)}
+.image-quick-settings{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:14px}
+.image-generate-btn{
+  width:100%;min-height:54px;border:0;border-radius:12px;background:#111;color:#fff;font-size:16px;font-weight:850;cursor:pointer;
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease
+}
+.image-generate-btn:hover{transform:translateY(-1px);background:#1b1b1b;box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.image-output{
+  min-height:430px;border:2px dashed #d7d9df;border-radius:16px;background:#fff;display:grid;place-items:center;padding:20px
+}
+.image-output.has-image{border-style:solid;border-width:1px;background:#f7f7f4}
+.image-output-placeholder{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;color:#484850}
+.image-output-placeholder strong{font-size:17px}.image-output-placeholder small{font-size:13px;color:#85858c}
+.image-placeholder-icon{font-size:30px;color:var(--green);line-height:1}
+.image-output-canvas{width:100%;display:grid;place-items:center;min-height:360px}
+.image-output-canvas canvas{display:block;max-width:100%;max-height:680px;width:auto;height:auto;border-radius:12px;box-shadow:0 14px 42px rgba(0,0,0,.13)}
+.image-output-actions{width:100%;justify-content:center}
+
+@media (min-width:1181px) and (max-width:1420px){
+  .header-inner{width:min(calc(100% - 28px),var(--site-shell))!important;column-gap:18px!important}
+  .tool-nav{gap:15px!important;margin-left:22px!important;margin-right:4px!important;font-size:11.8px!important}
+}
+@media (max-width:1180px){
+  .header-inner{display:flex!important}
+}
+@media (max-width:900px){
+  .header-inner,.container-wide,.tool-container,.container-hero{width:min(calc(100% - 32px),var(--site-shell))!important}
+  .hero-primary-title{font-size:clamp(38px,7vw,56px)!important}
+  .hero-primary-copy{font-size:16px;margin-bottom:28px}
+  .image-quick-settings{grid-template-columns:1fr}
+  .image-prompt-main{padding:22px}
+}
+@media (max-width:620px){
+  .header-inner,.container-wide,.tool-container,.container-hero{width:min(calc(100% - 24px),var(--site-shell))!important}
+  .hero-primary-title{font-size:clamp(34px,10vw,46px)!important}
+  .hero-primary-copy{font-size:15px;line-height:1.55;margin-bottom:22px}
+  .image-prompt-main{padding:16px}
+  .image-output{min-height:320px;padding:12px}
+}
+
+
+/* September 23, 2026: remove the stray desktop mobile-menu backdrop control
+   and let the embedded homepage generator use the full available tool shell. */
+.mobile-menu-backdrop{display:none}
+
+.hero-tool-first .hero-generator-shell,
+.hero-tool-first .generator-embed-shell,
+.hero-tool-first .brat-generator-iframe{
+  width:100%!important;
+  max-width:none!important;
+}
+
+@media (max-width:1180px){
+  .mobile-menu-backdrop{display:block}
+}
+
+
+/* September 23, 2026: Lighthouse LCP/TBT optimisation pass.
+   Preserve the visual design while reducing first-paint filters, animation work,
+   off-screen rendering, and iframe bundle cost. */
+.hero-tool-first{
+  background:
+    radial-gradient(circle at 6% 18%,rgba(138,206,0,.18) 0,rgba(138,206,0,.08) 18%,transparent 42%),
+    radial-gradient(circle at 94% 38%,rgba(255,122,182,.13) 0,rgba(255,122,182,.055) 22%,transparent 46%),
+    radial-gradient(circle at 48% 88%,rgba(61,183,255,.08) 0,transparent 40%),
+    linear-gradient(135deg,rgba(138,206,0,.055),rgba(253,253,251,.96) 46%,rgba(255,122,182,.045))!important;
+}
+.hero-tool-first .hero-blobs{display:none!important}
+.hero-tool-first .hero-micro-wrap,
+.hero-tool-first .hero-generator-block{
+  animation:none!important;
+  opacity:1!important;
+  transform:none!important;
+}
+.hero-tool-first .micro-pill{
+  background:rgba(255,255,255,.94)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+/* Skip layout/paint work for sections that are below the viewport until the
+   browser is close to them. The content stays in the DOM and remains crawlable. */
+main > .section{
+  content-visibility:auto;
+  contain-intrinsic-size:780px;
+}
+.site-footer{
+  content-visibility:auto;
+  contain-intrinsic-size:520px;
+}
+
+/* Keep iframe geometry stable while native lazy-loading postpones the heavy
+   embedded tool document until the browser is close to it. */
+.brat-generator-iframe,
+.brat-video-generator-iframe{
+  contain:layout paint style;
 }

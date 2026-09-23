@@ -17,7 +17,6 @@ const pages = [
   { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator', schema: 'WebApplication' },
   { rel: 'brat-meme-generator/index.html', url: '/brat-meme-generator/', keyword: 'brat meme generator', schema: 'WebApplication' },
   { rel: 'brat-image-generator/index.html', url: '/brat-image-generator/', keyword: 'brat image generator', schema: 'WebApplication' },
-  { rel: 'brat-font-generator/index.html', url: '/brat-font-generator/', keyword: 'brat font generator', schema: 'WebApplication' },
   { rel: 'brat-album-cover-generator/index.html', url: '/brat-album-cover-generator/', keyword: 'brat album cover generator', schema: 'WebApplication' },
   { rel: 'features/index.html', url: '/features/', keyword: 'brat generator', schema: 'WebPage' },
   { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles', schema: 'CollectionPage' },

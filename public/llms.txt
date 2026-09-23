@@ -9,7 +9,6 @@ Important notes:
 - The main Brat text generator lives on the homepage.
 - The image-based tools process the active design in the browser; uploaded background images are used locally by the current editor workflow.
 - The default Brat Green preset uses #8ACE00 as a practical digital approximation; display appearance can vary.
-- The site does not claim an official downloadable "Brat font"; the font tool creates typography graphics using practical condensed-font approximations and styling controls.
 - For legal or commercial-use questions, see the Terms & Disclaimer page.
 
 ## Tools
@@ -18,7 +17,6 @@ Important notes:
 - [Brat Video Generator](https://bratgeneratorpro.net/video-generator/): Animated Brat-style text workflow with optional audio, FPS controls and video/GIF/frame exports.
 - [Brat Meme Generator](https://bratgeneratorpro.net/brat-meme-generator/): Meme workspace with top/bottom text, photo upload, colour controls, blur, lo-fi effects and image export.
 - [Brat Image Generator](https://bratgeneratorpro.net/brat-image-generator/): Image creator with custom text, background upload, colour presets, effects and multiple canvas ratios.
-- [Brat Font Generator](https://bratgeneratorpro.net/brat-font-generator/): Typography image tool with font choices, size, spacing, alignment, blur, colours and transparent-background export.
 - [Brat Album Cover Generator](https://bratgeneratorpro.net/brat-album-cover-generator/): Square cover-art creator with title, artist line, colours, blur, optional background image and high-resolution export.
 
 Each dedicated tool page includes its own short how-to-use section, feature summary, use cases, tips and related internal links.

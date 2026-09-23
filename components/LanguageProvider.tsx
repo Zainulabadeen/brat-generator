@@ -131,11 +131,13 @@ export default function LanguageProvider({ children }: { children: React.ReactNo
 
   useEffect(() => {
     suppressGoogleChrome();
+    if (locale === 'en') return;
+
     const target = document.body || document.documentElement;
     const observer = new MutationObserver(() => suppressGoogleChrome());
     observer.observe(target, { childList: true, subtree: true });
     return () => observer.disconnect();
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     if (locale === 'en') {

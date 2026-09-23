@@ -169,6 +169,7 @@ export default function BratCreativeTool({ mode }: Props) {
   const [whiteBlock, setWhiteBlock] = useState(false);
   const [transparent, setTransparent] = useState(false);
   const [sticker, setSticker] = useState('none');
+  const [imageGenerated, setImageGenerated] = useState(mode !== 'image');
 
   const actualPreset = useMemo(() => {
     if (mode === 'album') return { label: 'Album 3000', width: 3000, height: 3000 };
@@ -234,9 +235,9 @@ export default function BratCreativeTool({ mode }: Props) {
   };
 
   useEffect(() => {
-    if (canvasRef.current) render(canvasRef.current);
+    if (canvasRef.current && (mode !== 'image' || imageGenerated)) render(canvasRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker, mode]);
+  }, [text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker, mode, imageGenerated]);
 
   const onBackground = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -258,6 +259,7 @@ export default function BratCreativeTool({ mode }: Props) {
   };
 
   const download = async () => {
+    if (mode === 'image' && !imageGenerated) return;
     const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
     const blob = await makeBlob(mime, format === 'jpeg' ? .94 : undefined);
     if (!blob) return;
@@ -270,6 +272,7 @@ export default function BratCreativeTool({ mode }: Props) {
   };
 
   const copyImage = async () => {
+    if (mode === 'image' && !imageGenerated) return;
     if (!('ClipboardItem' in window) || !navigator.clipboard?.write) return;
     const blob = await makeBlob('image/png');
     if (!blob) return;
@@ -295,7 +298,59 @@ export default function BratCreativeTool({ mode }: Props) {
     setWhiteBlock(false);
     setTransparent(false);
     setSticker('none');
+    setImageGenerated(mode !== 'image');
   };
+
+  if (mode === 'image') {
+    const generateImage = () => {
+      setImageGenerated(true);
+      window.requestAnimationFrame(() => { if (canvasRef.current) render(canvasRef.current); });
+    };
+
+    return (
+      <div className="creative-tool creative-tool-image image-prompt-tool">
+        <div className="image-prompt-main">
+          <label className="image-prompt-field">
+            <span>Describe your Brat image</span>
+            <textarea
+              value={text}
+              onChange={(e) => { setText(e.target.value.slice(0, 220)); setImageGenerated(false); }}
+              rows={4}
+              placeholder="Type a word, phrase, mood or short idea…"
+            />
+          </label>
+
+          <div className="image-quick-settings">
+            <label className="tool-field"><span>Background</span><div className="color-input"><input type="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value); setImageGenerated(false); }} /><code>{bgColor.toUpperCase()}</code></div></label>
+            <label className="tool-field"><span>Text colour</span><div className="color-input"><input type="color" value={textColor} onChange={(e) => { setTextColor(e.target.value); setImageGenerated(false); }} /><code>{textColor.toUpperCase()}</code></div></label>
+            <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => { setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0]); setImageGenerated(false); }}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.label} · {item.width}×{item.height}</option>)}</select></label>
+          </div>
+
+          <button className="image-generate-btn" type="button" onClick={generateImage}>Generate Brat Image</button>
+
+          <div className={`image-output ${imageGenerated ? 'has-image' : ''}`}>
+            {imageGenerated ? (
+              <>
+                <div className="image-output-canvas"><canvas ref={canvasRef} /></div>
+                <div className="creative-tool-actions image-output-actions">
+                  <select aria-label="Download format" value={format} onChange={(e) => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
+                  <button className="tool-action primary" type="button" onClick={download}>Download</button>
+                  <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+                  <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
+                </div>
+              </>
+            ) : (
+              <div className="image-output-placeholder">
+                <span className="image-placeholder-icon">▧</span>
+                <strong>Your Brat image will appear here</strong>
+                <small>Enter a prompt above, choose your colours and press Generate.</small>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`creative-tool creative-tool-${mode}`}>
@@ -344,12 +399,8 @@ export default function BratCreativeTool({ mode }: Props) {
             <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0])}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.label} · {item.width}×{item.height}</option>)}</select></label>
           ) : <div className="tool-static-note">Album export: 3000 × 3000 px square</div>}
 
-          {mode === 'image' ? (
-            <label className="tool-field"><span>Sticker</span><select value={sticker} onChange={(e) => setSticker(e.target.value)}><option value="none">None</option><option value="✦">Sparkle ✦</option><option value="★">Star ★</option><option value="♡">Heart ♡</option><option value="☻">Smile ☻</option></select></label>
-          ) : null}
-
           <div className="tool-toggle-row">
-            {(mode === 'meme' || mode === 'image') ? <label><input type="checkbox" checked={lofi} onChange={(e) => setLofi(e.target.checked)} /> Lo-fi photo</label> : null}
+            {mode === 'meme' ? <label><input type="checkbox" checked={lofi} onChange={(e) => setLofi(e.target.checked)} /> Lo-fi photo</label> : null}
             <label><input type="checkbox" checked={mirror} onChange={(e) => setMirror(e.target.checked)} /> Mirror</label>
             <label><input type="checkbox" checked={whiteBlock} onChange={(e) => setWhiteBlock(e.target.checked)} /> White block</label>
             {mode === 'font' ? <label><input type="checkbox" checked={transparent} onChange={(e) => setTransparent(e.target.checked)} /> Transparent BG</label> : null}

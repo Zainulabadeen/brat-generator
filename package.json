@@ -11,7 +11,8 @@
     "onpage:check": "node scripts/onpage-check.mjs",
     "technical:check": "node scripts/technical-check.mjs",
     "technical:live": "node scripts/technical-live-check.mjs",
-    "seo:check": "npm run build && node scripts/onpage-check.mjs && node scripts/technical-check.mjs && node scripts/prelive-check.mjs"
+    "seo:check": "npm run build && node scripts/onpage-check.mjs && node scripts/technical-check.mjs && node scripts/prelive-check.mjs",
+    "lighthouse:serve": "node scripts/serve-lighthouse.mjs"
   },
   "dependencies": {
     "next": "latest",

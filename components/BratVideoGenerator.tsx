@@ -4,21 +4,19 @@ import { useEffect, useRef, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
 import { useLanguage } from '@/components/LanguageProvider';
 import { localeOptions, translatorLanguageCode, type LocaleCode } from '@/lib/localization';
-import { BRAT_VIDEO_GENERATOR_EMBED_HTML } from '@/lib/embedDocuments';
 
 function translateEmbeddedFrame(frame: HTMLIFrameElement | null, locale: LocaleCode) {
-  if (!frame?.contentDocument || !frame.contentWindow) return;
+  if (locale === 'en' || !frame?.contentDocument || !frame.contentWindow) return;
 
   const doc = frame.contentDocument;
   const body = doc.body;
-  if (!body) return; // The locale effect can run before srcDoc has finished creating <body>.
+  if (!body) return;
 
   const win = frame.contentWindow as unknown as {
     google?: { translate?: { TranslateElement?: new (opts: Record<string, unknown>, id: string) => unknown } };
     __bratFrameTranslateInit?: () => void;
   };
 
-  // Keep Google Translate's legacy banner/tooltips out of the embedded tool UI.
   if (!doc.getElementById('brat-frame-translate-style')) {
     const style = doc.createElement('style');
     style.id = 'brat-frame-translate-style';
@@ -83,46 +81,28 @@ const DEFAULT_HEIGHT = 940;
 export default function BratVideoGenerator() {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
 
-  const measureTool = () => {
-    const frame = frameRef.current;
-    if (!frame) return;
-
-    try {
-      const doc = frame.contentDocument;
-      const toolRoot = doc?.querySelector<HTMLElement>('#bvg-root');
-      if (!toolRoot) return;
-
-      const rectHeight = Math.ceil(toolRoot.getBoundingClientRect().height);
-      const contentHeight = Math.ceil(toolRoot.scrollHeight || 0);
-      const nextHeight = Math.max(rectHeight, contentHeight, 820);
-      setHeight(Math.min(nextHeight, 2200));
-    } catch {
-      setHeight(DEFAULT_HEIGHT);
-    }
+  const measureOnce = () => {
+    window.requestAnimationFrame(() => {
+      try {
+        const toolRoot = frameRef.current?.contentDocument?.querySelector<HTMLElement>('#bvg-root');
+        if (!toolRoot) return;
+        const nextHeight = Math.max(Math.ceil(toolRoot.scrollHeight || 0), 820);
+        setHeight((current) => {
+          const safeHeight = Math.min(nextHeight, 2200);
+          return Math.abs(current - safeHeight) > 2 ? safeHeight : current;
+        });
+      } catch {
+        // The reserved height keeps the tool stable if measurement is unavailable.
+      }
+    });
   };
 
   const handleLoad = () => {
-    resizeObserverRef.current?.disconnect();
-    measureTool();
+    measureOnce();
     translateEmbeddedFrame(frameRef.current, locale);
     window.dispatchEvent(new CustomEvent('brat-frame-ready'));
-
-    try {
-      const toolRoot = frameRef.current?.contentDocument?.querySelector<HTMLElement>('#bvg-root');
-      if (toolRoot && typeof ResizeObserver !== 'undefined') {
-        const observer = new ResizeObserver(measureTool);
-        observer.observe(toolRoot);
-        resizeObserverRef.current = observer;
-      }
-    } catch {
-      // The default height keeps the video tool visible if measurement is unavailable.
-    }
-
-    window.setTimeout(measureTool, 120);
-    window.setTimeout(measureTool, 500);
   };
 
   useEffect(() => {
@@ -139,23 +119,20 @@ export default function BratVideoGenerator() {
     };
 
     window.addEventListener('message', onMessage);
-    return () => {
-      window.removeEventListener('message', onMessage);
-      resizeObserverRef.current?.disconnect();
-    };
+    return () => window.removeEventListener('message', onMessage);
   }, []);
 
   return (
     <div className="video-generator-embed-shell">
       <iframe
         ref={frameRef}
-        srcDoc={BRAT_VIDEO_GENERATOR_EMBED_HTML}
+        src="/brat-video-generator-embed.html"
         className="brat-video-generator-iframe"
         title="Brat Video Generator"
         onLoad={handleLoad}
         style={{ height: `${height}px` }}
         scrolling="no"
-        loading="eager"
+        loading="lazy"
         allow="clipboard-read; clipboard-write; fullscreen"
       />
     </div>

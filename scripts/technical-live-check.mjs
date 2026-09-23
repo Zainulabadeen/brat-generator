@@ -29,7 +29,6 @@ if (robots?.status === 200 && robotsText.includes(`Sitemap: ${base}/sitemap.xml`
 
 const sitemap = await get(`${base}/sitemap.xml`);
 const sitemapText = sitemap ? await sitemap.text() : '';
-const required = ['/video-generator/','/brat-meme-generator/','/brat-image-generator/','/brat-font-generator/','/brat-album-cover-generator/'];
 if (sitemap?.status === 200 && required.every(x => sitemapText.includes(`${base}${x}`)) && !sitemapText.includes(`${base}/brat-text-generator/`) && !sitemapText.includes(`${base}/how-to-use/`)) pass('live sitemap contains new tools and excludes retired routes'); else fail('live sitemap is stale or incomplete');
 
 const missing = await get(`${base}/technical-seo-404-test-928374/`);

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { pageLinks } from '@/lib/site';
 import LanguageSelector from '@/components/LanguageSelector';
-import GoogleLogin from '@/components/GoogleLogin';
 import { useLanguage } from '@/components/LanguageProvider';
 
 export default function SiteHeader() {
@@ -19,7 +18,6 @@ export default function SiteHeader() {
     [t('video'), pageLinks.videoGenerator],
     [t('meme'), pageLinks.memeGenerator],
     [t('image'), pageLinks.imageGenerator],
-    [t('font'), pageLinks.fontGenerator],
     [t('album'), pageLinks.albumGenerator],
     [t('features'), pageLinks.features],
     [t('styles'), pageLinks.styles],
@@ -67,7 +65,6 @@ export default function SiteHeader() {
 
         <div className="header-actions">
           <LanguageSelector />
-          <GoogleLogin />
           <button className="menu-btn glass" type="button" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen((v) => !v)}>☰</button>
         </div>
       </div>
@@ -111,7 +108,6 @@ export default function SiteHeader() {
 
         <div className="mobile-language-login">
           <LanguageSelector />
-          <GoogleLogin />
         </div>
       </aside>
     </header>

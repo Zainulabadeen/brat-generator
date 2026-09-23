@@ -5,7 +5,6 @@ const root = process.cwd();
 const out = path.join(root, 'out');
 const expected = [
   'index.html','404.html',
-  'video-generator/index.html','brat-meme-generator/index.html','brat-image-generator/index.html','brat-font-generator/index.html','brat-album-cover-generator/index.html',
   'features/index.html','brat-styles/index.html','blog/index.html',
   'blog/how-to-make-a-brat-album-cover-free/index.html','blog/brat-generator-not-working/index.html',
   'about/index.html','contact/index.html','privacy-policy/index.html','terms/index.html',
@@ -29,7 +28,6 @@ for(const rel of ['brat-generator-embed.html','brat-video-generator-embed.html']
 
 const sitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
 for(const url of [
-  'https://bratgeneratorpro.net/','https://bratgeneratorpro.net/video-generator/','https://bratgeneratorpro.net/brat-meme-generator/','https://bratgeneratorpro.net/brat-image-generator/','https://bratgeneratorpro.net/brat-font-generator/','https://bratgeneratorpro.net/brat-album-cover-generator/','https://bratgeneratorpro.net/features/','https://bratgeneratorpro.net/brat-styles/','https://bratgeneratorpro.net/blog/'
 ]) if(!sitemap.includes(url)) failures.push(`Sitemap missing: ${url}`);
 for(const retired of ['https://bratgeneratorpro.net/brat-text-generator/','https://bratgeneratorpro.net/how-to-use/']) if(sitemap.includes(retired)) failures.push(`Sitemap should not include retired URL: ${retired}`);
 

@@ -67,7 +67,6 @@ const toolCards = [
   ['/video-generator/', 'Brat Video Generator', 'Create animated Brat-style text with optional audio, GIF, video and frame exports.'],
   ['/brat-meme-generator/', 'Brat Meme Generator', 'Make Brat-style memes with photo upload, top and bottom text, effects and image export.'],
   ['/brat-image-generator/', 'Brat Image Generator', 'Build custom Brat-style images with uploaded backgrounds, text, effects and multiple ratios.'],
-  ['/brat-font-generator/', 'Brat Font Generator', 'Create Brat-style typography with font, blur, spacing, alignment and transparent export controls.'],
   ['/brat-album-cover-generator/', 'Brat Album Cover Generator', 'Create square Brat-style album and playlist covers with title, artist line and high-resolution export.'],
   ['/brat-styles/', 'Brat Styles', 'Compare Brat green, black, white, pink and custom colour directions before you create.'],
 ];
@@ -136,32 +135,17 @@ export default function Home() {
             <span className="blob blob-blue" />
           </div>
           <div className="container container-hero hero-content">
-            <div className="reveal is-visible hero-delay-0 hero-micro-wrap">
+            <div className="hero-micro-wrap">
               <span className="micro-pill glass"><span className="micro-dot" />100% free · no sign-up · instant</span>
             </div>
 
-            <div id="generator" className="hero-generator-block reveal is-visible hero-delay-1">
-              <h1 className="tool-first-title">Create Your Brat Design <span className="text-brat">Right Now</span></h1>
+            <div id="generator" className="hero-generator-block">
+              <h1 className="tool-first-title hero-primary-title">
+                Brat Generator: Create Text, Album Covers &amp; Memes <span className="text-brat">Brat Style For Free</span>
+              </h1>
+              <p className="hero-primary-copy">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
               <div className="hero-generator-shell">
                 <BratGenerator />
-              </div>
-            </div>
-
-            <div className="hero-after-tool reveal is-visible hero-delay-2">
-              <h2 className="hero-secondary-title">
-                Brat Generator: Create Text, Album Covers &amp; Memes<br />
-                <span className="brat-text hero-brat">Brat Style</span><br />
-                <span>For Free</span>
-              </h2>
-              <p className="hero-copy">Create Brat-style text, album covers, and memes with custom colours, condensed font effects, adjustable blur, social-ready sizes, and instant browser-based downloads — completely free.</p>
-              <div className="hero-buttons">
-                <Link href="#generator" className="pill-btn primary glow-brat">Start Creating →</Link>
-                <Link href="#styles" className="pill-btn secondary">See Examples</Link>
-              </div>
-              <div className="hero-proof">
-                <span>⚡ Browser-based</span>
-                <span>📱 Mobile friendly</span>
-                <span>🚫 No watermark</span>
               </div>
             </div>
           </div>

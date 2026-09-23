@@ -1,27 +1,22 @@
-BRAT GENERATOR — COMPACT TOOL HERO + FULL-SITE LANGUAGE UPDATE
+BRAT GENERATOR — FINAL UI CLEANUP UPDATE
+Date: 2026-09-23
 
 Apply:
 1. Extract this ZIP.
-2. Copy all folders/files into the existing Brat Generator project root.
-3. Choose Replace files when Windows asks.
+2. Paste the folders/files into the existing project root.
+3. Choose Replace files in destination.
 4. Run:
    npm run technical:check
-   npm run build
    npm run dev
 
-What changed:
-- Header: Brat Font + Brat Album Cover labels.
-- Homepage 100% FREE pill moved slightly higher with smaller surrounding spacing.
-- Inner-page breadcrumb pills use the same compact top rhythm.
-- Brat Video/Meme/Image/Font/Album tool-page H1s are smaller and more compact.
-- Hero description text under those tool headings is removed.
-- Working tools move closer to the H1/breadcrumb area.
-- Video page's extra pre-tool marketing heading is removed so the actual video tool appears sooner.
-- Language selection now attempts whole-page translation, not only header labels.
-- Translation preference persists across navigation and can auto-detect browser/timezone language on first visit.
-- Embedded Brat Text and Brat Video tools also receive the selected runtime language through their own translation layer.
-- Vercel and Apache CSP allow the translation service resources.
-
-Important:
-- Runtime full-page translation requires an internet connection and the Google Translate runtime service to be reachable.
-- This is a visitor-facing language feature. It does NOT create separate SEO-indexable /es/, /id/, /hi/ etc. pages or hreflang URLs.
+Main changes:
+- Homepage H1 changed to: Brat Generator: Create Text, Album Covers & Memes Brat Style For Free.
+- Old "Create Your Brat Design Right Now" heading and below-tool duplicate promo/buttons removed.
+- Homepage tool and wide sections use a consistent wider shell.
+- Header uses the same shell, navigation has more breathing room and sits farther right.
+- Login button removed from desktop and mobile navigation.
+- Brat Font Generator removed from navigation, footer, sitemap, llms and internal tool cards.
+- Old /brat-font-generator/ is redirected to the homepage.
+- Main generator iframe minimum height reduced to remove unnecessary blank space.
+- Brat Image Generator changed to a simpler prompt -> generate -> preview workflow.
+- Image Generator metadata/how-to/features updated to match the actual interface.

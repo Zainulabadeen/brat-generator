@@ -1,0 +1,44 @@
+Brat Generator — Lighthouse Performance / LCP / TBT optimisation patch
+Date: 2026-09-23
+
+What changed
+- Moved Brat Generator and Brat Video Generator iframe documents out of the React client bundle and into public static HTML files.
+- Switched iframe srcDoc to same-origin static src URLs so the browser can cache/load them separately.
+- Native lazy-loading for embedded generator/video iframes.
+- Removed parent ResizeObserver loops from the main generator and video wrapper.
+- Reduced embedded generator height measurement to scheduled event-driven measurements instead of continuous ResizeObserver reads.
+- Removed above-the-fold hero reveal animations so the H1 can paint immediately.
+- Replaced expensive first-paint blurred hero blob elements with lightweight radial gradients while preserving the same green/pink/blue visual feel.
+- Removed backdrop-filter from the above-the-fold 100% FREE pill.
+- Added content-visibility to below-the-fold sections/footer so the browser can skip off-screen layout/paint work initially.
+- Added a production-like local Lighthouse server with gzip and realistic cache headers.
+
+Files in this patch
+app/globals.css
+app/page.tsx
+components/BratGenerator.tsx
+components/BratVideoGenerator.tsx
+public/brat-generator-embed.html
+public/brat-video-generator-embed.html
+scripts/serve-lighthouse.mjs
+package.json
+
+How to apply
+1. Extract this ZIP into the existing project root and replace matching files.
+2. Run:
+   npm run technical:check
+   npm run build
+3. Do NOT use npm run dev for the final Lighthouse score.
+4. Run:
+   npm run lighthouse:serve
+5. Open Incognito:
+   http://localhost:3000/
+6. F12 -> Lighthouse -> Analyze page load.
+
+Why use npm run lighthouse:serve instead of python -m http.server?
+The new local server uses gzip and production-like caching for generated static assets. Python's basic HTTP server does not closely represent Vercel/CDN delivery and can make cache/transfer diagnostics look worse than production.
+
+Targets
+- Preserve Accessibility 100 and SEO 100.
+- Reduce LCP/TBT and main-thread work without changing visible content or tool functionality.
+- Exact Lighthouse scores can vary per run/device, so compare multiple Incognito production-build runs.

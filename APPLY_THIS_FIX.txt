@@ -1,29 +1,9 @@
-BRAT GENERATOR — TRANSLATION/HEADER FIX
+Brat Generator first-page iframe fit fix
 
-Apply:
-1) Extract this ZIP.
-2) Copy all folders/files into the existing project root.
-3) Replace existing files when Windows asks.
-4) Restart the dev server:
-   npm run dev
+Replace:
+  lib/embedDocuments.ts
 
-What this fixes:
-- Fixes Runtime TypeError in components/BratGenerator.tsx caused by translation code trying to append to iframe body before it exists.
-- Applies the same safety fix to BratVideoGenerator.
-- Hides Google Translate's legacy top toolbar/banner and tooltip UI.
-- Clears stale googtrans cookie when English is selected (prevents the "Translated into English" bar).
-- Keeps whole-page translation behaviour for non-English selections.
-- Header now starts with Home instead of Brat Text.
-- Brat Text Generator is no longer an indexable standalone destination; old URL redirects to the homepage generator.
-- /how-to and /how-to-use redirect to the homepage How-to section.
-- Sitemap and llms.txt no longer list a separate Brat Text page.
-- Footer and homepage internal links now point to the homepage text tool/how-to section.
-- SEO checker files updated for the new route structure.
+This removes the embedded generator's own 20px top/bottom wrapper padding and duplicate inner border/shadow, so the tool sits flush inside the existing outer tool shell like the other tools.
 
-After applying, test:
-- /
-- /brat-meme-generator/
-- /video-generator/
-- /brat-text-generator/  (should redirect to /#generator)
-- Switch English -> Spanish/Indonesian/Hindi and verify no Google toolbar is visible.
-- Switch back to English.
+Then run:
+  npm run dev

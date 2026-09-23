@@ -14,21 +14,20 @@ export default function SiteFooter() {
               </span>
               <span>brat<span className="text-brat">.</span>generator</span>
             </Link>
-            <p>Free browser-based Brat-inspired creative tools for text, memes, images, fonts, album covers, and video.</p>
+            <p>Free browser-based Brat-inspired creative tools for text, memes, images, album covers, and video.</p>
           </div>
 
           <div>
-            <h4>Tools</h4>
+            <p className="footer-heading">Tools</p>
             <Link href={pageLinks.home}>Brat Generator (Home)</Link>
             <Link href={pageLinks.videoGenerator}>Brat Video Generator</Link>
             <Link href={pageLinks.memeGenerator}>Brat Meme Generator</Link>
             <Link href={pageLinks.imageGenerator}>Brat Image Generator</Link>
-            <Link href={pageLinks.fontGenerator}>Brat Font Generator</Link>
             <Link href={pageLinks.albumGenerator}>Brat Album Cover Generator</Link>
           </div>
 
           <div>
-            <h4>Explore</h4>
+            <p className="footer-heading">Explore</p>
             <Link href={pageLinks.features}>Features</Link>
             <Link href={pageLinks.styles}>Brat Styles</Link>
             <Link href={pageLinks.blog}>Blog</Link>
@@ -37,7 +36,7 @@ export default function SiteFooter() {
           </div>
 
           <div>
-            <h4>Trust</h4>
+            <p className="footer-heading">Trust</p>
             <Link href={pageLinks.privacy}>Privacy Policy</Link>
             <Link href={pageLinks.terms}>Terms &amp; Disclaimer</Link>
             <Link href={pageLinks.contact}>Contact</Link>

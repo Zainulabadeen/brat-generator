@@ -1,0 +1,22 @@
+Brat Generator build error fix
+
+Fixes TypeScript TS2367 in components/BratCreativeTool.tsx.
+
+Cause:
+The component already returns early for mode === 'image'. After that return,
+TypeScript correctly narrows mode to meme/font/album, so later comparisons
+against 'image' are impossible and fail the production build.
+
+Applied fix:
+- Removed the unreachable image-only Sticker block after the early return.
+- Changed the post-return Lo-fi condition to meme only.
+- Image generator behaviour in its own early-return branch is unchanged.
+
+Apply:
+1. Extract this ZIP into the project root.
+2. Replace components/BratCreativeTool.tsx.
+3. Run:
+   npm run build
+
+Then, if build passes:
+   python -m http.server 3000 -d out

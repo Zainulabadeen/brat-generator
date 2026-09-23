@@ -9,7 +9,7 @@ import BratGenerator from '@/components/BratGenerator';
 import { siteConfig } from '@/lib/site';
 import { breadcrumbSchema, organizationEntity, websiteId } from '@/lib/schema';
 
-type ToolMode = 'text' | 'meme' | 'image' | 'font' | 'album';
+type ToolMode = 'text' | 'meme' | 'image' | 'album';
 
 type Props = {
   mode: ToolMode;
