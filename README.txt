@@ -1,22 +1,14 @@
-BRAT GENERATOR — FINAL LOVABLE-STYLE TEXT/HEADING LAYOUT
+Brat Generator - About label + question mark fix
 
-Replace only:
-  app/globals.css
+Changed only:
+- app/page.tsx
 
-What this changes:
-- Major H1/H2 marketing headings are centered and balanced.
-- Coloured/accent phrases in section headings move to a natural second line.
-- Supporting intro copy uses a shorter centered reading measure.
-- About, cards, guide cards and promo/CTA text regain the centered reference presentation.
-- Inner page hero titles use intentional stacked title/accent lines.
+What changed:
+1. Removed the small "About" eyebrow label from the homepage About section.
+2. Moved the question mark inside the green "Brat Generator?" span so it stays on the same line as Generator.
 
-What this DOES NOT change:
-- Font sizes
-- Font families
-- Section/card/tool widths
-- Header/navigation
-- Language selector
-- Generator functionality
-- Images
-- SEO metadata, sitemap, robots, redirects or schema
-- Long-form article/legal body layout
+No CSS, font-size, spacing, image, layout, SEO, language, tool, or other site files were changed.
+
+Apply:
+Extract this ZIP into the existing project root and replace app/page.tsx.
+Then run npm run dev and hard refresh (Ctrl+F5).

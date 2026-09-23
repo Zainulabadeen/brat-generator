@@ -155,8 +155,7 @@ export default function Home() {
           <div className="container container-wide about-grid about-grid-wide">
             <div className="reveal"><div className="about-art"><span className="brat-text about-brat">brat</span></div></div>
             <div className="reveal reveal-delay-1 about-copy">
-              <p className="eyebrow left">About</p>
-              <h2>What Is a <span className="text-brat">Brat Generator</span>?</h2>
+              <h2>What Is a <span className="text-brat">Brat Generator?</span></h2>
               <p>A Brat generator turns a word or phrase into a graphic inspired by the lime-green, lowercase, slightly blurred visual style associated with Charli XCX’s <em>Brat</em> album. Type your text, choose colours, adjust the blur and spacing, and watch the result update immediately.</p>
               <p>This free Brat generator runs in your browser with no signup and no watermark. The current design canvas is processed locally, so your text and generated image do not need to be uploaded to a server.</p>
             </div>
