@@ -8,20 +8,20 @@ const expected = [
   'features/index.html','brat-styles/index.html','blog/index.html',
   'blog/how-to-make-a-brat-album-cover-free/index.html','blog/brat-generator-not-working/index.html',
   'about/index.html','contact/index.html','privacy-policy/index.html','terms/index.html',
-  'brat-generator-embed.html','brat-video-generator-embed.html','robots.txt','sitemap.xml','manifest.webmanifest','og-image.png','favicon.ico','favicon.svg','.htaccess'
+  'brat-generator-embed/index.html','brat-video-generator-embed/index.html','robots.txt','sitemap.xml','manifest.webmanifest','og-image.png','favicon.ico','favicon.svg','.htaccess'
 ];
 const failures=[];
 if(!fs.existsSync(out)){ console.error('PRE-LIVE CHECK FAILED: out/ folder not found. Run npm run build first.'); process.exit(1); }
 for(const rel of expected) if(!fs.existsSync(path.join(out,rel))) failures.push(`Missing: out/${rel}`);
 
-for(const rel of expected.filter(x=>x.endsWith('.html') && x!=='404.html' && !x.endsWith('-embed.html'))){
+for(const rel of expected.filter(x=>x.endsWith('.html') && x!=='404.html' && !x.includes('-embed/'))){
   const fp=path.join(out,rel); if(!fs.existsSync(fp)) continue; const html=fs.readFileSync(fp,'utf8');
   if(!/<title>[^<]+<\/title>/i.test(html)) failures.push(`No title: out/${rel}`);
   if(!/rel="canonical"/i.test(html)) failures.push(`No canonical: out/${rel}`);
   if(!/application\/ld\+json/i.test(html)) failures.push(`No JSON-LD: out/${rel}`);
   if(/brategenrator\.lovable\.app|bratgenerator\.app/i.test(html)) failures.push(`Old/wrong domain found: out/${rel}`);
 }
-for(const rel of ['brat-generator-embed.html','brat-video-generator-embed.html']){
+for(const rel of ['brat-generator-embed/index.html','brat-video-generator-embed/index.html']){
   const fp=path.join(out,rel); if(!fs.existsSync(fp)) continue; const html=fs.readFileSync(fp,'utf8');
   if(!/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html)) failures.push(`Embed file is not noindex: out/${rel}`);
 }

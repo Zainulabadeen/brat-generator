@@ -82,9 +82,25 @@ export default function BratGenerator() {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  const [fallbackHtml, setFallbackHtml] = useState<string | null>(null);
 
   const handleLoad = () => {
-    translateEmbeddedFrame(frameRef.current, locale);
+    const frame = frameRef.current;
+    const bodyText = frame?.contentDocument?.body?.textContent || '';
+    const title = frame?.contentDocument?.title || '';
+    const missingEmbed =
+      bodyText.includes('That Page Went Off-Track') ||
+      /(^|\s)404(\s|$)/i.test(title) ||
+      bodyText.includes('The page you requested does not exist');
+
+    if (missingEmbed && !fallbackHtml) {
+      import('@/lib/embedDocuments').then((module) => {
+        setFallbackHtml(module.BRAT_GENERATOR_EMBED_HTML);
+      });
+      return;
+    }
+
+    translateEmbeddedFrame(frame, locale);
     window.dispatchEvent(new CustomEvent('brat-frame-ready'));
   };
 
@@ -120,7 +136,8 @@ export default function BratGenerator() {
     <div className="generator-embed-shell">
       <iframe
         ref={frameRef}
-        src="/brat-generator-embed.html"
+        src={fallbackHtml ? undefined : "/brat-generator-embed/"}
+        srcDoc={fallbackHtml || undefined}
         className="brat-generator-iframe"
         title="Brat Generator design tool"
         onLoad={handleLoad}

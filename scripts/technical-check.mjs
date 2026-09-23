@@ -80,7 +80,7 @@ expect(htaccess.includes('Force HTTPS and the preferred non-www hostname'), 'Apa
 expect(htaccess.includes('ErrorDocument 404 /404.html'), 'Apache fallback has custom 404');
 expect(htaccess.includes('RewriteRule ^brat-text-generator/?$ / [R=301,L]'), 'Apache redirects retired Brat Text route to homepage');
 
-for (const embed of ['public/brat-generator-embed.html','public/brat-video-generator-embed.html']) {
+for (const embed of ['public/brat-generator-embed/index.html','public/brat-video-generator-embed/index.html']) {
   const text = file(embed);
   expect(/noindex\s*,\s*nofollow/i.test(text), `${embed} is noindex/nofollow`);
 }

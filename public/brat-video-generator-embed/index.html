@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Brat Video Generator</title>
+  <style>html,body{margin:0;padding:0;background:#fff}body{padding:0}</style>
+</head>
+<body>
+<!-- =========================================================================
+     BRAT VIDEO GENERATOR — Self-contained WordPress widget
+     Drop this whole block into a Custom HTML block / Elementor HTML widget.
+     All styles are scoped under #bvg-root and all JS runs inside an IIFE,
+     so nothing here should collide with the rest of a WordPress theme.
+     ========================================================================= -->
+<div id="bvg-root">
+
+  <div class="bvg-card">
+
+    <!-- 1. HEADER BANNER -->
+    <div class="bvg-header">
+      <h2 class="bvg-title">Brat Video Generator</h2>
+      <p class="bvg-subtitle">Create animated brat-style videos</p>
+    </div>
+
+    <!-- 2. TABS & UTILITY BAR -->
+    <div class="bvg-tabbar">
+      <div class="bvg-tabs" role="tablist" aria-label="View">
+        <button class="bvg-tab is-active" type="button" data-view="lyrics">📝 Lyrics</button>
+        <button class="bvg-tab" type="button" data-view="preview">👥 Preview</button>
+      </div>
+      <button class="bvg-fullscreen" type="button" title="Toggle fullscreen" aria-label="Toggle fullscreen">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+          <path d="M16 3h3a2 2 0 0 1 2 2v3"></path>
+          <path d="M21 16v3a2 2 0 0 1-2 2h-3"></path>
+          <path d="M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- VIEW: LYRICS -->
+    <div class="bvg-view is-active" data-view-panel="lyrics">
+
+      <!-- 3. TEXT INPUT SECTION -->
+      <div class="bvg-field-row">
+        <label class="bvg-label" for="bvg-lyrics">Enter text:</label>
+        <div class="bvg-btn-group">
+          <button class="bvg-btn bvg-btn--paste" type="button" id="bvg-paste">Paste Text</button>
+          <button class="bvg-btn bvg-btn--trim" type="button" id="bvg-trim">Trim Text</button>
+        </div>
+      </div>
+
+      <textarea class="bvg-textarea" id="bvg-lyrics" placeholder="Type your brat lyrics here..."></textarea>
+
+      <!-- 4. ACTION DIVIDER BUTTON -->
+      <button class="bvg-btn bvg-btn--divider" type="button" id="bvg-make-sets">
+        ⬇️⬇️⬇️ Create Sets from Lyrics ⬇️⬇️⬇️
+      </button>
+
+      <!-- 5. AUDIO UPLOAD DROPZONE -->
+      <div class="bvg-dropzone" id="bvg-dropzone" tabindex="0" role="button" aria-label="Upload audio file">
+        <input type="file" id="bvg-audio-input" accept="audio/mpeg,audio/wav,audio/mp4,audio/aac,audio/ogg,.mp3,.wav,.m4a,.aac,.ogg" hidden />
+        <div class="bvg-dropzone-plus" aria-hidden="true">+</div>
+        <div class="bvg-dropzone-text" id="bvg-dropzone-text">Drop Your Audio, Babe</div>
+        <div class="bvg-dropzone-sub" id="bvg-dropzone-sub">or click to browse</div>
+      </div>
+
+      <!-- 6. OUTPUT FORMAT TABS -->
+      <div class="bvg-formats" role="tablist" aria-label="Output format">
+        <button class="bvg-format is-active" type="button" data-format="video" id="bvg-video-format">Video</button>
+        <button class="bvg-format" type="button" data-format="gif">GIF</button>
+        <button class="bvg-format" type="button" data-format="frames">Frames</button>
+      </div>
+      <p class="bvg-export-note" id="bvg-export-note">Video export uses the best format supported by your browser. GIF and frame exports are silent.</p>
+
+      <!-- 7. SETTINGS & EXPORT PANEL -->
+      <div class="bvg-settings">
+        <div class="bvg-settings-row">
+          <label class="bvg-settings-label" for="bvg-fps">Video FPS: <span id="bvg-fps-value">30</span></label>
+          <input type="range" id="bvg-fps" class="bvg-slider" min="10" max="60" step="1" value="30" />
+          <div class="bvg-settings-hint">
+            <span>10 fps</span>
+            <span>Higher FPS = smoother video, larger file size</span>
+            <span>60 fps</span>
+          </div>
+        </div>
+
+        <button class="bvg-export" id="bvg-export" type="button" disabled>
+          <span class="bvg-export-label">Export Video</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW: PREVIEW -->
+    <div class="bvg-view" data-view-panel="preview">
+      <div class="bvg-preview-stage">
+        <div class="bvg-preview-text" id="bvg-preview-text">Type your brat lyrics here...</div>
+      </div>
+      <p class="bvg-preview-hint">This is a live preview of your current lyrics in the brat style.</p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* =====================================================================
+     Everything is scoped under #bvg-root to avoid leaking into the theme.
+     ===================================================================== */
+  #bvg-root, #bvg-root * {
+    box-sizing: border-box;
+  }
+  #bvg-root {
+    --bvg-lime: #8AC500;
+    --bvg-lime-dark: #6f9e00;
+    --bvg-orange: #FF9F1C;
+    --bvg-orange-dark: #e08a10;
+    --bvg-blue: #3B82F6;
+    --bvg-blue-dark: #2563eb;
+    --bvg-ink: #1a1a1a;
+
+    all: initial;
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    color: var(--bvg-ink);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+  #bvg-root *, #bvg-root *::before, #bvg-root *::after { box-sizing: border-box; }
+
+  #bvg-root .bvg-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  }
+
+  /* ---- Header ---- */
+  #bvg-root .bvg-header {
+    background: var(--bvg-lime);
+    padding: 15px 20px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
+  #bvg-root .bvg-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #000000;
+    letter-spacing: -0.5px;
+  }
+  #bvg-root .bvg-subtitle {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: rgba(0,0,0,0.65);
+  }
+
+  /* ---- Tab bar ---- */
+  #bvg-root .bvg-tabbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #eaeaea;
+    background: #fafafa;
+  }
+  #bvg-root .bvg-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  #bvg-root .bvg-tab {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #6b6b6b;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  #bvg-root .bvg-tab:hover { color: #333; }
+  #bvg-root .bvg-tab.is-active {
+    color: #000;
+    border-bottom-color: var(--bvg-lime);
+  }
+  #bvg-root .bvg-fullscreen {
+    appearance: none;
+    background: none;
+    border: none;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  #bvg-root .bvg-fullscreen:hover {
+    background: #eeeeee;
+    color: #000;
+  }
+
+  /* ---- Views ---- */
+  #bvg-root .bvg-view {
+    display: none;
+    padding: 18px 20px 22px;
+  }
+  #bvg-root .bvg-view.is-active { display: block; }
+
+  /* ---- Field row / labels / buttons ---- */
+  #bvg-root .bvg-field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  #bvg-root .bvg-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  #bvg-root .bvg-btn-group {
+    display: flex;
+    gap: 8px;
+  }
+  #bvg-root .bvg-btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    transition: filter 0.15s ease, transform 0.05s ease;
+  }
+  #bvg-root .bvg-btn:active { transform: translateY(1px); }
+  #bvg-root .bvg-btn--paste { background: var(--bvg-blue); }
+  #bvg-root .bvg-btn--paste:hover { background: var(--bvg-blue-dark); }
+  #bvg-root .bvg-btn--trim { background: var(--bvg-orange); }
+  #bvg-root .bvg-btn--trim:hover { background: var(--bvg-orange-dark); }
+
+  /* ---- Textarea ---- */
+  #bvg-root .bvg-textarea {
+    width: 100%;
+    height: 300px;
+    resize: vertical;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  #bvg-root .bvg-textarea::placeholder { color: #b3b3b3; }
+  #bvg-root .bvg-textarea:focus {
+    border-color: var(--bvg-lime);
+    box-shadow: 0 0 0 3px rgba(138,197,0,0.15);
+  }
+
+  /* ---- Divider action button ---- */
+  #bvg-root .bvg-btn--divider {
+    display: block;
+    width: 100%;
+    background: var(--bvg-lime);
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin: 14px 0 18px;
+  }
+  #bvg-root .bvg-btn--divider:hover { background: var(--bvg-lime-dark); }
+
+  /* ---- Audio dropzone ---- */
+  #bvg-root .bvg-dropzone {
+    border: 2px dashed var(--bvg-orange);
+    background: #fff8ee;
+    border-radius: 14px;
+    padding: 34px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    margin-bottom: 18px;
+  }
+  #bvg-root .bvg-dropzone:hover,
+  #bvg-root .bvg-dropzone.is-dragover {
+    background: #ffefd6;
+    border-color: var(--bvg-orange-dark);
+  }
+  #bvg-root .bvg-dropzone-plus {
+    width: 46px;
+    height: 46px;
+    line-height: 44px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: var(--bvg-orange);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  #bvg-root .bvg-dropzone-text {
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--bvg-orange-dark);
+  }
+  #bvg-root .bvg-dropzone-sub {
+    font-size: 13px;
+    color: #b98436;
+    margin-top: 2px;
+  }
+
+  /* ---- Output format tabs ---- */
+  #bvg-root .bvg-formats {
+    display: flex;
+    gap: 18px;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 16px;
+  }
+  #bvg-root .bvg-format {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 8px 2px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6b6b6b;
+    cursor: pointer;
+  }
+  #bvg-root .bvg-format.is-active {
+    color: #000;
+    border-bottom-color: var(--bvg-lime);
+  }
+
+  #bvg-root .bvg-export-note {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #666;
+  }
+
+  /* ---- Settings panel ---- */
+  #bvg-root .bvg-settings {
+    background: #eef5ff;
+    border: 1px solid #cfe0fb;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  #bvg-root .bvg-settings-label {
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+  }
+  #bvg-root .bvg-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--bvg-blue) 0%, var(--bvg-blue) var(--bvg-fill, 40%), #cddcf7 var(--bvg-fill, 40%), #cddcf7 100%);
+    outline: none;
+    cursor: pointer;
+  }
+  #bvg-root .bvg-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bvg-blue);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--bvg-blue);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bvg-blue);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--bvg-blue);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-settings-hint {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+    color: #5b6b85;
+    margin-top: 6px;
+  }
+  #bvg-root .bvg-settings-hint span:nth-child(2) {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* ---- Export button ---- */
+  #bvg-root .bvg-export {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    background: #b9bfc7;
+    cursor: not-allowed;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s ease;
+  }
+  #bvg-root .bvg-export.is-ready {
+    background: var(--bvg-lime);
+    cursor: pointer;
+  }
+  #bvg-root .bvg-export.is-ready:hover { background: var(--bvg-lime-dark); }
+  #bvg-root .bvg-export.is-processing {
+    background: var(--bvg-lime-dark);
+    cursor: progress;
+  }
+  #bvg-root .bvg-export-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0%;
+    background: rgba(255,255,255,0.25);
+    transition: width 0.15s linear;
+  }
+  #bvg-root .bvg-export-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- Preview view ---- */
+  #bvg-root .bvg-preview-stage {
+    background: #0f0f0f;
+    border-radius: 12px;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #bvg-root .bvg-preview-text {
+    color: var(--bvg-lime);
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1.25;
+    text-align: center;
+    letter-spacing: -0.5px;
+    filter: blur(0.35px);
+    transform: scaleX(0.94);
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  #bvg-root .bvg-preview-hint {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* ---- Responsive ---- */
+  #bvg-root .bvg-card { width: 100%; }
+
+  @media (max-width: 768px) {
+    #bvg-root .bvg-header { padding: 13px 16px; }
+    #bvg-root .bvg-view { padding: 16px 16px 18px; }
+    #bvg-root .bvg-textarea { height: 240px; }
+  }
+
+  @media (max-width: 560px) {
+    #bvg-root .bvg-title { font-size: 19px; }
+    #bvg-root .bvg-subtitle { font-size: 13px; }
+    #bvg-root .bvg-tabbar { padding: 0 10px; }
+    #bvg-root .bvg-tab { padding: 10px 6px; font-size: 13px; }
+    #bvg-root .bvg-view { padding: 14px 12px 16px; }
+    #bvg-root .bvg-field-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    #bvg-root .bvg-btn-group { width: 100%; }
+    #bvg-root .bvg-btn--paste,
+    #bvg-root .bvg-btn--trim { flex: 1; text-align: center; }
+    #bvg-root .bvg-textarea { height: 200px; font-size: 13px; }
+    #bvg-root .bvg-btn--divider { font-size: 13px; padding: 11px 10px; }
+    #bvg-root .bvg-dropzone { padding: 26px 12px; }
+    #bvg-root .bvg-dropzone-text { font-size: 15px; }
+    #bvg-root .bvg-formats { gap: 12px; }
+    #bvg-root .bvg-settings { padding: 14px; }
+    #bvg-root .bvg-settings-hint { flex-direction: column; gap: 2px; }
+    #bvg-root .bvg-settings-hint span:nth-child(2) { text-align: left; }
+    #bvg-root .bvg-preview-stage { min-height: 200px; padding: 18px; }
+    #bvg-root .bvg-preview-text { font-size: 22px; }
+  }
+
+  @media (max-width: 380px) {
+    #bvg-root .bvg-title { font-size: 17px; }
+    #bvg-root .bvg-tab { font-size: 12px; padding: 9px 4px; }
+    #bvg-root .bvg-btn { font-size: 12px; padding: 7px 10px; }
+    #bvg-root .bvg-dropzone-plus { width: 40px; height: 40px; line-height: 38px; font-size: 22px; }
+  }
+</style>
+
+<script>
+  /* =====================================================================
+     All logic lives inside this IIFE — no globals leak into WordPress.
+     ===================================================================== */
+  (function () {
+    'use strict';
+
+    var root = document.getElementById('bvg-root');
+    if (!root) return;
+
+    // ---- Element refs ----
+    var lyricsTextarea   = root.querySelector('#bvg-lyrics');
+    var pasteBtn         = root.querySelector('#bvg-paste');
+    var trimBtn          = root.querySelector('#bvg-trim');
+    var makeSetsBtn      = root.querySelector('#bvg-make-sets');
+    var dropzone         = root.querySelector('#bvg-dropzone');
+    var audioInput       = root.querySelector('#bvg-audio-input');
+    var dropzoneText      = root.querySelector('#bvg-dropzone-text');
+    var dropzoneSub       = root.querySelector('#bvg-dropzone-sub');
+    var fpsSlider         = root.querySelector('#bvg-fps');
+    var fpsValue          = root.querySelector('#bvg-fps-value');
+    var exportBtn         = root.querySelector('#bvg-export');
+    var previewText       = root.querySelector('#bvg-preview-text');
+    var tabs              = root.querySelectorAll('.bvg-tab');
+    var viewPanels        = root.querySelectorAll('[data-view-panel]');
+    var formatTabs        = root.querySelectorAll('.bvg-format');
+    var fullscreenBtn      = root.querySelector('.bvg-fullscreen');
+
+    var state = {
+      hasAudio: false,
+      hasLyrics: false,
+      audioFile: null,
+      format: 'video',
+      exporting: false
+    };
+
+    var videoFormatTab = root.querySelector('#bvg-video-format');
+    var exportNote = root.querySelector('#bvg-export-note');
+
+    function getPreferredVideoSpec() {
+      if (typeof MediaRecorder === 'undefined') return null;
+      var candidates = [
+        { mime: 'video/mp4;codecs=avc1.42E01E,mp4a.40.2', ext: 'mp4', label: 'MP4' },
+        { mime: 'video/mp4', ext: 'mp4', label: 'MP4' },
+        { mime: 'video/webm;codecs=vp9,opus', ext: 'webm', label: 'WebM' },
+        { mime: 'video/webm;codecs=vp8,opus', ext: 'webm', label: 'WebM' },
+        { mime: 'video/webm', ext: 'webm', label: 'WebM' }
+      ];
+      for (var i = 0; i < candidates.length; i += 1) {
+        if (!MediaRecorder.isTypeSupported || MediaRecorder.isTypeSupported(candidates[i].mime)) return candidates[i];
+      }
+      return null;
+    }
+
+    var videoSpec = getPreferredVideoSpec();
+    if (videoFormatTab) videoFormatTab.textContent = videoSpec ? videoSpec.label : 'Video';
+    if (exportNote) {
+      exportNote.textContent = videoSpec
+        ? ('Video exports as ' + videoSpec.label + ' in this browser. GIF and frame exports are silent.')
+        : 'This browser does not support in-browser video recording. GIF and frame exports are still available.';
+    }
+
+    // ---- Tab switching: Lyrics / Preview ----
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+
+        var target = tab.getAttribute('data-view');
+        viewPanels.forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.getAttribute('data-view-panel') === target);
+        });
+
+        if (target === 'preview') syncPreview();
+      });
+    });
+
+    // ---- Output format tabs ----
+    formatTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        formatTabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        state.format = tab.getAttribute('data-format');
+        updateExportLabel();
+        updateExportReadiness();
+      });
+    });
+
+    function updateExportLabel() {
+      var labelEl = exportBtn.querySelector('.bvg-export-label');
+      if (state.exporting) return;
+      if (state.format === 'video') labelEl.textContent = 'Export ' + (videoSpec ? videoSpec.label : 'Video');
+      else if (state.format === 'gif') labelEl.textContent = 'Export GIF';
+      else labelEl.textContent = 'Export Frames ZIP';
+    }
+
+    // ---- Paste Text ----
+    pasteBtn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(function (text) {
+          lyricsTextarea.value = text;
+          onLyricsChanged();
+        }).catch(function () {
+          window.alert('Could not read clipboard. Please paste manually with Ctrl/Cmd+V.');
+        });
+      } else {
+        window.alert('Clipboard access is not supported in this browser. Please paste manually.');
+      }
+    });
+
+    // ---- Trim Text ----
+    trimBtn.addEventListener('click', function () {
+      var lines = lyricsTextarea.value.split(/\r?\n/);
+      var trimmedLines = lines.map(function (line) { return line.trim(); }).filter(Boolean);
+      lyricsTextarea.value = trimmedLines.join('\n');
+      onLyricsChanged();
+    });
+
+    // ---- Create Sets from Lyrics ----
+    makeSetsBtn.addEventListener('click', function () {
+      if (!lyricsTextarea.value.trim()) {
+        window.alert('Add some lyrics first.');
+        return;
+      }
+      var sets = lyricsTextarea.value.split(/\n\s*\n/).map(function (part) { return part.trim(); }).filter(Boolean);
+      window.alert('Created ' + sets.length + ' set(s) from your lyrics. Each non-empty line will animate during export.');
+    });
+
+    function onLyricsChanged() {
+      state.hasLyrics = lyricsTextarea.value.trim().length > 0;
+      syncPreview();
+      updateExportReadiness();
+    }
+    lyricsTextarea.addEventListener('input', onLyricsChanged);
+
+    function syncPreview() {
+      previewText.textContent = lyricsTextarea.value.trim() || 'Type your brat lyrics here...';
+    }
+
+    // ---- Audio dropzone: click, drag & drop ----
+    dropzone.addEventListener('click', function () { audioInput.click(); });
+    dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        audioInput.click();
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('is-dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('is-dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', function (e) {
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length) handleAudioFile(files[0]);
+    });
+
+    audioInput.addEventListener('change', function () {
+      if (audioInput.files && audioInput.files.length) handleAudioFile(audioInput.files[0]);
+    });
+
+    function handleAudioFile(file) {
+      var isAudio = /audio\//.test(file.type) || /\.(mp3|wav|m4a|aac|ogg)$/i.test(file.name);
+      if (!isAudio) {
+        window.alert('Please choose a supported audio file such as MP3, WAV, M4A, AAC, or OGG.');
+        return;
+      }
+      state.hasAudio = true;
+      state.audioFile = file;
+      dropzoneText.textContent = file.name;
+      dropzoneSub.textContent = 'Loaded — video export will include this audio when the browser can decode it';
+      updateExportReadiness();
+    }
+
+    // ---- FPS slider ----
+    function updateSliderFill() {
+      var min = parseInt(fpsSlider.min, 10);
+      var max = parseInt(fpsSlider.max, 10);
+      var val = parseInt(fpsSlider.value, 10);
+      var pct = ((val - min) / (max - min)) * 100;
+      fpsSlider.style.setProperty('--bvg-fill', pct + '%');
+    }
+    fpsSlider.addEventListener('input', function () {
+      fpsValue.textContent = fpsSlider.value;
+      updateSliderFill();
+    });
+    updateSliderFill();
+
+    // ---- Export helpers ----
+    function updateExportReadiness() {
+      var supported = state.format !== 'video' || !!videoSpec;
+      var ready = state.hasLyrics && supported;
+      exportBtn.disabled = !ready || state.exporting;
+      exportBtn.classList.toggle('is-ready', ready && !state.exporting);
+    }
+
+    function getLines() {
+      var lines = lyricsTextarea.value.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
+      if (!lines.length) lines = ['brat'];
+      return lines;
+    }
+
+    function createCanvas(width, height) {
+      var canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      return canvas;
+    }
+
+    function drawWrappedText(ctx, text, maxWidth, x, y, maxLines) {
+      var words = text.split(/\s+/);
+      var lines = [];
+      var current = '';
+      words.forEach(function (word) {
+        var trial = current ? current + ' ' + word : word;
+        if (ctx.measureText(trial).width > maxWidth && current) {
+          lines.push(current);
+          current = word;
+        } else current = trial;
+      });
+      if (current) lines.push(current);
+      lines = lines.slice(0, maxLines || 3);
+      var lineHeight = Math.round(parseInt(ctx.font, 10) * 1.05) || 72;
+      var top = y - ((lines.length - 1) * lineHeight) / 2;
+      lines.forEach(function (line, index) { ctx.fillText(line, x, top + index * lineHeight); });
+    }
+
+    function renderFrame(canvas, seconds, duration, lines) {
+      var ctx = canvas.getContext('2d', { alpha: false });
+      var w = canvas.width;
+      var h = canvas.height;
+      var progress = duration > 0 ? Math.max(0, Math.min(0.999999, seconds / duration)) : 0;
+      var lineIndex = Math.min(lines.length - 1, Math.floor(progress * lines.length));
+      var localProgress = (progress * lines.length) - lineIndex;
+      var phrase = (lines[lineIndex] || 'brat').toLowerCase();
+      ctx.save();
+      ctx.fillStyle = '#8ACE00';
+      ctx.fillRect(0, 0, w, h);
+      var fade = Math.min(1, localProgress * 5, (1 - localProgress) * 5 + 0.15);
+      var drift = Math.sin(seconds * 2.2) * h * 0.008;
+      var fontSize = Math.max(28, Math.min(w * 0.13, h * 0.28));
+      ctx.globalAlpha = Math.max(0.15, fade);
+      ctx.fillStyle = '#101010';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '700 ' + Math.round(fontSize) + 'px "Arial Narrow", Arial, sans-serif';
+      ctx.filter = 'blur(' + Math.max(0.35, w / 1500) + 'px)';
+      ctx.translate(w / 2, h / 2 + drift);
+      ctx.scale(0.88 + Math.sin(seconds * 1.6) * 0.015, 1);
+      drawWrappedText(ctx, phrase, w * 0.82, 0, 0, 3);
+      ctx.restore();
+    }
+
+    function triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 3000);
+    }
+
+    function startProgress(label) {
+      state.exporting = true;
+      exportBtn.disabled = true;
+      exportBtn.classList.add('is-processing');
+      exportBtn.classList.remove('is-ready');
+      var labelEl = exportBtn.querySelector('.bvg-export-label');
+      var fill = document.createElement('div');
+      fill.className = 'bvg-export-fill';
+      exportBtn.appendChild(fill);
+      labelEl.textContent = label;
+      return { labelEl: labelEl, fill: fill };
+    }
+
+    function setProgress(ui, percent, label) {
+      var value = Math.max(0, Math.min(100, percent));
+      ui.fill.style.width = value + '%';
+      ui.labelEl.textContent = label || ('Processing… ' + Math.round(value) + '%');
+    }
+
+    function finishProgress(ui, success) {
+      setProgress(ui, 100, success ? 'Downloaded ✓' : 'Export failed');
+      setTimeout(function () {
+        state.exporting = false;
+        ui.fill.remove();
+        exportBtn.classList.remove('is-processing');
+        updateExportLabel();
+        updateExportReadiness();
+      }, 1200);
+    }
+
+    function waitForRecorderStop(recorder) {
+      return new Promise(function (resolve, reject) {
+        recorder.addEventListener('stop', resolve, { once: true });
+        recorder.addEventListener('error', function (event) { reject(event.error || new Error('Video recording failed.')); }, { once: true });
+      });
+    }
+
+    async function decodeAudioFile(file) {
+      if (!file) return null;
+      var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      var audioContext = new AudioContextClass();
+      try {
+        if (audioContext.state === 'suspended') await audioContext.resume();
+        var arrayBuffer = await file.arrayBuffer();
+        var audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0));
+        return { audioContext: audioContext, audioBuffer: audioBuffer };
+      } catch (error) {
+        try { await audioContext.close(); } catch (ignore) {}
+        throw new Error('The selected audio could not be decoded by this browser. Try MP3 or WAV.');
+      }
+    }
+
+    async function exportVideo(ui) {
+      if (!videoSpec || !HTMLCanvasElement.prototype.captureStream) throw new Error('Video export is not supported in this browser. Try GIF or Frames instead.');
+      var fps = parseInt(fpsSlider.value, 10) || 30;
+      var lines = getLines();
+      var canvas = createCanvas(1280, 720);
+      var canvasStream = canvas.captureStream(fps);
+      var audioPack = null;
+      var audioSource = null;
+      var duration = Math.max(4, lines.length * 2.2);
+
+      if (state.audioFile) {
+        audioPack = await decodeAudioFile(state.audioFile);
+        if (audioPack && audioPack.audioBuffer) duration = Math.max(0.25, audioPack.audioBuffer.duration);
+        if (audioPack) {
+          var destination = audioPack.audioContext.createMediaStreamDestination();
+          audioSource = audioPack.audioContext.createBufferSource();
+          audioSource.buffer = audioPack.audioBuffer;
+          audioSource.connect(destination);
+          destination.stream.getAudioTracks().forEach(function (track) { canvasStream.addTrack(track); });
+        }
+      }
+
+      var chunks = [];
+      var recorder = new MediaRecorder(canvasStream, {
+        mimeType: videoSpec.mime,
+        videoBitsPerSecond: 5000000,
+        audioBitsPerSecond: 128000
+      });
+      recorder.addEventListener('dataavailable', function (event) { if (event.data && event.data.size) chunks.push(event.data); });
+      var stopped = waitForRecorderStop(recorder);
+      recorder.start(250);
+      if (audioSource) audioSource.start(0);
+      var start = performance.now();
+
+      await new Promise(function (resolve) {
+        function frame(now) {
+          var elapsed = Math.min(duration, (now - start) / 1000);
+          renderFrame(canvas, elapsed, duration, lines);
+          setProgress(ui, Math.min(98, (elapsed / duration) * 100), 'Recording… ' + Math.round((elapsed / duration) * 100) + '%');
+          if (elapsed >= duration || recorder.state === 'inactive') resolve();
+          else requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      });
+
+      if (audioSource) { try { audioSource.stop(); } catch (ignore) {} }
+      if (recorder.state !== 'inactive') recorder.stop();
+      await stopped;
+      canvasStream.getTracks().forEach(function (track) { track.stop(); });
+      if (audioPack) { try { await audioPack.audioContext.close(); } catch (ignore) {} }
+      if (!chunks.length) throw new Error('The browser did not produce a video file.');
+      triggerDownload(new Blob(chunks, { type: videoSpec.mime }), 'brat-video.' + videoSpec.ext);
+    }
+
+    function pushU16(arr, value) { arr.push(value & 255, (value >>> 8) & 255); }
+    function pushAscii(arr, value) { for (var i = 0; i < value.length; i += 1) arr.push(value.charCodeAt(i) & 255); }
+    function gifPalette() {
+      var palette = [];
+      for (var r = 0; r < 8; r += 1) for (var g = 0; g < 8; g += 1) for (var b = 0; b < 4; b += 1) {
+        palette.push(Math.round(r * 255 / 7), Math.round(g * 255 / 7), Math.round(b * 255 / 3));
+      }
+      return palette;
+    }
+    function pixelsToPalette(imageData) {
+      var src = imageData.data;
+      var out = new Uint8Array(src.length / 4);
+      for (var i = 0, p = 0; i < src.length; i += 4, p += 1) out[p] = ((src[i] >> 5) << 5) | ((src[i + 1] >> 5) << 2) | (src[i + 2] >> 6);
+      return out;
+    }
+    function literalGifLzw(indices) {
+      var bytes = [];
+      var bitBuffer = 0;
+      var bitCount = 0;
+      function emit(code) {
+        bitBuffer |= code << bitCount;
+        bitCount += 9;
+        while (bitCount >= 8) {
+          bytes.push(bitBuffer & 255);
+          bitBuffer >>>= 8;
+          bitCount -= 8;
+        }
+      }
+      emit(256);
+      for (var i = 0; i < indices.length; i += 1) {
+        emit(indices[i]);
+        emit(256);
+      }
+      emit(257);
+      if (bitCount > 0) bytes.push(bitBuffer & 255);
+      return bytes;
+    }
+    function pushGifSubBlocks(out, bytes) {
+      var offset = 0;
+      while (offset < bytes.length) {
+        var size = Math.min(255, bytes.length - offset);
+        out.push(size);
+        for (var i = 0; i < size; i += 1) out.push(bytes[offset + i]);
+        offset += size;
+      }
+      out.push(0);
+    }
+
+    async function exportGif(ui) {
+      var fps = Math.max(6, Math.min(10, Math.round((parseInt(fpsSlider.value, 10) || 30) / 3)));
+      var lines = getLines();
+      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var frameCount = Math.max(1, Math.round(duration * fps));
+      var canvas = createCanvas(320, 180);
+      var ctx = canvas.getContext('2d', { alpha: false });
+      var out = [];
+      pushAscii(out, 'GIF89a');
+      pushU16(out, canvas.width); pushU16(out, canvas.height);
+      out.push(0xF7, 0, 0);
+      var palette = gifPalette();
+      for (var pi = 0; pi < palette.length; pi += 1) out.push(palette[pi]);
+      out.push(0x21, 0xFF, 0x0B); pushAscii(out, 'NETSCAPE2.0'); out.push(3, 1, 0, 0, 0);
+      var delay = Math.max(2, Math.round(100 / fps));
+
+      for (var frameIndex = 0; frameIndex < frameCount; frameIndex += 1) {
+        var t = frameCount <= 1 ? 0 : (frameIndex / (frameCount - 1)) * duration;
+        renderFrame(canvas, t, duration, lines);
+        var indexed = pixelsToPalette(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        out.push(0x21, 0xF9, 0x04, 0x00); pushU16(out, delay); out.push(0, 0);
+        out.push(0x2C); pushU16(out, 0); pushU16(out, 0); pushU16(out, canvas.width); pushU16(out, canvas.height); out.push(0);
+        out.push(8);
+        pushGifSubBlocks(out, literalGifLzw(indexed));
+        setProgress(ui, ((frameIndex + 1) / frameCount) * 98, 'Encoding GIF… ' + Math.round(((frameIndex + 1) / frameCount) * 100) + '%');
+        if (frameIndex % 3 === 0) await new Promise(function (resolve) { setTimeout(resolve, 0); });
+      }
+      out.push(0x3B);
+      triggerDownload(new Blob([new Uint8Array(out)], { type: 'image/gif' }), 'brat-animation.gif');
+    }
+
+    function crc32(bytes) {
+      var table = crc32.table;
+      if (!table) {
+        table = [];
+        for (var n = 0; n < 256; n += 1) {
+          var c = n;
+          for (var k = 0; k < 8; k += 1) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+        crc32.table = table;
+      }
+      var crc = 0 ^ (-1);
+      for (var i = 0; i < bytes.length; i += 1) crc = (crc >>> 8) ^ table[(crc ^ bytes[i]) & 0xFF];
+      return (crc ^ (-1)) >>> 0;
+    }
+    function le16(value) { return new Uint8Array([value & 255, (value >>> 8) & 255]); }
+    function le32(value) { return new Uint8Array([value & 255, (value >>> 8) & 255, (value >>> 16) & 255, (value >>> 24) & 255]); }
+    function concatBytes(parts) {
+      var length = parts.reduce(function (sum, part) { return sum + part.length; }, 0);
+      var out = new Uint8Array(length);
+      var offset = 0;
+      parts.forEach(function (part) { out.set(part, offset); offset += part.length; });
+      return out;
+    }
+    function buildStoredZip(files) {
+      var encoder = new TextEncoder();
+      var locals = [];
+      var centrals = [];
+      var offset = 0;
+      files.forEach(function (file) {
+        var name = encoder.encode(file.name);
+        var data = file.data;
+        var crc = crc32(data);
+        var local = concatBytes([
+          le32(0x04034b50), le16(20), le16(0), le16(0), le16(0), le16(33), le32(crc), le32(data.length), le32(data.length), le16(name.length), le16(0), name, data
+        ]);
+        locals.push(local);
+        var central = concatBytes([
+          le32(0x02014b50), le16(20), le16(20), le16(0), le16(0), le16(0), le16(33), le32(crc), le32(data.length), le32(data.length), le16(name.length), le16(0), le16(0), le16(0), le16(0), le32(0), le32(offset), name
+        ]);
+        centrals.push(central);
+        offset += local.length;
+      });
+      var centralBytes = concatBytes(centrals);
+      var body = concatBytes(locals.concat([centralBytes]));
+      var eocd = concatBytes([le32(0x06054b50), le16(0), le16(0), le16(files.length), le16(files.length), le32(centralBytes.length), le32(offset), le16(0)]);
+      return concatBytes([body, eocd]);
+    }
+
+    function canvasToPngBytes(canvas) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (!blob) return reject(new Error('Could not render a PNG frame.'));
+          blob.arrayBuffer().then(function (buffer) { resolve(new Uint8Array(buffer)); }, reject);
+        }, 'image/png');
+      });
+    }
+
+    async function exportFrames(ui) {
+      var fps = Math.max(6, Math.min(12, parseInt(fpsSlider.value, 10) || 12));
+      var lines = getLines();
+      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var frameCount = Math.min(60, Math.max(12, Math.round(duration * fps)));
+      var canvas = createCanvas(640, 360);
+      var files = [];
+      for (var i = 0; i < frameCount; i += 1) {
+        var t = frameCount <= 1 ? 0 : (i / (frameCount - 1)) * duration;
+        renderFrame(canvas, t, duration, lines);
+        var bytes = await canvasToPngBytes(canvas);
+        files.push({ name: 'frame-' + String(i + 1).padStart(3, '0') + '.png', data: bytes });
+        setProgress(ui, ((i + 1) / frameCount) * 95, 'Rendering frames… ' + (i + 1) + '/' + frameCount);
+      }
+      setProgress(ui, 97, 'Packaging ZIP…');
+      var zip = buildStoredZip(files);
+      triggerDownload(new Blob([zip], { type: 'application/zip' }), 'brat-video-frames.zip');
+    }
+
+    // ---- Real exports: video / GIF / PNG frame ZIP ----
+    exportBtn.addEventListener('click', async function () {
+      if (exportBtn.disabled || state.exporting) return;
+      var ui = startProgress('Preparing export…');
+      try {
+        if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'brat-video-generator-export', format: state.format }, '*');
+        if (state.format === 'video') await exportVideo(ui);
+        else if (state.format === 'gif') await exportGif(ui);
+        else await exportFrames(ui);
+        finishProgress(ui, true);
+      } catch (error) {
+        console.error(error);
+        finishProgress(ui, false);
+        window.alert(error && error.message ? error.message : 'Export failed in this browser.');
+      }
+    });
+
+    // ---- Fullscreen toggle ----
+    fullscreenBtn.addEventListener('click', function () {
+      var card = root.querySelector('.bvg-card');
+      if (!document.fullscreenElement) {
+        if (card.requestFullscreen) card.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    });
+
+    // ---- Init ----
+    syncPreview();
+    updateExportLabel();
+    updateExportReadiness();
+
+  })();
+</script></body>
+</html>

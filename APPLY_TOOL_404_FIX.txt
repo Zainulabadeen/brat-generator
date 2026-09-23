@@ -1,0 +1,29 @@
+Brat Generator embedded tool 404 fix
+
+Problem fixed:
+The homepage iframe was requesting /brat-generator-embed.html and the deployed
+static host returned the site's custom 404 page inside the tool area.
+
+Fix:
+1. The embeds now use trailing-slash-safe static paths:
+   /brat-generator-embed/
+   /brat-video-generator-embed/
+2. Matching public/index.html files are included for static export/Vercel.
+3. A lazy fallback is included: if a host still serves the site's 404 page
+   inside the iframe, the original embedded tool HTML is loaded dynamically.
+   This fallback is only downloaded when needed, so the performance optimization
+   remains intact.
+4. Pre-live and technical checks now verify the nested embed files.
+
+After applying:
+npm run technical:check
+npm run build
+npm run prelive
+
+Then test:
+npm run lighthouse:serve
+
+Open:
+http://localhost:3000/
+http://localhost:3000/brat-generator-embed/
+http://localhost:3000/brat-video-generator-embed/

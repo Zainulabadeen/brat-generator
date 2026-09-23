@@ -82,6 +82,7 @@ export default function BratVideoGenerator() {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  const [fallbackHtml, setFallbackHtml] = useState<string | null>(null);
 
   const measureOnce = () => {
     window.requestAnimationFrame(() => {
@@ -100,8 +101,23 @@ export default function BratVideoGenerator() {
   };
 
   const handleLoad = () => {
+    const frame = frameRef.current;
+    const bodyText = frame?.contentDocument?.body?.textContent || '';
+    const title = frame?.contentDocument?.title || '';
+    const missingEmbed =
+      bodyText.includes('That Page Went Off-Track') ||
+      /(^|\s)404(\s|$)/i.test(title) ||
+      bodyText.includes('The page you requested does not exist');
+
+    if (missingEmbed && !fallbackHtml) {
+      import('@/lib/embedDocuments').then((module) => {
+        setFallbackHtml(module.BRAT_VIDEO_GENERATOR_EMBED_HTML);
+      });
+      return;
+    }
+
     measureOnce();
-    translateEmbeddedFrame(frameRef.current, locale);
+    translateEmbeddedFrame(frame, locale);
     window.dispatchEvent(new CustomEvent('brat-frame-ready'));
   };
 
@@ -126,7 +142,8 @@ export default function BratVideoGenerator() {
     <div className="video-generator-embed-shell">
       <iframe
         ref={frameRef}
-        src="/brat-video-generator-embed.html"
+        src={fallbackHtml ? undefined : "/brat-video-generator-embed/"}
+        srcDoc={fallbackHtml || undefined}
         className="brat-video-generator-iframe"
         title="Brat Video Generator"
         onLoad={handleLoad}
