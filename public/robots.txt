@@ -1,41 +1,26 @@
 # Brat Generator - robots.txt
-# https://bratgeneratorpro.net/
-#
-# Google Search and Google product crawlers are explicitly allowed.
-# Other compliant/basic crawlers may crawl the public site, but are asked
-# to wait 10 seconds between requests. Google ignores Crawl-delay and will
-# use the explicit Google groups below instead of the wildcard group.
+# Canonical site: https://bratgeneratorpro.net/
+# Updated: 2026-09-23
 
-# Google Search / media / testing / product crawlers
+# Google Search and Google media crawlers
 User-agent: Googlebot
 User-agent: Googlebot-Image
 User-agent: Googlebot-Video
 User-agent: Googlebot-News
-User-agent: Storebot-Google
 User-agent: Google-InspectionTool
-User-agent: GoogleOther
-User-agent: GoogleOther-Image
-User-agent: GoogleOther-Video
-User-agent: Google-CloudVertexBot
 Allow: /
 
-# Google ads and publisher crawlers
-User-agent: AdsBot-Google
-User-agent: AdsBot-Google-Mobile
-User-agent: Mediapartners-Google
+# AI/search-assistant crawlers are allowed to discover public pages.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: PerplexityBot
 Allow: /
 
-# Known high-volume / low-value crawlers we do not need
-User-agent: MJ12bot
-User-agent: DotBot
-User-agent: BLEXBot
-User-agent: DataForSeoBot
-Disallow: /
-
-# Default rule for all other compliant crawlers
+# All other standards-compliant crawlers
 User-agent: *
 Allow: /
-Crawl-delay: 10
 
-# XML sitemap
+# Canonical XML sitemap
 Sitemap: https://bratgeneratorpro.net/sitemap.xml

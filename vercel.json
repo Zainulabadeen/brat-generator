@@ -2,6 +2,17 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.bratgeneratorpro.net"
+        }
+      ],
+      "destination": "https://bratgeneratorpro.net/:path*",
+      "statusCode": 301
+    },
+    {
       "source": "/brat-text-generator",
       "destination": "/",
       "statusCode": 301
@@ -140,6 +151,19 @@
       ]
     },
     {
+      "source": "/sitemap_index.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
       "source": "/llms.txt",
       "headers": [
         {
@@ -236,5 +260,6 @@
         }
       ]
     }
-  ]
+  ],
+  "trailingSlash": true
 }

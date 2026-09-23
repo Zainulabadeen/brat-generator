@@ -29,7 +29,7 @@ const pages = [
   { rel: 'terms/index.html', url: '/terms/', schema: 'WebPage' },
 ];
 
-const redirectSources = new Set(['/brat-text-generator', '/how-to', '/how-to-use', '/styles', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover', '/blog/how-to-make-a-brat-album-cover']);
+const redirectSources = new Set(['/brat-text-generator', '/brat-font-generator', '/how-to', '/how-to-use', '/styles', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover', '/blog/how-to-make-a-brat-album-cover']);
 
 const decode = (s = '') => s
   .replace(/&nbsp;/gi, ' ')

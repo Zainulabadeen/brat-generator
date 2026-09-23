@@ -1,7 +1,7 @@
 {
   "name": "Brat Generator",
   "short_name": "Brat Generator",
-  "description": "Create Brat-style text, memes, images, fonts, album covers and videos in your browser.",
+  "description": "Create Brat-style text, memes, images, album covers and videos in your browser.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fdfdfb",
