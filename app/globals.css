@@ -2034,3 +2034,61 @@ main > .section{
     max-width:100%!important;
   }
 }
+
+/* 25 Sep 2026: keep key tutorial/content headings on one line on desktop. */
+.section-heading h2.single-line-heading{
+  max-width:none!important;
+  width:max-content!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+  text-wrap:nowrap!important;
+}
+.section-heading h2.single-line-heading > .text-brat,
+.section-heading h2.single-line-heading > .text-pink,
+.section-heading h2.single-line-heading > .text-electric{
+  display:inline!important;
+  width:auto!important;
+  margin-top:0!important;
+}
+
+/* Tool feature cards use the same visual system as the homepage feature grid. */
+.tool-feature-grid .info-card{min-height:190px}
+.tool-feature-grid .emoji{margin-bottom:18px}
+
+/* Inner-page heroes now dissolve into the page like the homepage hero instead
+   of ending on a visible horizontal border/background seam. */
+.inner-hero.page-hero-section{
+  border-bottom:0!important;
+  background:linear-gradient(135deg,rgba(138,206,0,.07) 0%,rgba(253,253,251,.92) 46%,rgba(255,122,182,.055) 100%);
+}
+.inner-hero.page-hero-section::after{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:92px;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(253,253,251,0),var(--bg));
+}
+.inner-hero.page-hero-section + .section{
+  margin-top:-2px;
+}
+
+@media (max-width:900px){
+  .section-heading h2.single-line-heading{
+    width:auto!important;
+    white-space:normal!important;
+    text-wrap:balance!important;
+  }
+  .section-heading h2.single-line-heading > .text-brat,
+  .section-heading h2.single-line-heading > .text-pink,
+  .section-heading h2.single-line-heading > .text-electric{
+    display:inline!important;
+  }
+}
+@media (min-width:901px){
+  .section-heading:has(> h2.single-line-heading){max-width:1200px!important}
+  .section-heading h2.single-line-heading{width:100%!important}
+}

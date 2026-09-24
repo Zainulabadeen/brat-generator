@@ -27,13 +27,22 @@ export const metadata: Metadata = {
   },
 };
 
+
+const styleFaqs = [
+  ['What is the Brat green colour code?', '#8ACE00 is the default digital Brat Green preset used on this site. Screen colour can vary, so treat it as a practical web starting point rather than a guaranteed print match.'],
+  ['Can I make black, white or pink Brat-style designs?', 'Yes. The same condensed lowercase layout can be used with black, white, pink, electric blue or a custom colour instead of the classic green.'],
+  ['What makes a design look Brat-style?', 'The strongest cues are simple flat colour, condensed lowercase text, tight spacing and a small amount of blur. The treatment matters more than using one exact colour.'],
+  ['Can I use my own custom colour?', 'Yes. Open the Brat Generator and use the colour picker or enter a custom hex value, then keep the typography and blur treatment consistent.'],
+  ['Which Brat style is easiest to read?', 'High-contrast combinations are easiest to read. Dark text on bright green or white, and white text on black, usually stay clearer at small sizes than low-contrast combinations.'],
+] as const;
+
 const styleCards = [
-  ['brat', 'Classic Brat Green', 'The most recognisable starting point. Use #8ACE00 with dark text for the familiar acidic lime look.', 'brat-green', '#111'],
-  ['vibes', 'Brat Generator Black', 'A darker, more understated variation. Black works especially well with white or Brat Green text.', 'brat-black', '#fff'],
-  ['clean', 'Brat Generator White', 'A cleaner minimalist version that keeps the condensed lowercase treatment while removing the loud green background.', 'brat-white', '#111'],
-  ['girly', 'Brat Generator Pink', 'A softer, playful variation that keeps the same lowercase typography and blur while changing the mood completely.', 'brat-pink', '#111'],
-  ['anomaly', 'Electric Blue', 'A bright alternative for social graphics when you want the Brat layout without copying the original green palette.', 'brat-electric', '#111'],
-  ['your text', 'Custom Colours', 'Use the colour picker or a custom hex value to create a familiar Brat-style layout in your own palette.', 'brat-custom', '#fff'],
+  ['brat', 'Classic Brat Green', 'The most recognisable starting point. Use #8ACE00 with dark text for the familiar acidic lime look.', 'brat-green', '#111', '/#green'],
+  ['vibes', 'Brat Generator Black', 'A darker, more understated variation. Black works especially well with white or Brat Green text.', 'brat-black', '#fff', '/#black'],
+  ['clean', 'Brat Generator White', 'A cleaner minimalist version that keeps the condensed lowercase treatment while removing the loud green background.', 'brat-white', '#111', '/#white'],
+  ['girly', 'Brat Generator Pink', 'A softer, playful variation that keeps the same lowercase typography and blur while changing the mood completely.', 'brat-pink', '#111', '/#pink'],
+  ['anomaly', 'Electric Blue', 'A bright alternative for social graphics when you want the Brat layout without copying the original green palette.', 'brat-electric', '#111', '/#blue'],
+  ['your text', 'Custom Colours', 'Use the colour picker or a custom hex value to create a familiar Brat-style layout in your own palette.', 'brat-custom', '#fff', '/#custom'],
 ];
 
 
@@ -56,12 +65,22 @@ export default function BratStylesPage() {
     description: metadata.description,
     inLanguage: 'en-GB',
     isPartOf: { '@id': websiteId },
-    dateModified: '2026-09-23',
+    dateModified: '2026-09-25',
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: styleFaqs.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   };
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema, faqSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -87,17 +106,16 @@ export default function BratStylesPage() {
             <div className="section-heading reveal">
               <p className="eyebrow">Styles</p>
               <h2>Brat Styles <span className="text-brat">You Can Create</span></h2>
-              <p>Start with the classic green, switch to black, white or pink, or build your own colour combination.</p>
+              <p>Start with the classic green, switch to black, white or pink, or build your own colour combination. Select any style below to open the <Link className="inline-source-link" href="/#generator">Brat Generator</Link> and start creating.</p>
             </div>
             <div className="style-grid style-grid-six">
-              {styleCards.map(([word, title, body, cls, color], i) => (
-                <article className={`style-card reveal reveal-delay-${i % 3}`} key={title}>
+              {styleCards.map(([word, title, body, cls, color, href], i) => (
+                <Link className={`style-card reveal reveal-delay-${i % 3}`} href={href} key={title} aria-label={`Open Brat Generator in ${title} style`}>
                   <div className={`style-square ${cls}`}><span className="brat-text style-word" style={{ color }}>{word}</span></div>
                   <h3>{title}</h3><p>{body}</p>
-                </article>
+                </Link>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="pill-btn primary glow-brat" href="/#generator">Create Your Own Style →</Link></div>
           </div>
         </section>
 
@@ -129,12 +147,40 @@ export default function BratStylesPage() {
           </div>
         </section>
 
-        <section className="section section-card">
-          <div className="container container-wide article-prose centered-prose reveal">
-            <p className="eyebrow">Use Cases</p>
-            <h2>Where Different Brat Styles Work Best</h2>
-            <p>Classic green is the obvious choice when you want the most recognisable Brat reference. Black works well for darker fan edits and understated graphics. White is useful when you want a cleaner minimal layout, while pink gives the same format a softer, playful feel. Custom colours are useful for playlists, memes, wallpapers, profile pictures and social posts where you want the Brat-inspired layout to match your own palette.</p>
-            <div className="section-cta"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
+        <section className="section section-card" id="use-cases">
+          <div className="container container-wide">
+            <div className="section-heading reveal">
+              <p className="eyebrow">Use Cases</p>
+              <h2>Where Different Brat Styles Work Best</h2>
+              <p>Pick a colour treatment that fits the mood of the graphic, then open that style in the Brat Generator when you are ready to create.</p>
+            </div>
+            <div className="card-grid three">
+              <article className="glass info-card reveal glow-brat hover-lift"><div className="emoji">🟢</div><h3>Classic Green</h3><p>Best when you want the most recognisable Brat-inspired look for text graphics, covers and social posts.</p></article>
+              <article className="glass info-card reveal glow-electric hover-lift"><div className="emoji">🖤</div><h3>Black & Dark Edits</h3><p>Works well for darker fan edits, understated graphics and designs where a moodier background fits better.</p></article>
+              <article className="glass info-card reveal glow-pink hover-lift"><div className="emoji">🤍</div><h3>White Minimal Style</h3><p>A clean choice for simple layouts, profile graphics and posts where you want the text treatment to feel lighter.</p></article>
+              <article className="glass info-card reveal glow-pink hover-lift"><div className="emoji">💗</div><h3>Pink & Playful Posts</h3><p>Use pink when you want the same Brat-inspired layout with a softer, brighter or more playful mood.</p></article>
+              <article className="glass info-card reveal glow-electric hover-lift"><div className="emoji">🎨</div><h3>Custom Colours</h3><p>Match playlists, memes, wallpapers, profile pictures and social posts to your own palette instead of using a preset.</p></article>
+              <article className="glass info-card reveal glow-brat hover-lift"><div className="emoji">💿</div><h3>Music Artwork</h3><p>Use any style as a starting point for cover concepts, then build a complete square artwork in the album cover workflow.</p></article>
+            </div>
+            <div className="tool-related-links reveal"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
+          </div>
+        </section>
+
+        <section className="section section-card" id="faq">
+          <div className="container container-faq">
+            <div className="section-heading reveal">
+              <p className="eyebrow">FAQ</p>
+              <h2>Brat Styles <span className="text-brat">Questions</span></h2>
+              <p>Quick answers about Brat Green, alternate colour styles, readability and custom colour choices.</p>
+            </div>
+            <div className="accordion-list">
+              {styleFaqs.map(([question, answer]) => (
+                <details className="glass accordion compact reveal" key={question}>
+                  <summary>{question}<span>⌄</span></summary>
+                  <p>{answer}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 

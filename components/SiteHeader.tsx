@@ -15,11 +15,11 @@ export default function SiteHeader() {
 
   const navItems = [
     ['Brat Generator', pageLinks.home],
-    [t('video'), pageLinks.videoGenerator],
-    [t('meme'), pageLinks.memeGenerator],
-    [t('image'), pageLinks.imageGenerator],
-    [t('album'), pageLinks.albumGenerator],
-    [t('styles'), pageLinks.styles],
+    ['Brat Video Generator', pageLinks.videoGenerator],
+    ['Brat Meme Generator', pageLinks.memeGenerator],
+    ['Brat Image Generator', pageLinks.imageGenerator],
+    ['Brat Album Cover Generator', pageLinks.albumGenerator],
+    ['Brat Styles', pageLinks.styles],
     [t('blog'), pageLinks.blog],
   ] as const;
 

@@ -23,8 +23,47 @@ type Props = {
   features: Array<[string, string]>;
   useCases: Array<[string, string]>;
   tips: string[];
+  faqs?: Array<[string, string]>;
+  faqIntro?: string;
   links?: Array<[string, string]>;
   applicationCategory?: string;
+};
+
+const featureDecorByMode: Record<ToolMode, Array<[string, string]>> = {
+  text: [
+    ['👁️', 'glow-brat'], ['🎨', 'glow-pink'], ['🔤', 'glow-electric'], ['📐', 'glow-brat'], ['⬇️', 'glow-pink'], ['🔓', 'glow-electric'],
+  ],
+  meme: [
+    ['😂', 'glow-pink'], ['🖼️', 'glow-electric'], ['✍️', 'glow-brat'], ['📱', 'glow-pink'], ['⚡', 'glow-electric'], ['📤', 'glow-brat'],
+  ],
+  image: [
+    ['💬', 'glow-electric'], ['🌈', 'glow-pink'], ['🧩', 'glow-brat'], ['✨', 'glow-electric'], ['📋', 'glow-pink'], ['🗂️', 'glow-brat'],
+  ],
+  album: [
+    ['💿', 'glow-brat'], ['🎵', 'glow-electric'], ['📸', 'glow-pink'], ['🎚️', 'glow-brat'], ['👁️', 'glow-electric'], ['⬇️', 'glow-pink'],
+  ],
+};
+
+const featureCopyByMode: Record<ToolMode, string> = {
+  text: 'Six focused controls cover the core Brat text workflow from styling and preview to export.',
+  meme: 'Six practical features cover photo input, meme text, social-ready sizing and clean image export.',
+  image: 'Six focused features cover text, colours, canvas ratios, instant preview and flexible image export.',
+  album: 'Six essential features cover cover size, title and artist text, backgrounds, styling, preview and export.',
+};
+
+const useCaseDecorByMode: Record<ToolMode, Array<[string, string]>> = {
+  text: [
+    ['✍️', 'glow-brat'], ['📱', 'glow-pink'], ['🖼️', 'glow-electric'],
+  ],
+  meme: [
+    ['😹', 'glow-pink'], ['🎧', 'glow-electric'], ['📲', 'glow-brat'],
+  ],
+  image: [
+    ['👤', 'glow-electric'], ['📱', 'glow-pink'], ['🖥️', 'glow-brat'],
+  ],
+  album: [
+    ['💿', 'glow-brat'], ['🎶', 'glow-electric'], ['📣', 'glow-pink'],
+  ],
 };
 
 export default function ToolPageShell({
@@ -39,11 +78,15 @@ export default function ToolPageShell({
   features,
   useCases,
   tips,
+  faqs = [],
+  faqIntro = 'Clear answers to the questions people usually have before creating and exporting.',
   links = [],
   applicationCategory = 'DesignApplication',
 }: Props) {
   const canonical = `${siteConfig.url}/${slug}/`;
   const appId = `${canonical}#app`;
+  const featureDecor = featureDecorByMode[mode];
+  const useCaseDecor = useCaseDecorByMode[mode];
 
   const breadcrumb = breadcrumbSchema([
     { name: 'Home', url: `${siteConfig.url}/` },
@@ -79,12 +122,22 @@ export default function ToolPageShell({
     isPartOf: { '@id': websiteId },
     about: { '@id': appId },
     primaryImageOfPage: { '@type': 'ImageObject', url: `${siteConfig.url}/og-image.png` },
-    dateModified: '2026-09-23',
+    dateModified: '2026-09-25',
   };
+
+  const faqSchema = faqs.length ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  } : null;
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, appSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema, appSchema, ...(faqSchema ? [faqSchema] : [])]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content" className="tool-page">
@@ -106,7 +159,7 @@ export default function ToolPageShell({
           <div className="container container-wide">
             <div className="section-heading reveal">
               <p className="eyebrow">Tutorial</p>
-              <h2>How to Use the <span className="text-brat">{name}</span></h2>
+              <h2 className="single-line-heading">How to Use the <span className="text-brat">{name}</span></h2>
               <p>Four quick steps are enough: add your content, customise the style, check the preview, then export.</p>
             </div>
             <div className="guide-step-list compact-howto-grid">
@@ -124,16 +177,18 @@ export default function ToolPageShell({
           <div className="container container-wide">
             <div className="section-heading reveal">
               <p className="eyebrow">Key Features</p>
-              <h2>What the <span className="text-brat">{name}</span> Can Do</h2>
-              <p>The controls are focused on quick Brat-style creation without requiring a separate design app.</p>
+              <h2>{name} <span className="text-electric">Features</span></h2>
+              <p>{featureCopyByMode[mode]}</p>
             </div>
-            <div className="card-grid three tool-tip-grid">
-              {features.map(([heading, body], index) => (
-                <article className="glass info-card reveal" key={heading}>
-                  <div className="emoji">{['✦','◫','↗','◎','↔','↓'][index % 6]}</div>
-                  <h3>{heading}</h3>
-                  <p>{body}</p>
-                </article>
+            <div className="card-grid feature-grid home-feature-grid tool-feature-grid">
+              {features.slice(0, 6).map(([heading, body], index) => (
+                <div className={`reveal reveal-delay-${index % 3}`} key={heading}>
+                  <article className={`glass info-card ${featureDecor[index % featureDecor.length][1]} hover-lift`}>
+                    <div className="emoji">{featureDecor[index % featureDecor.length][0]}</div>
+                    <h3>{heading}</h3>
+                    <p>{body}</p>
+                  </article>
+                </div>
               ))}
             </div>
           </div>
@@ -146,8 +201,9 @@ export default function ToolPageShell({
               <h2>Useful for <span className="text-electric">Quick Creative Work</span></h2>
             </div>
             <div className="card-grid three">
-              {useCases.map(([heading, body]) => (
-                <article className="glass info-card reveal" key={heading}>
+              {useCases.map(([heading, body], index) => (
+                <article className={`glass info-card reveal ${useCaseDecor[index % useCaseDecor.length][1]} hover-lift`} key={heading}>
+                  <div className="emoji">{useCaseDecor[index % useCaseDecor.length][0]}</div>
                   <h3>{heading}</h3>
                   <p>{body}</p>
                 </article>
@@ -177,6 +233,26 @@ export default function ToolPageShell({
             ) : null}
           </div>
         </section>
+
+        {faqs.length ? (
+          <section className="section section-card tool-faq-section" id="faq">
+            <div className="container container-faq">
+              <div className="section-heading reveal">
+                <p className="eyebrow">FAQ</p>
+                <h2>Frequently Asked <span className="text-brat">Questions</span></h2>
+                <p>{faqIntro}</p>
+              </div>
+              <div className="accordion-list">
+                {faqs.map(([question, answer]) => (
+                  <details className="glass accordion compact reveal" key={question}>
+                    <summary>{question}<span>⌄</span></summary>
+                    <p>{answer}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
       </main>
       <SiteFooter />
     </>

@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/brat-image-generator/',
     title: 'Brat Image Generator | Free Brat-Style Image Maker',
-    description: 'Create custom Brat-style images from your prompt with colours, canvas sizes and instant browser-based downloads.',
+    description: 'Create custom Brat-style text images from your prompt with colours, social sizes and instant browser-based downloads.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Image Generator preview' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Brat Image Generator', description: 'Create prompt-based Brat-style images in your browser.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'Brat Image Generator', description: 'Create prompt-based Brat-style text images in your browser.', images: ['/og-image.png'] },
 };
 
 export default function Page() {
@@ -21,31 +21,40 @@ export default function Page() {
     name="Brat Image Generator"
     slug="brat-image-generator"
     title="Brat Image Generator"
-    schemaDescription="Free browser-based Brat image generator that turns a short prompt into a Brat-style graphic with custom colours, multiple canvas ratios and image downloads."
+    schemaDescription="Free browser-based Brat image generator that turns a short text prompt into a Brat-style graphic with custom colours, multiple social canvas ratios and PNG, JPG or WebP downloads."
     howTo={[
-      ['Enter your text', 'Type the word or phrase you want to place on the design. Short text usually gives the cleanest Brat-style result.'],
-      ['Choose your colours', 'Pick the background and text colours that fit the Brat-style look you want.'],
-      ['Generate the image', 'Press Generate Brat Image to turn the prompt into a clean Brat-style graphic directly in your browser.'],
-      ['Choose a size and export', 'Pick the canvas ratio that matches your destination, then download PNG, JPG or WebP.'],
+      ['Enter your text idea', 'Type the word, phrase, mood or short message you want to appear in the design. This tool creates Brat-style text artwork rather than AI-generated photo scenes.'],
+      ['Choose your colours', 'Pick the background and text colours before generating so the result already matches the mood you want.'],
+      ['Choose the canvas size', 'Use square, 4:5 portrait, 9:16 Story or landscape depending on where you plan to use the image.'],
+      ['Generate and export', 'Press Generate Brat Image, check the result, then download PNG, JPG or WebP or copy the PNG.'],
     ]}
     features={[
-      ['Prompt-Based Creation', 'Enter a word, phrase, mood or short idea and turn it into a Brat-style graphic.'],
-      ['Custom Colours', 'Choose the background and text colours before generating the image.'],
-      ['Multiple Canvas Ratios', 'Switch between square, portrait, Story and landscape-style outputs.'],
-      ['Instant Local Generation', 'Generate the finished Brat-style image in your browser without uploading your prompt to a server.'],
-      ['Simple Prompt Workflow', 'A focused prompt, Generate button and preview keep the tool easy to understand.'],
-      ['PNG, JPG & WebP Export', 'Choose the format that best fits social sharing, web use or image quality.'],
+      ['Simple Text Prompt', 'Turn a short word, phrase, mood or caption into a focused Brat-style text graphic.'],
+      ['Custom Colours', 'Choose background and text colours before generation instead of being locked to one green preset.'],
+      ['Four Canvas Ratios', 'Create square, 4:5 portrait, 9:16 Story and landscape graphics for different placements.'],
+      ['Instant Browser Preview', 'Generate the design locally and check it immediately without waiting for a remote render queue.'],
+      ['Copy to Clipboard', 'Copy the finished PNG when your browser supports image clipboard access for faster reuse in other apps.'],
+      ['PNG, JPG & WebP Export', 'Choose a lossless or smaller web-friendly format depending on where the graphic will be used.'],
     ]}
     useCases={[
-      ['Profile & Social Images', 'Make Brat-style profile graphics, square posts and visual captions.'],
-      ['Wallpapers & Story Graphics', 'Use portrait or Story ratios for phone wallpapers, Reels and TikTok-style visuals.'],
-      ['Quick Custom Graphics', 'Turn short ideas, names, moods and captions into simple shareable Brat-style images.'],
+      ['Profile & Feed Images', 'Make Brat-style profile graphics, square posts and visual captions from short phrases.'],
+      ['Stories & Wallpapers', 'Use the 9:16 canvas for phone wallpapers, Stories and vertical social graphics.'],
+      ['Banners & Quick Graphics', 'Use the landscape canvas for banners, headers, link previews and simple announcement art.'],
     ]}
     tips={[
-      'Keep the prompt short and specific so the generated text remains easy to read.',
-      'Keep text away from the edge on Story and portrait sizes.',
-      'PNG is a strong default when you want cleaner text edges.',
+      'One to four words usually gives the strongest classic Brat-style composition.',
+      'Choose high contrast between the text and background so the design still reads at thumbnail size.',
+      'Use PNG when text-edge quality matters most; JPG or WebP can be useful when a smaller file is more important.',
     ]}
+    faqs={[
+      ['Is the Brat Image Generator an AI image generator?', 'No. It is a focused Brat-style graphic generator: your text becomes the main visual on a coloured canvas. It does not create photorealistic scenes from a text prompt.'],
+      ['Is the Brat Image Generator free?', 'Yes. You can generate and download images in the browser without creating an account.'],
+      ['What sizes are available?', 'The tool includes 1080×1080 square, 1080×1350 portrait, 1080×1920 Story and 1200×630 landscape canvases.'],
+      ['What file formats can I download?', 'You can download the generated graphic as PNG, JPG or WebP. PNG is a strong default when you want crisp text.'],
+      ['Can I use custom colours?', 'Yes. Choose both the background colour and text colour before you generate the image.'],
+      ['Does my text prompt get uploaded to generate the image?', 'The current generator draws the Brat-style graphic in your browser. It does not require a remote AI image service to render the text design.'],
+    ]}
+    faqIntro="Quick answers about what this image tool creates, the available canvas sizes, colour controls and download formats."
     links={[
       ['Make a Brat Meme', '/brat-meme-generator/'],
       ['Make an Album Cover', '/brat-album-cover-generator/'],

@@ -49,10 +49,10 @@ const steps = [
 ];
 
 const styleCards = [
-  ['brat', 'Classic Brat Green', 'Lime green + black', 'brat-green', '#111'],
-  ['vibes', 'Minimalist Black', 'Black + white', 'brat-black', '#fff'],
-  ['girly', 'Aesthetic Pink', 'Pink + dark text', 'brat-pink', '#111'],
-  ['anomaly', 'Electric Blue', 'Blue + dark text', 'brat-electric', '#111'],
+  ['brat', 'Classic Brat Green', 'Lime green + black', 'brat-green', '#111', '/#green'],
+  ['vibes', 'Minimalist Black', 'Black + white', 'brat-black', '#fff', '/#black'],
+  ['girly', 'Aesthetic Pink', 'Pink + dark text', 'brat-pink', '#111', '/#pink'],
+  ['anomaly', 'Electric Blue', 'Blue + dark text', 'brat-electric', '#111', '/#blue'],
 ];
 
 const ideas = [
@@ -140,6 +140,12 @@ export default function Home() {
             </div>
 
             <div id="generator" className="hero-generator-block">
+              <span id="green" aria-hidden="true" />
+              <span id="black" aria-hidden="true" />
+              <span id="white" aria-hidden="true" />
+              <span id="pink" aria-hidden="true" />
+              <span id="blue" aria-hidden="true" />
+              <span id="custom" aria-hidden="true" />
               <h1 className="tool-first-title hero-primary-title">
                 Brat Generator: Create Text, Album Covers &amp; Memes <span className="text-brat">Brat Style For Free</span>
               </h1>
@@ -220,7 +226,7 @@ export default function Home() {
           <div className="container container-wide">
             <div className="section-heading reveal">
               <p className="eyebrow">Tutorial</p>
-              <h2>How to Use the <span className="text-brat">Brat Generator</span></h2>
+              <h2 className="single-line-heading">How to Use the <span className="text-brat">Brat Generator</span></h2>
               <p>Making a Brat-style graphic is simple. Here is the quick four-step workflow.</p>
             </div>
             <div className="card-grid four">
@@ -230,7 +236,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/#how-to">Read the complete step-by-step guide →</Link></div>
           </div>
         </section>
 
@@ -239,37 +244,34 @@ export default function Home() {
             <div className="section-heading reveal">
               <p className="eyebrow">Styles</p>
               <h2>Create Every Brat Style <span className="text-brat">You Want</span></h2>
-              <p>Green is the most recognisable starting point, but black, pink, blue, white, and custom colours can keep the same unmistakable condensed, blurred treatment.</p>
+              <p>Green is the most recognisable starting point, but black, pink, blue, white, and custom colours can keep the same unmistakable condensed, blurred treatment. See the full <Link className="inline-source-link" href="/brat-styles/">Brat Styles guide</Link> for more colour ideas.</p>
             </div>
             <div className="style-grid">
-              {styleCards.map(([word, title, body, cls, color], i) => (
-                <article className={`style-card reveal reveal-delay-${i}`} key={title}>
+              {styleCards.map(([word, title, body, cls, color, href], i) => (
+                <Link className={`style-card reveal reveal-delay-${i}`} href={href} key={title} aria-label={`Open Brat Generator in ${title} style`}>
                   <div className={`style-square ${cls}`}><span className="brat-text style-word" style={{ color }}>{word}</span></div>
                   <h3>{title}</h3><p>{body}</p>
-                </article>
+                </Link>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/brat-styles/">Explore all Brat colour styles →</Link></div>
           </div>
         </section>
 
         <section className="section">
           <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Content Ideas</p><h2>What Can You <span className="text-pink">Create?</span></h2><p>The same Brat text generator style can work across personal artwork, memes, playlists, profile graphics, and social media.</p></div>
+            <div className="section-heading reveal"><p className="eyebrow">Content Ideas</p><h2 className="single-line-heading">What Can You <span className="text-pink">Create?</span></h2><p>The same Brat text generator style can work across personal artwork, memes, playlists, profile graphics, and social media. If you want to build music artwork from scratch, the <Link className="inline-source-link" href="/blog/how-to-make-a-brat-album-cover-free/">Brat album cover guide</Link> walks through the full cover workflow.</p></div>
             <div className="ideas-grid">
               {ideas.map(([icon, title, body], i) => <article className={`glass idea-card reveal reveal-delay-${i % 2}`} key={title}><div className="emoji">{icon}</div><div><h3>{title}</h3><p>{body}</p></div></article>)}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">Learn how to make a Brat album cover →</Link></div>
           </div>
         </section>
 
         <section className="section section-card" id="faq">
           <div className="container container-faq">
-            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Frequently Asked <span className="text-brat">Questions</span></h2><p>Clear answers to the most common Brat Generator questions.</p></div>
+            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Frequently Asked <span className="text-brat">Questions</span></h2><p>Clear answers to the most common Brat Generator questions. If you run into a download, blur, text-fitting or browser issue, the <Link className="inline-source-link" href="/blog/brat-generator-not-working/">Common Problems &amp; Quick Fixes guide</Link> covers the practical fixes.</p></div>
             <div className="accordion-list">
               {faqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/blog/brat-generator-not-working/">Need help? Open the Common Problems &amp; Quick Fixes guide →</Link></div>
           </div>
         </section>
 

@@ -1,29 +1,35 @@
-BRAT GENERATOR — LIVE TOOL PRODUCTION FIX
+BRAT GENERATOR PRO — USE CASE ICONS UPDATE
+Date: 2026-09-25
 
-Why this patch exists:
-- Localhost could show the generator correctly.
-- The live site was loading the website's custom 404 page inside the generator iframe.
-- The cause is the production iframe URL (/brat-generator-embed.html) not resolving correctly on the live deployment/CDN path.
+WHAT CHANGED
+- Added unique icons + matching glow cards to Use Cases on Brat Meme Generator.
+- Added unique icons + matching glow cards to Use Cases on Brat Image Generator.
+- Added unique icons + matching glow cards to Use Cases on Brat Album Cover Generator.
+- Added unique icons + matching glow cards to Brat Video Generator Use Cases.
+- Reworked Brat Styles Use Cases into six clean icon cards.
+- Homepage Content Ideas already had icons, so no unnecessary homepage change was made.
+- Each tool uses a different icon set instead of repeating the same icons site-wide.
 
-What this patch changes:
-1. components/BratGenerator.tsx
-2. components/BratVideoGenerator.tsx
-3. lib/embedDocuments.ts
-
-The two tools are now self-contained with iframe srcDoc, so production no longer depends on separate /brat-generator-embed.html or /brat-video-generator-embed.html URLs.
-The existing tool UI and functionality are preserved.
-
-APPLY:
+HOW TO APPLY
 1. Extract this ZIP.
-2. Paste the components and lib folders into the project root.
-3. Choose Replace files in destination.
-4. Run: npm run dev
-5. Check homepage generator AND /video-generator/ locally.
-6. Push to GitHub.
-7. After deployment, open the live site and press Ctrl+F5.
+2. Copy the contents into your existing Brat Generator project root.
+3. Choose Replace/Overwrite when Windows asks.
 
-GITHUB:
+LOCALHOST CHECK
+npm run dev
+
+Open:
+http://localhost:3000/
+http://localhost:3000/video-generator/
+http://localhost:3000/brat-meme-generator/
+http://localhost:3000/brat-image-generator/
+http://localhost:3000/brat-album-cover-generator/
+http://localhost:3000/brat-styles/
+
+PUSH TO GITHUB
+Ctrl + C
+
 git status
 git add .
-git commit -m "Fix production generator embeds"
+git commit -m "Add unique icons to use case sections"
 git push origin main
