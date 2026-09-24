@@ -18,7 +18,6 @@ const pages = [
   { rel: 'brat-meme-generator/index.html', url: '/brat-meme-generator/', keyword: 'brat meme generator', schema: 'WebApplication' },
   { rel: 'brat-image-generator/index.html', url: '/brat-image-generator/', keyword: 'brat image generator', schema: 'WebApplication' },
   { rel: 'brat-album-cover-generator/index.html', url: '/brat-album-cover-generator/', keyword: 'brat album cover generator', schema: 'WebApplication' },
-  { rel: 'features/index.html', url: '/features/', keyword: 'brat generator', schema: 'WebPage' },
   { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles', schema: 'CollectionPage' },
   { rel: 'blog/index.html', url: '/blog/', keyword: 'brat generator', schema: 'Blog' },
   { rel: 'blog/how-to-make-a-brat-album-cover-free/index.html', url: '/blog/how-to-make-a-brat-album-cover-free/', keyword: 'how to make a brat album cover', schema: 'BlogPosting' },
@@ -29,7 +28,7 @@ const pages = [
   { rel: 'terms/index.html', url: '/terms/', schema: 'WebPage' },
 ];
 
-const redirectSources = new Set(['/brat-text-generator', '/brat-font-generator', '/how-to', '/how-to-use', '/styles', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover', '/blog/how-to-make-a-brat-album-cover']);
+const redirectSources = new Set(['/brat-text-generator', '/brat-font-generator', '/how-to', '/how-to-use', '/styles', '/features', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover', '/blog/how-to-make-a-brat-album-cover']);
 
 const decode = (s = '') => s
   .replace(/&nbsp;/gi, ' ')

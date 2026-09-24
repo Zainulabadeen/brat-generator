@@ -23,7 +23,7 @@ Each dedicated tool page includes its own short how-to-use section, feature summ
 
 ## Guides and site information
 
-- [Brat Generator Features](https://bratgeneratorpro.net/features/)
+- [Brat Generator Features](https://bratgeneratorpro.net/#features)
 - [Brat Styles](https://bratgeneratorpro.net/brat-styles/)
 - [Blog](https://bratgeneratorpro.net/blog/)
 - [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/)

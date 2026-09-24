@@ -15,7 +15,6 @@ const expected = [
   ['/brat-meme-generator/', 'app/brat-meme-generator/page.tsx'],
   ['/brat-image-generator/', 'app/brat-image-generator/page.tsx'],
   ['/brat-album-cover-generator/', 'app/brat-album-cover-generator/page.tsx'],
-  ['/features/', 'app/features/page.tsx'],
   ['/brat-styles/', 'app/brat-styles/page.tsx'],
   ['/blog/', 'app/blog/page.tsx'],
   ['/blog/how-to-make-a-brat-album-cover-free/', 'app/blog/how-to-make-a-brat-album-cover-free/page.tsx'],
@@ -95,7 +94,7 @@ expect(file('app/brat-styles/page.tsx').includes("'@type': 'CollectionPage'"), '
 
 const vercel = JSON.parse(file('vercel.json'));
 const redirects = vercel.redirects || [];
-for (const oldPath of ['/brat-text-generator','/brat-font-generator','/how-to','/how-to-use','/styles','/key-features','/brat-generator-features','/how-to-make-a-brat-album-cover']) {
+for (const oldPath of ['/brat-text-generator','/brat-font-generator','/how-to','/how-to-use','/styles','/features','/key-features','/brat-generator-features','/how-to-make-a-brat-album-cover']) {
   expect(redirects.some(r => r.source === oldPath || r.source === `${oldPath}/`), `Vercel has redirect for ${oldPath}`);
 }
 expect(redirects.some(r => r.has?.some(h => h.type === 'host' && h.value === 'www.bratgeneratorpro.net') && r.destination?.startsWith('https://bratgeneratorpro.net/')), 'Vercel enforces preferred non-www canonical host');

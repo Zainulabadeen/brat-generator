@@ -11,7 +11,7 @@ import { breadcrumbSchema, organizationEntity, websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Video Generator | Free Brat-Style Video Maker' },
-  description: 'Create animated Brat-style videos with custom text, optional audio, live preview, FPS controls, video, GIF and PNG-frame exports in your browser.',
+  description: 'Create animated Brat-style videos and lyric videos with text, optional audio, live preview, 10–60 FPS controls, video, GIF and PNG-frame exports in your browser.',
   alternates: { canonical: '/video-generator/' },
   openGraph: {
     type: 'website',
@@ -29,12 +29,18 @@ export const metadata: Metadata = {
 };
 
 const features = [
-  ['Animated Brat Text', 'Turn short words or phrases into a moving Brat-style visual instead of a static image.'],
-  ['Optional Audio', 'Add a local audio file when you want sound included with a supported video export.'],
-  ['Live Preview', 'Check the text and animation before committing to a longer export.'],
-  ['FPS Control', 'Adjust the frame rate to balance smooth motion against browser processing time.'],
-  ['Video & GIF Export', 'Export a browser-supported video file or an animated GIF from the current design.'],
-  ['PNG Frame ZIP', 'Download individual PNG frames together in a ZIP when you need frame-by-frame assets.'],
+  ['Animated Brat Text', 'Turn short words, phrases, hooks, or lyric lines into moving Brat-style visuals instead of a static image.'],
+  ['Lyric Line Sequencing', 'Enter one lyric phrase per line and the tool displays each non-empty line in sequence during export.'],
+  ['Paste & Trim Text', 'Paste lyrics quickly, then use Trim Text to remove extra spaces and blank lines before you export.'],
+  ['Optional Audio Upload', 'Add your own audio when you want a supported video export to include sound alongside the animation.'],
+  ['Common Audio Formats', 'Upload MP3, WAV, M4A, AAC, or OGG files; browser decoding support can vary by file and device.'],
+  ['Live Preview', 'Check your current text treatment before starting a longer video, GIF, or frame export.'],
+  ['10–60 FPS Control', 'Choose a frame rate from 10 to 60 FPS to balance smoother motion with browser processing time and file size.'],
+  ['Browser-Supported Video Export', 'Create a video using the best recording format available in your current browser.'],
+  ['Animated GIF Export', 'Export a silent looping GIF when you want motion without an audio track or full video file.'],
+  ['PNG Frame ZIP', 'Download the animation as individual PNG frames in a ZIP for frame-by-frame editing in another app.'],
+  ['Audio-Aware Duration', 'When audio is loaded successfully, the video duration follows the decoded track and lyric lines are distributed across it.'],
+  ['Browser-Based Workflow', 'Text, audio decoding, rendering, and export are handled in the browser without requiring a separate editing app.'],
 ];
 
 export default function VideoGeneratorPage() {
@@ -54,7 +60,7 @@ export default function VideoGeneratorPage() {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     browserRequirements: 'Requires JavaScript and a modern web browser with media recording support',
-    description: 'Free browser-based Brat-style animation generator with text, optional audio, live preview, FPS controls, video export, GIF export and PNG frame ZIP export.',
+    description: 'Free browser-based Brat-style video and lyric animation generator with line-by-line text sequencing, optional audio, live preview, 10–60 FPS controls, video export, GIF export and PNG frame ZIP export.',
     provider: organizationEntity,
     isAccessibleForFree: true,
     inLanguage: 'en-GB',
@@ -96,7 +102,7 @@ export default function VideoGeneratorPage() {
         <section className="section section-card" id="how-to-use">
           <div className="container container-wide">
             <div className="section-heading reveal">
-              <p className="eyebrow">Simple Guide</p>
+              <p className="eyebrow">Tutorial</p>
               <h2>How to Use the <span className="text-brat">Brat Video Generator</span></h2>
               <p>Keep the phrase short, preview the motion, then choose the output that fits what you want to share.</p>
             </div>

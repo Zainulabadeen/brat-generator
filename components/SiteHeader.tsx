@@ -14,12 +14,11 @@ export default function SiteHeader() {
   const { t } = useLanguage();
 
   const navItems = [
-    [t('home'), pageLinks.home],
+    ['Brat Generator', pageLinks.home],
     [t('video'), pageLinks.videoGenerator],
     [t('meme'), pageLinks.memeGenerator],
     [t('image'), pageLinks.imageGenerator],
     [t('album'), pageLinks.albumGenerator],
-    [t('features'), pageLinks.features],
     [t('styles'), pageLinks.styles],
     [t('blog'), pageLinks.blog],
   ] as const;

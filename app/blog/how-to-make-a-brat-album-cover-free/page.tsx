@@ -229,7 +229,7 @@ export default function AlbumCoverGuidePage() {
               <p>Start with the correct aspect ratio and keep important text away from the edges. Make a separate vertical version for Stories or TikTok instead of stretching a square cover.</p>
               <h3>The downloaded image looks pixelated</h3>
               <p>Export from one of the built-in canvas sizes and avoid enlarging a smaller download afterward. For more browser and download fixes, see the <Link href="/blog/brat-generator-not-working/">Brat Generator troubleshooting guide</Link>.</p>
-              <p>Want a control-by-control walkthrough? Read <Link href="/#how-to">how to use Brat Generator</Link>, or review the <Link href="/features/">current feature list</Link>.</p>
+              <p>Want a control-by-control walkthrough? Read <Link href="/#how-to">how to use Brat Generator</Link>, or review the <Link href="/#features">current feature list</Link>.</p>
             </div>
           </section>
 

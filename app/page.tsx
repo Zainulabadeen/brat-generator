@@ -33,12 +33,12 @@ const trendCards = [
 ];
 
 const features = [
-  ['👁️', 'Live Preview', 'Watch every change appear instantly as you edit your text, colours, blur, size, and spacing.', 'glow-brat'],
-  ['🎨', 'Brat-Inspired Colour Presets', 'Start with the widely used Brat Green digital approximation #8ACE00, or switch to black, white, pink, blue, or any custom colour.', 'glow-pink'],
-  ['🔤', 'Brat-Style Typography', 'Use condensed Arial Narrow-style text, tight spacing, lowercase rendering, and an adjustable Gaussian blur effect.', 'glow-electric'],
-  ['📐', 'Social-Ready Sizes', 'Choose square presets, a 1080×1920 Story canvas, or a 1200×630 banner without rebuilding the design.', 'glow-brat'],
-  ['⬇️', 'High-Quality Downloads', 'Download PNG, JPG, or WebP files with no watermark. The chosen export dimensions are rendered directly in your browser.', 'glow-pink'],
-  ['🔓', 'No Sign-Up Required', 'Open the tool, create your design, and download it instantly. No account or separate software installation is required.', 'glow-electric'],
+  ['👁️', 'Real-Time Preview', 'Every change shows up instantly. Type a word, move the blur slider, switch colours, resize text, or change spacing and the live preview updates without making you export repeatedly.', 'glow-brat'],
+  ['🎨', 'Brat Green, White & Pink Presets', 'The generator includes #8ACE00 as a one-tap Brat Green preset plus white, black, pink, electric blue, and a full colour picker for custom background and text colours.', 'glow-pink'],
+  ['🔤', 'Brat-Style Typography', 'The text uses a condensed Arial Narrow-style treatment with lowercase rendering, adjustable size, letter spacing, and a soft Gaussian blur to recreate the familiar rough anti-design feel.', 'glow-electric'],
+  ['📐', 'Social Media Size Presets', 'Choose 800×800, 1000×1000, or 1200×1200 square canvases, plus 1080×1920 Story and 1200×630 banner presets. The exported image uses the selected pixel dimensions.', 'glow-brat'],
+  ['⬇️', 'No-Watermark Download', 'What you design is what you download. Choose PNG, JPG, or WebP, then export the finished graphic without a logo stamped over the artwork.', 'glow-pink'],
+  ['🔓', 'No Sign-Up. Completely Free.', 'There is no account form, email gate, subscription screen, or software installation. Open the tool, create a design, and download it directly in the browser.', 'glow-electric'],
 ];
 
 const steps = [
@@ -187,13 +187,12 @@ export default function Home() {
               <p>Everything you need to create Brat-style text, album covers, memes, and social graphics right in your browser.</p>
             </div>
             <div className="card-grid feature-grid home-feature-grid">
-              {features.slice(0, 3).map(([icon, title, body, glow], i) => (
+              {features.map(([icon, title, body, glow], i) => (
                 <div className={`reveal reveal-delay-${i % 3}`} key={title}>
                   <article className={`glass info-card ${glow} hover-lift`}><div className="emoji">{icon}</div><h3>{title}</h3><p>{body}</p></article>
                 </div>
               ))}
             </div>
-            <div className="section-cta reveal"><Link className="text-link" href="/features/">Explore all Brat Generator features →</Link></div>
           </div>
         </section>
 

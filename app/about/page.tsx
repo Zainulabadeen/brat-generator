@@ -87,7 +87,7 @@ export default function AboutPage() {
         </section>
 
         <RelatedPages items={[
-          { href: '/features/', eyebrow: 'Tool', title: 'Key Features', description: 'See exactly what the generator can do and how each control works.', accent: 'green' },
+          { href: '/#features', eyebrow: 'Tool', title: 'Key Features', description: 'See exactly what the generator can do and how each control works.', accent: 'green' },
           { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use It', description: 'Follow the quick homepage workflow from text entry to download.', accent: 'blue' },
           { href: '/privacy-policy/', eyebrow: 'Trust', title: 'Privacy Policy', description: 'See what is processed locally and what technical data may be handled by hosting.', accent: 'pink' },
         ]} />

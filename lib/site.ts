@@ -15,7 +15,7 @@ export const pageLinks = {
   memeGenerator: '/brat-meme-generator/',
   imageGenerator: '/brat-image-generator/',
   albumGenerator: '/brat-album-cover-generator/',
-  features: '/features/',
+  features: '/#features',
   styles: '/brat-styles/',
   blog: '/blog/',
   albumCoverGuide: '/blog/how-to-make-a-brat-album-cover-free/',

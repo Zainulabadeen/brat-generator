@@ -48,13 +48,23 @@
       "statusCode": 301
     },
     {
+      "source": "/features",
+      "destination": "/#features",
+      "statusCode": 301
+    },
+    {
+      "source": "/features/",
+      "destination": "/#features",
+      "statusCode": 301
+    },
+    {
       "source": "/key-features",
-      "destination": "/features/",
+      "destination": "/#features",
       "statusCode": 301
     },
     {
       "source": "/brat-generator-features",
-      "destination": "/features/",
+      "destination": "/#features",
       "statusCode": 301
     },
     {

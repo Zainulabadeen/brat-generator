@@ -105,7 +105,7 @@ export default function ToolPageShell({
         <section className="section section-card" id="how-to-use">
           <div className="container container-wide">
             <div className="section-heading reveal">
-              <p className="eyebrow">Simple Guide</p>
+              <p className="eyebrow">Tutorial</p>
               <h2>How to Use the <span className="text-brat">{name}</span></h2>
               <p>Four quick steps are enough: add your content, customise the style, check the preview, then export.</p>
             </div>
