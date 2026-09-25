@@ -23,10 +23,86 @@ export default function Page() {
     title="Brat Album Cover Generator"
     schemaDescription="Free browser-based Brat album cover generator with title and artist text, custom colours, blur, optional photo background and 3000×3000 square image export."
     howTo={[
-      ['Enter the cover title', 'Use a short album, single, playlist or project name so the main text remains clear when the artwork is shown as a small thumbnail.'],
-      ['Add the artist line', 'Use the second field for your artist name, project name or a short subtitle without mixing it into the main title.'],
-      ['Style the cover', 'Choose background and text colours, font, size, alignment and blur, or upload a JPG, PNG or WebP background image.'],
-      ['Preview and export', 'Check the cover at a smaller size, then download the finished 3000×3000 artwork as PNG, JPG or WebP.'],
+      {
+        title: 'Enter the main cover title',
+        body: 'Start with the name that should dominate the artwork: an album, single, playlist, demo or project title. The title is the first thing that needs to stay readable when the cover becomes a tiny thumbnail.',
+        points: [
+          'Keep the main title concise whenever possible.',
+          'Check how the title wraps before spending time on colours and effects.',
+          'Use the title field only for the primary name so the visual hierarchy stays clear.',
+        ],
+        tip: 'Zoom your browser out or glance at the cover from a distance; if the title disappears, simplify or enlarge it.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Add the artist or subtitle line',
+        body: 'Use the second field for the artist name, project name, edition label or a short subtitle. Keeping it separate lets the main title stay dominant while the supporting line remains controlled.',
+        points: [
+          'Use a short artist or subtitle line rather than repeating the title.',
+          'Treat the second line as supporting information, not a second headline.',
+          'Check that both lines remain distinct when the cover is viewed small.',
+        ],
+        tip: 'A clear title-and-artist hierarchy usually looks more intentional than two equally loud text blocks.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Style the background and typography',
+        body: 'Now choose the visual direction: a flat colour for a cleaner Brat-inspired look, or an uploaded image when the cover needs extra context. Then tune the text over it.',
+        points: [
+          'Choose background and text colours with enough contrast.',
+          'Adjust font, alignment, text size, line height and blur while watching the live preview.',
+          'Upload JPG, PNG or WebP when you want a photo or texture behind the title.',
+        ],
+        tip: 'If you use a photo, make sure the title does not sit over the busiest part of the image.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Review the 3000×3000 cover and export',
+        body: 'The album tool uses a large square 3000×3000 canvas. Review the whole composition at both full size and thumbnail size before downloading the final file.',
+        points: [
+          'Use PNG for a high-quality master with crisp text.',
+          'Use JPG or WebP when you need a smaller file for previews or web use.',
+          'Check the current artwork rules of the service you plan to publish to before a commercial release.',
+        ],
+        tip: 'Keep one clean master export before making platform-specific copies or compressing the artwork elsewhere.',
+        image: '',
+        alt: '',
+      },
+    ]}
+    guideDetails={[
+      {
+        eyebrow: 'Hierarchy',
+        title: 'Title and Artist Placement',
+        body: 'Cover art has to communicate at thumbnail size, so the title should lead and the artist line should support it without competing for attention.',
+        points: [
+          'Short titles can use more visual space and feel bolder.',
+          'Long titles need more breathing room and may require smaller text.',
+          'Keep the artist line visually secondary so the cover does not feel crowded.',
+        ],
+      },
+      {
+        eyebrow: 'Background',
+        title: 'Flat Colour or Photo',
+        body: 'A flat background keeps the cover closest to the stripped-back Brat look, while an uploaded image creates a more personalised variation. Both can work if the text remains the focus.',
+        points: [
+          'Flat colour gives the cleanest contrast and fastest setup.',
+          'Photos work best when they have calm areas behind the text.',
+          'Blur and text colour should be adjusted after the background is chosen, not before.',
+        ],
+      },
+      {
+        eyebrow: 'Delivery',
+        title: '3000×3000 Export',
+        body: 'The tool produces a large square canvas so you have a useful master file for music artwork, playlists, mockups and follow-on edits.',
+        points: [
+          'Keep PNG as a quality-first master when possible.',
+          'Create compressed copies only when a destination requires smaller files.',
+          'Always verify the current technical and rights requirements of the platform where the artwork will be published.',
+        ],
+      },
     ]}
     features={[
       ['3000×3000 Cover Canvas', 'Create on a large square canvas designed around the format commonly used for digital cover artwork.'],

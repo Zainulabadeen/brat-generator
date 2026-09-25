@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import BratVideoGenerator from '@/components/BratVideoGenerator';
-import HowToImage from '@/components/HowToImage';
+import DetailedHowTo, { GuideDetailSections } from '@/components/DetailedHowTo';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { breadcrumbSchema, faqPageSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
+import { breadcrumbSchema, faqPageSchema, imageObjectSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Video Generator | Free Brat-Style Video Maker' },
@@ -50,6 +50,92 @@ const videoIdeas = [
   ['🧩', 'Editable Frame Sequences', 'Download PNG frames when you want to continue compositing, retiming or adding extra effects in another editor.'],
 ] as const;
 
+
+const videoHowToSteps = [
+  {
+    title: 'Enter and organise your text or lyrics',
+    body: 'Begin in the Lyrics tab. Paste or type the wording you want to animate, then organise it into short non-empty lines so each part of the sequence stays readable when the export moves from line to line.',
+    points: [
+      'Use Paste Text when you already have the wording copied from another document or note.',
+      'Use Trim Text to remove extra spacing before you create the sequence.',
+      'Keep one short phrase per line when you want a cleaner lyric-style progression.',
+    ],
+    tip: 'A line that looks comfortable as a still frame is usually easier to follow once the animation starts moving.',
+    image: '/images/how-to/video-step-1.webp',
+    alt: 'Brat Video Generator: enter and organise text or lyrics step screenshot',
+  },
+  {
+    title: 'Create the sequence and check the preview',
+    body: 'After the wording is ready, create the sets from your text and open the Preview tab. This lets you check the Brat-style treatment before the browser spends time rendering the final animation.',
+    points: [
+      'Make sure no important line is missing or duplicated before export.',
+      'Shorten any phrase that feels crowded in the live preview.',
+      'Use the preview as a content check; the final export will sequence the non-empty lines over time.',
+    ],
+    tip: 'Fix wording problems before adding audio or increasing FPS. Text changes are fastest while the project is still simple.',
+    image: '/images/how-to/video-step-2.webp',
+    alt: 'Brat Video Generator: create sequence and preview step screenshot',
+  },
+  {
+    title: 'Add audio when the video needs sound',
+    body: 'Audio is optional. Drop a supported audio file into the tool or click the upload area when you want a browser-supported video export to include sound with the text animation.',
+    points: [
+      'The tool accepts MP3, WAV, M4A, AAC and OGG files, although decoding can vary by browser and codec.',
+      'MP3 or WAV is a useful fallback if another format does not decode correctly.',
+      'GIF and PNG-frame exports remain silent, so use the video option when the audio is part of the finished result.',
+    ],
+    tip: 'If an audio file fails, first test the same project with a short MP3 or WAV before changing the text setup.',
+    image: '/images/how-to/video-step-3.webp',
+    alt: 'Brat Video Generator: add optional audio step screenshot',
+  },
+  {
+    title: 'Choose FPS and export format',
+    body: 'Finish by choosing how the animation should be delivered. Select Video, GIF or Frames, then set the frame rate and start the browser-based export.',
+    points: [
+      'Around 24–30 FPS is a practical starting point for most short text animations.',
+      'Higher FPS can look smoother but creates more frames and requires more browser processing.',
+      'Use Video for motion with optional audio, GIF for a silent loop, or Frames when you want individual PNGs for another editor.',
+    ],
+    tip: 'For a first export, use 30 FPS. Increase it only if you can actually see a benefit in the motion.',
+    image: '/images/how-to/video-step-4.webp',
+    alt: 'Brat Video Generator: choose FPS and export format step screenshot',
+  },
+] as const;
+
+const videoGuideDetails = [
+  {
+    eyebrow: 'Sequence',
+    title: 'Text and Lyric Flow',
+    body: 'The current video workflow is line-driven rather than AI-transcribed or word-by-word karaoke timed. Your text structure is therefore the main control over how easy the finished clip is to follow.',
+    points: [
+      'Use short, separate lines for hooks, captions and lyric phrases.',
+      'Remove empty or accidental duplicate lines before export.',
+      'Preview the wording before you commit to a long render.',
+    ],
+    note: 'The tool does not automatically transcribe a song or manually place every word on a beat.',
+  },
+  {
+    eyebrow: 'Audio',
+    title: 'Sound and Browser Compatibility',
+    body: 'Audio is decoded in the browser and added only where the selected video-export path supports it. This keeps the workflow local, but support can differ between browsers and codecs.',
+    points: [
+      'MP3 and WAV are useful compatibility-first choices.',
+      'M4A, AAC and OGG are accepted, but browser decoding support can vary.',
+      'GIF and individual PNG frames do not contain audio.',
+    ],
+  },
+  {
+    eyebrow: 'Export',
+    title: 'Video, GIF, Frames and FPS',
+    body: 'Choose the output based on what you will do after export rather than choosing the heaviest option by default. Frame rate controls smoothness and processing cost, while format controls how the animation can be reused.',
+    points: [
+      'Video uses the best recording format the current browser can provide.',
+      'GIF is useful for silent looping motion and lightweight previews.',
+      'Frames ZIP gives you individual PNG images for retiming or compositing in another editor.',
+    ],
+  },
+] as const;
+
 const faqs = [
   ['Is the Brat Video Generator free?', 'Yes. The current video tool can be used in the browser without creating an account, and it does not add a Brat Generator watermark to the exported animation.'],
   ['Can I use it as a lyric video generator?', 'Yes. Put one lyric phrase on each line, optionally upload your audio, and the tool will show the non-empty lines in sequence during the export.'],
@@ -86,10 +172,19 @@ export default function VideoGeneratorPage() {
   });
 
   const faqSchema = faqPageSchema(faqs, canonical);
+  const tutorialImageSchemas = videoHowToSteps.map((step, index) => imageObjectSchema({
+    pageUrl: canonical,
+    idSuffix: `howto-image-${index + 1}`,
+    url: step.image,
+    caption: `Brat Video Generator step ${index + 1}: ${step.title}`,
+    description: `Brat Video Generator tutorial image showing ${step.title.toLowerCase()}.`,
+    width: 640,
+    height: 860,
+  }));
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, appSchema, faqSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema, appSchema, faqSchema, ...tutorialImageSchemas]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content" className="video-generator-page">
@@ -115,21 +210,18 @@ export default function VideoGeneratorPage() {
           </div>
         </section>
 
-        <section className="section section-card" id="how-to-use">
-          <div className="container container-wide">
-            <div className="section-heading reveal">
-              <p className="eyebrow">Tutorial</p>
-              <h2 className="single-line-heading">How to Use the <span className="text-brat">Brat Video Generator</span></h2>
-              <p>Paste a short phrase or lyric lines, preview the look, add audio when you need it, then choose the export that fits your next step.</p>
-            </div>
-            <div className="guide-step-list compact-howto-grid">
-              <article className="glass guide-step reveal"><HowToImage className="guide-step-image" src="/images/how-to/video-step-1.webp" alt="Brat Video Generator: enter text or lyrics step screenshot" width={132} height={132} /><div><h3>Enter text or lyrics</h3><p>Use a short phrase, or put one lyric phrase on each line so the sequence stays clear and readable.</p></div></article>
-              <article className="glass guide-step reveal"><HowToImage className="guide-step-image" src="/images/how-to/video-step-2.webp" alt="Brat Video Generator: preview the animation step screenshot" width={132} height={132} /><div><h3>Preview the animation</h3><p>Check the text treatment and clean up any line that feels too long before starting the export.</p></div></article>
-              <article className="glass guide-step reveal"><HowToImage className="guide-step-image" src="/images/how-to/video-step-3.webp" alt="Brat Video Generator: add audio step screenshot" width={132} height={132} /><div><h3>Add audio if needed</h3><p>Upload a supported audio file when you want sound in the video; GIF and PNG frame exports stay visual.</p></div></article>
-              <article className="glass guide-step reveal"><HowToImage className="guide-step-image" src="/images/how-to/video-step-4.webp" alt="Brat Video Generator: choose FPS and export step screenshot" width={132} height={132} /><div><h3>Choose FPS and export</h3><p>Set the frame rate, then export as Video, GIF or Frames and let the browser create the result.</p></div></article>
-            </div>
-          </div>
-        </section>
+        <DetailedHowTo
+          id="how-to-use"
+          toolName="Brat Video Generator"
+          intro="The video tool has more moving parts than the static generators, so the cleanest workflow is to prepare the text first, preview it, add optional audio, and only then choose the render settings."
+          steps={videoHowToSteps}
+        />
+
+        <GuideDetailSections
+          heading="Brat Video Workflow"
+          intro="The most important video-specific choices are how you structure the text, how browser-based audio support behaves, and which export format makes sense for the next platform or editor."
+          sections={videoGuideDetails}
+        />
 
         <section className="section section-card" id="motion-trend">
           <div className="container container-wide">

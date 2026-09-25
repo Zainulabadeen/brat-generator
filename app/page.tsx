@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import BratGenerator from '@/components/BratGenerator';
-import HowToImage from '@/components/HowToImage';
+import DetailedHowTo, { GuideDetailSections } from '@/components/DetailedHowTo';
 import JsonLd from '@/components/JsonLd';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { faqPageSchema, organizationSchema, softwareApplicationSchema, webPageSchema, websiteSchema } from '@/lib/schema';
+import { faqPageSchema, imageObjectSchema, organizationSchema, softwareApplicationSchema, webPageSchema, websiteSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
@@ -42,12 +42,93 @@ const features = [
   ['🔓', 'No Sign-Up. Completely Free.', 'There is no account form, email gate, subscription screen, or software installation. Open the tool, create a design, and download it directly in the browser.', 'glow-electric'],
 ];
 
-const steps = [
-  ['01', 'Enter Your Text', 'Type a short word or phrase. One to four words usually keeps the condensed, blurred text readable.'],
-  ['02', 'Choose Colours', 'Start with Brat Green or use the colour picker for black, white, pink, blue, or a custom hex value.'],
-  ['03', 'Adjust Font & Blur', 'Tune text size, letter spacing, and blur. Keep enough contrast so the text stays readable at smaller sizes.'],
-  ['04', 'Download Your Design', 'Choose a canvas size and PNG, JPG, or WebP, then download the finished design directly from your browser.'],
-];
+const detailedSteps = [
+  {
+    title: 'Enter your text',
+    body: 'Start with the exact word or phrase you want on the design. The generator updates the preview while you type, so this is the best moment to test whether the wording feels balanced before changing visual settings.',
+    points: [
+      'One to four words usually gives the clearest classic Brat-style composition.',
+      'Use the Lowercase effect when you want the familiar understated text treatment.',
+      'Watch the live canvas while typing so you can spot awkward wrapping or an overly long phrase immediately.',
+    ],
+    tip: 'Try the shortest version of your phrase first. A compact line is easier to style, blur and reuse across different canvas sizes.',
+    image: '/images/how-to/main-step-1.webp',
+    alt: 'Brat Generator: enter text step screenshot',
+  },
+  {
+    title: 'Choose a style and colour direction',
+    body: 'Next choose the visual starting point. You can use the built-in style tabs, pick a colour swatch, or use the background and text colour controls for a custom combination.',
+    points: [
+      'Use Brat and Brat White when you want a quick preset that matches those built-in generator modes.',
+      'Black, pink, blue and other colours can be built with the swatches or colour controls when there is no exact style tab.',
+      'Keep enough contrast between the text and background so the wording remains readable at thumbnail size.',
+    ],
+    tip: 'Choose the background first, then set the text colour. It is easier to judge contrast in that order.',
+    image: '/images/how-to/main-step-2.webp',
+    alt: 'Brat Generator: choose styles and colours step screenshot',
+  },
+  {
+    title: 'Fine-tune typography, blur and effects',
+    body: 'Once the basic look is right, use the detailed controls to shape the text. Small adjustments here can make the same phrase feel cleaner, rougher, louder or more experimental.',
+    points: [
+      'Use Font Style, Text Size and Letter Spacing to control the basic typography.',
+      'Add Blur gradually instead of pushing it so far that the phrase becomes difficult to read.',
+      'Lowercase, Mirror, Flip Vertical, Noise / Grain, Scribble and Bold are optional effects for more specific variations.',
+    ],
+    tip: 'Change one control at a time. If several effects are added together, it becomes harder to tell which one actually improved the design.',
+    image: '/images/how-to/main-step-3.webp',
+    alt: 'Brat Generator: adjust typography blur and effects step screenshot',
+  },
+  {
+    title: 'Choose a canvas size and export',
+    body: 'Finish by matching the canvas to where the graphic will be used, then either copy the result or download the finished image from the generator.',
+    points: [
+      'Use the square presets for posts and cover-style graphics, 1080×1920 for Stories, or 1200×630 for wide banners and link previews.',
+      'Use Copy when you want to paste the image straight into another supported app.',
+      'Use Download Image when you want a saved file you can upload, archive or continue editing elsewhere.',
+    ],
+    tip: 'Check the final design at a smaller visual size before export; if it still reads clearly, it is more likely to work well in feeds and previews.',
+    image: '/images/how-to/main-step-4.webp',
+    alt: 'Brat Generator: choose canvas size and export step screenshot',
+  },
+] as const;
+
+const generatorGuideDetails = [
+  {
+    eyebrow: 'Typography',
+    title: 'Text Controls',
+    body: 'The generator is built around text, so the most useful controls are the ones that shape how the phrase fits and how quickly it can be read.',
+    points: [
+      'Text Size changes the visual weight of the phrase on the canvas.',
+      'Letter Spacing can make condensed words feel tighter or give a short phrase more air.',
+      'Blur softens the edges for the familiar rough treatment, while zero blur keeps the result crisp.',
+    ],
+  },
+  {
+    eyebrow: 'Styles',
+    title: 'Presets, Colours and',
+    accent: 'Effects',
+    accentClass: 'text-pink' as const,
+    body: 'Use the style tabs for fast starting points, then refine the result with swatches, custom colours and optional effects instead of treating every design as the same green card.',
+    points: [
+      'Built-in modes change the visual direction quickly.',
+      'Background and text colour controls let you build custom combinations.',
+      'Mirror, Flip, Noise / Grain, Scribble and Bold are optional finishing effects rather than requirements.',
+    ],
+  },
+  {
+    eyebrow: 'Output',
+    title: 'Canvas Size and',
+    accent: 'Export',
+    accentClass: 'text-electric' as const,
+    body: 'The last step is about destination. Select the canvas that fits the placement, re-check the live preview and then copy or download the result.',
+    points: [
+      '800×800, 1000×1000 and 1200×1200 cover common square needs.',
+      '1080×1920 is intended for vertical Story-style layouts.',
+      '1200×630 is useful for wide banners, previews and social link graphics.',
+    ],
+  },
+] as const;
 
 const styleCards = [
   ['brat', 'Classic Brat Green', 'Lime green + black', 'brat-green', '#111', '/#green'],
@@ -113,10 +194,19 @@ export default function Home() {
     includeBreadcrumb: false,
   });
   const faqSchema = faqPageSchema(faqs, homeUrl);
+  const tutorialImageSchemas = detailedSteps.map((step, index) => imageObjectSchema({
+    pageUrl: homeUrl,
+    idSuffix: `howto-image-${index + 1}`,
+    url: step.image,
+    caption: `Brat Generator step ${index + 1}: ${step.title}`,
+    description: `Brat Generator tutorial image showing ${step.title.toLowerCase()}.`,
+    width: 640,
+    height: 860,
+  }));
 
   return (
     <>
-      <JsonLd data={[websiteSchema, organizationSchema, pageSchema, appSchema, faqSchema]} />
+      <JsonLd data={[websiteSchema, organizationSchema, pageSchema, appSchema, faqSchema, ...tutorialImageSchemas]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -160,31 +250,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-card" id="how-to">
-          <div className="container container-wide">
-            <div className="section-heading reveal">
-              <p className="eyebrow">Tutorial</p>
-              <h2 className="single-line-heading">How to Use the <span className="text-brat">Brat Generator</span></h2>
-              <p>Making a Brat-style graphic is simple. Here is the quick four-step workflow.</p>
-            </div>
-            <div className="card-grid four">
-              {steps.map(([number, title, body], i) => (
-                <div className={`reveal reveal-delay-${i}`} key={number}>
-                  <article className="glass step-card hover-lift">
-                    <HowToImage
-                      className="step-image"
-                      src={`/images/how-to/main-step-${i + 1}.webp`}
-                      alt={`Brat Generator: ${title} step screenshot`}
-                      width={124}
-                      height={124}
-                    />
-                    <h3>{title}</h3><p>{body}</p>
-                  </article>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <DetailedHowTo
+          id="how-to"
+          toolName="Brat Generator"
+          intro="The basic workflow is quick, but each control has a clear purpose. Follow these four steps to build the design in the right order and avoid fixing the same thing twice."
+          steps={detailedSteps}
+        />
+
+        <GuideDetailSections
+          heading="Brat Generator Controls"
+          intro="These are the main choices that affect the final design after you understand the four-step workflow: typography, visual style and the format you export for the next platform."
+          sections={generatorGuideDetails}
+        />
 
         <section className="section section-card">
           <div className="container container-wide">

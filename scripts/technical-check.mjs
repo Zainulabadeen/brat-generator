@@ -194,7 +194,22 @@ for (const prefix of ['main', 'meme', 'image', 'album', 'video']) {
     expect(exists(`public/images/how-to/${prefix}-step-${step}.webp`), `${prefix} how-to step ${step} WebP exists`);
   }
 }
-expect(exists('components/HowToImage.tsx') && file('components/HowToImage.tsx').includes('howto-lightbox'), 'how-to screenshots use the click-to-enlarge lightbox');
+const howToImage = file('components/HowToImage.tsx');
+const detailedHowTo = file('components/DetailedHowTo.tsx');
+expect(
+  exists('components/HowToImage.tsx')
+    && howToImage.includes('<img')
+    && !howToImage.includes('howto-lightbox')
+    && !howToImage.includes('createPortal'),
+  'how-to screenshots render directly without the removed click-to-enlarge lightbox',
+);
+expect(
+  detailedHowTo.includes('detailed-howto-copy')
+    && detailedHowTo.includes('detailed-howto-media')
+    && detailedHowTo.indexOf('detailed-howto-copy') < detailedHowTo.indexOf('detailed-howto-media')
+    && !detailedHowTo.includes('is-reverse'),
+  'how-to steps keep content on the left and images on the right',
+);
 expect(home.indexOf('id="how-to"') > -1 && home.indexOf('id="how-to"') < home.indexOf('Global Trend'), 'homepage How to Use section remains below About and above Global Trend');
 expect(!toolShell.includes('tool-related-links') && !video.includes('Related Tools') && !video.includes('Keep Creating with'), 'dedicated tool pages still omit the removed Related Tools block');
 

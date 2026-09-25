@@ -178,3 +178,40 @@ export function softwareApplicationSchema({
     },
   };
 }
+
+
+type ImageObjectSchemaInput = {
+  pageUrl: string;
+  idSuffix: string;
+  url: string;
+  caption: string;
+  description?: string;
+  width?: number;
+  height?: number;
+};
+
+export function imageObjectSchema({
+  pageUrl,
+  idSuffix,
+  url,
+  caption,
+  description,
+  width,
+  height,
+}: ImageObjectSchemaInput) {
+  const absoluteUrl = url.startsWith('http') ? url : `${siteConfig.url}${url.startsWith('/') ? '' : '/'}${url}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    '@id': `${pageUrl}#${idSuffix}`,
+    url: absoluteUrl,
+    contentUrl: absoluteUrl,
+    caption,
+    ...(description ? { description } : {}),
+    inLanguage: 'en-GB',
+    representativeOfPage: false,
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
+  };
+}

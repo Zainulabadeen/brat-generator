@@ -1,4 +1,4 @@
-import HowToImage from '@/components/HowToImage';
+import DetailedHowTo, { GuideDetailSections, type DetailedHowToStep, type GuideDetailSection } from '@/components/DetailedHowTo';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RevealSetup from '@/components/RevealSetup';
@@ -7,7 +7,7 @@ import SiteHeader from '@/components/SiteHeader';
 import BratCreativeTool from '@/components/BratCreativeTool';
 import BratGenerator from '@/components/BratGenerator';
 import { siteConfig } from '@/lib/site';
-import { breadcrumbSchema, faqPageSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
+import { breadcrumbSchema, faqPageSchema, imageObjectSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
 
 type ToolMode = 'text' | 'meme' | 'image' | 'album';
 
@@ -19,7 +19,8 @@ type Props = {
   accent?: string;
   description?: string;
   schemaDescription: string;
-  howTo: Array<[string, string]>;
+  howTo: DetailedHowToStep[];
+  guideDetails: GuideDetailSection[];
   features: Array<[string, string]>;
   useCases: Array<[string, string]>;
   tips: string[];
@@ -83,6 +84,7 @@ export default function ToolPageShell({
   description = '',
   schemaDescription,
   howTo,
+  guideDetails,
   features,
   useCases,
   tips,
@@ -119,10 +121,19 @@ export default function ToolPageShell({
   });
 
   const faqSchema = faqs.length ? faqPageSchema(faqs, canonical) : null;
+  const tutorialImageSchemas = howTo.map((step, index) => imageObjectSchema({
+    pageUrl: canonical,
+    idSuffix: `howto-image-${index + 1}`,
+    url: `/images/how-to/${howToImagePrefix[mode]}-step-${index + 1}.webp`,
+    caption: `${name} step ${index + 1}: ${step.title}`,
+    description: `${name} tutorial illustration showing ${step.title.toLowerCase()}.`,
+    width: 640,
+    height: 860,
+  }));
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, appSchema, ...(faqSchema ? [faqSchema] : [])]} />
+      <JsonLd data={[breadcrumb, pageSchema, appSchema, ...(faqSchema ? [faqSchema] : []), ...tutorialImageSchemas]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content" className="tool-page">
@@ -140,29 +151,22 @@ export default function ToolPageShell({
           </div>
         </section>
 
-        <section className="section section-card" id="how-to-use">
-          <div className="container container-wide">
-            <div className="section-heading reveal">
-              <p className="eyebrow">Tutorial</p>
-              <h2 className="single-line-heading">How to Use the <span className="text-brat">{name}</span></h2>
-              <p>Four quick steps are enough: add your content, customise the style, check the preview, then export.</p>
-            </div>
-            <div className="guide-step-list compact-howto-grid">
-              {howTo.map(([heading, body], index) => (
-                <article className="glass guide-step reveal" key={heading}>
-                  <HowToImage
-                    className="guide-step-image"
-                    src={`/images/how-to/${howToImagePrefix[mode]}-step-${index + 1}.webp`}
-                    alt={`${name}: ${heading} step screenshot`}
-                    width={132}
-                    height={132}
-                  />
-                  <div><h3>{heading}</h3><p>{body}</p></div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        <DetailedHowTo
+          id="how-to-use"
+          toolName={name}
+          intro="Follow the full workflow below. Each step explains what to change, what to check in the live result, and what usually gives the cleanest output."
+          steps={howTo.map((step, index) => ({
+            ...step,
+            image: `/images/how-to/${howToImagePrefix[mode]}-step-${index + 1}.webp`,
+            alt: `${name} tutorial image showing ${step.title.toLowerCase()}`,
+          }))}
+        />
+
+        <GuideDetailSections
+          heading={`${name} Controls`}
+          intro="These extra notes cover the controls that matter most after the basic four-step tutorial, so you can make deliberate choices instead of guessing what each option changes."
+          sections={guideDetails}
+        />
 
         <section className="section" id="features">
           <div className="container container-wide">

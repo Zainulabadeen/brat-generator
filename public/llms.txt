@@ -26,7 +26,7 @@ Brat Generator is an independent fan-made project. It is not affiliated with, sp
 
 ## Tutorials and guides
 
-- [Homepage How to Use section](https://bratgeneratorpro.net/#how-to): Four-step workflow covering text entry, colour choice, typography/blur adjustment, and export.
+- [Homepage How to Use section](https://bratgeneratorpro.net/#how-to): Detailed four-step workflow with step visuals covering text entry, colour choice, typography and export.
 - [Brat Generator Guides](https://bratgeneratorpro.net/blog/): Hub for practical tutorials and troubleshooting articles.
 - [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/blog/how-to-make-a-brat-album-cover-free/): Step-by-step guide to colour, typography, blur, sizing and browser-based cover creation.
 - [Brat Generator Not Working? Common Problems & Quick Fixes](https://bratgeneratorpro.net/blog/brat-generator-not-working/): Troubleshooting guide for download problems, blur, clipped text, colour differences and mobile download locations.

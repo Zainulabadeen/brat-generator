@@ -23,10 +23,87 @@ export default function Page() {
     title="Brat Image Generator"
     schemaDescription="Free browser-based Brat image generator that turns a short text prompt into a Brat-style graphic with custom colours, multiple social canvas ratios and PNG, JPG or WebP downloads."
     howTo={[
-      ['Enter your text idea', 'Type the word, phrase, mood or short message you want to appear in the design. This tool creates Brat-style text artwork rather than AI-generated photo scenes.'],
-      ['Choose your colours', 'Pick the background and text colours before generating so the result already matches the mood you want.'],
-      ['Choose the canvas size', 'Use square, 4:5 portrait, 9:16 Story or landscape depending on where you plan to use the image.'],
-      ['Generate and export', 'Press Generate Brat Image, check the result, then download PNG, JPG or WebP or copy the PNG.'],
+      {
+        title: 'Enter the text idea',
+        body: 'Describe the Brat-style graphic with the exact word, phrase, mood or short message you want to appear on the finished image. This tool draws a text-led graphic rather than inventing a photorealistic scene.',
+        points: [
+          'Use a single word or short phrase for the strongest classic composition.',
+          'Longer captions can work, but check the preview for wrapping and smaller text.',
+          'Write the wording exactly as you want it before choosing colours and size.',
+        ],
+        tip: 'Start with the shortest version of your phrase; you can always add more words after you see how the first layout feels.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Choose background and text colours',
+        body: 'Set the colour pair before generating so the preview begins with the contrast and mood you want instead of forcing you to fix readability later.',
+        points: [
+          'Use the background picker for Brat green, black, white, pink, blue or any custom colour.',
+          'Choose a text colour that remains visible at thumbnail size.',
+          'Dark-on-light and light-on-dark combinations are the safest starting point for readability.',
+        ],
+        tip: 'If you have to stare at the text to read it, increase the contrast before generating the final version.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Pick the canvas size',
+        body: 'Match the canvas to where the image will actually be used. The same phrase can feel very different on a square post, portrait feed card, Story or landscape banner.',
+        points: [
+          'Square 1080×1080 is a flexible all-purpose social format.',
+          'Portrait 1080×1350 uses more vertical feed space.',
+          'Story 1080×1920 fills a phone screen, while 1200×630 works for wider banners and previews.',
+        ],
+        tip: 'Choose the final destination first, then generate; this avoids cropping a finished design into the wrong shape later.',
+        image: '',
+        alt: '',
+      },
+      {
+        title: 'Generate, review and export',
+        body: 'Press Generate Brat Image to render the design, inspect the result, then download or copy it once the wording, colours and canvas all look right.',
+        points: [
+          'Use PNG when crisp text edges are the priority.',
+          'Use JPG or WebP when you want a smaller web-friendly file.',
+          'Use Copy Image to paste the generated PNG directly into another supported app.',
+        ],
+        tip: 'Do one final thumbnail-size check before downloading; a design that works small usually works well almost everywhere else too.',
+        image: '',
+        alt: '',
+      },
+    ]}
+    guideDetails={[
+      {
+        eyebrow: 'Input',
+        title: 'What the Prompt Actually Controls',
+        body: 'The prompt field is the wording of the artwork itself. It is not an AI scene description, so the best input is the exact phrase you want people to see.',
+        points: [
+          'Short phrases create the clearest text-led layouts.',
+          'Mood words, names, captions and one-line statements all work well.',
+          'If the phrase is long, expect the text to scale down to fit the canvas.',
+        ],
+        note: 'The graphic is rendered in the browser; no remote image-generation service is needed for the text design.',
+      },
+      {
+        eyebrow: 'Composition',
+        title: 'Colour and Canvas Choices',
+        body: 'Colour sets the mood while canvas shape decides how much room the text has. Choose both together instead of treating the canvas as an afterthought.',
+        points: [
+          'Bright backgrounds create the strongest Brat-style impact.',
+          'High-contrast text stays readable on small screens.',
+          'Vertical canvases need more breathing room above and below the main phrase than square graphics do.',
+        ],
+      },
+      {
+        eyebrow: 'Reuse',
+        title: 'Download and Copy Options',
+        body: 'Once the design is generated, you can keep the high-quality version for later or copy it directly into another workflow without recreating it.',
+        points: [
+          'PNG is a strong default for text-heavy graphics.',
+          'JPG and WebP can reduce file size for web use.',
+          'Copy Image is useful for chats, documents and editors that accept pasted images.',
+        ],
+      },
     ]}
     features={[
       ['Simple Text Prompt', 'Turn a short word, phrase, mood or caption into a focused Brat-style text graphic.'],
