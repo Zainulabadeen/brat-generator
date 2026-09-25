@@ -5,14 +5,11 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { pageLinks } from '@/lib/site';
 import LanguageSelector from '@/components/LanguageSelector';
-import { useLanguage } from '@/components/LanguageProvider';
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const { t } = useLanguage();
-
   const navItems = [
     ['Brat Generator', pageLinks.home],
     ['Brat Video Generator', pageLinks.videoGenerator],
@@ -20,7 +17,7 @@ export default function SiteHeader() {
     ['Brat Image Generator', pageLinks.imageGenerator],
     ['Brat Album Cover Generator', pageLinks.albumGenerator],
     ['Brat Styles', pageLinks.styles],
-    [t('blog'), pageLinks.blog],
+    ['Help', pageLinks.blog],
   ] as const;
 
   useEffect(() => {
