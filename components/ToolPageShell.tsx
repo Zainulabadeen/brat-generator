@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import HowToImage from '@/components/HowToImage';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RevealSetup from '@/components/RevealSetup';
@@ -7,7 +7,7 @@ import SiteHeader from '@/components/SiteHeader';
 import BratCreativeTool from '@/components/BratCreativeTool';
 import BratGenerator from '@/components/BratGenerator';
 import { siteConfig } from '@/lib/site';
-import { breadcrumbSchema, organizationEntity, websiteId } from '@/lib/schema';
+import { breadcrumbSchema, faqPageSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
 
 type ToolMode = 'text' | 'meme' | 'image' | 'album';
 
@@ -27,6 +27,14 @@ type Props = {
   faqIntro?: string;
   links?: Array<[string, string]>;
   applicationCategory?: string;
+};
+
+
+const howToImagePrefix: Record<ToolMode, string> = {
+  text: 'main',
+  meme: 'meme',
+  image: 'image',
+  album: 'album',
 };
 
 const featureDecorByMode: Record<ToolMode, Array<[string, string]>> = {
@@ -80,7 +88,6 @@ export default function ToolPageShell({
   tips,
   faqs = [],
   faqIntro = 'Clear answers to the questions people usually have before creating and exporting.',
-  links = [],
   applicationCategory = 'DesignApplication',
 }: Props) {
   const canonical = `${siteConfig.url}/${slug}/`;
@@ -93,47 +100,25 @@ export default function ToolPageShell({
     { name, url: canonical },
   ]);
 
-  const appSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    '@id': appId,
+  const appSchema = softwareApplicationSchema({
+    id: appId,
     name,
     url: canonical,
     applicationCategory,
-    operatingSystem: 'Any',
     browserRequirements: 'Requires JavaScript and a modern web browser',
     description: schemaDescription,
-    provider: organizationEntity,
-    isAccessibleForFree: true,
-    inLanguage: 'en-GB',
-    image: `${siteConfig.url}/og-image.png`,
     featureList: features.map(([heading]) => heading),
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  };
+  });
 
-  const pageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${canonical}#webpage`,
+  const pageSchema = webPageSchema({
     url: canonical,
     name,
     description: schemaDescription,
-    inLanguage: 'en-GB',
-    isPartOf: { '@id': websiteId },
-    about: { '@id': appId },
-    primaryImageOfPage: { '@type': 'ImageObject', url: `${siteConfig.url}/og-image.png` },
     dateModified: '2026-09-25',
-  };
+    mainEntity: { '@id': appId },
+  });
 
-  const faqSchema = faqs.length ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(([question, answer]) => ({
-      '@type': 'Question',
-      name: question,
-      acceptedAnswer: { '@type': 'Answer', text: answer },
-    })),
-  } : null;
+  const faqSchema = faqs.length ? faqPageSchema(faqs, canonical) : null;
 
   return (
     <>
@@ -165,7 +150,13 @@ export default function ToolPageShell({
             <div className="guide-step-list compact-howto-grid">
               {howTo.map(([heading, body], index) => (
                 <article className="glass guide-step reveal" key={heading}>
-                  <div className="guide-step-no">{String(index + 1).padStart(2, '0')}</div>
+                  <HowToImage
+                    className="guide-step-image"
+                    src={`/images/how-to/${howToImagePrefix[mode]}-step-${index + 1}.webp`}
+                    alt={`${name}: ${heading} step screenshot`}
+                    width={132}
+                    height={132}
+                  />
                   <div><h3>{heading}</h3><p>{body}</p></div>
                 </article>
               ))}
@@ -226,11 +217,6 @@ export default function ToolPageShell({
                 </article>
               ))}
             </div>
-            {links.length ? (
-              <div className="tool-related-links reveal" aria-label="Related Brat tools and guides">
-                {links.map(([label, href]) => <Link className="text-link" href={href} key={href}>{label} →</Link>)}
-              </div>
-            ) : null}
           </div>
         </section>
 

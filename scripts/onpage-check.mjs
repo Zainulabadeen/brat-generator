@@ -14,10 +14,10 @@ if (!fs.existsSync(out)) {
 
 const pages = [
   { rel: 'index.html', url: '/', keyword: 'brat generator' },
-  { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator', schema: 'WebApplication' },
-  { rel: 'brat-meme-generator/index.html', url: '/brat-meme-generator/', keyword: 'brat meme generator', schema: 'WebApplication' },
-  { rel: 'brat-image-generator/index.html', url: '/brat-image-generator/', keyword: 'brat image generator', schema: 'WebApplication' },
-  { rel: 'brat-album-cover-generator/index.html', url: '/brat-album-cover-generator/', keyword: 'brat album cover generator', schema: 'WebApplication' },
+  { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator', schema: 'SoftwareApplication' },
+  { rel: 'brat-meme-generator/index.html', url: '/brat-meme-generator/', keyword: 'brat meme generator', schema: 'SoftwareApplication' },
+  { rel: 'brat-image-generator/index.html', url: '/brat-image-generator/', keyword: 'brat image generator', schema: 'SoftwareApplication' },
+  { rel: 'brat-album-cover-generator/index.html', url: '/brat-album-cover-generator/', keyword: 'brat album cover generator', schema: 'SoftwareApplication' },
   { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles', schema: 'CollectionPage' },
   { rel: 'blog/index.html', url: '/blog/', keyword: 'brat generator', schema: 'Blog' },
   { rel: 'blog/how-to-make-a-brat-album-cover-free/index.html', url: '/blog/how-to-make-a-brat-album-cover-free/', keyword: 'how to make a brat album cover', schema: 'BlogPosting' },

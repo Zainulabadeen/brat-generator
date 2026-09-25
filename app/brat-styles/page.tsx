@@ -7,7 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { websiteId } from '@/lib/schema';
+import { breadcrumbSchema, faqPageSchema, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Styles: Green, Black, White, Pink & Custom Colours' },
@@ -47,36 +47,21 @@ const styleCards = [
 
 
 export default function BratStylesPage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Brat Styles', item: `${siteConfig.url}/brat-styles/` },
-    ],
-  };
+  const canonical = `${siteConfig.url}/brat-styles/`;
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'Brat Styles', url: canonical },
+  ]);
 
-  const pageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    '@id': `${siteConfig.url}/brat-styles/#webpage`,
-    url: `${siteConfig.url}/brat-styles/`,
+  const pageSchema = webPageSchema({
+    type: 'CollectionPage',
+    url: canonical,
     name: 'Brat Styles',
     description: metadata.description,
-    inLanguage: 'en-GB',
-    isPartOf: { '@id': websiteId },
     dateModified: '2026-09-25',
-  };
+  });
 
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: styleFaqs.map(([question, answer]) => ({
-      '@type': 'Question',
-      name: question,
-      acceptedAnswer: { '@type': 'Answer', text: answer },
-    })),
-  };
+  const faqSchema = faqPageSchema(styleFaqs, canonical);
 
   return (
     <>

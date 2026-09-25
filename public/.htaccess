@@ -45,6 +45,15 @@ Options -Indexes
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
+
+  <Files "llms.txt">
+    Header set X-Robots-Tag "noindex, follow"
+    Header set Cache-Control "public, max-age=3600"
+  </Files>
+
+  <FilesMatch "^(robots\.txt|sitemap(?:_index)?\.xml)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
 </IfModule>
 
 # Browser caching for static assets when mod_expires is available.

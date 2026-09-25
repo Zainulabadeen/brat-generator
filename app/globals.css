@@ -2092,3 +2092,157 @@ main > .section{
   .section-heading:has(> h2.single-line-heading){max-width:1200px!important}
   .section-heading h2.single-line-heading{width:100%!important}
 }
+
+/* How-to step screenshots: replace numeric badges without changing card structure. */
+.step-image,
+.guide-step-image{
+  display:block;
+  aspect-ratio:1;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(17,17,17,.08);
+  box-shadow:0 10px 28px rgba(17,17,17,.08);
+  background:#f8f8f5;
+}
+.step-image{
+  width:96px;
+  height:96px;
+  margin:0 auto 18px;
+}
+.guide-step-image{
+  width:112px;
+  height:112px;
+  justify-self:center;
+  align-self:center;
+}
+.compact-howto-grid .guide-step{
+  grid-template-columns:116px 1fr;
+}
+@media (max-width:760px){
+  .compact-howto-grid .guide-step{grid-template-columns:1fr}
+  .guide-step-image{width:100px;height:100px;margin:0 auto 4px}
+  .step-image{width:92px;height:92px}
+}
+
+/* September 25, 2026: larger clickable How-to thumbnails + focused screenshot preview. */
+.sr-only{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+.howto-image-trigger{
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  margin:0 auto;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  cursor:zoom-in;
+  line-height:0;
+}
+.howto-image-trigger:focus-visible{
+  outline:3px solid rgba(138,206,0,.48);
+  outline-offset:5px;
+}
+.howto-image-trigger .step-image,
+.howto-image-trigger .guide-step-image{
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.howto-image-trigger:hover .step-image,
+.howto-image-trigger:hover .guide-step-image{
+  transform:scale(1.035);
+  border-color:rgba(138,206,0,.42);
+  box-shadow:0 14px 34px rgba(17,17,17,.12);
+}
+.step-image{
+  width:124px;
+  height:124px;
+  margin:0 auto 18px;
+}
+.guide-step-image{
+  width:132px;
+  height:132px;
+}
+.compact-howto-grid .guide-step{
+  grid-template-columns:142px 1fr;
+  align-items:center;
+}
+.howto-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(10,10,10,.72);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.howto-lightbox-panel{
+  position:relative;
+  width:min(560px,92vw);
+  max-height:90vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  padding:22px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 30px 90px rgba(0,0,0,.32);
+}
+.howto-lightbox-image{
+  display:block;
+  width:min(480px,78vw);
+  height:auto;
+  max-height:72vh;
+  object-fit:contain;
+  border-radius:18px;
+  border:1px solid rgba(17,17,17,.08);
+  background:#f8f8f5;
+}
+.howto-lightbox-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  padding:0;
+  border:1px solid rgba(17,17,17,.1);
+  border-radius:50%;
+  background:rgba(255,255,255,.94);
+  color:#111;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+.howto-lightbox-close:hover{background:#f3f3ef}
+.howto-lightbox-close:focus-visible{outline:3px solid rgba(138,206,0,.48);outline-offset:2px}
+.howto-lightbox-caption{
+  margin:0;
+  color:#666;
+  font-size:13px;
+  line-height:1.45;
+  text-align:center;
+}
+@media (max-width:760px){
+  .guide-step-image{width:112px;height:112px;margin:0 auto 4px}
+  .step-image{width:108px;height:108px}
+  .compact-howto-grid .guide-step{grid-template-columns:1fr}
+  .howto-lightbox{padding:14px}
+  .howto-lightbox-panel{padding:18px;width:min(520px,96vw)}
+  .howto-lightbox-image{width:min(440px,82vw)}
+}

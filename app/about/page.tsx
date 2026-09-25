@@ -7,7 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationSchema, websiteId } from '@/lib/schema';
+import { breadcrumbSchema, organizationId, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'About Brat Generator | Free Browser-Based Design Tool' },
@@ -24,30 +24,23 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'About', item: `${siteConfig.url}/about/` },
-    ],
-  };
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'About', url: `${siteConfig.url}/about/` },
+  ]);
 
-  const pageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'AboutPage',
-    '@id': `${siteConfig.url}/about/#webpage`,
+  const pageSchema = webPageSchema({
+    type: 'AboutPage',
     url: `${siteConfig.url}/about/`,
     name: 'About Brat Generator',
     description: metadata.description,
-    inLanguage: 'en-GB',
-    isPartOf: { '@id': websiteId },
     dateModified: '2026-09-23',
-  };
+    about: { '@id': organizationId },
+  });
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, organizationSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

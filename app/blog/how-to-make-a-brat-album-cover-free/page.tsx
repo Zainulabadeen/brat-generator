@@ -9,7 +9,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationEntity } from '@/lib/schema';
+import { breadcrumbSchema, organizationEntity, organizationRef, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'How to Make a Brat Album Cover Free | Brat Generator' },
@@ -35,23 +35,31 @@ const coverSteps = [
 ];
 
 export default function AlbumCoverGuidePage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog/` },
-      { '@type': 'ListItem', position: 3, name: 'Album Cover Guide', item: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/` },
-    ],
-  };
+  const canonical = `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`;
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'Blog', url: `${siteConfig.url}/blog/` },
+    { name: 'Album Cover Guide', url: canonical },
+  ]);
+
+
+  const pageSchema = webPageSchema({
+    url: canonical,
+    name: 'How to Make a Brat Album Cover Free',
+    description: metadata.description,
+    dateModified: '2026-09-23',
+    mainEntity: { '@id': `${canonical}#article` },
+  });
 
   const article = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
+    '@id': `${canonical}#article`,
     headline: 'How to Make a Brat Album Cover: Free, No-Sign-Up Method',
     description: metadata.description,
-    url: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`,
-    mainEntityOfPage: `${siteConfig.url}/blog/how-to-make-a-brat-album-cover-free/`,
+    url: canonical,
+    mainEntityOfPage: { '@id': `${canonical}#webpage` },
+    inLanguage: 'en-GB',
     image: {
       '@type': 'ImageObject',
       url: `${siteConfig.url}/images/brat-cover-example-green.webp`,
@@ -62,12 +70,12 @@ export default function AlbumCoverGuidePage() {
     datePublished: '2026-07-18T00:00:00+05:00',
     dateModified: '2026-09-23T00:00:00+05:00',
     author: organizationEntity,
-    publisher: organizationEntity,
+    publisher: organizationRef,
   };
 
   return (
     <>
-      <JsonLd data={[breadcrumb, article]} />
+      <JsonLd data={[breadcrumb, pageSchema, article]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

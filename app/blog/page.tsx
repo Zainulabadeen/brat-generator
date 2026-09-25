@@ -6,7 +6,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { websiteId } from '@/lib/schema';
+import { breadcrumbSchema, webPageSchema, websiteId } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Guides: Tutorials, Styles & Fixes' },
@@ -17,20 +17,26 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog/` },
-    ],
-  };
+  const canonical = `${siteConfig.url}/blog/`;
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'Blog', url: canonical },
+  ]);
+
+  const pageSchema = webPageSchema({
+    type: 'CollectionPage',
+    url: canonical,
+    name: 'Brat Generator Guides',
+    description: metadata.description,
+    dateModified: '2026-09-23',
+    mainEntity: { '@id': `${canonical}#blog` },
+  });
 
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    '@id': `${siteConfig.url}/blog/#blog`,
-    url: `${siteConfig.url}/blog/`,
+    '@id': `${canonical}#blog`,
+    url: canonical,
     name: 'Brat Generator Guides',
     description: metadata.description,
     inLanguage: 'en-GB',
@@ -39,7 +45,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <JsonLd data={[breadcrumb, blogSchema]} />
+      <JsonLd data={[breadcrumb, pageSchema, blogSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">

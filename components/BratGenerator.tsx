@@ -76,6 +76,68 @@ function translateEmbeddedFrame(frame: HTMLIFrameElement | null, locale: LocaleC
   }
 }
 
+
+type BratStylePreset = 'green' | 'black' | 'white' | 'pink' | 'blue';
+
+const BRAT_STYLE_PRESETS: Record<BratStylePreset, { background: string; text: string }> = {
+  green: { background: '#8ace00', text: '#000000' },
+  black: { background: '#111111', text: '#ffffff' },
+  white: { background: '#ffffff', text: '#111111' },
+  pink: { background: '#ff69b4', text: '#111111' },
+  blue: { background: '#00bfff', text: '#111111' },
+};
+
+const BRAT_STYLE_MODE_MAP: Partial<Record<BratStylePreset, string>> = {
+  green: 'brat',
+  white: 'white',
+};
+
+function styleFromLocationHash(): BratStylePreset | null {
+  if (typeof window === 'undefined') return null;
+  const style = window.location.hash.replace(/^#/, '').toLowerCase();
+  return style in BRAT_STYLE_PRESETS ? style as BratStylePreset : null;
+}
+
+function applyStylePreset(frame: HTMLIFrameElement | null, style: BratStylePreset | null) {
+  if (!frame?.contentDocument || !style) return;
+  const doc = frame.contentDocument;
+  const preset = BRAT_STYLE_PRESETS[style];
+  const matchingMode = BRAT_STYLE_MODE_MAP[style];
+
+  if (matchingMode) {
+    const modeButton = doc.querySelector<HTMLButtonElement>(`.mode-btn[data-mode="${matchingMode}"]`);
+    if (modeButton) {
+      modeButton.click();
+      return;
+    }
+  }
+
+  const swatches = Array.from(doc.querySelectorAll<HTMLElement>('#bgColorRow .csw'));
+  const matchingSwatch = swatches.find((swatch) => swatch.dataset.col?.toLowerCase() === preset.background);
+
+  if (matchingSwatch) {
+    matchingSwatch.click();
+  } else {
+    const bgPicker = doc.querySelector<HTMLInputElement>('#bgPick');
+    if (bgPicker) {
+      bgPicker.value = preset.background;
+      bgPicker.dispatchEvent(new Event('input', { bubbles: true }));
+      bgPicker.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+
+  const textPicker = doc.querySelector<HTMLInputElement>('#fgPick');
+  if (textPicker) {
+    textPicker.value = preset.text;
+    textPicker.dispatchEvent(new Event('input', { bubbles: true }));
+    textPicker.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+}
+
+function applyStyleFromLocation(frame: HTMLIFrameElement | null) {
+  applyStylePreset(frame, styleFromLocationHash());
+}
+
 const DEFAULT_HEIGHT = 720;
 
 export default function BratGenerator() {
@@ -101,12 +163,20 @@ export default function BratGenerator() {
     }
 
     translateEmbeddedFrame(frame, locale);
+    applyStyleFromLocation(frame);
     window.dispatchEvent(new CustomEvent('brat-frame-ready'));
   };
 
   useEffect(() => {
     translateEmbeddedFrame(frameRef.current, locale);
   }, [locale]);
+
+  useEffect(() => {
+    const applyRequestedStyle = () => applyStyleFromLocation(frameRef.current);
+    window.addEventListener('hashchange', applyRequestedStyle);
+    applyRequestedStyle();
+    return () => window.removeEventListener('hashchange', applyRequestedStyle);
+  }, []);
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {

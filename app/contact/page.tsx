@@ -7,7 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationEntity, websiteId } from '@/lib/schema';
+import { breadcrumbSchema, organizationId, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Contact Brat Generator | Support & Rights Concerns' },
@@ -31,27 +31,19 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Contact', item: `${siteConfig.url}/contact/` },
-    ],
-  };
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'Contact', url: `${siteConfig.url}/contact/` },
+  ]);
 
-  const pageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ContactPage',
-    '@id': `${siteConfig.url}/contact/#webpage`,
+  const pageSchema = webPageSchema({
+    type: 'ContactPage',
     url: `${siteConfig.url}/contact/`,
     name: 'Contact Brat Generator',
     description: metadata.description,
-    inLanguage: 'en-GB',
-    isPartOf: { '@id': websiteId },
-    about: organizationEntity,
     dateModified: '2026-09-23',
-  };
+    about: { '@id': organizationId },
+  });
 
   return (
     <>

@@ -1,6 +1,6 @@
 # Brat Generator - robots.txt
 # Canonical site: https://bratgeneratorpro.net/
-# Updated: 2026-09-23
+# Updated: 2026-09-25
 
 # Google Search and Google media crawlers
 User-agent: Googlebot
@@ -10,12 +10,18 @@ User-agent: Googlebot-News
 User-agent: Google-InspectionTool
 Allow: /
 
-# AI/search-assistant crawlers are allowed to discover public pages.
+# Search/AI assistant crawlers. Public pages are intentionally crawlable.
 User-agent: OAI-SearchBot
 User-agent: ChatGPT-User
 User-agent: GPTBot
 User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
 User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
 Allow: /
 
 # All other standards-compliant crawlers

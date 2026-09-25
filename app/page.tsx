@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import BratGenerator from '@/components/BratGenerator';
+import HowToImage from '@/components/HowToImage';
 import JsonLd from '@/components/JsonLd';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationEntity, organizationSchema, websiteId } from '@/lib/schema';
+import { faqPageSchema, organizationSchema, softwareApplicationSchema, webPageSchema, websiteSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Free Brat Text & Album Cover Maker' },
@@ -71,7 +72,7 @@ const toolCards = [
   ['/brat-styles/', 'Brat Styles', 'Compare Brat green, black, white, pink and custom colour directions before you create.'],
 ];
 
-const faqs = [
+const faqs: Array<[string, string]> = [
   ['What is a Brat Generator?', 'It is a browser-based design tool that recreates the visual language associated with Charli XCX’s 2024 Brat era: flat colour, condensed lowercase text, and a soft blur. You can replace the text, colours, size, and export format.'],
   ['Is Brat Generator free?', 'Yes. This tool is free to use, does not require an account, and does not add a watermark to the exported image.'],
   ['What font is used for the Brat look?', 'The original artwork is widely described as using heavily manipulated Arial-style typography rather than a special downloadable “Brat font.” This generator uses an Arial Narrow-style condensed font as a practical starting point and adds spacing and blur controls.'],
@@ -86,32 +87,14 @@ const faqs = [
 
 
 export default function Home() {
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': websiteId,
+  const homeUrl = `${siteConfig.url}/`;
+  const appSchema = softwareApplicationSchema({
+    id: `${homeUrl}#app`,
     name: 'Brat Generator',
-    alternateName: 'brat.generator',
-    url: `${siteConfig.url}/`,
-    description: metadata.description,
-    inLanguage: 'en-GB',
-    publisher: organizationEntity,
-    hasPart: toolCards.slice(0, 5).map(([url, name]) => ({ '@type': 'WebPage', name, url: `${siteConfig.url}${url}` })),
-  };
-
-  const appSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    '@id': `${siteConfig.url}/#app`,
-    name: 'Brat Generator',
-    url: `${siteConfig.url}/`,
+    url: homeUrl,
     applicationCategory: 'DesignApplication',
-    operatingSystem: 'Any',
     browserRequirements: 'Requires a modern web browser with HTML5 Canvas support',
     description: 'A free browser-based generator for Brat-inspired text, cover art, memes, and social graphics.',
-    provider: organizationEntity,
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    isAccessibleForFree: true,
     featureList: [
       'Real-time preview',
       'Custom background and text colours',
@@ -120,11 +103,20 @@ export default function Home() {
       'PNG, JPG and WebP downloads',
       'No watermark',
     ],
-  };
+  });
+  const pageSchema = webPageSchema({
+    url: homeUrl,
+    name: 'Brat Generator Free Brat Text & Album Cover Maker',
+    description: metadata.description,
+    dateModified: '2026-09-25',
+    mainEntity: { '@id': `${homeUrl}#app` },
+    includeBreadcrumb: false,
+  });
+  const faqSchema = faqPageSchema(faqs, homeUrl);
 
   return (
     <>
-      <JsonLd data={[websiteSchema, appSchema, organizationSchema]} />
+      <JsonLd data={[websiteSchema, organizationSchema, pageSchema, appSchema, faqSchema]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
@@ -164,6 +156,32 @@ export default function Home() {
               <h2>What Is a <span className="text-brat">Brat Generator?</span></h2>
               <p>A Brat generator turns a word or phrase into a graphic inspired by the lime-green, lowercase, slightly blurred visual style associated with Charli XCX’s <em>Brat</em> album. Type your text, choose colours, adjust the blur and spacing, and watch the result update immediately.</p>
               <p>This free Brat generator runs in your browser with no signup and no watermark. The current design canvas is processed locally, so your text and generated image do not need to be uploaded to a server.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-card" id="how-to">
+          <div className="container container-wide">
+            <div className="section-heading reveal">
+              <p className="eyebrow">Tutorial</p>
+              <h2 className="single-line-heading">How to Use the <span className="text-brat">Brat Generator</span></h2>
+              <p>Making a Brat-style graphic is simple. Here is the quick four-step workflow.</p>
+            </div>
+            <div className="card-grid four">
+              {steps.map(([number, title, body], i) => (
+                <div className={`reveal reveal-delay-${i}`} key={number}>
+                  <article className="glass step-card hover-lift">
+                    <HowToImage
+                      className="step-image"
+                      src={`/images/how-to/main-step-${i + 1}.webp`}
+                      alt={`Brat Generator: ${title} step screenshot`}
+                      width={124}
+                      height={124}
+                    />
+                    <h3>{title}</h3><p>{body}</p>
+                  </article>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -217,23 +235,6 @@ export default function Home() {
                   <p>{body}</p>
                   <Link className="text-link" href={href}>Open {title} →</Link>
                 </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-card" id="how-to">
-          <div className="container container-wide">
-            <div className="section-heading reveal">
-              <p className="eyebrow">Tutorial</p>
-              <h2 className="single-line-heading">How to Use the <span className="text-brat">Brat Generator</span></h2>
-              <p>Making a Brat-style graphic is simple. Here is the quick four-step workflow.</p>
-            </div>
-            <div className="card-grid four">
-              {steps.map(([number, title, body], i) => (
-                <div className={`reveal reveal-delay-${i}`} key={number}>
-                  <article className="glass step-card hover-lift"><div className="step-number">{number}</div><h3>{title}</h3><p>{body}</p></article>
-                </div>
               ))}
             </div>
           </div>

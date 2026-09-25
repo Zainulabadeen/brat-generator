@@ -7,7 +7,7 @@ import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { siteConfig } from '@/lib/site';
-import { organizationEntity } from '@/lib/schema';
+import { breadcrumbSchema, organizationEntity, organizationRef, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Not Working? Common Problems & Quick Fixes' },
@@ -59,23 +59,31 @@ const fixes = [
 ];
 
 export default function TroubleshootingGuidePage() {
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog/` },
-      { '@type': 'ListItem', position: 3, name: 'Brat Generator Not Working?', item: `${siteConfig.url}/blog/brat-generator-not-working/` },
-    ],
-  };
+  const canonical = `${siteConfig.url}/blog/brat-generator-not-working/`;
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Home', url: `${siteConfig.url}/` },
+    { name: 'Blog', url: `${siteConfig.url}/blog/` },
+    { name: 'Brat Generator Not Working?', url: canonical },
+  ]);
+
+
+  const pageSchema = webPageSchema({
+    url: canonical,
+    name: 'Brat Generator Not Working? Common Problems & Quick Fixes',
+    description: metadata.description,
+    dateModified: '2026-09-23',
+    mainEntity: { '@id': `${canonical}#article` },
+  });
 
   const article = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
+    '@id': `${canonical}#article`,
     headline: 'Brat Generator Not Working? Common Problems & Quick Fixes',
     description: metadata.description,
-    url: `${siteConfig.url}/blog/brat-generator-not-working/`,
-    mainEntityOfPage: `${siteConfig.url}/blog/brat-generator-not-working/`,
+    url: canonical,
+    mainEntityOfPage: { '@id': `${canonical}#webpage` },
+    inLanguage: 'en-GB',
     image: {
       '@type': 'ImageObject',
       url: `${siteConfig.url}/og-image.png`,
@@ -86,12 +94,12 @@ export default function TroubleshootingGuidePage() {
     datePublished: '2026-09-07T00:00:00+05:00',
     dateModified: '2026-09-23T00:00:00+05:00',
     author: organizationEntity,
-    publisher: organizationEntity,
+    publisher: organizationRef,
   };
 
   return (
     <>
-      <JsonLd data={[breadcrumb, article]} />
+      <JsonLd data={[breadcrumb, pageSchema, article]} />
       <RevealSetup />
       <SiteHeader />
       <main id="main-content">
