@@ -30,7 +30,7 @@ export default function SiteFooter() {
             <p className="footer-heading">Explore</p>
             <Link href={pageLinks.features}>Features</Link>
             <Link href={pageLinks.styles}>Brat Styles</Link>
-            <Link href={pageLinks.blog}>Blog</Link>
+            <Link href={pageLinks.help}>Help</Link>
             <Link href={pageLinks.faq}>FAQ</Link>
             <Link href={pageLinks.about}>About</Link>
           </div>

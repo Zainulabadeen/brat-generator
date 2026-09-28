@@ -132,7 +132,7 @@ export default function Page() {
     ]}
     faqIntro="Answers about cover size, background images, typography controls and export formats before you publish or continue editing."
     links={[
-      ['Read the Brat album cover guide', '/blog/how-to-make-a-brat-album-cover-free/'],
+      ['Read the Brat album cover guide', '/help/how-to-make-a-brat-album-cover-free/'],
       ['Try Brat Image Generator', '/brat-image-generator/'],
       ['Explore Brat Styles', '/brat-styles/'],
     ]}

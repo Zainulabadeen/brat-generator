@@ -47,7 +47,7 @@ export default function DetailedHowTo({ id, toolName, intro, steps }: DetailedHo
 
         <div className="detailed-howto-list">
           {steps.map((step, index) => (
-            <article className="glass detailed-howto-step reveal" key={step.title}>
+            <article className={`glass detailed-howto-step reveal ${index % 2 ? 'is-reverse' : ''}`} key={step.title}>
               <div className="detailed-howto-copy">
                 <p className="guide-kicker">Step {index + 1}</p>
                 <h3>{step.title}</h3>

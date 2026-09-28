@@ -2151,6 +2151,11 @@ main > .section{
   padding:38px 52px;
   border-radius:24px;
 }
+.detailed-howto-step.is-reverse{
+  grid-template-columns:minmax(240px,.55fr) minmax(0,1.65fr);
+}
+.detailed-howto-step.is-reverse .detailed-howto-media{order:1}
+.detailed-howto-step.is-reverse .detailed-howto-copy{order:2}
 .detailed-howto-media{
   display:flex;
   flex-direction:column;
@@ -2297,17 +2302,21 @@ main > .section{
     gap:30px;
     padding:30px;
   }
+  .detailed-howto-step.is-reverse{grid-template-columns:minmax(220px,.55fr) minmax(0,1.45fr)}
     .detailed-howto-media .guide-step-image{width:min(100%, 270px);max-width:270px}
   .tool-guide-detail-grid{grid-template-columns:1fr}
   .tool-guide-detail-card{min-height:0}
 }
 
 @media (max-width:700px){
-  .detailed-howto-step{
+  .detailed-howto-step,
+  .detailed-howto-step.is-reverse{
     grid-template-columns:1fr;
     gap:24px;
     padding:24px 20px;
   }
+  .detailed-howto-step.is-reverse .detailed-howto-copy{order:1}
+  .detailed-howto-step.is-reverse .detailed-howto-media{order:2}
     .detailed-howto-media .guide-step-image{width:min(100%, 245px);max-width:245px}
   .detailed-howto-copy .guide-kicker,
   .detailed-howto-copy h3,
@@ -2317,4 +2326,37 @@ main > .section{
   .detailed-howto-tip{text-align:left}
   .tool-guide-detail-section{padding-top:76px}
   .tool-guide-detail-card{padding:24px}
+}
+
+/* September 28, 2026: Help hub + in-article table of contents. */
+.help-hub-page .inner-hero-copy{max-width:800px}
+.help-hub-simple .inner-hero{padding-bottom:76px}
+.help-guides-section{padding-top:72px;padding-bottom:104px}
+.help-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;max-width:1040px;margin:0 auto}
+.help-guide-card{padding:18px 18px 22px}
+.help-guide-card .blog-card-art{display:grid;text-decoration:none}
+.help-guide-card .blog-card-art:focus-visible{outline:3px solid rgba(138,206,0,.5);outline-offset:4px}
+
+.help-article-single{width:100%;margin:0 auto}
+.help-article-single > .section{scroll-margin-top:96px}
+
+.article-visual-split{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,.65fr);gap:46px;align-items:center}
+.article-visual-split-single{grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr)}
+.article-inline-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.article-inline-figure{margin:0;padding:12px;border-radius:20px;text-align:center}
+.article-inline-figure img{display:block;width:100%;height:auto;max-height:470px;object-fit:contain;border-radius:15px;background:#f8f8f5}
+.article-inline-figure figcaption{padding:10px 6px 2px;color:#74747c;font-size:11px;line-height:1.45}
+.article-visual-split-single .article-inline-figure{max-width:340px;justify-self:center}
+.troubleshooting-tool-grid .info-card{height:100%}
+.troubleshooting-tool-grid .text-link{display:inline-block;margin-top:12px}
+
+@media (max-width:900px){
+  .article-visual-split,.article-visual-split-single{grid-template-columns:1fr;gap:28px}
+  .article-inline-images{max-width:620px;margin:0 auto}
+  .article-visual-split-single .article-inline-figure{max-width:360px}
+}
+@media (max-width:700px){
+  .help-guide-grid{grid-template-columns:1fr}
+  .help-guides-section{padding-top:58px;padding-bottom:78px}
+  .article-inline-images{grid-template-columns:1fr;max-width:340px}
 }

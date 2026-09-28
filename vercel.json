@@ -13,6 +13,36 @@
       "statusCode": 301
     },
     {
+      "source": "/blog",
+      "destination": "/help/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/",
+      "destination": "/help/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-make-a-brat-album-cover-free",
+      "destination": "/help/how-to-make-a-brat-album-cover-free/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-make-a-brat-album-cover-free/",
+      "destination": "/help/how-to-make-a-brat-album-cover-free/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/brat-generator-not-working",
+      "destination": "/help/brat-generator-not-working/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/brat-generator-not-working/",
+      "destination": "/help/brat-generator-not-working/",
+      "statusCode": 301
+    },
+    {
       "source": "/brat-text-generator",
       "destination": "/",
       "statusCode": 301
@@ -69,12 +99,12 @@
     },
     {
       "source": "/how-to-make-a-brat-album-cover",
-      "destination": "/blog/how-to-make-a-brat-album-cover-free/",
+      "destination": "/help/how-to-make-a-brat-album-cover-free/",
       "statusCode": 301
     },
     {
       "source": "/blog/how-to-make-a-brat-album-cover",
-      "destination": "/blog/how-to-make-a-brat-album-cover-free/",
+      "destination": "/help/how-to-make-a-brat-album-cover-free/",
       "statusCode": 301
     }
   ],

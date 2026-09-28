@@ -1,4 +1,10 @@
+
 RewriteEngine On
+
+# Migrate the old Blog URLs to the Help section.
+RewriteRule ^blog/?$ /help/ [R=301,L]
+RewriteRule ^blog/how-to-make-a-brat-album-cover-free/?$ /help/how-to-make-a-brat-album-cover-free/ [R=301,L]
+RewriteRule ^blog/brat-generator-not-working/?$ /help/brat-generator-not-working/ [R=301,L]
 
 # Force HTTPS and the preferred non-www hostname.
 RewriteCond %{HTTPS} !=on [OR]
@@ -15,8 +21,8 @@ RewriteRule ^styles/?$ /brat-styles/ [R=301,L]
 RewriteRule ^features/?$ /#features [R=301,L]
 RewriteRule ^key-features/?$ /#features [R=301,L]
 RewriteRule ^brat-generator-features/?$ /#features [R=301,L]
-RewriteRule ^how-to-make-a-brat-album-cover/?$ /blog/how-to-make-a-brat-album-cover-free/ [R=301,L]
-RewriteRule ^blog/how-to-make-a-brat-album-cover/?$ /blog/how-to-make-a-brat-album-cover-free/ [R=301,L]
+RewriteRule ^how-to-make-a-brat-album-cover/?$ /help/how-to-make-a-brat-album-cover-free/ [R=301,L]
+RewriteRule ^blog/how-to-make-a-brat-album-cover/?$ /help/how-to-make-a-brat-album-cover-free/ [R=301,L]
 
 # Serve the Next.js static export cleanly on Apache/cPanel.
 DirectoryIndex index.html

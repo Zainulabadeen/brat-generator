@@ -17,7 +17,7 @@ export default function SiteHeader() {
     ['Brat Image Generator', pageLinks.imageGenerator],
     ['Brat Album Cover Generator', pageLinks.albumGenerator],
     ['Brat Styles', pageLinks.styles],
-    ['Help', pageLinks.blog],
+    ['Help', pageLinks.help],
   ] as const;
 
   useEffect(() => {

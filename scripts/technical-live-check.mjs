@@ -6,9 +6,9 @@ const required = [
   '/brat-image-generator/',
   '/brat-album-cover-generator/',
   '/brat-styles/',
-  '/blog/',
-  '/blog/how-to-make-a-brat-album-cover-free/',
-  '/blog/brat-generator-not-working/',
+  '/help/',
+  '/help/how-to-make-a-brat-album-cover-free/',
+  '/help/brat-generator-not-working/',
   '/about/',
   '/contact/',
   '/privacy-policy/',
@@ -81,7 +81,7 @@ expect(Boolean(robots?.status === 200 && robotsText.includes(`Sitemap: ${base}/s
 const sitemap = await get(`${base}/sitemap.xml`);
 const sitemapText = sitemap ? await sitemap.text() : '';
 expect(Boolean(sitemap?.status === 200 && required.every((route) => sitemapText.includes(`<loc>${base}${route}</loc>`))), 'live sitemap contains every required indexable URL');
-for (const retired of ['/brat-text-generator/', '/brat-font-generator/', '/how-to-use/', '/features/']) {
+for (const retired of ['/brat-text-generator/', '/brat-font-generator/', '/how-to-use/', '/features/', '/blog/', '/blog/how-to-make-a-brat-album-cover-free/', '/blog/brat-generator-not-working/']) {
   expect(!sitemapText.includes(`<loc>${base}${retired}</loc>`), `live sitemap excludes retired ${retired}`);
 }
 
@@ -99,6 +99,15 @@ expect(missing?.status === 404, `random missing URL returns a real 404 (received
 for (const retired of ['/brat-text-generator/', '/brat-font-generator/', '/how-to-use/']) {
   const response = await get(`${base}${retired}`);
   expect(Boolean(response && [301, 302, 307, 308].includes(response.status)), `${retired} redirects instead of returning an indexable duplicate`);
+}
+for (const [oldRoute, newRoute] of [
+  ['/blog/', '/help/'],
+  ['/blog/how-to-make-a-brat-album-cover-free/', '/help/how-to-make-a-brat-album-cover-free/'],
+  ['/blog/brat-generator-not-working/', '/help/brat-generator-not-working/'],
+]) {
+  const response = await get(`${base}${oldRoute}`);
+  const location = response?.headers.get('location') || '';
+  expect(Boolean(response && [301, 302, 307, 308].includes(response.status) && new URL(location, base).pathname === newRoute), `${oldRoute} redirects to ${newRoute}`);
 }
 
 console.log(`\nResult: ${failures ? 'FAIL' : 'PASS'} — ${failures} failure(s).`);

@@ -16,16 +16,16 @@ const expected = [
   ['/brat-image-generator/', 'app/brat-image-generator/page.tsx'],
   ['/brat-album-cover-generator/', 'app/brat-album-cover-generator/page.tsx'],
   ['/brat-styles/', 'app/brat-styles/page.tsx'],
-  ['/blog/', 'app/blog/page.tsx'],
-  ['/blog/how-to-make-a-brat-album-cover-free/', 'app/blog/how-to-make-a-brat-album-cover-free/page.tsx'],
-  ['/blog/brat-generator-not-working/', 'app/blog/brat-generator-not-working/page.tsx'],
+  ['/help/', 'app/help/page.tsx'],
+  ['/help/how-to-make-a-brat-album-cover-free/', 'app/help/how-to-make-a-brat-album-cover-free/page.tsx'],
+  ['/help/brat-generator-not-working/', 'app/help/brat-generator-not-working/page.tsx'],
   ['/about/', 'app/about/page.tsx'],
   ['/contact/', 'app/contact/page.tsx'],
   ['/privacy-policy/', 'app/privacy-policy/page.tsx'],
   ['/terms/', 'app/terms/page.tsx'],
 ];
 
-const retired = ['/how-to-use/', '/brat-text-generator/', '/brat-font-generator/', '/features/'];
+const retired = ['/how-to-use/', '/brat-text-generator/', '/brat-font-generator/', '/features/', '/blog/', '/blog/how-to-make-a-brat-album-cover-free/', '/blog/brat-generator-not-working/'];
 
 console.log('\nTECHNICAL + SOURCE SEO CHECK\n');
 
@@ -80,11 +80,15 @@ for (const route of ['/', '/video-generator/', '/brat-meme-generator/', '/brat-i
   const entry = sitemapEntries.find((item) => new URL(item.loc).pathname === route);
   expect(entry?.lastmod === '2026-09-25', `${route} sitemap lastmod reflects the current tool update`);
 }
+for (const route of ['/help/', '/help/how-to-make-a-brat-album-cover-free/', '/help/brat-generator-not-working/']) {
+  const entry = sitemapEntries.find((item) => new URL(item.loc).pathname === route);
+  expect(entry?.lastmod === '2026-09-28', `${route} sitemap lastmod reflects the Help migration`);
+}
 expect(!/<priority>|<changefreq>/i.test(sitemap), 'sitemap omits ignored priority/changefreq hints');
 
 const sitemapIndex = file('public/sitemap_index.xml');
 expect(sitemapIndex.includes('https://bratgeneratorpro.net/sitemap.xml'), 'sitemap_index.xml points to canonical sitemap.xml');
-expect(sitemapIndex.includes('<lastmod>2026-09-25</lastmod>'), 'sitemap_index.xml lastmod is current');
+expect(sitemapIndex.includes('<lastmod>2026-09-28</lastmod>'), 'sitemap_index.xml lastmod reflects the current Help migration');
 
 // Robots and llms discovery files.
 const robots = file('public/robots.txt');
@@ -101,7 +105,7 @@ expect(llms.includes('Canonical website: https://bratgeneratorpro.net/'), 'llms.
 for (const heading of ['## Core tools', '## Styles', '## Tutorials and guides', '## Site information', '## Technical discovery']) {
   expect(llms.includes(heading), `llms.txt includes ${heading.replace('## ', '')}`);
 }
-for (const route of ['/video-generator/', '/brat-meme-generator/', '/brat-image-generator/', '/brat-album-cover-generator/', '/brat-styles/', '/blog/', '/about/', '/contact/', '/privacy-policy/', '/terms/']) {
+for (const route of ['/video-generator/', '/brat-meme-generator/', '/brat-image-generator/', '/brat-album-cover-generator/', '/brat-styles/', '/help/', '/about/', '/contact/', '/privacy-policy/', '/terms/']) {
   expect(llms.includes(`https://bratgeneratorpro.net${route}`), `llms.txt references ${route}`);
 }
 expect(llms.includes('independent fan-made project'), 'llms.txt preserves the independent/non-affiliation context');
@@ -143,10 +147,10 @@ expect(file('app/brat-styles/page.tsx').includes("type: 'CollectionPage'") && fi
 expect(file('app/about/page.tsx').includes("type: 'AboutPage'"), 'About page uses AboutPage schema');
 expect(file('app/contact/page.tsx').includes("type: 'ContactPage'"), 'Contact page uses ContactPage schema');
 expect(file('app/privacy-policy/page.tsx').includes('webPageSchema') && file('app/terms/page.tsx').includes('webPageSchema'), 'legal pages use shared WebPage schema');
-expect(file('app/blog/page.tsx').includes("type: 'CollectionPage'") && file('app/blog/page.tsx').includes("'@type': 'Blog'"), 'blog hub uses CollectionPage + Blog schema');
-for (const post of ['app/blog/how-to-make-a-brat-album-cover-free/page.tsx', 'app/blog/brat-generator-not-working/page.tsx']) {
+expect(file('app/help/page.tsx').includes("type: 'CollectionPage'") && file('app/help/page.tsx').includes("'@type': 'ItemList'"), 'help hub uses CollectionPage + ItemList schema');
+for (const post of ['app/help/how-to-make-a-brat-album-cover-free/page.tsx', 'app/help/brat-generator-not-working/page.tsx']) {
   const text = file(post);
-  expect(text.includes("'@type': 'BlogPosting'") && text.includes('webPageSchema') && text.includes('breadcrumbSchema'), `${post} uses BlogPosting + WebPage + Breadcrumb schema`);
+  expect(text.includes("'@type': 'Article'") && text.includes('webPageSchema') && text.includes('breadcrumbSchema'), `${post} uses Article + WebPage + Breadcrumb schema`);
 }
 
 // Redirects, host normalization and security headers.
@@ -154,6 +158,13 @@ const vercel = JSON.parse(file('vercel.json'));
 const redirects = vercel.redirects || [];
 for (const oldPath of ['/brat-text-generator', '/brat-font-generator', '/how-to', '/how-to-use', '/styles', '/features', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover']) {
   expect(redirects.some((r) => r.source === oldPath || r.source === `${oldPath}/`), `Vercel has redirect for ${oldPath}`);
+}
+for (const [source, destination] of [
+  ['/blog', '/help/'],
+  ['/blog/how-to-make-a-brat-album-cover-free', '/help/how-to-make-a-brat-album-cover-free/'],
+  ['/blog/brat-generator-not-working', '/help/brat-generator-not-working/'],
+]) {
+  expect(redirects.some((r) => (r.source === source || r.source === `${source}/`) && r.destination === destination && r.statusCode === 301), `Vercel permanently redirects ${source} to Help`);
 }
 expect(redirects.some((r) => r.has?.some((h) => h.type === 'host' && h.value === 'www.bratgeneratorpro.net') && r.destination?.startsWith('https://bratgeneratorpro.net/')), 'Vercel enforces preferred non-www canonical host');
 expect(vercel.trailingSlash === true, 'Vercel normalizes page URLs with trailing slashes');
@@ -194,6 +205,19 @@ for (const prefix of ['main', 'meme', 'image', 'album', 'video']) {
     expect(exists(`public/images/how-to/${prefix}-step-${step}.webp`), `${prefix} how-to step ${step} WebP exists`);
   }
 }
+for (const rel of ['app/help/brat-generator-not-working/page.tsx', 'app/help/how-to-make-a-brat-album-cover-free/page.tsx']) {
+  const articleSource = file(rel);
+  expect(!articleSource.includes('ArticleTableOfContents') && !articleSource.includes('HelpSidebar'), `${rel} keeps the simple full-width article layout without TOC or sidebar`);
+  expect(!articleSource.includes('ArticleTableOfContents') && !articleSource.includes('HelpSidebar') && !articleSource.includes('faqPageSchema'), `${rel} preserves the original simple article body without TOC, sidebar, or added FAQ block`);
+}
+for (const [rel, destination] of [
+  ['app/blog/page.tsx', '/help/'],
+  ['app/blog/how-to-make-a-brat-album-cover-free/page.tsx', '/help/how-to-make-a-brat-album-cover-free/'],
+  ['app/blog/brat-generator-not-working/page.tsx', '/help/brat-generator-not-working/'],
+]) {
+  const source = file(rel);
+  expect(source.includes('permanentRedirect') && source.includes(`'${destination}'`), `${rel} redirects to the matching Help URL`);
+}
 const howToImage = file('components/HowToImage.tsx');
 const detailedHowTo = file('components/DetailedHowTo.tsx');
 expect(
@@ -206,9 +230,14 @@ expect(
 expect(
   detailedHowTo.includes('detailed-howto-copy')
     && detailedHowTo.includes('detailed-howto-media')
-    && detailedHowTo.indexOf('detailed-howto-copy') < detailedHowTo.indexOf('detailed-howto-media')
-    && !detailedHowTo.includes('is-reverse'),
-  'how-to steps keep content on the left and images on the right',
+    && detailedHowTo.includes("index % 2 ? 'is-reverse' : ''"),
+  'how-to steps alternate image placement while preserving the same mockup treatment',
+);
+expect(
+  !file('app/help/page.tsx').includes('help-start-section')
+    && !file('app/help/page.tsx').includes('help-topics-section')
+    && file('app/help/page.tsx').includes('help-guide-grid'),
+  'Help hub stays focused on the article grid without extra navigation sections',
 );
 expect(home.indexOf('id="how-to"') > -1 && home.indexOf('id="how-to"') < home.indexOf('Global Trend'), 'homepage How to Use section remains below About and above Global Trend');
 expect(!toolShell.includes('tool-related-links') && !video.includes('Related Tools') && !video.includes('Keep Creating with'), 'dedicated tool pages still omit the removed Related Tools block');

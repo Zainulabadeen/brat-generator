@@ -147,7 +147,7 @@ export default function BratStylesPage() {
               <article className="glass info-card reveal glow-electric hover-lift"><div className="emoji">🎨</div><h3>Custom Colours</h3><p>Match playlists, memes, wallpapers, profile pictures and social posts to your own palette instead of using a preset.</p></article>
               <article className="glass info-card reveal glow-brat hover-lift"><div className="emoji">💿</div><h3>Music Artwork</h3><p>Use any style as a starting point for cover concepts, then build a complete square artwork in the album cover workflow.</p></article>
             </div>
-            <div className="tool-related-links reveal"><Link className="text-link" href="/blog/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
+            <div className="tool-related-links reveal"><Link className="text-link" href="/help/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
           </div>
         </section>
 
@@ -172,7 +172,7 @@ export default function BratStylesPage() {
         <RelatedPages items={[
           { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Apply any of these colour styles to your own text and download the result.', accent: 'green' },
           { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use the Brat Generator', description: 'Follow the quick homepage workflow for text, blur, sizing and export.', accent: 'blue' },
-          { href: '/blog/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
+          { href: '/help/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
         ]} />
 
       </main>

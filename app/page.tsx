@@ -337,7 +337,7 @@ export default function Home() {
 
         <section className="section">
           <div className="container container-wide">
-            <div className="section-heading reveal"><p className="eyebrow">Content Ideas</p><h2 className="single-line-heading">What Can You <span className="text-pink">Create?</span></h2><p>The same Brat text generator style can work across personal artwork, memes, playlists, profile graphics, and social media. If you want to build music artwork from scratch, the <Link className="inline-source-link" href="/blog/how-to-make-a-brat-album-cover-free/">Brat album cover guide</Link> walks through the full cover workflow.</p></div>
+            <div className="section-heading reveal"><p className="eyebrow">Content Ideas</p><h2 className="single-line-heading">What Can You <span className="text-pink">Create?</span></h2><p>The same Brat text generator style can work across personal artwork, memes, playlists, profile graphics, and social media. If you want to build music artwork from scratch, the <Link className="inline-source-link" href="/help/how-to-make-a-brat-album-cover-free/">Brat album cover guide</Link> walks through the full cover workflow.</p></div>
             <div className="ideas-grid">
               {ideas.map(([icon, title, body], i) => <article className={`glass idea-card reveal reveal-delay-${i % 2}`} key={title}><div className="emoji">{icon}</div><div><h3>{title}</h3><p>{body}</p></div></article>)}
             </div>
@@ -346,7 +346,7 @@ export default function Home() {
 
         <section className="section section-card" id="faq">
           <div className="container container-faq">
-            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Frequently Asked <span className="text-brat">Questions</span></h2><p>Clear answers to the most common Brat Generator questions. If you run into a download, blur, text-fitting or browser issue, the <Link className="inline-source-link" href="/blog/brat-generator-not-working/">Common Problems &amp; Quick Fixes guide</Link> covers the practical fixes.</p></div>
+            <div className="section-heading reveal"><p className="eyebrow">FAQ</p><h2>Frequently Asked <span className="text-brat">Questions</span></h2><p>Clear answers to the most common Brat Generator questions. If you run into a download, blur, text-fitting or browser issue, the <Link className="inline-source-link" href="/help/brat-generator-not-working/">Common Problems &amp; Quick Fixes guide</Link> covers the practical fixes.</p></div>
             <div className="accordion-list">
               {faqs.map(([q, a]) => <details className="glass accordion compact reveal" key={q}><summary>{q}<span>⌄</span></summary><p>{a}</p></details>)}
             </div>

@@ -7,7 +7,7 @@ type RelatedPostsProps = {
 const blogPosts = [
   {
     slug: 'how-to-make-a-brat-album-cover-free',
-    href: '/blog/how-to-make-a-brat-album-cover-free/',
+    href: '/help/how-to-make-a-brat-album-cover-free/',
     eyebrow: 'Album Cover Guide',
     title: 'How to Make a Brat Album Cover Free',
     description: 'Learn the Brat-inspired colour, typography, blur, sizing, and four-step workflow for creating an album cover in your browser.',
@@ -15,7 +15,7 @@ const blogPosts = [
   },
   {
     slug: 'brat-generator-not-working',
-    href: '/blog/brat-generator-not-working/',
+    href: '/help/brat-generator-not-working/',
     eyebrow: 'Troubleshooting',
     title: 'Brat Generator Not Working? Common Problems & Quick Fixes',
     description: 'Fix download issues, excessive blur, clipped text, colour differences, and confusing mobile download locations with a simple step-by-step checklist.',

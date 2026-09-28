@@ -6,9 +6,9 @@ const required = [
   '/brat-image-generator/',
   '/brat-album-cover-generator/',
   '/brat-styles/',
-  '/blog/',
-  '/blog/how-to-make-a-brat-album-cover-free/',
-  '/blog/brat-generator-not-working/',
+  '/help/',
+  '/help/how-to-make-a-brat-album-cover-free/',
+  '/help/brat-generator-not-working/',
   '/about/',
   '/contact/',
   '/privacy-policy/',
@@ -73,6 +73,16 @@ try {
   const llms = await fetch(`${base}/llms.txt`);
   const llmsText = await llms.text();
   expect(llms.status === 200 && llmsText.includes('# Brat Generator') && llmsText.includes(`${base}/video-generator/`), 'llms.txt returns current discovery information');
+
+  for (const [oldRoute, newRoute] of [
+    ['/blog/', '/help/'],
+    ['/blog/how-to-make-a-brat-album-cover-free/', '/help/how-to-make-a-brat-album-cover-free/'],
+    ['/blog/brat-generator-not-working/', '/help/brat-generator-not-working/'],
+  ]) {
+    const oldResponse = await fetchManual(`${base}${oldRoute}`);
+    const location = oldResponse.headers.get('location') || '';
+    expect([301, 302, 307, 308].includes(oldResponse.status) && new URL(location, base).pathname === newRoute, `${oldRoute} redirects to ${newRoute}`, `status ${oldResponse.status}`);
+  }
 
   const missing = await fetch(`${base}/technical-check-this-url-should-404-92731/`, { redirect: 'manual' });
   expect(missing.status === 404, 'unknown URL returns a real 404 status', `status ${missing.status}`);
