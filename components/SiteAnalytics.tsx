@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Script from 'next/script';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -48,7 +49,7 @@ export default function SiteAnalytics() {
         <div className="consent-banner" role="dialog" aria-label="Analytics consent" aria-live="polite">
           <div>
             <strong>Optional analytics</strong>
-            <p>We only load Google Analytics if you choose Accept. The Brat generator itself works without analytics.</p>
+            <p>We only load Google Analytics if you choose Accept. The Brat generator itself works without analytics. Read the <Link href="/cookies/">Cookie Policy</Link>.</p>
           </div>
           <div className="consent-actions">
             <button type="button" className="consent-secondary" onClick={() => choose('declined')}>Decline</button>

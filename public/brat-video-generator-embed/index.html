@@ -27,8 +27,8 @@
     <!-- 2. TABS & UTILITY BAR -->
     <div class="bvg-tabbar">
       <div class="bvg-tabs" role="tablist" aria-label="View">
-        <button class="bvg-tab is-active" type="button" data-view="lyrics">📝 Lyrics</button>
-        <button class="bvg-tab" type="button" data-view="preview">👥 Preview</button>
+        <button class="bvg-tab is-active" type="button" data-view="lyrics"><svg class="bvg-ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 11h6M9 15h6M9 7h3"></path></svg><span>Lyrics</span></button>
+        <button class="bvg-tab" type="button" data-view="preview"><svg class="bvg-ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path><circle cx="12" cy="12" r="2.5"></circle></svg><span>Preview</span></button>
       </div>
       <button class="bvg-fullscreen" type="button" title="Toggle fullscreen" aria-label="Toggle fullscreen">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -56,8 +56,15 @@
 
       <!-- 4. ACTION DIVIDER BUTTON -->
       <button class="bvg-btn bvg-btn--divider" type="button" id="bvg-make-sets">
-        ⬇️⬇️⬇️ Create Sets from Lyrics ⬇️⬇️⬇️
+        <svg class="bvg-ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v12"></path><path d="m7 12 5 5 5-5"></path></svg>
+        <span>Create Sets from Lyrics</span>
       </button>
+
+      <div class="bvg-timing-panel" id="bvg-timing-panel" hidden>
+        <div class="bvg-timing-head"><strong>Line Timing</strong><span id="bvg-total-time">0.0s total</span></div>
+        <div class="bvg-timing-list" id="bvg-timing-list"></div>
+        <p class="bvg-timing-note">Durations act as relative timing weights. Give important lines more time and transitions less.</p>
+      </div>
 
       <!-- 5. AUDIO UPLOAD DROPZONE -->
       <div class="bvg-dropzone" id="bvg-dropzone" tabindex="0" role="button" aria-label="Upload audio file">
@@ -67,13 +74,19 @@
         <div class="bvg-dropzone-sub" id="bvg-dropzone-sub">or click to browse</div>
       </div>
 
+      <div class="bvg-audio-trim" id="bvg-audio-trim" hidden>
+        <strong>Audio Trim</strong>
+        <label>Start (s)<input type="number" id="bvg-audio-start" min="0" step="0.1" value="0" /></label>
+        <label>End (s)<input type="number" id="bvg-audio-end" min="0" step="0.1" placeholder="End of file" /></label>
+      </div>
+
       <!-- 6. OUTPUT FORMAT TABS -->
       <div class="bvg-formats" role="tablist" aria-label="Output format">
         <button class="bvg-format is-active" type="button" data-format="video" id="bvg-video-format">Video</button>
         <button class="bvg-format" type="button" data-format="gif">GIF</button>
         <button class="bvg-format" type="button" data-format="frames">Frames</button>
       </div>
-      <p class="bvg-export-note" id="bvg-export-note">Video export uses the best format supported by your browser. GIF and frame exports are silent.</p>
+      <p class="bvg-export-note" id="bvg-export-note">Video export uses the best format supported by your browser. GIF and Frames are silent and intended for short clips (up to about 12 seconds).</p>
 
       <!-- 7. SETTINGS & EXPORT PANEL -->
       <div class="bvg-settings">
@@ -176,6 +189,9 @@
   }
   #bvg-root .bvg-tab {
     appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: none;
     border: none;
     border-bottom: 3px solid transparent;
@@ -185,6 +201,11 @@
     color: #6b6b6b;
     cursor: pointer;
     transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  #bvg-root .bvg-ui-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
   }
   #bvg-root .bvg-tab:hover { color: #333; }
   #bvg-root .bvg-tab.is-active {
@@ -271,7 +292,10 @@
 
   /* ---- Divider action button ---- */
   #bvg-root .bvg-btn--divider {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
     background: var(--bvg-lime);
     padding: 12px 16px;
@@ -538,13 +562,22 @@
     var viewPanels        = root.querySelectorAll('[data-view-panel]');
     var formatTabs        = root.querySelectorAll('.bvg-format');
     var fullscreenBtn      = root.querySelector('.bvg-fullscreen');
+    var timingPanel = root.querySelector('#bvg-timing-panel');
+    var timingList = root.querySelector('#bvg-timing-list');
+    var totalTime = root.querySelector('#bvg-total-time');
+    var audioTrim = root.querySelector('#bvg-audio-trim');
+    var audioStart = root.querySelector('#bvg-audio-start');
+    var audioEnd = root.querySelector('#bvg-audio-end');
 
     var state = {
       hasAudio: false,
       hasLyrics: false,
       audioFile: null,
       format: 'video',
-      exporting: false
+      exporting: false,
+      lineDurations: [],
+      audioTrimStart: 0,
+      audioTrimEnd: null
     };
 
     var videoFormatTab = root.querySelector('#bvg-video-format');
@@ -569,8 +602,8 @@
     if (videoFormatTab) videoFormatTab.textContent = videoSpec ? videoSpec.label : 'Video';
     if (exportNote) {
       exportNote.textContent = videoSpec
-        ? ('Video exports as ' + videoSpec.label + ' in this browser. GIF and frame exports are silent.')
-        : 'This browser does not support in-browser video recording. GIF and frame exports are still available.';
+        ? ('Video exports as ' + videoSpec.label + ' in this browser. GIF and Frames are silent and capped at about 12 seconds; Frames contain up to 60 PNG images.')
+        : 'This browser does not support in-browser video recording. GIF and Frames are still available for short silent clips (up to about 12 seconds).';
     }
 
     // ---- Tab switching: Lyrics / Preview ----
@@ -635,14 +668,16 @@
         window.alert('Add some lyrics first.');
         return;
       }
-      var sets = lyricsTextarea.value.split(/\n\s*\n/).map(function (part) { return part.trim(); }).filter(Boolean);
-      window.alert('Created ' + sets.length + ' set(s) from your lyrics. Each non-empty line will animate during export.');
+      var lines = getLines();
+      buildTimingEditor();
+      window.alert('Created ' + lines.length + ' timed line set(s). Adjust each duration below, then preview or export.');
     });
 
     function onLyricsChanged() {
       state.hasLyrics = lyricsTextarea.value.trim().length > 0;
       syncPreview();
       updateExportReadiness();
+      if (timingPanel && !timingPanel.hidden) buildTimingEditor();
     }
     lyricsTextarea.addEventListener('input', onLyricsChanged);
 
@@ -679,6 +714,27 @@
       if (files && files.length) handleAudioFile(files[0]);
     });
 
+    function buildTimingEditor(){
+      var lines=getLines();
+      if(!lines.length){timingPanel.hidden=true;timingList.innerHTML='';return;}
+      while(state.lineDurations.length<lines.length) state.lineDurations.push(2);
+      state.lineDurations=state.lineDurations.slice(0,lines.length);
+      timingList.innerHTML='';
+      lines.forEach(function(line,index){
+        var row=document.createElement('label');row.className='bvg-timing-row';
+        var text=document.createElement('span');text.textContent=(index+1)+'. '+line;
+        var input=document.createElement('input');input.type='number';input.min='0.4';input.max='20';input.step='0.1';input.value=String(state.lineDurations[index]||2);input.setAttribute('aria-label','Duration for line '+(index+1));
+        input.addEventListener('input',function(){state.lineDurations[index]=Math.max(.4,parseFloat(input.value)||2);updateTimingTotal();});
+        row.appendChild(text);row.appendChild(input);timingList.appendChild(row);
+      });
+      timingPanel.hidden=false;updateTimingTotal();
+    }
+    function updateTimingTotal(){var sum=state.lineDurations.reduce(function(a,b){return a+(parseFloat(b)||0)},0);totalTime.textContent=sum.toFixed(1)+'s relative timing';}
+    function getTimingWeights(lines){while(state.lineDurations.length<lines.length) state.lineDurations.push(2);return state.lineDurations.slice(0,lines.length).map(function(v){return Math.max(.4,parseFloat(v)||2);});}
+    function activeLineIndex(seconds,duration,lines){var weights=getTimingWeights(lines),sum=weights.reduce(function(a,b){return a+b},0)||1,target=(seconds/Math.max(.001,duration))*sum,acc=0;for(var i=0;i<weights.length;i+=1){acc+=weights[i];if(target<acc)return i;}return Math.max(0,lines.length-1);}
+    audioStart.addEventListener('input',function(){state.audioTrimStart=Math.max(0,parseFloat(audioStart.value)||0);});
+    audioEnd.addEventListener('input',function(){var v=parseFloat(audioEnd.value);state.audioTrimEnd=Number.isFinite(v)&&v>0?v:null;});
+
     audioInput.addEventListener('change', function () {
       if (audioInput.files && audioInput.files.length) handleAudioFile(audioInput.files[0]);
     });
@@ -691,6 +747,7 @@
       }
       state.hasAudio = true;
       state.audioFile = file;
+      state.audioTrimStart=0;state.audioTrimEnd=null;audioStart.value='0';audioEnd.value='';audioTrim.hidden=false;
       dropzoneText.textContent = file.name;
       dropzoneSub.textContent = 'Loaded — video export will include this audio when the browser can decode it';
       updateExportReadiness();
@@ -754,7 +811,7 @@
       var w = canvas.width;
       var h = canvas.height;
       var progress = duration > 0 ? Math.max(0, Math.min(0.999999, seconds / duration)) : 0;
-      var lineIndex = Math.min(lines.length - 1, Math.floor(progress * lines.length));
+      var lineIndex = activeLineIndex(seconds,duration,lines);
       var localProgress = (progress * lines.length) - lineIndex;
       var phrase = (lines[lineIndex] || 'brat').toLowerCase();
       ctx.save();
@@ -847,11 +904,12 @@
       var canvasStream = canvas.captureStream(fps);
       var audioPack = null;
       var audioSource = null;
-      var duration = Math.max(4, lines.length * 2.2);
+      var weights=getTimingWeights(lines);
+      var duration = Math.max(2, weights.reduce(function(a,b){return a+b},0));
 
       if (state.audioFile) {
         audioPack = await decodeAudioFile(state.audioFile);
-        if (audioPack && audioPack.audioBuffer) duration = Math.max(0.25, audioPack.audioBuffer.duration);
+        if (audioPack && audioPack.audioBuffer) { var available=audioPack.audioBuffer.duration; var start=Math.min(state.audioTrimStart||0,Math.max(0,available-.1)); var end=state.audioTrimEnd?Math.min(state.audioTrimEnd,available):available; duration=Math.max(.25,end-start); }
         if (audioPack) {
           var destination = audioPack.audioContext.createMediaStreamDestination();
           audioSource = audioPack.audioContext.createBufferSource();
@@ -870,7 +928,7 @@
       recorder.addEventListener('dataavailable', function (event) { if (event.data && event.data.size) chunks.push(event.data); });
       var stopped = waitForRecorderStop(recorder);
       recorder.start(250);
-      if (audioSource) audioSource.start(0);
+      if (audioSource) { var trimStart=Math.max(0,state.audioTrimStart||0); try{audioSource.start(0,trimStart,duration);}catch(ignore){audioSource.start(0);} }
       var start = performance.now();
 
       await new Promise(function (resolve) {
@@ -944,7 +1002,7 @@
     async function exportGif(ui) {
       var fps = Math.max(6, Math.min(10, Math.round((parseInt(fpsSlider.value, 10) || 30) / 3)));
       var lines = getLines();
-      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var duration = Math.min(12, Math.max(2, getTimingWeights(lines).reduce(function(a,b){return a+b},0)));
       var frameCount = Math.max(1, Math.round(duration * fps));
       var canvas = createCanvas(320, 180);
       var ctx = canvas.getContext('2d', { alpha: false });
@@ -1033,7 +1091,7 @@
     async function exportFrames(ui) {
       var fps = Math.max(6, Math.min(12, parseInt(fpsSlider.value, 10) || 12));
       var lines = getLines();
-      var duration = Math.min(8, Math.max(3, lines.length * 1.5));
+      var duration = Math.min(12, Math.max(2, getTimingWeights(lines).reduce(function(a,b){return a+b},0)));
       var frameCount = Math.min(60, Math.max(12, Math.round(duration * fps)));
       var canvas = createCanvas(640, 360);
       var files = [];

@@ -1,0 +1,12 @@
+BRAT GENERATOR V18 — APPLY NOTES
+
+1. Extract this ZIP into the existing project root and replace matching files.
+2. Run: npm run cleanup:old-blog
+3. Run: npm run dev
+4. After visual review, stop dev server and run:
+   npm run technical:check
+   npx tsc --noEmit
+   npm run build
+   node scripts/prelive-check.mjs
+
+This update adds five new Help articles, clean one-column Table of Contents, image-led Related Posts sidebars, article visuals/tables, refreshed site SVG icons, natural internal links, and updated sitemap/LLMs/technical checks.

@@ -1,4 +1,5 @@
 import HowToImage from '@/components/HowToImage';
+import { HOW_TO_IMAGE_HEIGHT, HOW_TO_IMAGE_WIDTH } from '@/lib/tutorialImages';
 
 export type DetailedHowToStep = {
   title: string;
@@ -63,8 +64,8 @@ export default function DetailedHowTo({ id, toolName, intro, steps }: DetailedHo
                   className="guide-step-image"
                   src={step.image}
                   alt={step.alt}
-                  width={520}
-                  height={700}
+                  width={HOW_TO_IMAGE_WIDTH}
+                  height={HOW_TO_IMAGE_HEIGHT}
                 />
               </div>
             </article>

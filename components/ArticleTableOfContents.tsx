@@ -1,47 +1,63 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 
 type TocItem = {
   href: string;
   label: string;
-  note?: string;
 };
 
-type Props = {
-  items: readonly TocItem[];
-  title?: string;
-  description?: string;
-};
+export default function ArticleTableOfContents({ items }: { items: readonly TocItem[] }) {
+  const ids = useMemo(() => items.map((item) => item.href.replace(/^#/, '')), [items]);
+  const [activeHref, setActiveHref] = useState(items[0]?.href ?? '');
 
-export default function ArticleTableOfContents({
-  items,
-  title = 'On this page',
-  description = 'Jump straight to the part you need, or read from top to bottom.',
-}: Props) {
+  useEffect(() => {
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!sections.length) return;
+
+    const updateActive = () => {
+      const marker = Math.min(220, window.innerHeight * 0.28);
+      let current = sections[0].id;
+
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= marker) current = section.id;
+        else break;
+      }
+
+      setActiveHref(`#${current}`);
+    };
+
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+
+    return () => {
+      window.removeEventListener('scroll', updateActive);
+      window.removeEventListener('resize', updateActive);
+    };
+  }, [ids]);
+
   return (
-    <nav className="article-toc glass reveal" aria-label="Table of contents">
-      <div className="article-toc-head">
-        <div>
-          <p className="eyebrow left">Article Guide</p>
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </div>
-        <span className="article-toc-badge">Quick navigation</span>
-      </div>
-
-      <ol className="article-toc-grid">
-        {items.map((item, index) => (
-          <li key={item.href}>
-            <Link href={item.href}>
-              <span className="article-toc-number">{String(index + 1).padStart(2, '0')}</span>
-              <span className="article-toc-copy">
-                <strong>{item.label}</strong>
-                {item.note ? <small>{item.note}</small> : null}
-              </span>
-              <span className="article-toc-arrow" aria-hidden="true">↘</span>
-            </Link>
-          </li>
+    <nav className="article-toc-clean reveal" aria-label="Table of Contents">
+      <h2>Table of Contents</h2>
+      <div className="article-toc-clean-list">
+        {items.map((item) => (
+          <Link
+            href={item.href}
+            key={item.href}
+            className={activeHref === item.href ? 'is-active' : undefined}
+            aria-current={activeHref === item.href ? 'location' : undefined}
+            onClick={() => setActiveHref(item.href)}
+          >
+            <span>{item.label}</span>
+          </Link>
         ))}
-      </ol>
+      </div>
     </nav>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -40,7 +40,7 @@ export default function TermsPage() {
     url: canonical,
     name: 'Terms of Use & Disclaimer',
     description: metadata.description,
-    dateModified: '2026-09-23',
+    dateModified: '2026-10-02',
   });
 
   return (
@@ -59,12 +59,12 @@ export default function TermsPage() {
 
         <section className="section section-tight">
           <div className="container container-medium article-prose legal-prose reveal">
-            <p className="article-meta">Last updated: 23 September 2026</p>
+            <p className="article-meta">Last updated: 2 October 2026</p>
             <h2>1. Use of the Website</h2>
             <p>Brat Generator is provided as a creative browser-based tool. You may use it to create personal graphics, covers, memes, profile images and other designs, subject to these terms and any laws or platform rules that apply to your use.</p>
 
             <h2>2. Independent Fan-Made Status</h2>
-            <p>Brat Generator is independent and fan-made. It is not affiliated with, sponsored by, endorsed by, or officially connected with Charli XCX, Atlantic Records, Warner Music or their related brands. References to the Brat aesthetic are descriptive and contextual.</p>
+            <p>Brat Generator is independent and fan-made. It is not affiliated with, sponsored by, endorsed by, or officially connected with Charli XCX, Atlantic Records, Warner Music or their related brands. References to the Brat aesthetic are descriptive and contextual. More background on the project is available on the <Link className="inline-source-link" href="/about/">About page</Link>.</p>
 
             <h2>3. Your Text and Designs</h2>
             <p>You are responsible for the words, names, logos, images or other material you choose to include in a design. Do not use the tool to create content that infringes another person&apos;s rights, falsely implies endorsement, or violates applicable law.</p>
@@ -82,15 +82,10 @@ export default function TermsPage() {
             <p>To the extent permitted by applicable law, the site does not guarantee uninterrupted operation, specific search rankings, platform acceptance or a particular commercial outcome from a generated design. You remain responsible for reviewing the final output before publishing or using it.</p>
 
             <h2>8. Changes</h2>
-            <p>These terms may be updated when the service changes. Continued use after an update means you should review the latest version posted on this page.</p>
+            <p>These terms may be updated when the service changes. Continued use after an update means you should review the latest version posted on this page. Data-handling details are covered separately in the <Link className="inline-source-link" href="/privacy-policy/">Privacy Policy</Link> and <Link className="inline-source-link" href="/cookies/">Cookie Policy</Link>; policy or rights questions can be sent through the <Link className="inline-source-link" href="/contact/">Contact page</Link>.</p>
           </div>
         </section>
 
-        <RelatedPages title="Useful Site Pages" items={[
-          { href: '/privacy-policy/', eyebrow: 'Privacy', title: 'Privacy Policy', description: 'Understand local browser processing and ordinary technical hosting data.', accent: 'green' },
-          { href: '/about/', eyebrow: 'About', title: 'About the Tool', description: 'See why Brat Generator was built and what it is designed to do.', accent: 'pink' },
-          { href: '/contact/', eyebrow: 'Support', title: 'Contact', description: 'Use the contact page for feedback, rights concerns or policy questions.', accent: 'blue' },
-        ]} />
       </main>
       <SiteFooter />
     </>

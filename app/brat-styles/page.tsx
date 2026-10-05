@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
+import ContextCta from '@/components/ContextCta';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -38,9 +38,9 @@ const styleFaqs = [
 
 const styleCards = [
   ['brat', 'Classic Brat Green', 'The most recognisable starting point. Use #8ACE00 with dark text for the familiar acidic lime look.', 'brat-green', '#111', '/#green'],
-  ['vibes', 'Brat Generator Black', 'A darker, more understated variation. Black works especially well with white or Brat Green text.', 'brat-black', '#fff', '/#black'],
-  ['clean', 'Brat Generator White', 'A cleaner minimalist version that keeps the condensed lowercase treatment while removing the loud green background.', 'brat-white', '#111', '/#white'],
-  ['girly', 'Brat Generator Pink', 'A softer, playful variation that keeps the same lowercase typography and blur while changing the mood completely.', 'brat-pink', '#111', '/#pink'],
+  ['vibes', 'Black Brat Style', 'A darker, more understated variation. Black works especially well with white or Brat Green text.', 'brat-black', '#fff', '/#black'],
+  ['clean', 'White Minimal Style', 'A cleaner minimalist version that keeps the condensed lowercase treatment while removing the loud green background.', 'brat-white', '#111', '/#white'],
+  ['girly', 'Pink Brat Style', 'A softer, playful variation that keeps the same lowercase typography and blur while changing the mood completely.', 'brat-pink', '#111', '/#pink'],
   ['anomaly', 'Electric Blue', 'A bright alternative for social graphics when you want the Brat layout without copying the original green palette.', 'brat-electric', '#111', '/#blue'],
   ['your text', 'Custom Colours', 'Use the colour picker or a custom hex value to create a familiar Brat-style layout in your own palette.', 'brat-custom', '#fff', '/#custom'],
 ];
@@ -58,7 +58,7 @@ export default function BratStylesPage() {
     url: canonical,
     name: 'Brat Styles',
     description: metadata.description,
-    dateModified: '2026-09-25',
+    dateModified: '2026-10-04',
   });
 
   const faqSchema = faqPageSchema(styleFaqs, canonical);
@@ -81,8 +81,8 @@ export default function BratStylesPage() {
           <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Quick Guide</p>
             <h2>Create Every Brat Style</h2>
-            <p>Green is the colour most closely associated with the original Brat artwork and Brat Summer, but the aesthetic is not limited to one shade. A <strong>brat generator black</strong> design feels darker and more understated, while a <strong>brat generator white</strong> version looks cleaner and more minimalist. A <strong>brat generator pink</strong> style keeps the familiar lowercase treatment while giving the design a softer, more playful personality.</p>
-            <p>If you are searching for a <strong>brat generator different colors</strong> option, use the custom colour controls to enter any hex value. The palette can change while the recognisable Brat layout stays consistent.</p>
+            <p>Green is the classic starting point, but the same Brat-style layout can work with black, white, pink, blue or your own colours. The palette changes the mood; the condensed text, simple composition and light blur keep the overall treatment recognisable.</p>
+            <p>Use the colour picker when a preset does not fit your design. Keep enough contrast between the text and background so the wording still reads clearly at smaller sizes.</p>
           </div>
         </section>
 
@@ -109,7 +109,7 @@ export default function BratStylesPage() {
             <div className="reveal">
               <p className="eyebrow left">Colour Guide</p>
               <h2 className="prose-heading">Brat Green Colour Guide</h2>
-              <p>The generator uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. It is the shade most people are trying to recreate when they search for the Brat green colour code or Brat green hex.</p>
+              <p>This site uses <strong>#8ACE00</strong> (RGB 138, 206, 0) as its default Brat Green preset. Screens and colour profiles can display the same digital value differently, so treat it as a practical web starting point rather than an official print colour.</p>
               <p>Enter #8ACE00 in the colour picker for a consistent digital starting point, then pair it with black or white text depending on the contrast you want.</p>
             </div>
             <div className="colour-fact-card glass reveal reveal-delay-1">
@@ -127,7 +127,7 @@ export default function BratStylesPage() {
           <div className="container container-wide article-prose centered-prose reveal">
             <p className="eyebrow">Typography</p>
             <h2>What Makes the Brat Text Style Work?</h2>
-            <p>The look is not created by one magic font. Most Brat font generator tools use <strong>Arial Narrow</strong> or an Arial Narrow-style condensed typeface as a starting point. The recognisable effect comes from the treatment: large lowercase typography, fairly tight letter spacing, and a light <strong>Gaussian blur</strong>.</p>
+            <p>The look is not created by one magic font. An Arial Narrow-style condensed typeface is a practical starting point, but the recognisable effect comes from the treatment: large lowercase typography, fairly tight letter spacing, and a light blur. Use the <Link className="inline-source-link" href="/brat-font-generator/">Brat Font Generator</Link> when you want focused font, spacing, alignment and transparent-background controls.</p>
             <p>Keep the blur subtle enough that the letters remain readable. Too much turns the text into a smear; too little makes it look like ordinary bold text on a coloured background.</p>
           </div>
         </section>
@@ -140,14 +140,13 @@ export default function BratStylesPage() {
               <p>Pick a colour treatment that fits the mood of the graphic, then open that style in the Brat Generator when you are ready to create.</p>
             </div>
             <div className="card-grid three">
-              <article className="glass info-card reveal glow-brat hover-lift"><div className="emoji">🟢</div><h3>Classic Green</h3><p>Best when you want the most recognisable Brat-inspired look for text graphics, covers and social posts.</p></article>
-              <article className="glass info-card reveal glow-electric hover-lift"><div className="emoji">🖤</div><h3>Black & Dark Edits</h3><p>Works well for darker fan edits, understated graphics and designs where a moodier background fits better.</p></article>
-              <article className="glass info-card reveal glow-pink hover-lift"><div className="emoji">🤍</div><h3>White Minimal Style</h3><p>A clean choice for simple layouts, profile graphics and posts where you want the text treatment to feel lighter.</p></article>
-              <article className="glass info-card reveal glow-pink hover-lift"><div className="emoji">💗</div><h3>Pink & Playful Posts</h3><p>Use pink when you want the same Brat-inspired layout with a softer, brighter or more playful mood.</p></article>
-              <article className="glass info-card reveal glow-electric hover-lift"><div className="emoji">🎨</div><h3>Custom Colours</h3><p>Match playlists, memes, wallpapers, profile pictures and social posts to your own palette instead of using a preset.</p></article>
-              <article className="glass info-card reveal glow-brat hover-lift"><div className="emoji">💿</div><h3>Music Artwork</h3><p>Use any style as a starting point for cover concepts, then build a complete square artwork in the album cover workflow.</p></article>
+              <article className="glass info-card reveal glow-brat hover-lift"><h3>Classic Green</h3><p>Best when you want the most recognisable Brat-inspired look for text graphics, covers and social posts.</p></article>
+              <article className="glass info-card reveal glow-electric hover-lift"><h3>Black & Dark Edits</h3><p>Works well for darker fan edits, understated graphics and designs where a moodier background fits better.</p></article>
+              <article className="glass info-card reveal glow-pink hover-lift"><h3>White Minimal Style</h3><p>A clean choice for simple layouts, profile graphics and posts where you want the text treatment to feel lighter.</p></article>
+              <article className="glass info-card reveal glow-pink hover-lift"><h3>Pink & Playful Posts</h3><p>Use pink when you want the same Brat-inspired layout with a softer, brighter or more playful mood.</p></article>
+              <article className="glass info-card reveal glow-electric hover-lift"><h3>Custom Colours</h3><p>Match playlists, memes, wallpapers, profile pictures and social posts to your own palette instead of using a preset.</p></article>
+              <article className="glass info-card reveal glow-brat hover-lift"><h3>Music Artwork</h3><p>Use any style as a starting point for cover concepts, then build a complete square artwork in the album cover workflow.</p></article>
             </div>
-            <div className="tool-related-links reveal"><Link className="text-link" href="/help/how-to-make-a-brat-album-cover-free/">See how to turn a style into a full Brat album cover →</Link></div>
           </div>
         </section>
 
@@ -169,11 +168,13 @@ export default function BratStylesPage() {
           </div>
         </section>
 
-        <RelatedPages items={[
-          { href: '/#generator', eyebrow: 'Create', title: 'Open the Generator', description: 'Apply any of these colour styles to your own text and download the result.', accent: 'green' },
-          { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use the Brat Generator', description: 'Follow the quick homepage workflow for text, blur, sizing and export.', accent: 'blue' },
-          { href: '/help/how-to-make-a-brat-album-cover-free/', eyebrow: 'Article', title: 'Build an Album Cover', description: 'Turn a colour style into a complete Brat-inspired album cover.', accent: 'pink' },
-        ]} />
+        <ContextCta
+          title="Create Your Brat Style Now"
+          description="Choose a colour direction, then open the main Brat Generator and customise the text, spacing, blur, and export size."
+          href="/#generator"
+          buttonLabel="Start Creating"
+        />
+
 
       </main>
       <SiteFooter />

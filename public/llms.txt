@@ -14,6 +14,11 @@ Brat Generator is an independent fan-made project. It is not affiliated with, sp
 - [Brat Meme Generator](https://bratgeneratorpro.net/brat-meme-generator/): Creates Brat-style memes with top and bottom text, optional photo upload, background and text colours, blur and visual effects, social-ready canvas sizes, and image export.
 - [Brat Image Generator](https://bratgeneratorpro.net/brat-image-generator/): Creates Brat-style graphics from custom text with optional uploaded backgrounds, colour controls, effects, multiple canvas ratios, and PNG/JPG/WebP export.
 - [Brat Album Cover Generator](https://bratgeneratorpro.net/brat-album-cover-generator/): Creates square Brat-inspired album or playlist artwork with title and artist text, colour controls, blur, optional background images, live preview, and high-resolution export.
+- [Brat Font Generator](https://bratgeneratorpro.net/brat-font-generator/): Creates Brat-style typography with font choices, letter spacing, line height, alignment, blur, colour controls, transparent backgrounds, and PNG/JPG/WebP export.
+
+## Examples
+
+- [Brat Examples](https://bratgeneratorpro.net/brat-examples/): Original Brat-style design examples and reusable starting points that can open the main generator with matching text, style, and colour settings.
 
 ## Styles
 
@@ -28,14 +33,21 @@ Brat Generator is an independent fan-made project. It is not affiliated with, sp
 
 - [Homepage How to Use section](https://bratgeneratorpro.net/#how-to): Detailed four-step workflow with step visuals covering text entry, colour choice, typography and export.
 - [Brat Generator Help](https://bratgeneratorpro.net/help/): Help hub for practical tutorials and troubleshooting articles.
-- [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/help/how-to-make-a-brat-album-cover-free/): Expanded album-cover guide covering title hierarchy, colours, typography, blur, photo backgrounds, 3000×3000 export, social variants and common fixes.
-- [Brat Generator Not Working? Common Problems & Quick Fixes](https://bratgeneratorpro.net/help/brat-generator-not-working/): Expanded troubleshooting guide covering downloads, clipboard support, blur, clipped text, colour differences, background uploads, mobile files and tool-specific checks.
+- [How to Make a Brat Album Cover Free](https://bratgeneratorpro.net/help/how-to-make-a-brat-album-cover-free/): Practical album-cover guide covering Brat Green, condensed typography, controlled blur, four-step creation and platform-oriented canvas sizes.
+- [Brat Generator Not Working? Common Problems & Quick Fixes](https://bratgeneratorpro.net/help/brat-generator-not-working/): Focused troubleshooting guide for downloads, excessive blur, clipped text, colour differences and mobile download locations.
+- [Brat Video Export Guide: Video vs GIF vs PNG Frames](https://bratgeneratorpro.net/help/brat-video-export-guide/): Explains browser-supported video export, silent GIF loops and PNG frame ZIPs, including audio, quality and editing trade-offs.
+- [Brat Video Tips: Text Length, Timing, FPS & Better Motion](https://bratgeneratorpro.net/help/brat-video-tips/): Practical guidance for readable moving text, line sequencing, 10–60 FPS choices, audio compatibility, previews and browser-friendly rendering.
+- [Brat Video Audio Sync & Supported Formats](https://bratgeneratorpro.net/help/brat-video-audio-sync-formats/): Explains browser-friendly audio formats, line timing, audio trimming, preview sync, and common decoding or export problems.
+- [Brat Meme Ideas & Templates You Can Create](https://bratgeneratorpro.net/help/brat-meme-ideas-templates/): Original meme-format ideas, writing patterns, background choices and canvas recommendations for Brat-style meme creation.
+- [Which Brat Generator Tool Should You Use?](https://bratgeneratorpro.net/help/which-brat-tool-should-you-use/): Compares the main, font, meme, image, video and album-cover workflows so visitors can choose the tool that matches their project.
+- [Brat Canvas Size Guide: Square vs Portrait vs Story vs Wide](https://bratgeneratorpro.net/help/brat-canvas-size-guide/): Explains the site’s square, portrait, vertical Story, wide and album-cover canvas sizes and how to avoid awkward stretching or crops.
 
 ## Site information
 
 - [About Brat Generator](https://bratgeneratorpro.net/about/): Explains the purpose of the tool, its browser-based workflow and independent fan-made status.
 - [Contact](https://bratgeneratorpro.net/contact/): Contact information for feedback, bug reports, privacy questions and rights concerns.
-- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Explains local browser processing, ordinary hosting data, cookies, optional analytics and third-party links.
+- [Privacy Policy](https://bratgeneratorpro.net/privacy-policy/): Explains local browser processing, ordinary hosting data, optional analytics and third-party links.
+- [Cookie Policy](https://bratgeneratorpro.net/cookies/): Explains analytics consent, local browser storage, optional Google Analytics and how visitors can clear stored site data.
 - [Terms of Use & Disclaimer](https://bratgeneratorpro.net/terms/): Covers acceptable use, user responsibility, independent status and commercial-use cautions.
 
 ## Technical discovery
@@ -48,7 +60,7 @@ Brat Generator is an independent fan-made project. It is not affiliated with, sp
 
 - The canonical hostname is `https://bratgeneratorpro.net` without `www`.
 - Indexable page URLs use trailing slashes.
-- Retired routes such as `/brat-text-generator/`, `/brat-font-generator/`, `/how-to-use/`, and `/features/` redirect to their current homepage destinations and are intentionally omitted from the XML sitemap.
+- Retired routes such as `/brat-text-generator/`, `/how-to-use/`, and `/features/` redirect to their current homepage destinations and are intentionally omitted from the XML sitemap.
 - The main image-generation workflows render the active design in the browser. User-created generator content is not required to be uploaded to an application server for normal image export.
 - The default Brat Green preset uses `#8ACE00` as a practical digital approximation. Display appearance can vary by screen and colour profile.
 - For legal, commercial-use, rights, or affiliation questions, use the Terms & Disclaimer and About pages as the primary references.

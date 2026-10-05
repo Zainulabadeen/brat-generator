@@ -1,246 +1,229 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import BratGenerator from '@/components/BratGenerator';
+import ArticleTableOfContents from '@/components/ArticleTableOfContents';
+import BratCreativeTool from '@/components/BratCreativeTool';
+import ContextCta from '@/components/ContextCta';
+import HelpArticleHeader from '@/components/HelpArticleHeader';
 import JsonLd from '@/components/JsonLd';
-import PageHero from '@/components/PageHero';
+import RelatedPostsSidebar from '@/components/RelatedPostsSidebar';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
+import { getHelpArticle } from '@/lib/helpArticles';
+import { getHelpBreadcrumbSchema, getHelpBreadcrumbUi } from '@/lib/helpBreadcrumbs';
 import { siteConfig } from '@/lib/site';
-import { breadcrumbSchema, organizationEntity, organizationRef, webPageSchema } from '@/lib/schema';
+import { articleSchema, breadcrumbSchema, organizationEntity, webPageSchema, websiteEntity } from '@/lib/schema';
+
+const articleData = getHelpArticle('how-to-make-a-brat-album-cover-free')!;
 
 export const metadata: Metadata = {
   title: { absolute: 'How to Make a Brat Album Cover Free | Brat Generator' },
   description: 'Learn how to make a Brat album cover in four simple steps using the right colour, font, blur, and image size. Create yours with no sign-up or watermark.',
-  alternates: { canonical: '/help/how-to-make-a-brat-album-cover-free/' },
+  alternates: { canonical: articleData.href },
   openGraph: {
     type: 'article',
-    url: '/help/how-to-make-a-brat-album-cover-free/',
-    title: 'How to Make a Brat Album Cover Free | Brat Generator',
-    description: 'A practical four-step guide to making a Brat-inspired album cover free in your browser.',
+    url: articleData.href,
+    title: articleData.title,
+    description: articleData.description,
     publishedTime: '2026-07-18T00:00:00Z',
-    modifiedTime: '2026-09-23T00:00:00Z',
-    images: [{ url: '/images/brat-cover-example-green.webp', width: 1200, height: 1200, alt: 'Green Brat-style album cover example made with Brat Generator' }],
+    modifiedTime: '2026-10-05T00:00:00Z',
+    images: [{ url: articleData.image, width: 1200, height: 720, alt: articleData.imageAlt }],
   },
-  twitter: { card: 'summary_large_image', title: 'How to Make a Brat Album Cover Free', description: 'Colour, font treatment, blur, sizes, and a four-step browser workflow.', images: ['/images/brat-cover-example-green.webp'] },
+  twitter: { card: 'summary_large_image', title: articleData.title, description: articleData.description, images: [articleData.image] },
 };
+
+const toc = [
+  { href: '#cover-look', label: 'What makes the Brat cover look work?' },
+  { href: '#create-cover', label: 'Create alongside the guide' },
+  { href: '#colour-type-blur', label: 'Colour, typography and blur' },
+  { href: '#four-steps', label: 'Make a cover in four steps' },
+  { href: '#cover-ideas', label: 'Original cover ideas' },
+  { href: '#cover-sizes', label: 'Cover sizes and platform formats' },
+  { href: '#platform-use', label: 'Music and social platform use' },
+  { href: '#compare-editors', label: 'Generator vs Canva vs Photoshop' },
+  { href: '#cover-problems', label: 'Common cover problems' },
+] as const;
 
 const coverSteps = [
   ['01', 'Enter Your Cover Text', 'Pick something short: one word, a brief phrase, an artist name, or a playlist title. Short text stays readable when it is condensed and blurred. Use existing Brat-era track titles only as style references rather than copying someone else’s artwork.'],
   ['02', 'Choose the Background Colour', 'Start with the lime-green preset if you want the classic Brat-inspired look. The generator uses #8ACE00 as a common digital approximation, but you can also choose pink, white, black, blue, or any custom colour.'],
-  ['03', 'Adjust Font, Size & Blur', 'Centre the text, tighten the spacing, scale it until the word fills the canvas comfortably, then add blur gradually. The goal is slightly imperfect rather than unreadable. Check the design at a smaller size before exporting.'],
-  ['04', 'Preview & Download the Cover', 'Choose the target canvas ratio and preview the result. PNG is the safest default for crisp digital artwork; JPG creates smaller files and WebP is efficient for websites. Download only after the text remains readable at thumbnail size.'],
-];
+  ['03', 'Adjust Font, Size & Blur', 'Set the font, size and alignment until the title fills the cover comfortably, then add blur gradually. The goal is slightly imperfect rather than unreadable. Check the design at a smaller size before exporting.'],
+  ['04', 'Preview & Download the Cover', 'Review the fixed 3000×3000 square canvas at both full size and thumbnail size. PNG is a strong quality-first master; JPG and WebP are useful when you need a smaller file.'],
+] as const;
 
 export default function AlbumCoverGuidePage() {
-  const canonical = `${siteConfig.url}/help/how-to-make-a-brat-album-cover-free/`;
-  const breadcrumb = breadcrumbSchema([
-    { name: 'Home', url: `${siteConfig.url}/` },
-    { name: 'Help', url: `${siteConfig.url}/help/` },
-    { name: 'Album Cover Guide', url: canonical },
-  ]);
-
-
+  const canonical = `${siteConfig.url}${articleData.href}`;
+  const breadcrumb = breadcrumbSchema(getHelpBreadcrumbSchema(articleData.slug, canonical));
   const pageSchema = webPageSchema({
     url: canonical,
-    name: 'How to Make a Brat Album Cover Free',
-    description: metadata.description,
-    dateModified: '2026-09-23',
+    name: articleData.title,
+    description: articleData.description,
+    dateModified: '2026-10-05',
     mainEntity: { '@id': `${canonical}#article` },
+    primaryImageUrl: `${siteConfig.url}${articleData.image}`,
   });
-
-  const article = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    '@id': `${canonical}#article`,
-    headline: 'How to Make a Brat Album Cover: Free, No-Sign-Up Method',
-    description: metadata.description,
-    url: canonical,
-    mainEntityOfPage: { '@id': `${canonical}#webpage` },
-    inLanguage: 'en-GB',
-    image: {
-      '@type': 'ImageObject',
-      url: `${siteConfig.url}/images/brat-cover-example-green.webp`,
-      width: 1200,
-      height: 1200,
-      caption: 'Green Brat-style album cover example created with Brat Generator',
-    },
+  const article = articleSchema({
+    pageUrl: canonical,
+    headline: articleData.title,
+    description: articleData.description,
+    imageUrl: articleData.image,
     datePublished: '2026-07-18T00:00:00+05:00',
-    dateModified: '2026-09-23T00:00:00+05:00',
-    author: organizationEntity,
-    publisher: organizationRef,
-  };
+    dateModified: '2026-10-05T00:00:00+05:00',
+  });
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, article]} />
+      <JsonLd data={[organizationEntity, websiteEntity, breadcrumb, pageSchema, article]} />
       <RevealSetup />
       <SiteHeader />
-      <main id="main-content">
-        <PageHero
-          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Help', href: '/help/' }, { label: 'Album Cover Guide' }]}
-          eyebrow="Album Cover Guide"
-          title="How to Make a Brat Album Cover:"
-          accent="Free, No-Sign-Up Method"
-          description="A green background, condensed lowercase type, and a controlled blur are the core ingredients. This guide shows how to make a Brat album cover step by step, choose the right size, and export it free in your browser."
-        />
+      <main id="main-content" className="help-article-modern">
+        <div className="help-article-soft-bg" aria-hidden="true" />
+        <div className="container container-wide help-article-layout">
+          <div className="help-article-main">
+            <HelpArticleHeader
+              title={articleData.title}
+              description={articleData.description}
+              eyebrow={articleData.eyebrow}
+              published={articleData.modified}
+              breadcrumbs={getHelpBreadcrumbUi(articleData.slug)}
+            />
+            <ArticleTableOfContents items={toc} />
 
-        <article>
-          <section className="section section-tight">
-            <div className="container container-medium article-prose reveal">
-              <p className="article-meta">Published 18 July 2026 · Updated 23 September 2026 · Reviewed against the current generator controls</p>
-              <p className="article-lead">The Brat-inspired album-cover look is easier to recreate than it first appears. Use a flat lime background, short lowercase text, a narrow typeface, tight spacing, and enough blur to feel intentionally rough without losing legibility.</p>
-              <p>This guide explains how to make a Brat album cover with a free browser-based generator, including colour values, typography, blur, recommended dimensions, and platform considerations. The dedicated Brat album cover maker is designed for this focused workflow rather than general-purpose editing. No account or design software is required, and the export has no watermark. If you are new to the controls, start with the <Link href="/#how-to">complete Brat Generator tutorial</Link>.</p>
+            <div className="help-article-intro-body">
+              <section id="cover-look" className="help-article-section reveal">
+                <h2>What Makes the Brat Album Cover Look Work?</h2>
+                <p>Charli XCX released <em>Brat</em> in June 2024, and the cover quickly became shorthand for a wider “Brat Summer” moment. Its cultural reach grew beyond the artwork itself: <a className="inline-source-link" href="https://blog.collinsdictionary.com/language-lovers/a-year-when-hedonism-and-anxiety-combine/" target="_blank" rel="noopener noreferrer">Collins Dictionary later named “brat” its 2024 Word of the Year</a>, and the <a className="inline-source-link" href="https://www.brits.co.uk/news/2025/brat-wins-mastercard-album/" target="_blank" rel="noopener noreferrer">BRIT Awards recognised <em>BRAT</em> as Album of the Year in 2025</a>.</p>
+                <p>The visual treatment is deliberately spare: flat colour, condensed lowercase typography, soft edges, and almost no ornamental detail. That combination matters more than copying any one font or colour value exactly.</p>
+              </section>
             </div>
-          </section>
 
-          <section className="section section-card tool-section-compact">
-            <div className="container tool-container">
-              <div className="section-heading reveal tool-section-heading"><p className="eyebrow">Create Alongside the Guide</p><h2>Free Brat Album <span className="text-brat">Cover Maker</span></h2><p>Use the live generator below while you follow the four steps.</p></div>
-              <BratGenerator />
-            </div>
-          </section>
+            <article className="help-article-body">
+              <section id="create-cover" className="help-article-section reveal">
+                <h2>Create Alongside the Guide</h2>
+                <p>The dedicated Album Cover Generator below uses a fixed 3000×3000 square canvas with separate title and artist text, colour or photo backgrounds, font controls, alignment and blur. You can follow the guide without opening another page.</p>
+                <div className="help-inline-tool">
+                  <BratCreativeTool mode="album" />
+                </div>
+              </section>
 
-          <section className="section">
-            <div className="container container-medium article-prose reveal">
-              <p className="eyebrow">Background</p>
-              <h2>What Is the Brat Album Cover Look?</h2>
-              <p>Charli XCX released <em>Brat</em> in June 2024, and the cover quickly became shorthand for a wider “Brat Summer” moment. Its cultural reach grew far beyond the artwork itself: <a className="inline-source-link" href="https://blog.collinsdictionary.com/language-lovers/a-year-when-hedonism-and-anxiety-combine/" target="_blank" rel="noopener noreferrer">Collins Dictionary later named “brat” its 2024 Word of the Year</a>, and the <a className="inline-source-link" href="https://www.brits.co.uk/news/2025/brat-wins-mastercard-album/" target="_blank" rel="noopener noreferrer">BRIT Awards recognised <em>BRAT</em> as Album of the Year in 2025</a>. The cover stood apart from glossy pop design because it felt deliberately unfinished: a flat green field, lowercase text, soft edges, and almost no decorative detail.</p>
-              <p>The aesthetic is a form of anti-design. It avoids gradients, polished shadows, and ornamental effects. Most of the visual impact comes from three things working together: flat colour, condensed lowercase typography, and a controlled low-resolution blur.</p>
-            </div>
-          </section>
+              <section id="colour-type-blur" className="help-article-section reveal">
+                <h2>Colour, Typography and Blur</h2>
+                <h3>The Brat green colour</h3>
+                <p>The generator uses <strong>#8ACE00</strong> as its default Brat Green preset. Different screens can display the same hex value differently, so treat it as a consistent digital starting point rather than an official print colour.</p>
+                <div className="simple-table article-table" role="region" aria-label="Brat green colour values" tabIndex={0}>
+                  <table>
+                    <thead><tr><th>Colour detail</th><th>Value</th></tr></thead>
+                    <tbody>
+                      <tr><td>Digital preset</td><td>#8ACE00</td></tr>
+                      <tr><td>RGB</td><td>138, 206, 0</td></tr>
+                      <tr><td>Generator default</td><td>Brat Green</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h3>The font and typography</h3>
+                <p>The exact source typeface is debated. Arial Narrow and similar condensed sans-serif fonts are useful approximations, but the recognisable look also depends on sizing, spacing, distortion and blur. The cover tool gives you condensed system-font choices plus text size, alignment, line height and blur controls.</p>
+                <h3>The soft, slightly rough blur</h3>
+                <p>Use blur lightly. Too much makes the words dissolve; too little leaves the title looking like clean digital type. Check the result at thumbnail size and reduce the blur if readability drops.</p>
+              </section>
 
-          <section className="section section-card">
-            <div className="container container-wide facts-grid">
-              <div className="article-prose reveal">
-                <p className="eyebrow left">Colour</p>
-                <h2>The Brat Green Colour</h2>
-                <p>The green is doing much of the visual work. It is brighter and flatter than a typical brand green, closer to a highlighter than a forest tone. For web use, <strong>#8ACE00</strong> is a common digital approximation and is the default preset in this generator.</p>
-                <p>Different screens can display the same hex value differently, so treat the code as a consistent digital starting point rather than a guarantee that every monitor or printed surface will look identical.</p>
-              </div>
-              <div className="simple-table glass reveal reveal-delay-1" role="region" aria-label="Brat green colour values" tabIndex={0}>
-                <table>
-                  <thead><tr><th>Colour detail</th><th>Recommended value</th></tr></thead>
-                  <tbody>
-                    <tr><td>Digital preset</td><td>#8ACE00</td></tr>
-                    <tr><td>RGB</td><td>138, 206, 0</td></tr>
-                    <tr><td>Generator default</td><td>Brat Green</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </section>
+              <section id="four-steps" className="help-article-section reveal">
+                <h2>How to Make a Brat Album Cover in 4 Steps</h2>
+                <p>Use the same order in the <Link className="inline-source-link" href="/brat-album-cover-generator/">Brat Album Cover Generator</Link> so each decision builds on the one before it.</p>
+                <div className="guide-step-list">
+                  {coverSteps.map(([number, title, body], index) => (
+                    <div className={`glass guide-step reveal reveal-delay-${index % 3}`} key={number}>
+                      <div className="guide-step-no">{number}</div>
+                      <div><h3>{title}</h3><p>{body}</p></div>
+                    </div>
+                  ))}
+                </div>
+              </section>
 
-          <section className="section">
-            <div className="container container-medium article-prose reveal">
-              <p className="eyebrow">Typography</p>
-              <h2>The Font and Typography</h2>
-              <p>Ask what font is used on the Brat album cover and you will often see Arial or Arial Narrow mentioned as practical references. The important part is not only the font family: the text is condensed, stretched, lowercased, enlarged, and softened so it feels less polished than normal digital typography.</p>
-              <p>This generator uses an Arial Narrow-style starting point with adjustable text size and letter spacing. Keep the phrase short and the spacing tight, then use blur to move from ordinary type toward the rougher Brat-inspired treatment.</p>
-            </div>
-          </section>
+              <section id="cover-ideas" className="help-article-section reveal">
+                <h2>Original Brat Album Cover Ideas</h2>
+                <p>These examples keep the same minimal, condensed treatment while changing the mood through colour.</p>
+                <div className="example-gallery">
+                  <figure className="example-card glass reveal">
+                    <Image src="/images/brat-cover-example-green.webp" alt="Green Brat-style album cover idea with black condensed text reading your album" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
+                    <figcaption><strong>Classic green:</strong> start with #8ACE00, dark text, and only enough blur to soften the edges.</figcaption>
+                  </figure>
+                  <figure className="example-card glass reveal reveal-delay-1">
+                    <Image src="/images/brat-cover-example-black.webp" alt="Black Brat-style album cover idea with green condensed text reading late night" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
+                    <figcaption><strong>Dark variation:</strong> reverse the contrast with a black background and Brat Green text.</figcaption>
+                  </figure>
+                  <figure className="example-card glass reveal reveal-delay-2">
+                    <Image src="/images/brat-cover-example-pink.webp" alt="Pink Brat-style album cover idea with dark condensed text reading main character" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
+                    <figcaption><strong>Pink variation:</strong> keep the flat background and minimal typography while changing the mood.</figcaption>
+                  </figure>
+                </div>
+              </section>
 
-          <section className="section section-card">
-            <div className="container container-medium article-prose reveal">
-              <p className="eyebrow">Effect</p>
-              <h2>The Blur and Low-Resolution Effect</h2>
-              <p>Blur is where many recreations go too far. Too much makes the words dissolve; too little makes the text look like clean modern typography on a green box. A light Gaussian blur works better because it softens the edge while keeping the letterforms readable.</p>
-              <p>Check the result at thumbnail size. If you cannot read it when the cover is small, reduce the blur or increase contrast. The goal is a deliberate imperfection, not a green smear.</p>
-            </div>
-          </section>
+              <section id="cover-sizes" className="help-article-section reveal">
+                <h2>Brat Album Cover Sizes for Different Uses</h2>
+                <p>Use a high-resolution square as the cover master, then make separate vertical or wide versions for social platforms instead of stretching the square artwork.</p>
+                <div className="simple-table article-table" role="region" aria-label="Brat album cover size guide" tabIndex={0}>
+                  <table>
+                    <thead><tr><th>Platform or use</th><th>Recommended starting size</th><th>Aspect ratio</th></tr></thead>
+                    <tbody>
+                      <tr><td>Music platform artwork</td><td>High-resolution square; check the service or distributor specs</td><td>1:1</td></tr>
+                      <tr><td>Playlist / library artwork</td><td>High-resolution square; check the destination specs</td><td>1:1</td></tr>
+                      <tr><td>Instagram feed square</td><td>1080 × 1080 px</td><td>1:1</td></tr>
+                      <tr><td>Instagram Story / TikTok</td><td>1080 × 1920 px</td><td>9:16</td></tr>
+                      <tr><td>YouTube thumbnail</td><td>1280 × 720 px</td><td>16:9</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="article-note">Upload specifications can change. Confirm the destination platform’s latest requirements before publishing final artwork.</p>
+              </section>
 
-          <section className="section">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Four Steps</p><h2>How to Make a Brat Album Cover in <span className="text-brat">4 Steps</span></h2><p>From blank canvas to finished cover in a few minutes.</p></div>
-              <div className="guide-step-list">
-                {coverSteps.map(([n,t,b],i)=><article className={`glass guide-step reveal reveal-delay-${i % 3}`} key={n}><div className="guide-step-no">{n}</div><div><h3>{t}</h3><p>{b}</p></div></article>)}
-              </div>
-              <div className="section-cta reveal"><Link className="text-link" href="/brat-album-cover-generator/">Open the Brat Album Cover Generator →</Link></div>
-            </div>
-          </section>
+              <section id="platform-use" className="help-article-section reveal">
+                <h2>Music and Social Platform Use</h2>
+                <h3>Spotify, Apple Music, Bandcamp and SoundCloud</h3>
+                <p>Square artwork is a practical starting point because music covers are commonly displayed in square grids and thumbnails. Keep important text away from the edges so minor resizing or cropping does not cut it off.</p>
+                <h3>Instagram, TikTok and social media</h3>
+                <p>The Album Cover Generator stays square at 3000×3000. If you need a Story, portrait or wide social version, rebuild the composition in the <Link className="inline-source-link" href="/brat-image-generator/">Brat Image Generator</Link> instead of stretching the square cover.</p>
+              </section>
 
-          <section className="section section-card">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Original Examples</p><h2>Brat Album Cover <span className="text-brat">Ideas</span></h2><p>These original examples show how the same condensed, minimal layout can move beyond one colour while keeping the core treatment consistent.</p></div>
-              <div className="example-gallery">
-                <figure className="example-card glass reveal">
-                  <Image src="/images/brat-cover-example-green.webp" alt="Green Brat-style album cover idea with black condensed text reading your album" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
-                  <figcaption><strong>Classic green:</strong> start with #8ACE00, dark text, and only enough blur to soften the edges.</figcaption>
-                </figure>
-                <figure className="example-card glass reveal reveal-delay-1">
-                  <Image src="/images/brat-cover-example-black.webp" alt="Black Brat-style album cover idea with green condensed text reading late night" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
-                  <figcaption><strong>Dark variation:</strong> reverse the contrast with a black background and Brat Green text.</figcaption>
-                </figure>
-                <figure className="example-card glass reveal reveal-delay-2">
-                  <Image src="/images/brat-cover-example-pink.webp" alt="Pink Brat-style album cover idea with dark condensed text reading main character" width={1200} height={1200} sizes="(max-width: 760px) 88vw, 30vw" />
-                  <figcaption><strong>Pink variation:</strong> keep the flat background and minimal typography while changing the mood.</figcaption>
-                </figure>
-              </div>
-            </div>
-          </section>
+              <section id="compare-editors" className="help-article-section reveal">
+                <h2>Brat Album Cover Generator vs Canva vs Photoshop</h2>
+                <p>A dedicated generator is quickest for this one visual style; broader editors make more sense when you need complex layouts or deeper compositing.</p>
+                <div className="simple-table article-table" role="region" aria-label="Brat album cover generator vs Canva vs Photoshop" tabIndex={0}>
+                  <table>
+                    <thead><tr><th>Point</th><th>Brat album cover generator</th><th>Canva</th><th>Photoshop</th></tr></thead>
+                    <tbody>
+                      <tr><td>Starting point</td><td>Brat-inspired controls are ready</td><td>Build the look inside a general editor</td><td>Build the look with type, layers and effects</td></tr>
+                      <tr><td>Speed for this style</td><td>Fast and focused</td><td>More setup but broader templates</td><td>More setup with deeper control</td></tr>
+                      <tr><td>Best for</td><td>Quick covers, playlist art and social graphics</td><td>Multi-purpose design projects</td><td>Advanced editing and compositing</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
 
-          <section className="section">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Dimensions</p><h2>Brat Album Cover Sizes for <span className="text-pink">Every Platform</span></h2><p>Use a high-resolution square for music artwork, then make separate vertical or wide versions for social platforms when needed.</p></div>
-              <div className="simple-table glass reveal" role="region" aria-label="Brat album cover size guide" tabIndex={0}>
-                <table>
-                  <thead><tr><th>Platform or use</th><th>Recommended starting size</th><th>Aspect ratio</th></tr></thead>
-                  <tbody>
-                    <tr><td>Spotify album / playlist cover</td><td>1200 × 1200 px or larger</td><td>1:1</td></tr>
-                    <tr><td>Apple Music artwork</td><td>High-resolution square; check current platform specs</td><td>1:1</td></tr>
-                    <tr><td>Bandcamp / SoundCloud artwork</td><td>High-resolution square; check current platform specs</td><td>1:1</td></tr>
-                    <tr><td>Instagram feed square</td><td>1080 × 1080 px</td><td>1:1</td></tr>
-                    <tr><td>Instagram Story / TikTok</td><td>1080 × 1920 px</td><td>9:16</td></tr>
-                    <tr><td>YouTube thumbnail</td><td>1280 × 720 px</td><td>16:9</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="source-note reveal">Upload specifications can change. Always confirm the current requirements of the music or social platform before publishing final artwork.</p>
-            </div>
-          </section>
+              <section id="cover-problems" className="help-article-section reveal">
+                <h2>Common Brat Album Cover Problems</h2>
+                <h3>The text becomes unreadable after blur</h3>
+                <p>Reduce the blur first, then increase contrast or simplify the wording. The effect should soften the letters without making them disappear at thumbnail size.</p>
+                <h3>The cover gets cropped on a platform</h3>
+                <p>Keep important text away from the edges and make a separate vertical version for Stories or TikTok instead of stretching a square cover.</p>
+                <h3>The downloaded image looks pixelated</h3>
+                <p>Export the high-resolution square directly from the cover tool and avoid enlarging a smaller download afterward. For browser and download problems, see the <Link className="inline-source-link" href="/help/brat-generator-not-working/">Brat Generator troubleshooting guide</Link>.</p>
+              </section>
 
-          <section className="section">
-            <div className="container container-medium article-prose reveal">
-              <h2>Spotify, Apple Music, Bandcamp and SoundCloud</h2>
-              <p>Square artwork remains the safest starting point for music platforms because cover art is commonly displayed in square grids and thumbnails. Keep important text away from the edges so minor resizing or cropping does not cut it off.</p>
-              <p>If you are making one master version first, create a high-resolution square. It is easier to make a separate vertical social version from a square design than to rebuild a tall Story graphic into a clean album cover.</p>
-              <h2>Instagram, TikTok and Social Media</h2>
-              <p>Use the 1080×1920 vertical preset for Stories and TikTok rather than stretching a square image. For wide social previews and banners, use the 1200×630 preset.</p>
-            </div>
-          </section>
+              <ContextCta
+                title="Create Your Brat Album Cover"
+                description="Use the dedicated cover maker for square Brat-style artwork with title, artist text, colours, blur, and high-resolution export."
+                href="/brat-album-cover-generator/#tool"
+                buttonLabel="Open Brat Album Cover Generator"
+              />
+            </article>
+          </div>
 
-          <section className="section section-card">
-            <div className="container container-wide">
-              <div className="section-heading reveal"><p className="eyebrow">Comparison</p><h2>Brat Album Cover Generator vs <span className="text-brat">Canva vs Photoshop</span></h2><p>A dedicated generator is quickest for this one visual style; broader editors make more sense when you need more complex design work.</p></div>
-              <div className="simple-table glass reveal" role="region" aria-label="Brat album cover generator vs Canva vs Photoshop" tabIndex={0}>
-                <table>
-                  <thead><tr><th>Point</th><th>Brat album cover generator</th><th>Canva</th><th>Photoshop</th></tr></thead>
-                  <tbody>
-                    <tr><td>Starting point</td><td>Brat-inspired controls are ready</td><td>Build the look inside a general editor</td><td>Build the look with type, layers and effects</td></tr>
-                    <tr><td>Speed for this style</td><td>Fast, focused workflow</td><td>More setup but broader templates</td><td>More setup with deeper control</td></tr>
-                    <tr><td>Best for</td><td>Quick covers, playlist art and social graphics</td><td>Multi-purpose design projects</td><td>Advanced editing and compositing</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </section>
-
-          <section className="section">
-            <div className="container container-medium article-prose reveal">
-              <p className="eyebrow">Quick Fixes</p>
-              <h2>Common Brat Album Cover Problems</h2>
-              <h3>The text becomes unreadable after blur</h3>
-              <p>Reduce the blur first, then increase contrast or simplify the wording. The effect should soften the letters without making them disappear at thumbnail size.</p>
-              <h3>The cover gets cropped on a platform</h3>
-              <p>Start with the correct aspect ratio and keep important text away from the edges. Make a separate vertical version for Stories or TikTok instead of stretching a square cover.</p>
-              <h3>The downloaded image looks pixelated</h3>
-              <p>Export from one of the built-in canvas sizes and avoid enlarging a smaller download afterward. For more browser and download fixes, see the <Link href="/help/brat-generator-not-working/">Brat Generator troubleshooting guide</Link>.</p>
-              <p>Want a control-by-control walkthrough? Read <Link href="/#how-to">how to use Brat Generator</Link>, or review the <Link href="/#features">current feature list</Link>.</p>
-            </div>
-          </section>
-
-        </article>
+          <RelatedPostsSidebar
+            currentSlug={articleData.slug}
+            relatedSlugs={['brat-canvas-size-guide', 'which-brat-tool-should-you-use', 'brat-meme-ideas-templates', 'brat-generator-not-working']}
+          />
+        </div>
       </main>
       <SiteFooter />
     </>

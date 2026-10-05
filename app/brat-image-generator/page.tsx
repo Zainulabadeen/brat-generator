@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
 import ToolPageShell from '@/components/ToolPageShell';
+import { CREATIVE_CANVAS_SIZE_SUMMARY } from '@/lib/toolCapabilities';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Image Generator | Free Brat-Style Image Maker' },
-  description: 'Create Brat-style images from a short prompt with custom colours, multiple canvas sizes and free PNG, JPG or WebP downloads in your browser.',
+  description: 'Create text-led Brat-style graphics with custom colours, optional background images, simple effects, five canvas sizes and PNG, JPG or WebP export.',
   alternates: { canonical: '/brat-image-generator/' },
   openGraph: {
     type: 'website',
     url: '/brat-image-generator/',
     title: 'Brat Image Generator | Free Brat-Style Image Maker',
-    description: 'Create custom Brat-style text images from your prompt with colours, social sizes and instant browser-based downloads.',
+    description: 'Create text-led Brat graphics with colours, optional background images, simple effects and social-ready canvas sizes.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Image Generator preview' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Brat Image Generator', description: 'Create prompt-based Brat-style text images in your browser.', images: ['/og-image.png'] },
+  twitter: { card: 'summary_large_image', title: 'Brat Image Generator', description: 'Create text-led Brat-style graphics in your browser.', images: ['/og-image.png'] },
 };
 
 export default function Page() {
@@ -21,53 +22,54 @@ export default function Page() {
     name="Brat Image Generator"
     slug="brat-image-generator"
     title="Brat Image Generator"
-    schemaDescription="Free browser-based Brat image generator that turns a short text prompt into a Brat-style graphic with custom colours, multiple social canvas ratios and PNG, JPG or WebP downloads."
+    description="Create a text-led Brat-style graphic with custom colours, an optional background image, simple effects and social-ready canvas sizes. Your text becomes the artwork; this tool does not generate AI scenes or photos."
+    schemaDescription="Free browser-based Brat image generator for text-led graphics with custom colours, optional background image upload, font and blur controls, simple effects, five canvas sizes and PNG, JPG or WebP export."
     howTo={[
       {
-        title: 'Enter the text idea',
-        body: 'Describe the Brat-style graphic with the exact word, phrase, mood or short message you want to appear on the finished image. This tool draws a text-led graphic rather than inventing a photorealistic scene.',
+        title: 'Enter the text you want to show',
+        body: 'Type the exact word, phrase or short message that should appear in the artwork. This is a text-led design tool, not an AI scene generator.',
         points: [
-          'Use a single word or short phrase for the strongest classic composition.',
-          'Longer captions can work, but check the preview for wrapping and smaller text.',
-          'Write the wording exactly as you want it before choosing colours and size.',
+          'A single word or short phrase gives the strongest compact composition.',
+          'Longer captions can work, but they may need more canvas space or smaller type.',
+          'Write the wording exactly as you want it before styling the image.',
         ],
-        tip: 'Start with the shortest version of your phrase; you can always add more words after you see how the first layout feels.',
+        tip: 'Start short. It is easier to add another word later than to rescue a crowded layout.',
         image: '',
         alt: '',
       },
       {
-        title: 'Choose background and text colours',
-        body: 'Set the colour pair before generating so the preview begins with the contrast and mood you want instead of forcing you to fix readability later.',
+        title: 'Choose the colours or add a background image',
+        body: 'Set the background and text colours, or upload a JPG, PNG or WebP image when the graphic needs a photo or texture behind the words.',
         points: [
-          'Use the background picker for Brat green, black, white, pink, blue or any custom colour.',
-          'Choose a text colour that remains visible at thumbnail size.',
-          'Dark-on-light and light-on-dark combinations are the safest starting point for readability.',
+          'Use a flat colour when the wording should remain the main visual.',
+          'Upload a background image when the photo adds useful context.',
+          'Keep enough contrast between the text and the busiest part of the background.',
         ],
-        tip: 'If you have to stare at the text to read it, increase the contrast before generating the final version.',
+        tip: 'If the text disappears into the image, fix the contrast before adding more effects.',
         image: '',
         alt: '',
       },
       {
-        title: 'Pick the canvas size',
-        body: 'Match the canvas to where the image will actually be used. The same phrase can feel very different on a square post, portrait feed card, Story or landscape banner.',
+        title: 'Set the canvas and visual treatment',
+        body: 'Choose the final aspect ratio, then use the font, blur and optional effects only where they improve the design.',
         points: [
-          'Square 1080×1080 is a flexible all-purpose social format.',
-          'Portrait 1080×1350 uses more vertical feed space.',
-          'Story 1080×1920 fills a phone screen, while 1200×630 works for wider banners and previews.',
+          `The tool includes ${CREATIVE_CANVAS_SIZE_SUMMARY}.`,
+          'Use blur lightly so the text still reads at thumbnail size.',
+          'Lo-fi Photo, Mirror Text and White Block are optional accents rather than required settings.',
         ],
-        tip: 'Choose the final destination first, then generate; this avoids cropping a finished design into the wrong shape later.',
+        tip: 'Choose the destination first. That avoids cropping a finished design into the wrong shape later.',
         image: '',
         alt: '',
       },
       {
-        title: 'Generate, review and export',
-        body: 'Press Generate Brat Image to render the design, inspect the result, then download or copy it once the wording, colours and canvas all look right.',
+        title: 'Create, review and export',
+        body: 'Press Create Brat Image to render the design. Check the result, then download it or copy the PNG when everything reads clearly.',
         points: [
-          'Use PNG when crisp text edges are the priority.',
-          'Use JPG or WebP when you want a smaller web-friendly file.',
-          'Use Copy Image to paste the generated PNG directly into another supported app.',
+          'Use PNG when text quality is the priority.',
+          'Use JPG or WebP when a smaller web-friendly file is more useful.',
+          'Use Copy Image to paste the finished PNG into another supported app.',
         ],
-        tip: 'Do one final thumbnail-size check before downloading; a design that works small usually works well almost everywhere else too.',
+        tip: 'Do one final phone-size check before export; small-screen readability catches problems quickly.',
         image: '',
         alt: '',
       },
@@ -75,67 +77,62 @@ export default function Page() {
     guideDetails={[
       {
         eyebrow: 'Input',
-        title: 'What the Prompt Actually Controls',
-        body: 'The prompt field is the wording of the artwork itself. It is not an AI scene description, so the best input is the exact phrase you want people to see.',
+        title: 'Text-Led, Not AI Scene Generation',
+        body: 'The text field is the wording of the artwork itself. It is not a prompt for a model to invent a person, place or photorealistic scene.',
         points: [
-          'Short phrases create the clearest text-led layouts.',
-          'Mood words, names, captions and one-line statements all work well.',
-          'If the phrase is long, expect the text to scale down to fit the canvas.',
+          'Names, short captions, moods and one-line statements work well.',
+          'The result is drawn locally in the browser.',
+          'Add your own background image when the graphic needs a photo rather than asking the tool to invent one.',
         ],
-        note: 'The graphic is rendered in the browser; no remote image-generation service is needed for the text design.',
+        note: 'No remote AI image service is required to render the text-led design.',
       },
       {
         eyebrow: 'Composition',
-        title: 'Colour and Canvas Choices',
-        body: 'Colour sets the mood while canvas shape decides how much room the text has. Choose both together instead of treating the canvas as an afterthought.',
+        title: 'Background, Font and Effects',
+        body: 'Start with contrast, then add styling. The visual effects should support the wording rather than make it harder to read.',
         points: [
-          'Bright backgrounds create the strongest Brat-style impact.',
-          'High-contrast text stays readable on small screens.',
-          'Vertical canvases need more breathing room above and below the main phrase than square graphics do.',
+          'Flat colour is the quickest route to a minimal Brat-style graphic.',
+          'Uploaded images work best when they leave a calm area behind the text.',
+          'Blur, Lo-fi Photo, Mirror Text and White Block are there for specific variations, not because every design needs them.',
         ],
       },
       {
-        eyebrow: 'Reuse',
-        title: 'Download and Copy Options',
-        body: 'Once the design is generated, you can keep the high-quality version for later or copy it directly into another workflow without recreating it.',
+        eyebrow: 'Output',
+        title: 'Five Canvas Sizes and Export',
+        body: 'Choose the canvas before generating the final version so the design is already built for its destination.',
         points: [
+          `Available presets: ${CREATIVE_CANVAS_SIZE_SUMMARY}.`,
           'PNG is a strong default for text-heavy graphics.',
           'JPG and WebP can reduce file size for web use.',
-          'Copy Image is useful for chats, documents and editors that accept pasted images.',
         ],
       },
     ]}
     features={[
-      ['Simple Text Prompt', 'Turn a short word, phrase, mood or caption into a focused Brat-style text graphic.'],
-      ['Custom Colours', 'Choose background and text colours before generation instead of being locked to one green preset.'],
-      ['Four Canvas Ratios', 'Create square, 4:5 portrait, 9:16 Story and landscape graphics for different placements.'],
-      ['Instant Browser Preview', 'Generate the design locally and check it immediately without waiting for a remote render queue.'],
-      ['Copy to Clipboard', 'Copy the finished PNG when your browser supports image clipboard access for faster reuse in other apps.'],
-      ['PNG, JPG & WebP Export', 'Choose a lossless or smaller web-friendly format depending on where the graphic will be used.'],
+      ['Text-Led Image Creation', 'Turn a word, phrase or short caption into a Brat-style graphic without pretending to generate an AI scene.'],
+      ['Optional Background Image', 'Upload your own JPG, PNG or WebP photo or texture when a flat colour is not enough.'],
+      ['Font, Colour & Blur Controls', 'Choose the typeface, text and background colours, then adjust blur while watching the result.'],
+      ['Simple Visual Effects', 'Use Lo-fi Photo, Mirror Text or White Block when the effect supports the idea.'],
+      ['Five Canvas Sizes', `Create ${CREATIVE_CANVAS_SIZE_SUMMARY} graphics.`],
+      ['PNG, JPG & WebP Export', 'Download the finished image or copy a PNG directly to the clipboard.'],
     ]}
     useCases={[
-      ['Profile & Feed Images', 'Make Brat-style profile graphics, square posts and visual captions from short phrases.'],
-      ['Stories & Wallpapers', 'Use the 9:16 canvas for phone wallpapers, Stories and vertical social graphics.'],
-      ['Banners & Quick Graphics', 'Use the landscape canvas for banners, headers, link previews and simple announcement art.'],
+      ['Profile & Feed Graphics', 'Make text-led profile graphics, square posts and visual captions from short phrases.'],
+      ['Stories, Wallpapers & Wide Posts', 'Use the vertical or 16:9 presets for phone screens, Stories, wallpapers and wider social graphics.'],
+      ['Photo-Backed Text Graphics', 'Upload a photo or texture when the words need a visual background but the layout should stay simple.'],
     ]}
     tips={[
-      'One to four words usually gives the strongest classic Brat-style composition.',
-      'Choose high contrast between the text and background so the design still reads at thumbnail size.',
-      'Use PNG when text-edge quality matters most; JPG or WebP can be useful when a smaller file is more important.',
+      'One to four words usually gives the strongest compact composition.',
+      'Fix contrast before adding blur or effects; readable text matters more than decoration.',
+      'Use PNG for crisp text, and JPG or WebP when smaller file size matters more.',
     ]}
     faqs={[
-      ['Is the Brat Image Generator an AI image generator?', 'No. It is a focused Brat-style graphic generator: your text becomes the main visual on a coloured canvas. It does not create photorealistic scenes from a text prompt.'],
-      ['Is the Brat Image Generator free?', 'Yes. You can generate and download images in the browser without creating an account.'],
-      ['What sizes are available?', 'The tool includes 1080×1080 square, 1080×1350 portrait, 1080×1920 Story and 1200×630 landscape canvases.'],
-      ['What file formats can I download?', 'You can download the generated graphic as PNG, JPG or WebP. PNG is a strong default when you want crisp text.'],
-      ['Can I use custom colours?', 'Yes. Choose both the background colour and text colour before you generate the image.'],
-      ['Does my text prompt get uploaded to generate the image?', 'The current generator draws the Brat-style graphic in your browser. It does not require a remote AI image service to render the text design.'],
+      ['Is the Brat Image Generator an AI image generator?', 'No. It creates text-led Brat-style graphics in the browser. It does not invent photorealistic scenes or people from a prompt.'],
+      ['Can I upload my own background image?', 'Yes. You can use a JPG, PNG or WebP image as the background, then add your text and styling over it.'],
+      ['What sizes are available?', `The tool includes ${CREATIVE_CANVAS_SIZE_SUMMARY}.`],
+      ['Which visual controls are available?', 'You can choose the background and text colours, font, blur and canvas size, plus optional Lo-fi Photo, Mirror Text and White Block effects.'],
+      ['What file formats can I download?', 'You can download PNG, JPG or WebP. PNG is a strong default for text-heavy graphics.'],
+      ['Does my text get uploaded to create the image?', 'The tool draws the graphic in your browser. It does not need a remote AI image service to render the design.'],
     ]}
-    faqIntro="Quick answers about what this image tool creates, the available canvas sizes, colour controls and download formats."
-    links={[
-      ['Make a Brat Meme', '/brat-meme-generator/'],
-      ['Make an Album Cover', '/brat-album-cover-generator/'],
-      ['Create Brat Text on the Homepage', '/#generator'],
-    ]}
+    faqIntro="Quick answers about what the image tool creates, background uploads, effects, sizes and export."
   />;
 }

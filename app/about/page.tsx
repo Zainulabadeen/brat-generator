@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
-import RelatedPages from '@/components/RelatedPages';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
+import SiteIcon from '@/components/SiteIcon';
 import { siteConfig } from '@/lib/site';
 import { breadcrumbSchema, organizationId, webPageSchema } from '@/lib/schema';
 
@@ -34,7 +34,7 @@ export default function AboutPage() {
     url: `${siteConfig.url}/about/`,
     name: 'About Brat Generator',
     description: metadata.description,
-    dateModified: '2026-09-23',
+    dateModified: '2026-10-04',
     about: { '@id': organizationId },
   });
 
@@ -57,15 +57,24 @@ export default function AboutPage() {
             <p className="eyebrow">Why It Exists</p>
             <h2>Simple by Design</h2>
             <p>General design tools are powerful, but they can be slow when you only want one specific visual style. Brat Generator focuses on the few controls that matter most for this aesthetic: text, background colour, text colour, size, spacing, blur, canvas ratio and export format.</p>
-            <p>The goal is not to replace a full design suite. It is to help someone move from an idea to a finished Brat-inspired graphic in seconds, whether they are making a playlist cover, meme, profile image, social post or personal design experiment.</p>
+            <p>The goal is not to replace a full design suite. It is to help someone move from an idea to a finished Brat-inspired graphic quickly. The <Link className="inline-source-link" href="/#how-to">Brat Generator tutorial</Link> covers the basic workflow when you need a starting point.</p>
           </div>
         </section>
 
         <section className="section section-card">
           <div className="container container-wide card-grid three">
-            <article className="glass info-card hover-lift reveal"><div className="emoji">⚡</div><h3>Fast</h3><p>The live preview updates as settings change, so there is no repeated export-and-check loop.</p></article>
-            <article className="glass info-card hover-lift reveal reveal-delay-1"><div className="emoji">🧩</div><h3>Focused</h3><p>The interface stays centred on the controls needed for Brat-style artwork rather than hiding them inside a large editor.</p></article>
-            <article className="glass info-card hover-lift reveal reveal-delay-2"><div className="emoji">🔒</div><h3>Browser-Based</h3><p>Generator text and design rendering happen locally in your browser instead of being uploaded by the generator to an application server.</p></article>
+            <article className="glass info-card hover-lift reveal"><div className="emoji"><SiteIcon name="bolt" size={27} /></div><h3>Fast</h3><p>The live preview updates as settings change, so there is no repeated export-and-check loop.</p></article>
+            <article className="glass info-card hover-lift reveal reveal-delay-1"><div className="emoji"><SiteIcon name="puzzle" size={27} /></div><h3>Focused</h3><p>The interface stays centred on the controls needed for Brat-style artwork rather than hiding them inside a large editor.</p></article>
+            <article className="glass info-card hover-lift reveal reveal-delay-2"><div className="emoji"><SiteIcon name="lock" size={27} /></div><h3>Browser-Based</h3><p>Generator text and design rendering happen locally in your browser instead of being uploaded by the generator to an application server.</p></article>
+          </div>
+        </section>
+
+        <section className="section section-tight">
+          <div className="container container-medium article-prose reveal">
+            <p className="eyebrow">How the Guides Are Maintained</p>
+            <h2>Checked Against the Current Tools</h2>
+            <p>The Help guides are reviewed against the controls and export behaviour available on this site. When a tool changes, the related instructions are updated so the page describes what a user can actually do rather than promising a control that is not there.</p>
+            <p>Updated dates are changed when the guide itself is revised. They are not refreshed only to make an older article look new.</p>
           </div>
         </section>
 
@@ -74,16 +83,10 @@ export default function AboutPage() {
             <p className="eyebrow">Independent Status</p>
             <h2>Fan-Made, Not Official</h2>
             <p>Brat Generator is an independent fan-made design tool inspired by the broader visual language associated with Charli XCX&apos;s <em>Brat</em> era. It is not affiliated with, sponsored by, or endorsed by Charli XCX, Atlantic Records, Warner Music or their related brands.</p>
-            <p>The site is intended to provide creative tools and educational guidance around the visual style. Users should avoid using generated designs in ways that falsely suggest an official relationship or endorsement.</p>
-            <div className="section-cta"><Link className="text-link" href="/terms/">Read the Terms & Disclaimer <span aria-hidden="true">→</span></Link></div>
+            <p>The site is intended to provide creative tools and educational guidance around the visual style. Users should avoid using generated designs in ways that falsely suggest an official relationship or endorsement; the <Link className="inline-source-link" href="/terms/">Terms &amp; Disclaimer</Link> explains those limits, and the <Link className="inline-source-link" href="/privacy-policy/">Privacy Policy</Link> explains how the site handles browser-based processing and technical data.</p>
           </div>
         </section>
 
-        <RelatedPages items={[
-          { href: '/#features', eyebrow: 'Tool', title: 'Key Features', description: 'See exactly what the generator can do and how each control works.', accent: 'green' },
-          { href: '/#how-to', eyebrow: 'Guide', title: 'How to Use It', description: 'Follow the quick homepage workflow from text entry to download.', accent: 'blue' },
-          { href: '/privacy-policy/', eyebrow: 'Trust', title: 'Privacy Policy', description: 'See what is processed locally and what technical data may be handled by hosting.', accent: 'pink' },
-        ]} />
       </main>
       <SiteFooter />
     </>

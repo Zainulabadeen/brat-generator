@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { INDEXABLE_PAGES, REDIRECT_SOURCES } from './site-routes.mjs';
 
 const root = process.cwd();
 const out = path.join(root, 'out');
@@ -12,23 +13,9 @@ if (!fs.existsSync(out)) {
   process.exit(1);
 }
 
-const pages = [
-  { rel: 'index.html', url: '/', keyword: 'brat generator' },
-  { rel: 'video-generator/index.html', url: '/video-generator/', keyword: 'brat video generator', schema: 'SoftwareApplication' },
-  { rel: 'brat-meme-generator/index.html', url: '/brat-meme-generator/', keyword: 'brat meme generator', schema: 'SoftwareApplication' },
-  { rel: 'brat-image-generator/index.html', url: '/brat-image-generator/', keyword: 'brat image generator', schema: 'SoftwareApplication' },
-  { rel: 'brat-album-cover-generator/index.html', url: '/brat-album-cover-generator/', keyword: 'brat album cover generator', schema: 'SoftwareApplication' },
-  { rel: 'brat-styles/index.html', url: '/brat-styles/', keyword: 'brat styles', schema: 'CollectionPage' },
-  { rel: 'help/index.html', url: '/help/', keyword: 'brat generator', schema: 'ItemList' },
-  { rel: 'help/how-to-make-a-brat-album-cover-free/index.html', url: '/help/how-to-make-a-brat-album-cover-free/', keyword: 'how to make a brat album cover', schema: 'Article' },
-  { rel: 'help/brat-generator-not-working/index.html', url: '/help/brat-generator-not-working/', keyword: 'brat generator not working', schema: 'Article' },
-  { rel: 'about/index.html', url: '/about/', schema: 'AboutPage' },
-  { rel: 'contact/index.html', url: '/contact/', schema: 'ContactPage' },
-  { rel: 'privacy-policy/index.html', url: '/privacy-policy/', schema: 'WebPage' },
-  { rel: 'terms/index.html', url: '/terms/', schema: 'WebPage' },
-];
+const pages = INDEXABLE_PAGES.map(({ out: rel, route: url, keyword, schema }) => ({ rel, url, keyword, schema }));
 
-const redirectSources = new Set(['/brat-text-generator', '/brat-font-generator', '/how-to', '/how-to-use', '/styles', '/features', '/key-features', '/brat-generator-features', '/how-to-make-a-brat-album-cover', '/blog/how-to-make-a-brat-album-cover']);
+const redirectSources = new Set(REDIRECT_SOURCES);
 
 const decode = (s = '') => s
   .replace(/&nbsp;/gi, ' ')

@@ -1,0 +1,31 @@
+RUSH TRACK V9 — WIDE RESPONSIVE + RT MOVERS INTEGRATION
+
+1. Wider responsive site shell
+   - Main content now expands much further on wide screens.
+   - Sections align consistently with the header/logo area.
+   - Existing responsive breakpoints retained and refined for tablet/mobile.
+
+2. Hero rebuilt for wide screens
+   - Replaced the old 4:3 hero asset with a high-resolution panoramic Rush Track fleet image (2172x724).
+   - Full-bleed background scales naturally on large screens with less aggressive cropping.
+   - Text remains readable through a softer responsive white gradient.
+
+3. RT Movers integration cleaned up
+   - Dedicated RT Movers URL updated to https://rtmovers.ae/
+   - Moving division now uses the authentic user-provided yellow uniform photograph.
+   - Exact supplied RT Movers logo is shown as a clean brand badge instead of an invented logo.
+   - Moving enquiry details added: +971 50 235 9100, info@rtmovers.ae, Citadel Tower, Business Bay, Dubai.
+
+4. Content cleanup
+   - Removed warehouse/storage references from the updated core corporate pages.
+   - Reduced filler copy and kept the parent site focused on Transport & Logistics, RT Movers, and Fleet Services.
+   - Related About, Divisions, Fleet, Industries and Contact pages refreshed.
+
+5. Internal linking
+   - Contextual internal links are placed on natural anchor text.
+   - Content-area internal links are no longer presented as large CTA buttons.
+   - Header/navigation design is left alone.
+
+IMPORTANT
+- This is a paste-and-replace update for the SAME existing Rush Track project.
+- It does NOT include package.json/package-lock.json, so it will not undo your Next.js 15.5.24 update.

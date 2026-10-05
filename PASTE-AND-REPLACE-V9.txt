@@ -1,0 +1,11 @@
+1. Extract this ZIP.
+2. Copy everything inside it.
+3. Paste into your existing E:\rush-track-corporate project folder.
+4. Choose "Replace the files in the destination" when Windows asks.
+5. Do NOT delete node_modules and do NOT replace package.json with an older version.
+6. Run: npm run dev
+7. Test desktop, resized browser, tablet/mobile widths.
+8. Before GitHub push run: npm run build
+9. Then: git add .
+10. git commit -m "Improve responsive layout and RT Movers integration"
+11. git push

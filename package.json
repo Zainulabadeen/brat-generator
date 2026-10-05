@@ -9,20 +9,25 @@
     "prelive": "npm run build && node scripts/prelive-check.mjs",
     "onpage": "npm run build && node scripts/onpage-check.mjs",
     "onpage:check": "node scripts/onpage-check.mjs",
-    "technical:check": "node scripts/technical-check.mjs",
+    "technical:check": "node scripts/remove-review-leftovers.mjs && node scripts/technical-check.mjs",
     "technical:live": "node scripts/technical-live-check.mjs",
     "seo:check": "npm run build && node scripts/onpage-check.mjs && node scripts/technical-check.mjs && node scripts/prelive-check.mjs",
-    "lighthouse:serve": "node scripts/serve-lighthouse.mjs"
+    "lighthouse:serve": "node scripts/serve-lighthouse.mjs",
+    "cleanup:old-blog": "node scripts/remove-old-blog-routes.mjs",
+    "cleanup:legacy-project": "node scripts/remove-unrelated-legacy-project-files.mjs",
+    "prebuild": "node scripts/remove-review-leftovers.mjs && node scripts/generate-sitemap.mjs",
+    "predev": "node scripts/remove-review-leftovers.mjs",
+    "cleanup:review": "node scripts/remove-review-leftovers.mjs"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "typescript": "latest"
+    "@types/node": "26.5.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "typescript": "7.0.2"
   }
 }

@@ -1,31 +1,12 @@
 'use client';
 
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { CREATIVE_CANVAS_PRESETS as PRESETS, FONT_OPTIONS } from '@/lib/toolCapabilities';
 
 type ToolMode = 'meme' | 'image' | 'font' | 'album';
 type ExportFormat = 'png' | 'jpeg' | 'webp';
 
 type Props = { mode: ToolMode };
-
-type Preset = { label: string; width: number; height: number };
-
-const PRESETS: Preset[] = [
-  { label: 'Square 1080', width: 1080, height: 1080 },
-  { label: 'Portrait 4:5', width: 1080, height: 1350 },
-  { label: 'Story 9:16', width: 1080, height: 1920 },
-  { label: 'Landscape', width: 1200, height: 630 },
-];
-
-const FONT_OPTIONS = [
-  'Arial Narrow',
-  'Arial Black',
-  'Impact',
-  'Helvetica',
-  'Trebuchet MS',
-  'Georgia',
-  'Courier New',
-  'Verdana',
-];
 
 const modeConfig = {
   meme: {
@@ -36,7 +17,7 @@ const modeConfig = {
   image: {
     label: 'Image Studio',
     defaultText: 'make it brat',
-    helper: 'Combine text, a colour or uploaded image, simple effects, and social-ready canvas sizes.',
+    helper: 'Create text-led Brat graphics with custom colours, an optional background image, simple effects, and social-ready canvas sizes.',
   },
   font: {
     label: 'Font Studio',
@@ -46,7 +27,7 @@ const modeConfig = {
   album: {
     label: 'Album Cover Studio',
     defaultText: 'your album',
-    helper: 'Build square cover art with a title, optional artist line, colour, blur, and platform-ready export.',
+    helper: 'Build square cover art with a title, optional artist line, colour, blur, and high-resolution export.',
   },
 } as const;
 
@@ -68,7 +49,12 @@ function roundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: num
   ctx.closePath();
 }
 
-function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number) {
+function measureWithSpacing(ctx: CanvasRenderingContext2D, text: string, letterSpacing: number) {
+  if (!letterSpacing || text.length <= 1) return ctx.measureText(text || ' ').width;
+  return text.split('').reduce((sum, char, index) => sum + ctx.measureText(char).width + (index < text.length - 1 ? letterSpacing : 0), 0);
+}
+
+function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, letterSpacing = 0) {
   const paragraphs = text.split(/\n/);
   const lines: string[] = [];
   for (const paragraph of paragraphs) {
@@ -80,7 +66,7 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
     let line = words[0];
     for (let i = 1; i < words.length; i += 1) {
       const test = `${line} ${words[i]}`;
-      if (ctx.measureText(test).width > maxWidth) {
+      if (measureWithSpacing(ctx, test, letterSpacing) > maxWidth) {
         lines.push(line);
         line = words[i];
       } else line = test;
@@ -90,11 +76,11 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
   return lines.slice(0, 6);
 }
 
-function fitFont(ctx: CanvasRenderingContext2D, text: string, font: string, start: number, maxWidth: number) {
+function fitFont(ctx: CanvasRenderingContext2D, text: string, font: string, start: number, maxWidth: number, letterSpacing = 0) {
   let size = start;
   while (size > 18) {
     ctx.font = `700 ${size}px ${font}`;
-    const longest = Math.max(...text.split(/\n/).map((line) => ctx.measureText(line || ' ').width));
+    const longest = Math.max(...text.split(/\n/).map((line) => measureWithSpacing(ctx, line || ' ', letterSpacing)));
     if (longest <= maxWidth) break;
     size -= 4;
   }
@@ -115,13 +101,14 @@ function drawTextLines(
   blur: number,
   mirror = false,
   whiteBlock = false,
+  letterSpacing = 0,
 ) {
   if (!text.trim()) return;
   ctx.save();
   ctx.font = `700 ${fontSize}px ${font}`;
   ctx.textAlign = align;
   ctx.textBaseline = 'middle';
-  const lines = wrapLines(ctx, text, maxWidth);
+  const lines = wrapLines(ctx, text, maxWidth, letterSpacing);
   const actualLineHeight = fontSize * lineHeight;
   const total = (lines.length - 1) * actualLineHeight;
   if (mirror) {
@@ -130,8 +117,8 @@ function drawTextLines(
   }
   lines.forEach((line, index) => {
     const lineY = y - total / 2 + index * actualLineHeight;
-    const metrics = ctx.measureText(line || ' ');
-    const blockW = Math.min(maxWidth, metrics.width + fontSize * 0.45);
+    const measuredWidth = Math.min(maxWidth, measureWithSpacing(ctx, line || ' ', letterSpacing));
+    const blockW = Math.min(maxWidth, measuredWidth + fontSize * 0.45);
     if (whiteBlock) {
       const left = align === 'left' ? x : align === 'right' ? x - blockW : x - blockW / 2;
       ctx.save();
@@ -143,7 +130,18 @@ function drawTextLines(
     }
     ctx.fillStyle = color;
     ctx.filter = blur > 0 ? `blur(${blur}px)` : 'none';
-    ctx.fillText(line, x, lineY, maxWidth);
+    if (!letterSpacing || line.length <= 1) {
+      ctx.textAlign = align;
+      ctx.fillText(line, x, lineY, maxWidth);
+      return;
+    }
+    const chars = line.split('');
+    let cursor = align === 'left' ? x : align === 'right' ? x - measuredWidth : x - measuredWidth / 2;
+    ctx.textAlign = 'left';
+    chars.forEach((char, charIndex) => {
+      ctx.fillText(char, cursor, lineY);
+      cursor += ctx.measureText(char).width + (charIndex < chars.length - 1 ? letterSpacing : 0);
+    });
   });
   ctx.restore();
 }
@@ -159,6 +157,7 @@ export default function BratCreativeTool({ mode }: Props) {
   const [fontSize, setFontSize] = useState(mode === 'meme' ? 82 : mode === 'album' ? 104 : 96);
   const [blur, setBlur] = useState(1.5);
   const [lineHeight, setLineHeight] = useState(0.96);
+  const [letterSpacing, setLetterSpacing] = useState(0);
   const [align, setAlign] = useState<CanvasTextAlign>('center');
   const [preset, setPreset] = useState(PRESETS[0]);
   const [format, setFormat] = useState<ExportFormat>('png');
@@ -176,7 +175,7 @@ export default function BratCreativeTool({ mode }: Props) {
     return preset;
   }, [mode, preset]);
 
-  const render = (canvas: HTMLCanvasElement, exportSize = false) => {
+  const render = (canvas: HTMLCanvasElement, exportSize = false, forceOpaque = false) => {
     const ratio = actualPreset.width / actualPreset.height;
     const width = exportSize ? actualPreset.width : ratio >= 1 ? 900 : Math.round(820 * ratio);
     const height = exportSize ? actualPreset.height : ratio >= 1 ? Math.round(900 / ratio) : 820;
@@ -188,7 +187,7 @@ export default function BratCreativeTool({ mode }: Props) {
     const scale = width / actualPreset.width;
     const blurPx = Math.max(0, blur * (exportSize ? 1 : Math.max(scale, .45)));
 
-    if (!(mode === 'font' && transparent)) {
+    if (!(mode === 'font' && transparent && !forceOpaque)) {
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, width, height);
     }
@@ -207,20 +206,24 @@ export default function BratCreativeTool({ mode }: Props) {
     const margin = width * .09;
     const maxWidth = width - margin * 2;
     const scaledFont = Math.max(22, fontSize * width / 1080);
+    const scaledLetterSpacing = letterSpacing * width / 1080;
     const selectedFont = font.includes(' ') ? `"${font}"` : font;
 
     if (mode === 'meme') {
-      const topSize = fitFont(ctx, text.toUpperCase(), selectedFont, scaledFont, maxWidth);
-      const bottomSize = fitFont(ctx, secondaryText.toUpperCase(), selectedFont, scaledFont * .86, maxWidth);
-      drawTextLines(ctx, text.toUpperCase(), width / 2, height * .18, maxWidth, topSize, selectedFont, .98, 'center', textColor, blurPx, mirror, whiteBlock);
-      drawTextLines(ctx, secondaryText.toUpperCase(), width / 2, height * .82, maxWidth, bottomSize, selectedFont, .98, 'center', textColor, blurPx, mirror, whiteBlock);
+      const topSize = fitFont(ctx, text, selectedFont, scaledFont, maxWidth);
+      const bottomSize = fitFont(ctx, secondaryText, selectedFont, scaledFont * .86, maxWidth);
+      const memeX = align === 'left' ? margin : align === 'right' ? width - margin : width / 2;
+      drawTextLines(ctx, text, memeX, height * .18, maxWidth, topSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock);
+      drawTextLines(ctx, secondaryText, memeX, height * .82, maxWidth, bottomSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock);
     } else if (mode === 'album') {
       const titleSize = fitFont(ctx, text.toLowerCase(), selectedFont, scaledFont, maxWidth * .9);
-      drawTextLines(ctx, text.toLowerCase(), width / 2, height * .47, maxWidth * .9, titleSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock);
-      drawTextLines(ctx, secondaryText, width / 2, height * .79, maxWidth * .78, Math.max(24, titleSize * .28), selectedFont, 1.1, 'center', textColor, Math.max(0, blurPx * .28));
+      const titleX = align === 'left' ? margin : align === 'right' ? width - margin : width / 2;
+      drawTextLines(ctx, text.toLowerCase(), titleX, height * .47, maxWidth * .9, titleSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock);
+      drawTextLines(ctx, secondaryText, titleX, height * .79, maxWidth * .78, Math.max(24, titleSize * .28), selectedFont, 1.1, align, textColor, Math.max(0, blurPx * .28));
     } else {
-      const finalSize = fitFont(ctx, text, selectedFont, scaledFont, maxWidth);
-      drawTextLines(ctx, text, align === 'left' ? margin : align === 'right' ? width - margin : width / 2, height / 2, maxWidth, finalSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock);
+      const spacing = mode === 'font' ? scaledLetterSpacing : 0;
+      const finalSize = fitFont(ctx, text, selectedFont, scaledFont, maxWidth, spacing);
+      drawTextLines(ctx, text, align === 'left' ? margin : align === 'right' ? width - margin : width / 2, height / 2, maxWidth, finalSize, selectedFont, lineHeight, align, textColor, blurPx, mirror, whiteBlock, spacing);
     }
 
     if (mode === 'image' && sticker !== 'none') {
@@ -237,7 +240,7 @@ export default function BratCreativeTool({ mode }: Props) {
   useEffect(() => {
     if (canvasRef.current && (mode !== 'image' || imageGenerated)) render(canvasRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker, mode, imageGenerated]);
+  }, [text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight, letterSpacing, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker, mode, imageGenerated]);
 
   const onBackground = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -254,7 +257,7 @@ export default function BratCreativeTool({ mode }: Props) {
 
   const makeBlob = async (type: string, quality?: number) => {
     const exportCanvas = document.createElement('canvas');
-    render(exportCanvas, true);
+    render(exportCanvas, true, mode === 'font' && transparent && type === 'image/jpeg');
     return await new Promise<Blob | null>((resolve) => exportCanvas.toBlob(resolve, type, quality));
   };
 
@@ -288,6 +291,7 @@ export default function BratCreativeTool({ mode }: Props) {
     setFontSize(mode === 'meme' ? 82 : mode === 'album' ? 104 : 96);
     setBlur(1.5);
     setLineHeight(.96);
+    setLetterSpacing(0);
     setAlign('center');
     setPreset(PRESETS[0]);
     setFormat('png');
@@ -311,7 +315,7 @@ export default function BratCreativeTool({ mode }: Props) {
       <div className="creative-tool creative-tool-image image-prompt-tool">
         <div className="image-prompt-main">
           <label className="image-prompt-field">
-            <span>Describe your Brat image</span>
+            <span>Enter your text or idea</span>
             <textarea
               value={text}
               onChange={(e) => { setText(e.target.value.slice(0, 220)); setImageGenerated(false); }}
@@ -320,13 +324,28 @@ export default function BratCreativeTool({ mode }: Props) {
             />
           </label>
 
+          <p className="tool-inline-note">Your text becomes the artwork. This is a text-led design tool, not an AI scene or photo generator.</p>
+
           <div className="image-quick-settings">
             <label className="tool-field"><span>Background</span><div className="color-input"><input type="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value); setImageGenerated(false); }} /><code>{bgColor.toUpperCase()}</code></div></label>
             <label className="tool-field"><span>Text colour</span><div className="color-input"><input type="color" value={textColor} onChange={(e) => { setTextColor(e.target.value); setImageGenerated(false); }} /><code>{textColor.toUpperCase()}</code></div></label>
-            <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => { setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0]); setImageGenerated(false); }}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.label} · {item.width}×{item.height}</option>)}</select></label>
+            <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => { setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0]); setImageGenerated(false); }}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.shortLabel}</option>)}</select></label>
           </div>
 
-          <button className="image-generate-btn" type="button" onClick={generateImage}>Generate Brat Image</button>
+          <div className="tool-row two">
+            <label className="tool-field"><span>Font</span><select value={font} onChange={(e) => { setFont(e.target.value); setImageGenerated(false); }}>{FONT_OPTIONS.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label className="tool-slider"><span>Blur <b>{blur.toFixed(1)}px</b></span><input type="range" min="0" max="8" step="0.5" value={blur} onChange={(e) => { setBlur(Number(e.target.value)); setImageGenerated(false); }} /></label>
+          </div>
+
+          <label className="tool-field tool-upload"><span>Background image (optional)</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => { onBackground(event); setImageGenerated(false); }} /><small className="tool-help">{backgroundName || 'PNG, JPG or WebP — the file stays in your browser'}</small></label>
+
+          <div className="tool-toggle-row">
+            <label><input type="checkbox" checked={lofi} onChange={(e) => { setLofi(e.target.checked); setImageGenerated(false); }} /> Lo-fi photo</label>
+            <label><input type="checkbox" checked={mirror} onChange={(e) => { setMirror(e.target.checked); setImageGenerated(false); }} /> Mirror text</label>
+            <label><input type="checkbox" checked={whiteBlock} onChange={(e) => { setWhiteBlock(e.target.checked); setImageGenerated(false); }} /> White block</label>
+          </div>
+
+          <button className="image-generate-btn" type="button" onClick={generateImage}>Create Brat Image</button>
 
           <div className={`image-output ${imageGenerated ? 'has-image' : ''}`}>
             {imageGenerated ? (
@@ -343,7 +362,7 @@ export default function BratCreativeTool({ mode }: Props) {
               <div className="image-output-placeholder">
                 <span className="image-placeholder-icon">▧</span>
                 <strong>Your Brat image will appear here</strong>
-                <small>Enter a prompt above, choose your colours and press Generate.</small>
+                <small>Enter your text above, choose your colours and press Create Brat Image.</small>
               </div>
             )}
           </div>
@@ -391,12 +410,16 @@ export default function BratCreativeTool({ mode }: Props) {
           <label className="tool-slider"><span>Blur <b>{blur.toFixed(1)}px</b></span><input type="range" min="0" max="8" step="0.5" value={blur} onChange={(e) => setBlur(Number(e.target.value))} /></label>
           <label className="tool-slider"><span>Line height <b>{lineHeight.toFixed(2)}</b></span><input type="range" min="0.75" max="1.45" step="0.05" value={lineHeight} onChange={(e) => setLineHeight(Number(e.target.value))} /></label>
 
+          {mode === 'font' ? (
+            <label className="tool-slider"><span>Letter spacing <b>{letterSpacing}px</b></span><input type="range" min="-6" max="36" step="1" value={letterSpacing} onChange={(e) => setLetterSpacing(Number(e.target.value))} /></label>
+          ) : null}
+
           {mode !== 'font' ? (
             <label className="tool-field tool-upload"><span>Background image (optional)</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={onBackground} /><small>{backgroundName || 'PNG, JPG or WebP — stays in your browser'}</small></label>
           ) : null}
 
           {mode !== 'album' ? (
-            <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0])}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.label} · {item.width}×{item.height}</option>)}</select></label>
+            <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={(e) => setPreset(PRESETS.find((p) => p.label === e.target.value) || PRESETS[0])}>{PRESETS.map((item) => <option key={item.label} value={item.label}>{item.shortLabel}</option>)}</select></label>
           ) : <div className="tool-static-note">Album export: 3000 × 3000 px square</div>}
 
           <div className="tool-toggle-row">

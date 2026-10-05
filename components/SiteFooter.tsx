@@ -24,12 +24,14 @@ export default function SiteFooter() {
             <Link href={pageLinks.memeGenerator}>Brat Meme Generator</Link>
             <Link href={pageLinks.imageGenerator}>Brat Image Generator</Link>
             <Link href={pageLinks.albumGenerator}>Brat Album Cover Generator</Link>
+            <Link href={pageLinks.fontGenerator}>Brat Font Generator</Link>
           </div>
 
           <div>
             <p className="footer-heading">Explore</p>
             <Link href={pageLinks.features}>Features</Link>
             <Link href={pageLinks.styles}>Brat Styles</Link>
+            <Link href={pageLinks.examples}>Brat Examples</Link>
             <Link href={pageLinks.help}>Help</Link>
             <Link href={pageLinks.faq}>FAQ</Link>
             <Link href={pageLinks.about}>About</Link>
@@ -38,6 +40,7 @@ export default function SiteFooter() {
           <div>
             <p className="footer-heading">Trust</p>
             <Link href={pageLinks.privacy}>Privacy Policy</Link>
+            <Link href={pageLinks.cookies}>Cookie Policy</Link>
             <Link href={pageLinks.terms}>Terms &amp; Disclaimer</Link>
             <Link href={pageLinks.contact}>Contact</Link>
           </div>

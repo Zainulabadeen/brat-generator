@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { pageLinks } from '@/lib/site';
 import LanguageSelector from '@/components/LanguageSelector';
+import SiteIcon from '@/components/SiteIcon';
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function SiteHeader() {
     ['Brat Meme Generator', pageLinks.memeGenerator],
     ['Brat Image Generator', pageLinks.imageGenerator],
     ['Brat Album Cover Generator', pageLinks.albumGenerator],
+    ['Brat Font Generator', pageLinks.fontGenerator],
     ['Brat Styles', pageLinks.styles],
     ['Help', pageLinks.help],
   ] as const;
@@ -61,7 +63,7 @@ export default function SiteHeader() {
 
         <div className="header-actions">
           <LanguageSelector />
-          <button className="menu-btn glass" type="button" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen((v) => !v)}>☰</button>
+          <button className="menu-btn glass" type="button" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen((v) => !v)}><SiteIcon name="menu" size={21} /></button>
         </div>
       </div>
 
@@ -78,7 +80,7 @@ export default function SiteHeader() {
             <span className="mobile-menu-dot" aria-hidden="true" />
             <span>brat<span className="text-brat">.</span>generator</span>
           </div>
-          <button className="mobile-menu-close" type="button" aria-label="Close menu" onClick={close}>×</button>
+          <button className="mobile-menu-close" type="button" aria-label="Close menu" onClick={close}><SiteIcon name="close" size={21} /></button>
         </div>
 
         <div className="mobile-menu-scroll">
@@ -86,7 +88,7 @@ export default function SiteHeader() {
           <nav className="mobile-tool-links" aria-label="Mobile tool navigation">
             {navItems.map(([label, href]) => (
               <Link key={href} href={href} onClick={close} className={isActive(href) ? 'active' : undefined}>
-                <span>{label}</span><span aria-hidden="true">→</span>
+                <span>{label}</span><span aria-hidden="true"><SiteIcon name="arrowRight" size={16} /></span>
               </Link>
             ))}
           </nav>
@@ -97,6 +99,7 @@ export default function SiteHeader() {
             <Link href={pageLinks.faq} onClick={close}>FAQ</Link>
             <Link href={pageLinks.about} onClick={close}>About</Link>
             <Link href={pageLinks.privacy} onClick={close}>Privacy Policy</Link>
+            <Link href={pageLinks.cookies} onClick={close}>Cookie Policy</Link>
             <Link href={pageLinks.terms} onClick={close}>Terms &amp; Disclaimer</Link>
             <Link href={pageLinks.contact} onClick={close}>Contact</Link>
           </nav>

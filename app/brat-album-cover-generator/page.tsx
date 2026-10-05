@@ -131,10 +131,5 @@ export default function Page() {
       ['Can I use the cover on Spotify or another music service?', 'The 3000×3000 square output is a useful starting size, but each service can have its own current artwork rules. Check the destination platform before publishing commercially.'],
     ]}
     faqIntro="Answers about cover size, background images, typography controls and export formats before you publish or continue editing."
-    links={[
-      ['Read the Brat album cover guide', '/help/how-to-make-a-brat-album-cover-free/'],
-      ['Try Brat Image Generator', '/brat-image-generator/'],
-      ['Explore Brat Styles', '/brat-styles/'],
-    ]}
   />;
 }

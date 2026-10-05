@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { INDEXABLE_PAGES, RETIRED_ROUTES, SOFTWARE_APP_ROUTES } from './site-routes.mjs';
 
 const root = process.cwd();
 const out = path.join(root, 'out');
@@ -8,24 +9,12 @@ function readOutFile(rel) {
   const fp = path.join(out, rel);
   return fs.existsSync(fp) ? fs.readFileSync(fp, 'utf8') : '';
 }
-const indexablePages = [
-  ['/', 'index.html'],
-  ['/video-generator/', 'video-generator/index.html'],
-  ['/brat-meme-generator/', 'brat-meme-generator/index.html'],
-  ['/brat-image-generator/', 'brat-image-generator/index.html'],
-  ['/brat-album-cover-generator/', 'brat-album-cover-generator/index.html'],
-  ['/brat-styles/', 'brat-styles/index.html'],
-  ['/help/', 'help/index.html'],
-  ['/help/how-to-make-a-brat-album-cover-free/', 'help/how-to-make-a-brat-album-cover-free/index.html'],
-  ['/help/brat-generator-not-working/', 'help/brat-generator-not-working/index.html'],
-  ['/about/', 'about/index.html'],
-  ['/contact/', 'contact/index.html'],
-  ['/privacy-policy/', 'privacy-policy/index.html'],
-  ['/terms/', 'terms/index.html'],
-];
+const indexablePages = INDEXABLE_PAGES.map(({ route, out: rel }) => [route, rel]);
+
 const technicalFiles = [
   '404.html',
   'brat-generator-embed/index.html',
+  'brat-generator-embed.html',
   'brat-video-generator-embed/index.html',
   'robots.txt',
   'sitemap.xml',
@@ -71,7 +60,7 @@ for (const [route, rel] of indexablePages) {
   if (route !== '/' && !html.includes('BreadcrumbList')) failures.push(`BreadcrumbList missing: out/${rel}`);
 }
 
-for (const rel of ['brat-generator-embed/index.html', 'brat-video-generator-embed/index.html']) {
+for (const rel of ['brat-generator-embed/index.html', 'brat-generator-embed.html', 'brat-video-generator-embed/index.html']) {
   const fp = path.join(out, rel);
   if (!fs.existsSync(fp)) continue;
   const html = fs.readFileSync(fp, 'utf8');
@@ -82,7 +71,9 @@ const home = readOutFile('index.html');
 for (const type of ['WebSite', 'Organization', 'WebPage', 'SoftwareApplication', 'FAQPage']) {
   if (!home.includes(`\"@type\":\"${type}\"`) && !home.includes(`"@type":"${type}"`)) failures.push(`Homepage schema missing ${type}`);
 }
-for (const rel of ['video-generator/index.html', 'brat-meme-generator/index.html', 'brat-image-generator/index.html', 'brat-album-cover-generator/index.html']) {
+for (const route of SOFTWARE_APP_ROUTES) {
+  const page = INDEXABLE_PAGES.find((item) => item.route === route);
+  const rel = page?.out || '';
   const html = readOutFile(rel);
   if (!html.includes('SoftwareApplication')) failures.push(`SoftwareApplication schema missing: out/${rel}`);
 }
@@ -94,7 +85,8 @@ for (const [route] of indexablePages) {
   const expected = `https://bratgeneratorpro.net${route}`;
   if (!sitemapUrls.includes(expected)) failures.push(`Sitemap missing: ${expected}`);
 }
-for (const retired of ['https://bratgeneratorpro.net/brat-text-generator/', 'https://bratgeneratorpro.net/brat-font-generator/', 'https://bratgeneratorpro.net/how-to-use/', 'https://bratgeneratorpro.net/features/']) {
+for (const route of RETIRED_ROUTES) {
+  const retired = `https://bratgeneratorpro.net${route}`;
   if (sitemap.includes(retired)) failures.push(`Sitemap should not include retired URL: ${retired}`);
 }
 
@@ -106,7 +98,9 @@ const sitemapIndex = readOutFile('sitemap_index.xml');
 if (!sitemapIndex.includes('https://bratgeneratorpro.net/sitemap.xml')) failures.push('sitemap_index.xml does not reference canonical sitemap.xml');
 
 const llms = readOutFile('llms.txt');
-if (!llms.includes('# Brat Generator') || !llms.includes('https://bratgeneratorpro.net/video-generator/') || !llms.includes('https://bratgeneratorpro.net/brat-styles/')) failures.push('llms.txt is missing current core-site references');
+for (const { route } of INDEXABLE_PAGES.filter((page) => page.route !== '/')) {
+  if (!llms.includes(`https://bratgeneratorpro.net${route}`)) failures.push(`llms.txt is missing current route: ${route}`);
+}
 
 if (failures.length) {
   console.error('\nPRE-LIVE CHECK FAILED');

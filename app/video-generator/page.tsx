@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import BratVideoGenerator from '@/components/BratVideoGenerator';
+import ContextCta from '@/components/ContextCta';
 import DetailedHowTo, { GuideDetailSections } from '@/components/DetailedHowTo';
 import JsonLd from '@/components/JsonLd';
 import PageHero from '@/components/PageHero';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
+import SiteIcon, { type SiteIconName } from '@/components/SiteIcon';
 import { siteConfig } from '@/lib/site';
+import { HOW_TO_IMAGE_HEIGHT, HOW_TO_IMAGE_WIDTH } from '@/lib/tutorialImages';
 import { breadcrumbSchema, faqPageSchema, imageObjectSchema, softwareApplicationSchema, webPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
@@ -28,26 +32,26 @@ export const metadata: Metadata = {
   },
 };
 
-const features = [
-  ['🎬', 'Animated Brat Text & Lyrics', 'Turn short phrases, hooks or one lyric phrase per line into a moving Brat-style sequence instead of a static image.', 'glow-brat'],
-  ['🎧', 'Optional Audio Upload', 'Add MP3, WAV, M4A, AAC or OGG audio when you want a supported video export to include sound with the animation.', 'glow-pink'],
-  ['👁️', 'Live Preview & FPS Control', 'Check the text treatment before export and choose 10–60 FPS to balance smoother motion with browser processing time.', 'glow-electric'],
-  ['⬇️', 'Browser-Supported Video Export', 'Create a finished video using the best recording format supported by the browser you are currently using.', 'glow-brat'],
-  ['✨', 'Animated GIF Export', 'Export a silent looping GIF when you want quick motion for reactions, previews or lightweight social content.', 'glow-pink'],
-  ['🖼️', 'PNG Frame ZIP', 'Download the animation as individual PNG frames in a ZIP when you want to continue editing frame by frame in another app.', 'glow-electric'],
+const features: ReadonlyArray<readonly [SiteIconName, string, string, string]> = [
+  ['video', 'Timed Brat Text & Lyrics', 'Turn short phrases or lyric lines into a moving sequence, then give important lines more time and transitions less.', 'glow-brat'],
+  ['headphones', 'Optional Audio & Trim', 'Add MP3, WAV, M4A, AAC or OGG audio, then choose the start and end section used by the video export.', 'glow-pink'],
+  ['eye', 'Live Preview & FPS Control', 'Check the text treatment before export and choose 10–60 FPS to balance smoother motion with browser processing time.', 'glow-electric'],
+  ['download', 'Browser-Supported Video Export', 'Create a finished video using the best recording format supported by the browser you are currently using.', 'glow-brat'],
+  ['sparkles', 'Animated GIF Export', 'Export a silent looping GIF for a short clip. GIF exports are capped at about 12 seconds in the browser tool.', 'glow-pink'],
+  ['image', 'PNG Frame ZIP', 'Download a short sequence as individual PNG frames in a ZIP. The current Frames export is capped at about 12 seconds and 60 images.', 'glow-electric'],
 ] as const;
 
-const videoTrendCards = [
-  ['🎞️', 'Static Style, Now in Motion', 'The familiar flat-colour Brat look becomes more dynamic when short phrases appear one after another instead of sitting on a single still image.'],
-  ['🎤', 'Built for Lyric-Led Clips', 'One phrase per line gives hooks, captions and short lyric sequences enough room to stay readable while the animation progresses.'],
-  ['🔁', 'Made for Short, Repeatable Formats', 'Video, GIF and frame exports make the same visual idea usable for short social clips, looping reactions and edits that continue in another app.'],
+const videoTrendCards: ReadonlyArray<readonly [SiteIconName, string, string]> = [
+  ['video', 'Static Style, Now in Motion', 'The familiar flat-colour Brat look becomes more dynamic when short phrases appear one after another instead of sitting on a single still image.'],
+  ['music', 'Built for Lyric-Led Clips', 'One phrase per line gives hooks, captions and short lyric sequences enough room to stay readable while the animation progresses.'],
+  ['repeat', 'Made for Short, Repeatable Formats', 'Video, GIF and frame exports make the same visual idea usable for short social clips, looping reactions and edits that continue in another app.'],
 ] as const;
 
-const videoIdeas = [
-  ['🎵', 'Lyric & Music Clips', 'Turn a chorus, hook or short verse into a line-by-line Brat-style sequence and add audio when the final video needs sound.'],
-  ['📱', 'Social Motion Posts', 'Create short animated title cards, captions and text-led clips for vertical or square social edits.'],
-  ['✨', 'Looping GIF Reactions', 'Export a silent GIF when you want lightweight motion for reactions, previews, messages or quick posts.'],
-  ['🧩', 'Editable Frame Sequences', 'Download PNG frames when you want to continue compositing, retiming or adding extra effects in another editor.'],
+const videoIdeas: ReadonlyArray<readonly [SiteIconName, string, string]> = [
+  ['music', 'Lyric & Music Clips', 'Turn a chorus, hook or short verse into a line-by-line Brat-style sequence and add audio when the final video needs sound.'],
+  ['phone', 'Social Motion Posts', 'Create short animated title cards, captions and text-led clips for vertical or square social edits.'],
+  ['sparkles', 'Looping GIF Reactions', 'Export a silent GIF when you want lightweight motion for reactions, previews, messages or quick posts.'],
+  ['layers', 'Editable Frame Sequences', 'Download PNG frames when you want to continue compositing, retiming or adding extra effects in another editor.'],
 ] as const;
 
 
@@ -65,23 +69,24 @@ const videoHowToSteps = [
     alt: 'Brat Video Generator: enter and organise text or lyrics step screenshot',
   },
   {
-    title: 'Create the sequence and check the preview',
-    body: 'After the wording is ready, create the sets from your text and open the Preview tab. This lets you check the Brat-style treatment before the browser spends time rendering the final animation.',
+    title: 'Create the sequence, set timing and preview',
+    body: 'After the wording is ready, create timed sets from the non-empty lines. Give important lines more duration and transitions less, then open Preview to check the order before rendering the final animation.',
     points: [
       'Make sure no important line is missing or duplicated before export.',
-      'Shorten any phrase that feels crowded in the live preview.',
-      'Use the preview as a content check; the final export will sequence the non-empty lines over time.',
+      'Adjust the duration beside each line when one phrase needs more or less reading time.',
+      'Use the preview as a content check; the final export follows the same line order and relative timing.',
     ],
     tip: 'Fix wording problems before adding audio or increasing FPS. Text changes are fastest while the project is still simple.',
     image: '/images/how-to/video-step-2.webp',
     alt: 'Brat Video Generator: create sequence and preview step screenshot',
   },
   {
-    title: 'Add audio when the video needs sound',
-    body: 'Audio is optional. Drop a supported audio file into the tool or click the upload area when you want a browser-supported video export to include sound with the text animation.',
+    title: 'Add and trim audio when the video needs sound',
+    body: 'Audio is optional. Drop in a supported file when the final video needs sound, then use the start and end controls to select the part of the track you actually want to render.',
     points: [
       'The tool accepts MP3, WAV, M4A, AAC and OGG files, although decoding can vary by browser and codec.',
       'MP3 or WAV is a useful fallback if another format does not decode correctly.',
+      'Trim a long intro or outro before the final render so the text sequence is mapped to the useful section.',
       'GIF and PNG-frame exports remain silent, so use the video option when the audio is part of the finished result.',
     ],
     tip: 'If an audio file fails, first test the same project with a short MP3 or WAV before changing the text setup.',
@@ -92,9 +97,9 @@ const videoHowToSteps = [
     title: 'Choose FPS and export format',
     body: 'Finish by choosing how the animation should be delivered. Select Video, GIF or Frames, then set the frame rate and start the browser-based export.',
     points: [
-      'Around 24–30 FPS is a practical starting point for most short text animations.',
+      'Around 24–30 FPS is a good starting point for most short text animations.',
       'Higher FPS can look smoother but creates more frames and requires more browser processing.',
-      'Use Video for motion with optional audio, GIF for a silent loop, or Frames when you want individual PNGs for another editor.',
+      'Use Video for motion with optional audio. GIF is silent and capped at about 12 seconds; Frames are also short-form and capped at 60 PNG images.',
     ],
     tip: 'For a first export, use 30 FPS. Increase it only if you can actually see a benefit in the motion.',
     image: '/images/how-to/video-step-4.webp',
@@ -106,10 +111,11 @@ const videoGuideDetails = [
   {
     eyebrow: 'Sequence',
     title: 'Text and Lyric Flow',
-    body: 'The current video workflow is line-driven rather than AI-transcribed or word-by-word karaoke timed. Your text structure is therefore the main control over how easy the finished clip is to follow.',
+    body: 'The tool is line-driven rather than AI-transcribed or word-by-word karaoke timed. You control the phrase breaks and can give each line a different relative duration before export.',
     points: [
       'Use short, separate lines for hooks, captions and lyric phrases.',
       'Remove empty or accidental duplicate lines before export.',
+      'Use the line-duration controls to hold important phrases longer and move through short transitions faster.',
       'Preview the wording before you commit to a long render.',
     ],
     note: 'The tool does not automatically transcribe a song or manually place every word on a beat.',
@@ -117,10 +123,11 @@ const videoGuideDetails = [
   {
     eyebrow: 'Audio',
     title: 'Sound and Browser Compatibility',
-    body: 'Audio is decoded in the browser and added only where the selected video-export path supports it. This keeps the workflow local, but support can differ between browsers and codecs.',
+    body: 'Audio is decoded in the browser and added only to the video path that supports sound. You can also trim the start and end of the loaded track before rendering. Browser and codec support can still vary.',
     points: [
       'MP3 and WAV are useful compatibility-first choices.',
       'M4A, AAC and OGG are accepted, but browser decoding support can vary.',
+      'Use the audio start and end controls to render only the section you need.',
       'GIF and individual PNG frames do not contain audio.',
     ],
   },
@@ -129,9 +136,9 @@ const videoGuideDetails = [
     title: 'Video, GIF, Frames and FPS',
     body: 'Choose the output based on what you will do after export rather than choosing the heaviest option by default. Frame rate controls smoothness and processing cost, while format controls how the animation can be reused.',
     points: [
-      'Video uses the best recording format the current browser can provide.',
-      'GIF is useful for silent looping motion and lightweight previews.',
-      'Frames ZIP gives you individual PNG images for retiming or compositing in another editor.',
+      'Video uses the best recording format your browser can provide.',
+      'GIF is useful for a short silent loop and is capped at about 12 seconds.',
+      'Frames ZIP gives you individual PNG images for retiming or compositing, with a current limit of about 12 seconds and 60 frames.',
     ],
   },
 ] as const;
@@ -139,10 +146,10 @@ const videoGuideDetails = [
 const faqs = [
   ['Is the Brat Video Generator free?', 'Yes. The current video tool can be used in the browser without creating an account, and it does not add a Brat Generator watermark to the exported animation.'],
   ['Can I use it as a lyric video generator?', 'Yes. Put one lyric phrase on each line, optionally upload your audio, and the tool will show the non-empty lines in sequence during the export.'],
-  ['Does it automatically transcribe or sync every word to the beat?', 'No. You provide the text yourself. The current workflow sequences lyric lines across the video duration rather than using AI transcription or word-by-word karaoke timing.'],
+  ['Does it automatically transcribe or sync every word to the beat?', 'No. You provide the text yourself. You can adjust the relative duration of each lyric line, but the tool does not use AI transcription or automatic word-by-word karaoke timing.'],
   ['Which audio formats can I upload?', 'The tool accepts MP3, WAV, M4A, AAC and OGG. Actual decoding support can vary by browser and codec, so MP3 or WAV is a useful fallback if another file does not load.'],
-  ['Which export formats are available?', 'You can export a browser-supported video, a silent animated GIF, or a ZIP containing individual PNG frames.'],
-  ['What FPS should I choose?', 'For most short lyric clips and social animations, 24–30 FPS is a practical starting point. Higher settings can look smoother but require more browser processing.'],
+  ['Which export formats are available?', 'You can export a browser-supported video, a silent animated GIF, or a ZIP containing individual PNG frames. GIF and Frames are intended for short clips of about 12 seconds; Frames are also limited to 60 images.'],
+  ['What FPS should I choose?', 'For most short lyric clips and social animations, 24–30 FPS is a good starting point. Higher settings can look smoother but require more browser processing.'],
 ] as const;
 
 export default function VideoGeneratorPage() {
@@ -167,7 +174,7 @@ export default function VideoGeneratorPage() {
     url: canonical,
     name: 'Brat Video Generator',
     description: metadata.description,
-    dateModified: '2026-09-25',
+    dateModified: '2026-10-05',
     mainEntity: { '@id': appId },
   });
 
@@ -178,8 +185,8 @@ export default function VideoGeneratorPage() {
     url: step.image,
     caption: `Brat Video Generator step ${index + 1}: ${step.title}`,
     description: `Brat Video Generator tutorial image showing ${step.title.toLowerCase()}.`,
-    width: 640,
-    height: 860,
+    width: HOW_TO_IMAGE_WIDTH,
+    height: HOW_TO_IMAGE_HEIGHT,
   }));
 
   return (
@@ -205,7 +212,7 @@ export default function VideoGeneratorPage() {
             <div className="reveal reveal-delay-1 about-copy">
               <h2>What Is a <span className="text-brat">Brat Video Generator?</span></h2>
               <p>A Brat video generator turns short text or lyric lines into an animated sequence that uses the same stripped-back, high-contrast Brat-inspired visual language as the static graphics. Instead of exporting one image, the tool moves through your lines over time.</p>
-              <p>The current browser-based workflow lets you paste text, optionally add audio, preview the animation, choose a frame rate, and export a video, looping GIF, or ZIP of PNG frames without creating an account.</p>
+              <p>The browser-based tool lets you paste text, optionally add audio, preview the animation, choose a frame rate, and export a video, looping GIF, or ZIP of PNG frames without creating an account. If you only need one static graphic, the <Link className="inline-source-link" href="/">main Brat Generator</Link> is the faster option.</p>
             </div>
           </div>
         </section>
@@ -213,7 +220,7 @@ export default function VideoGeneratorPage() {
         <DetailedHowTo
           id="how-to-use"
           toolName="Brat Video Generator"
-          intro="The video tool has more moving parts than the static generators, so the cleanest workflow is to prepare the text first, preview it, add optional audio, and only then choose the render settings."
+          intro="Prepare the text first, preview the line order, add audio only if the final video needs it, then choose FPS and the export format."
           steps={videoHowToSteps}
         />
 
@@ -228,12 +235,12 @@ export default function VideoGeneratorPage() {
             <div className="section-heading reveal">
               <p className="eyebrow">Motion Trend</p>
               <h2>From Static Brat Graphics to <span className="text-pink">Animated Clips</span></h2>
-              <p>The same simple text-first aesthetic works naturally in motion: keep each line short, make the contrast obvious, and let timing do the extra work instead of adding visual clutter.</p>
+              <p>The same simple text-first aesthetic works naturally in motion: keep each line short, make the contrast obvious, and let timing do the extra work instead of adding visual clutter. The <Link className="inline-source-link" href="/help/brat-video-tips/">Brat Video Tips guide</Link> has a practical workflow when you want to improve pacing and readability.</p>
             </div>
             <div className="card-grid three">
               {videoTrendCards.map(([icon, title, body], index) => (
                 <div className={`reveal reveal-delay-${index}`} key={title}>
-                  <article className="glass info-card glow-pink hover-lift"><div className="emoji">{icon}</div><h3>{title}</h3><p>{body}</p></article>
+                  <article className="glass info-card glow-pink hover-lift"><div className="emoji"><SiteIcon name={icon} size={27} /></div><h3>{title}</h3><p>{body}</p></article>
                 </div>
               ))}
             </div>
@@ -244,14 +251,14 @@ export default function VideoGeneratorPage() {
           <div className="container container-wide">
             <div className="section-heading reveal">
               <p className="eyebrow">Key Features</p>
-              <h2>Why You’ll Love This <span className="text-brat">Brat Video Generator</span></h2>
-              <p>Everything in the current workflow is focused on turning short text or lyric lines into a clean animated export without making the process complicated.</p>
+              <h2>Brat Video Generator <span className="text-brat">Features</span></h2>
+              <p>The tool is focused on turning short text or lyric lines into a clean animated export without making the process complicated. If you are deciding between Video, GIF and PNG frames, the <Link className="inline-source-link" href="/help/brat-video-export-guide/">video export guide</Link> explains when each output makes sense.</p>
             </div>
             <div className="card-grid feature-grid home-feature-grid tool-feature-grid">
               {features.map(([icon, heading, body, glow], index) => (
                 <div className={`reveal reveal-delay-${index % 3}`} key={heading}>
                   <article className={`glass info-card ${glow} hover-lift`}>
-                    <div className="emoji">{icon}</div>
+                    <div className="emoji"><SiteIcon name={icon} size={27} /></div>
                     <h3>{heading}</h3>
                     <p>{body}</p>
                   </article>
@@ -270,7 +277,7 @@ export default function VideoGeneratorPage() {
             </div>
             <div className="ideas-grid">
               {videoIdeas.map(([icon, title, body], index) => (
-                <article className={`glass idea-card reveal reveal-delay-${index % 2}`} key={title}><div className="emoji">{icon}</div><div><h3>{title}</h3><p>{body}</p></div></article>
+                <article className={`glass idea-card reveal reveal-delay-${index % 2}`} key={title}><div className="emoji"><SiteIcon name={icon} size={27} /></div><div><h3>{title}</h3><p>{body}</p></div></article>
               ))}
             </div>
           </div>
@@ -281,7 +288,7 @@ export default function VideoGeneratorPage() {
             <div className="section-heading reveal">
               <p className="eyebrow">FAQ</p>
               <h2>Frequently Asked <span className="text-brat">Questions</span></h2>
-              <p>Clear answers about lyric sequencing, audio support, frame rate and the export formats available in the current video tool.</p>
+              <p>Clear answers about lyric sequencing, audio support, frame rate and the export formats available in the current video tool. The <Link className="inline-source-link" href="/help/brat-video-export-guide/">video export guide</Link> compares the output choices in more detail.</p>
             </div>
             <div className="accordion-list">
               {faqs.map(([question, answer]) => (
@@ -294,14 +301,13 @@ export default function VideoGeneratorPage() {
           </div>
         </section>
 
-        <section className="cta-section">
-          <div className="cta-box reveal">
-            <span className="cta-orb pink" /><span className="cta-orb blue" />
-            <h2>Create Your <span className="brat-text cta-brat">Brat</span> Video Now</h2>
-            <p>Free · No sign-up · Browser-based · Video, GIF &amp; frame exports</p>
-            <a href="#video-tool" className="cta-button">Start Creating →</a>
-          </div>
-        </section>
+        <ContextCta
+          title="Create Your Brat Video Now"
+          description="Build animated Brat-style text with optional audio, then export a browser-supported video, GIF, or PNG frames."
+          href="#video-tool"
+          buttonLabel="Start Creating"
+        />
+
       </main>
       <SiteFooter />
     </>

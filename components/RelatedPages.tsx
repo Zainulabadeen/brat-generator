@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SiteIcon from '@/components/SiteIcon';
 
 type RelatedItem = {
   href: string;
@@ -35,7 +36,7 @@ export default function RelatedPages({
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </div>
-              <span className="related-page-arrow" aria-hidden="true">→</span>
+              <span className="related-page-arrow" aria-hidden="true"><SiteIcon name="arrowRight" size={18} /></span>
             </Link>
           ))}
         </div>

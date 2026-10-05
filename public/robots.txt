@@ -1,6 +1,6 @@
 # Brat Generator - robots.txt
 # Canonical site: https://bratgeneratorpro.net/
-# Updated: 2026-09-28
+# Updated: 2026-10-03 — font tool, examples gallery and video audio guide added
 
 # Google Search and Google media crawlers
 User-agent: Googlebot

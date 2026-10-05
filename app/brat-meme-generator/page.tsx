@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ToolPageShell from '@/components/ToolPageShell';
+import { CREATIVE_CANVAS_SIZE_SUMMARY } from '@/lib/toolCapabilities';
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Meme Generator | Free Brat-Style Meme Maker' },
@@ -51,7 +52,7 @@ export default function Page() {
         title: 'Style the text and effects',
         body: 'Fine-tune the meme after the wording and background are settled. Font, alignment, size, blur and the optional effects all change how quickly the joke can be read.',
         points: [
-          'Adjust text size and line height until neither line feels cramped.',
+          'Adjust text size, line height and alignment until neither caption feels cramped.',
           'Use blur lightly when you want the Brat look without sacrificing readability.',
           'Try Lo-fi Photo, Mirror or White Block only when the effect supports the joke instead of distracting from it.',
         ],
@@ -63,7 +64,7 @@ export default function Page() {
         title: 'Pick the canvas and export',
         body: 'Finish by matching the canvas to where the meme will be posted, then choose the image format that fits your next step.',
         points: [
-          'Use square for general posts, 4:5 for portrait feeds, 9:16 for Stories, or landscape for wider placements.',
+          'Use square for general posts, 4:5 for portrait feeds, 9:16 for Stories, 1200×630 landscape for link-style graphics, or 1920×1080 wide for 16:9 layouts.',
           'Choose PNG when you want crisp text, or JPG/WebP when a smaller file is more useful.',
           'Use Copy Image when you want to paste the finished PNG straight into another supported app.',
         ],
@@ -90,7 +91,7 @@ export default function Page() {
         body: 'Brat-inspired styling works best when the effect is visible but the joke is still instantly readable. Small changes to size, line height and blur usually matter more than stacking every effect.',
         points: [
           'Keep strong contrast between caption and background.',
-          'Use alignment to keep the captions away from important faces or objects.',
+          'Use left, centre or right alignment to keep captions away from important faces or objects.',
           'Treat Lo-fi, Mirror and White Block as optional accents rather than required settings.',
         ],
       },
@@ -110,7 +111,7 @@ export default function Page() {
       ['Top & Bottom Text', 'Keep setup and punchline text separate so the classic meme structure stays quick to edit.'],
       ['Live Preview', 'See text, colour and effect changes immediately before you download the final meme.'],
       ['Brat-Style Effects', 'Combine blur, lo-fi photo treatment, mirror and white-block options for different meme looks.'],
-      ['Social-Ready Sizes', 'Create square, 4:5 portrait, 9:16 Story or landscape graphics from the same meme workflow.'],
+      ['Five Canvas Sizes', `Create ${CREATIVE_CANVAS_SIZE_SUMMARY} graphics from the same meme workflow.`],
       ['PNG, JPG & WebP Export', 'Download in a practical image format or copy a PNG directly to the clipboard with no added watermark.'],
     ]}
     useCases={[
@@ -126,16 +127,12 @@ export default function Page() {
     faqs={[
       ['Is the Brat Meme Generator free?', 'Yes. You can create and export memes in the browser without creating an account, and the tool does not add a Brat Generator watermark to the image.'],
       ['Can I upload my own photo?', 'Yes. The meme tool accepts JPG, PNG and WebP background images from your device. You can also skip the upload and use a flat colour background.'],
-      ['What image sizes can I make?', 'You can switch between square 1080×1080, portrait 1080×1350, Story 1080×1920 and landscape 1200×630 canvases.'],
+      ['What image sizes can I make?', `You can switch between ${CREATIVE_CANVAS_SIZE_SUMMARY}.`],
       ['Which download formats are available?', 'The meme can be downloaded as PNG, JPG or WebP. You can also copy a PNG to the clipboard when your browser supports clipboard image writing.'],
-      ['Do uploaded photos leave my browser?', 'The current meme editing workflow loads and renders the selected photo in your browser. The tool does not need to upload that image to a server just to build the canvas.'],
+      ['Do uploaded photos leave my browser?', 'The meme editor loads and renders the selected photo in your browser. It does not need to upload that image to a server just to build the canvas.'],
+      ['Does the tool force meme text to uppercase?', 'No. The meme captions keep the capitalisation you type, so you can use lowercase, uppercase or mixed case.'],
       ['What makes a Brat meme easier to read?', 'Keep the wording short, use strong contrast between text and background, and preview the meme at a smaller size before exporting.'],
     ]}
     faqIntro="Answers about photo uploads, social sizes, export formats and the quickest way to keep Brat-style memes readable."
-    links={[
-      ['Create a Brat Image', '/brat-image-generator/'],
-      ['Create Brat Text on the Homepage', '/#generator'],
-      ['Explore Brat Styles', '/brat-styles/'],
-    ]}
   />;
 }

@@ -215,3 +215,49 @@ export function imageObjectSchema({
     ...(height ? { height } : {}),
   };
 }
+
+type ArticleSchemaInput = {
+  pageUrl: string;
+  headline: string;
+  description: string;
+  imageUrl: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  datePublished: string;
+  dateModified: string;
+};
+
+export function articleSchema({
+  pageUrl,
+  headline,
+  description,
+  imageUrl,
+  imageWidth = 1200,
+  imageHeight = 720,
+  datePublished,
+  dateModified,
+}: ArticleSchemaInput) {
+  const absoluteImage = imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${pageUrl}#article`,
+    headline,
+    description,
+    url: pageUrl,
+    mainEntityOfPage: { '@id': `${pageUrl}#webpage` },
+    inLanguage: 'en-GB',
+    image: {
+      '@type': 'ImageObject',
+      url: absoluteImage,
+      contentUrl: absoluteImage,
+      width: imageWidth,
+      height: imageHeight,
+    },
+    datePublished,
+    dateModified,
+    author: organizationRef,
+    publisher: organizationRef,
+    isPartOf: websiteRef,
+  };
+}

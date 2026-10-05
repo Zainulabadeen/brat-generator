@@ -94,8 +94,9 @@ const BRAT_STYLE_MODE_MAP: Partial<Record<BratStylePreset, string>> = {
 
 function styleFromLocationHash(): BratStylePreset | null {
   if (typeof window === 'undefined') return null;
-  const style = window.location.hash.replace(/^#/, '').toLowerCase();
-  return style in BRAT_STYLE_PRESETS ? style as BratStylePreset : null;
+  const params = new URLSearchParams(window.location.search);
+  const requested = (params.get('style') || window.location.hash.replace(/^#/, '')).toLowerCase();
+  return requested in BRAT_STYLE_PRESETS ? requested as BratStylePreset : null;
 }
 
 function applyStylePreset(frame: HTMLIFrameElement | null, style: BratStylePreset | null) {
@@ -206,7 +207,7 @@ export default function BratGenerator() {
     <div className="generator-embed-shell">
       <iframe
         ref={frameRef}
-        src={fallbackHtml ? undefined : "/brat-generator-embed/"}
+        src={fallbackHtml ? undefined : "/brat-generator-embed.html"}
         srcDoc={fallbackHtml || undefined}
         className="brat-generator-iframe"
         title="Brat Generator design tool"

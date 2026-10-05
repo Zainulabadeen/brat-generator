@@ -1,19 +1,6 @@
+import { INDEXABLE_PAGES, RETIRED_ROUTES, SOFTWARE_APP_ROUTES, LIVE_REDIRECTS } from './site-routes.mjs';
 const base = 'https://bratgeneratorpro.net';
-const required = [
-  '/',
-  '/video-generator/',
-  '/brat-meme-generator/',
-  '/brat-image-generator/',
-  '/brat-album-cover-generator/',
-  '/brat-styles/',
-  '/help/',
-  '/help/how-to-make-a-brat-album-cover-free/',
-  '/help/brat-generator-not-working/',
-  '/about/',
-  '/contact/',
-  '/privacy-policy/',
-  '/terms/',
-];
+const required = INDEXABLE_PAGES.map((page) => page.route);
 
 let failures = 0;
 const pass = (msg) => console.log(`PASS  ${msg}`);
@@ -67,7 +54,7 @@ for (const route of required) {
   }
 }
 
-for (const route of ['/video-generator/', '/brat-meme-generator/', '/brat-image-generator/', '/brat-album-cover-generator/']) {
+for (const route of SOFTWARE_APP_ROUTES) {
   const response = await get(`${base}${route}`);
   const html = response?.status === 200 ? await response.text() : '';
   expect(hasSchemaType(html, 'SoftwareApplication'), `${route} contains SoftwareApplication schema`);
@@ -81,7 +68,7 @@ expect(Boolean(robots?.status === 200 && robotsText.includes(`Sitemap: ${base}/s
 const sitemap = await get(`${base}/sitemap.xml`);
 const sitemapText = sitemap ? await sitemap.text() : '';
 expect(Boolean(sitemap?.status === 200 && required.every((route) => sitemapText.includes(`<loc>${base}${route}</loc>`))), 'live sitemap contains every required indexable URL');
-for (const retired of ['/brat-text-generator/', '/brat-font-generator/', '/how-to-use/', '/features/', '/blog/', '/blog/how-to-make-a-brat-album-cover-free/', '/blog/brat-generator-not-working/']) {
+for (const retired of RETIRED_ROUTES) {
   expect(!sitemapText.includes(`<loc>${base}${retired}</loc>`), `live sitemap excludes retired ${retired}`);
 }
 
@@ -91,23 +78,18 @@ expect(Boolean(sitemapIndex?.status === 200 && sitemapIndexText.includes(`<loc>$
 
 const llms = await get(`${base}/llms.txt`);
 const llmsText = llms ? await llms.text() : '';
-expect(Boolean(llms?.status === 200 && llmsText.includes('# Brat Generator') && llmsText.includes(`${base}/video-generator/`) && llmsText.includes(`${base}/brat-styles/`)), 'live llms.txt is current and includes core tools');
+expect(Boolean(llms?.status === 200 && llmsText.includes('# Brat Generator') && required.filter((route) => route !== '/').every((route) => llmsText.includes(`${base}${route}`))), 'live llms.txt is current and includes every indexable site route');
 
 const missing = await get(`${base}/technical-seo-404-test-928374/`);
 expect(missing?.status === 404, `random missing URL returns a real 404 (received ${missing?.status ?? 'unavailable'})`);
 
-for (const retired of ['/brat-text-generator/', '/brat-font-generator/', '/how-to-use/']) {
-  const response = await get(`${base}${retired}`);
-  expect(Boolean(response && [301, 302, 307, 308].includes(response.status)), `${retired} redirects instead of returning an indexable duplicate`);
-}
-for (const [oldRoute, newRoute] of [
-  ['/blog/', '/help/'],
-  ['/blog/how-to-make-a-brat-album-cover-free/', '/help/how-to-make-a-brat-album-cover-free/'],
-  ['/blog/brat-generator-not-working/', '/help/brat-generator-not-working/'],
-]) {
+for (const [oldRoute, newRoute] of LIVE_REDIRECTS) {
   const response = await get(`${base}${oldRoute}`);
   const location = response?.headers.get('location') || '';
-  expect(Boolean(response && [301, 302, 307, 308].includes(response.status) && new URL(location, base).pathname === newRoute), `${oldRoute} redirects to ${newRoute}`);
+  const resolved = location ? new URL(location, base) : null;
+  const expected = new URL(newRoute, base);
+  const matchesDestination = Boolean(resolved && resolved.pathname === expected.pathname && (!expected.hash || resolved.hash === expected.hash));
+  expect(Boolean(response && [301, 302, 307, 308].includes(response.status) && matchesDestination), `${oldRoute} redirects to ${newRoute}`);
 }
 
 console.log(`\nResult: ${failures ? 'FAIL' : 'PASS'} — ${failures} failure(s).`);

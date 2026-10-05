@@ -1,33 +1,41 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ArticleTableOfContents from '@/components/ArticleTableOfContents';
+import ContextCta from '@/components/ContextCta';
+import HelpArticleHeader from '@/components/HelpArticleHeader';
 import JsonLd from '@/components/JsonLd';
-import PageHero from '@/components/PageHero';
+import RelatedPostsSidebar from '@/components/RelatedPostsSidebar';
 import RevealSetup from '@/components/RevealSetup';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
+import { getHelpArticle } from '@/lib/helpArticles';
+import { getHelpBreadcrumbSchema, getHelpBreadcrumbUi } from '@/lib/helpBreadcrumbs';
 import { siteConfig } from '@/lib/site';
-import { breadcrumbSchema, organizationEntity, organizationRef, webPageSchema } from '@/lib/schema';
+import { articleSchema, breadcrumbSchema, organizationEntity, webPageSchema, websiteEntity } from '@/lib/schema';
+
+const articleData = getHelpArticle('brat-generator-not-working')!;
 
 export const metadata: Metadata = {
   title: { absolute: 'Brat Generator Not Working? Common Problems & Quick Fixes' },
   description: 'Brat Generator not working? Fix download problems, blurry text, clipped text, colour differences, and mobile download issues with these quick steps.',
-  alternates: { canonical: '/help/brat-generator-not-working/' },
+  alternates: { canonical: articleData.href },
   openGraph: {
     type: 'article',
-    url: '/help/brat-generator-not-working/',
-    title: 'Brat Generator Not Working? Common Problems & Quick Fixes',
-    description: 'A practical troubleshooting guide for Brat Generator download, blur, text fitting, colour, and mobile issues.',
+    url: articleData.href,
+    title: articleData.title,
+    description: articleData.description,
     publishedTime: '2026-09-07T00:00:00Z',
-    modifiedTime: '2026-09-23T00:00:00Z',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Brat Generator troubleshooting guide' }],
+    modifiedTime: '2026-10-05T00:00:00Z',
+    images: [{ url: articleData.image, width: 1200, height: 720, alt: articleData.imageAlt }],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Brat Generator Not Working? Quick Fixes',
-    description: 'Fix common Brat Generator download, blur, text, colour, and mobile issues.',
-    images: ['/og-image.png'],
-  },
+  twitter: { card: 'summary_large_image', title: articleData.title, description: articleData.description, images: [articleData.image] },
 };
+
+const toc = [
+  { href: '#quick-check', label: 'Quick checks to try first' },
+  { href: '#common-fixes', label: 'Common problems and quick fixes' },
+  { href: '#reset-design', label: 'Reset the design before starting over' },
+] as const;
 
 const fixes = [
   {
@@ -43,7 +51,7 @@ const fixes = [
   {
     number: '03',
     title: 'Text Clips Near the Edges',
-    body: 'Shorten the phrase, reduce the text size, or choose a wider canvas ratio. Condensed text works best with short copy, so one to four words usually gives the cleanest result. If the text still touches the edges, reduce the font size before changing the letter spacing.',
+    body: 'Keep Auto Fit Text turned on first. For a longer phrase, turn on Wrap Long Text so the wording can use more than one line. If the composition still feels crowded, reduce the text size, tighten the wording, or choose a wider canvas before changing letter spacing.',
   },
   {
     number: '04',
@@ -58,110 +66,90 @@ const fixes = [
 ];
 
 export default function TroubleshootingGuidePage() {
-  const canonical = `${siteConfig.url}/help/brat-generator-not-working/`;
-  const breadcrumb = breadcrumbSchema([
-    { name: 'Home', url: `${siteConfig.url}/` },
-    { name: 'Help', url: `${siteConfig.url}/help/` },
-    { name: 'Brat Generator Not Working?', url: canonical },
-  ]);
-
-
+  const canonical = `${siteConfig.url}${articleData.href}`;
+  const breadcrumb = breadcrumbSchema(getHelpBreadcrumbSchema(articleData.slug, canonical));
   const pageSchema = webPageSchema({
     url: canonical,
-    name: 'Brat Generator Not Working? Common Problems & Quick Fixes',
-    description: metadata.description,
-    dateModified: '2026-09-23',
+    name: articleData.title,
+    description: articleData.description,
+    dateModified: '2026-10-05',
     mainEntity: { '@id': `${canonical}#article` },
+    primaryImageUrl: `${siteConfig.url}${articleData.image}`,
   });
-
-  const article = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    '@id': `${canonical}#article`,
-    headline: 'Brat Generator Not Working? Common Problems & Quick Fixes',
-    description: metadata.description,
-    url: canonical,
-    mainEntityOfPage: { '@id': `${canonical}#webpage` },
-    inLanguage: 'en-GB',
-    image: {
-      '@type': 'ImageObject',
-      url: `${siteConfig.url}/og-image.png`,
-      width: 1200,
-      height: 630,
-      caption: 'Brat Generator troubleshooting guide',
-    },
+  const article = articleSchema({
+    pageUrl: canonical,
+    headline: articleData.title,
+    description: articleData.description,
+    imageUrl: articleData.image,
     datePublished: '2026-09-07T00:00:00+05:00',
-    dateModified: '2026-09-23T00:00:00+05:00',
-    author: organizationEntity,
-    publisher: organizationRef,
-  };
+    dateModified: '2026-10-05T00:00:00+05:00',
+  });
 
   return (
     <>
-      <JsonLd data={[breadcrumb, pageSchema, article]} />
+      <JsonLd data={[organizationEntity, websiteEntity, breadcrumb, pageSchema, article]} />
       <RevealSetup />
       <SiteHeader />
-      <main id="main-content">
-        <PageHero
-          breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Help', href: '/help/' }, { label: 'Common Problems & Quick Fixes' }]}
-          eyebrow="Troubleshooting Guide"
-          title="Brat Generator Not Working?"
-          accent="Common Problems & Quick Fixes"
-          description="If a download fails, the text looks too blurry, your phrase clips at the edge, colours seem different, or a mobile export is hard to find, use these quick checks before changing your design from scratch."
-        />
+      <main id="main-content" className="help-article-modern">
+        <div className="help-article-soft-bg" aria-hidden="true" />
+        <div className="container container-wide help-article-layout">
+          <div className="help-article-main">
+            <HelpArticleHeader
+              title={articleData.title}
+              description={articleData.description}
+              eyebrow={articleData.eyebrow}
+              published={articleData.modified}
+              breadcrumbs={getHelpBreadcrumbUi(articleData.slug)}
+            />
+            <ArticleTableOfContents items={toc} />
 
-        <article>
-          <section className="section section-tight">
-            <div className="container container-medium article-prose reveal">
-              <p className="article-meta">Published 7 September 2026 · Updated 23 September 2026 · Troubleshooting guide</p>
-              <p className="article-lead">Most Brat Generator problems are caused by browser download behaviour, an aggressive blur setting, text that is too long for the selected canvas, or differences between devices. Work through the fixes below in order; you usually will not need to reinstall anything because the generator runs directly in your browser.</p>
+            <div className="help-article-intro-body">
+              <section id="quick-check" className="help-article-section reveal">
+                <h2>Quick Checks to Try First</h2>
+                <p>Most problems come from browser download behaviour, an aggressive blur setting, text that is too long for the selected canvas, or differences between devices. Before changing lots of settings, check these basics first.</p>
+                <ol className="article-steps-clean">
+                  <li><strong>Refresh the page once.</strong> Make sure the generator loaded normally.</li>
+                  <li><strong>Check download permission.</strong> Confirm the browser is allowed to save files.</li>
+                  <li><strong>Check Auto Fit and Wrap Long Text.</strong> Use them before shrinking a long phrase manually.</li>
+                  <li><strong>Try another modern browser.</strong> This quickly rules out an extension or browser-specific issue.</li>
+                </ol>
+              </section>
             </div>
-          </section>
 
-          <section className="section section-card">
-            <div className="container container-wide">
-              <div className="section-heading reveal">
-                <p className="eyebrow">Quick Check</p>
-                <h2>Try These <span className="text-electric">First</span></h2>
-                <p>Before changing lots of settings, make sure the page is loaded normally and your browser is not blocking downloads.</p>
-              </div>
-              <div className="stats-grid troubleshooting-checks">
-                <div className="glass stat-card reveal"><strong>1</strong><span>Refresh the page once</span></div>
-                <div className="glass stat-card reveal reveal-delay-1"><strong>2</strong><span>Check browser download permission</span></div>
-                <div className="glass stat-card reveal reveal-delay-2"><strong>3</strong><span>Reduce blur and text size</span></div>
-                <div className="glass stat-card reveal reveal-delay-3"><strong>4</strong><span>Try another modern browser</span></div>
-              </div>
-            </div>
-          </section>
-
-          <section className="section">
-            <div className="container container-wide">
-              <div className="section-heading reveal">
-                <p className="eyebrow">Help</p>
-                <h2>Common Problems &amp; <span className="text-electric">Quick Fixes</span></h2>
+            <article className="help-article-body">
+              <section id="common-fixes" className="help-article-section reveal">
+                <h2>Common Problems &amp; Quick Fixes</h2>
                 <p>Use the matching fix below, then return to the live preview and test the design again.</p>
-              </div>
-              <div className="guide-step-list">
-                {fixes.map((fix, index) => (
-                  <article className={`glass guide-step reveal reveal-delay-${index % 3}`} key={fix.number}>
-                    <div className="guide-step-no">{fix.number}</div>
-                    <div><h3>{fix.title}</h3><p>{fix.body}</p></div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
+                <div className="guide-step-list">
+                  {fixes.map((fix, index) => (
+                    <div className={`glass guide-step reveal reveal-delay-${index % 3}`} key={fix.number}>
+                      <div className="guide-step-no">{fix.number}</div>
+                      <div><h3>{fix.title}</h3><p>{fix.body}</p></div>
+                    </div>
+                  ))}
+                </div>
+              </section>
 
-          <section className="section section-card">
-            <div className="container container-medium article-prose reveal">
-              <p className="eyebrow">Still Stuck?</p>
-              <h2>Reset the Design Before You Start Over</h2>
-              <p>If the generator itself loads but the result looks wrong, return to a simple setup first: use a short lowercase phrase, the default Brat Green background, dark text, a moderate text size, and very little blur. Once that version looks correct, add your custom colour, spacing, and stronger effects one setting at a time.</p>
-              <p>If the issue is about how a specific control works, the <Link className="inline-source-link" href="/#how-to">step-by-step Brat Generator guide</Link> explains the full workflow from text entry through download.</p>
-            </div>
-          </section>
+              <section id="reset-design" className="help-article-section reveal">
+                <h2>Reset the Design Before You Start Over</h2>
+                <p>If the generator loads but the result looks wrong, return to a simple setup first: use a short phrase, keep Auto Fit Text on, use the default Brat Green background, dark text, a moderate text size, and very little blur. Once that version looks correct, add your custom colour, spacing, and stronger effects one setting at a time.</p>
+                <p>If you are unsure what a control does, the <Link className="inline-source-link" href="/#how-to">step-by-step Brat Generator guide</Link> shows the process from text entry through export.</p>
+              </section>
 
-        </article>
+              <ContextCta
+                title="Try the Brat Generator Again"
+                description="Return to a simple setup, confirm the preview looks right, then add colours, spacing, blur, and effects one change at a time."
+                href="/#generator"
+                buttonLabel="Open Brat Generator"
+              />
+            </article>
+          </div>
+
+          <RelatedPostsSidebar
+            currentSlug={articleData.slug}
+            relatedSlugs={['brat-canvas-size-guide', 'which-brat-tool-should-you-use', 'brat-video-tips', 'how-to-make-a-brat-album-cover-free']}
+          />
+        </div>
       </main>
       <SiteFooter />
     </>

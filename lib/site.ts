@@ -4,7 +4,7 @@ export const siteConfig = {
   url: 'https://bratgeneratorpro.net',
   contactEmail: 'contact@bratgeneratorpro.net',
   description:
-    'Create Brat-style text, memes, images, album covers and videos with free browser-based tools, live previews and no-watermark exports.',
+    'Create Brat-style text, typography, memes, images, album covers and videos with free browser-based tools, live previews and no-watermark exports.',
 };
 
 export const pageLinks = {
@@ -17,12 +17,21 @@ export const pageLinks = {
   albumGenerator: '/brat-album-cover-generator/',
   features: '/#features',
   styles: '/brat-styles/',
+  fontGenerator: '/brat-font-generator/',
+  examples: '/brat-examples/',
   help: '/help/',
   albumCoverGuide: '/help/how-to-make-a-brat-album-cover-free/',
   troubleshootingGuide: '/help/brat-generator-not-working/',
+  videoExportGuide: '/help/brat-video-export-guide/',
+  videoTipsGuide: '/help/brat-video-tips/',
+  videoAudioGuide: '/help/brat-video-audio-sync-formats/',
+  memeIdeasGuide: '/help/brat-meme-ideas-templates/',
+  toolChooserGuide: '/help/which-brat-tool-should-you-use/',
+  canvasSizeGuide: '/help/brat-canvas-size-guide/',
   faq: '/#faq',
   about: '/about/',
   privacy: '/privacy-policy/',
+  cookies: '/cookies/',
   terms: '/terms/',
   contact: '/contact/',
 };

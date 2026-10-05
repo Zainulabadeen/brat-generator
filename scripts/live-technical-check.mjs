@@ -12,6 +12,7 @@ const required = [
   '/about/',
   '/contact/',
   '/privacy-policy/',
+  '/cookies/',
   '/terms/',
 ];
 

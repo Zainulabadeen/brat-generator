@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { localeOptions, LocaleCode } from '@/lib/localization';
 import { useLanguage } from '@/components/LanguageProvider';
+import SiteIcon from '@/components/SiteIcon';
 
 function LanguageIcon() {
   return (
@@ -38,7 +39,7 @@ export default function LanguageSelector() {
       >
         <LanguageIcon />
         <span>{translating ? '…' : current.short}</span>
-        <span className="language-caret" aria-hidden="true">⌄</span>
+        <span className="language-caret" aria-hidden="true"><SiteIcon name="chevronDown" size={14} /></span>
       </button>
       {open ? (
         <div className="language-popover" role="menu" aria-label="Language">
@@ -51,7 +52,7 @@ export default function LanguageSelector() {
               onClick={() => { setLocale(item.code as LocaleCode); setOpen(false); }}
             >
               <span className="language-option-label"><span className="language-flag" aria-hidden="true">{item.flag}</span>{item.label}</span>
-              {item.code === locale ? <span aria-hidden="true">✓</span> : null}
+              {item.code === locale ? <span aria-hidden="true"><SiteIcon name="check" size={14} /></span> : null}
             </button>
           ))}
         </div>
