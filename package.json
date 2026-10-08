@@ -10,6 +10,7 @@
     "onpage": "npm run build && node scripts/onpage-check.mjs",
     "onpage:check": "node scripts/onpage-check.mjs",
     "technical:check": "node scripts/remove-review-leftovers.mjs && node scripts/technical-check.mjs",
+    "performance:check": "node scripts/performance-check.mjs",
     "technical:live": "node scripts/technical-live-check.mjs",
     "seo:check": "npm run build && node scripts/onpage-check.mjs && node scripts/technical-check.mjs && node scripts/prelive-check.mjs",
     "lighthouse:serve": "node scripts/serve-lighthouse.mjs",
@@ -17,7 +18,8 @@
     "cleanup:legacy-project": "node scripts/remove-unrelated-legacy-project-files.mjs",
     "prebuild": "node scripts/remove-review-leftovers.mjs && node scripts/generate-sitemap.mjs",
     "predev": "node scripts/remove-review-leftovers.mjs",
-    "cleanup:review": "node scripts/remove-review-leftovers.mjs"
+    "cleanup:review": "node scripts/remove-review-leftovers.mjs",
+    "postbuild": "node scripts/postbuild-inline-home-css.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

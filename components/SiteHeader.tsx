@@ -47,7 +47,7 @@ export default function SiteHeader() {
   return (
     <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="header-inner">
-        <Link href="/" className="brand" onClick={close} aria-label="Brat Generator home" data-no-translate="true">
+        <Link href="/" prefetch={false} className="brand" onClick={close} aria-label="Brat Generator home" data-no-translate="true">
           <span className="brand-mark" aria-hidden="true">
             <span className="brand-glow" />
             <svg viewBox="0 0 40 40"><path d="M20 4 C25 8, 34 6, 36 14 C38 22, 30 24, 32 32 C28 36, 18 34, 14 36 C8 34, 4 28, 6 22 C2 16, 8 8, 14 8 C16 4, 18 2, 20 4 Z" /></svg>
@@ -57,7 +57,7 @@ export default function SiteHeader() {
 
         <nav className="desktop-nav tool-nav" aria-label="Primary navigation">
           {navItems.map(([label, href]) => (
-            <Link key={href} href={href} className={isActive(href) ? 'active' : undefined}>{label}</Link>
+            <Link key={href} href={href} prefetch={false} className={isActive(href) ? 'active' : undefined}>{label}</Link>
           ))}
         </nav>
 
@@ -87,7 +87,7 @@ export default function SiteHeader() {
           <p className="mobile-menu-label">Navigation</p>
           <nav className="mobile-tool-links" aria-label="Mobile tool navigation">
             {navItems.map(([label, href]) => (
-              <Link key={href} href={href} onClick={close} className={isActive(href) ? 'active' : undefined}>
+              <Link key={href} href={href} prefetch={false} onClick={close} className={isActive(href) ? 'active' : undefined}>
                 <span>{label}</span><span aria-hidden="true"><SiteIcon name="arrowRight" size={16} /></span>
               </Link>
             ))}
@@ -96,12 +96,12 @@ export default function SiteHeader() {
           <div className="mobile-menu-divider" />
           <p className="mobile-menu-label">More</p>
           <nav className="mobile-secondary-links" aria-label="More pages">
-            <Link href={pageLinks.faq} onClick={close}>FAQ</Link>
-            <Link href={pageLinks.about} onClick={close}>About</Link>
-            <Link href={pageLinks.privacy} onClick={close}>Privacy Policy</Link>
-            <Link href={pageLinks.cookies} onClick={close}>Cookie Policy</Link>
-            <Link href={pageLinks.terms} onClick={close}>Terms &amp; Disclaimer</Link>
-            <Link href={pageLinks.contact} onClick={close}>Contact</Link>
+            <Link href={pageLinks.faq} prefetch={false} onClick={close}>FAQ</Link>
+            <Link href={pageLinks.about} prefetch={false} onClick={close}>About</Link>
+            <Link href={pageLinks.privacy} prefetch={false} onClick={close}>Privacy Policy</Link>
+            <Link href={pageLinks.cookies} prefetch={false} onClick={close}>Cookie Policy</Link>
+            <Link href={pageLinks.terms} prefetch={false} onClick={close}>Terms &amp; Disclaimer</Link>
+            <Link href={pageLinks.contact} prefetch={false} onClick={close}>Contact</Link>
           </nav>
         </div>
 

@@ -190,7 +190,10 @@ expect(!globalsCss.includes('\\n'), 'global CSS contains no literal escaped newl
 
 expect(file('components/ArticleFaqSection.tsx').includes('accordion compact') && file('components/ArticleFaqSection.tsx').includes('Frequently Asked'), 'Help article FAQs use the shared accordion treatment');
 expect(file('components/ContextCta.tsx').includes('context-cta-card'), 'contextual create CTA component exists for FAQ/article endings');
-expect(file('components/BratGenerator.tsx').includes('/brat-generator-embed.html'), 'homepage generator uses the direct public HTML embed path to avoid route-level 404s');
+expect(file('components/BratGenerator.tsx').includes('/brat-generator-embed.html'), 'homepage generator uses the directly served public embed HTML file');
+expect(file('app/page.tsx').includes('<BratGenerator priority />'), 'homepage prioritizes the above-the-fold generator instead of lazy-loading the LCP candidate');
+expect(file('components/BratGenerator.tsx').includes('loading={priority ? \"eager\" : \"lazy\"}'), 'main generator supports eager loading only when it is above the fold');
+expect(file('package.json').includes('postbuild-inline-home-css.mjs') && file('scripts/postbuild-inline-home-css.mjs').includes('out/index.html'), 'production build inlines homepage CSS after static export to remove the PageSpeed render-blocking stylesheet request');
 
 
 // Project hygiene: reject unrelated legacy sources that can create duplicate or

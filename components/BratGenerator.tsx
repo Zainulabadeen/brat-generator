@@ -141,7 +141,7 @@ function applyStyleFromLocation(frame: HTMLIFrameElement | null) {
 
 const DEFAULT_HEIGHT = 720;
 
-export default function BratGenerator() {
+export default function BratGenerator({ priority = false }: { priority?: boolean }) {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
@@ -215,7 +215,7 @@ export default function BratGenerator() {
         style={{ height: `${height}px` }}
         scrolling="no"
         allow="clipboard-read; clipboard-write"
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
       />
     </div>
   );

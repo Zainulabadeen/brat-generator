@@ -240,7 +240,7 @@ export default function Home() {
               </h1>
               <p className="hero-primary-copy">Create Brat-style text graphics with custom colours, spacing, blur, text fitting, social-ready sizes and instant browser-based export. Dedicated tools are available for memes, images, fonts, videos and album covers.</p>
               <div className="hero-generator-shell">
-                <BratGenerator />
+                <BratGenerator priority />
               </div>
             </div>
           </div>
