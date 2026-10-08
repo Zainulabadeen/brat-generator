@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type TocItem = {
   href: string;
@@ -11,6 +11,7 @@ type TocItem = {
 export default function ArticleTableOfContents({ items }: { items: readonly TocItem[] }) {
   const ids = useMemo(() => items.map((item) => item.href.replace(/^#/, '')), [items]);
   const [activeHref, setActiveHref] = useState(items[0]?.href ?? '');
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const sections = ids
@@ -32,13 +33,23 @@ export default function ArticleTableOfContents({ items }: { items: readonly TocI
       setActiveHref(`#${current}`);
     };
 
+    // At most one geometry calculation per painted frame, even during fast scrolling.
+    const scheduleUpdate = () => {
+      if (frameRef.current !== null) return;
+      frameRef.current = window.requestAnimationFrame(() => {
+        frameRef.current = null;
+        updateActive();
+      });
+    };
     updateActive();
-    window.addEventListener('scroll', updateActive, { passive: true });
-    window.addEventListener('resize', updateActive);
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
 
     return () => {
-      window.removeEventListener('scroll', updateActive);
-      window.removeEventListener('resize', updateActive);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
     };
   }, [ids]);
 

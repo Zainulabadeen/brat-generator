@@ -19,7 +19,9 @@
     "prebuild": "node scripts/remove-review-leftovers.mjs && node scripts/generate-sitemap.mjs",
     "predev": "node scripts/remove-review-leftovers.mjs",
     "cleanup:review": "node scripts/remove-review-leftovers.mjs",
-    "postbuild": "node scripts/postbuild-inline-home-css.mjs"
+    "postbuild": "node scripts/postbuild-inline-home-css.mjs",
+    "performance:export": "node scripts/performance-export-check.mjs",
+    "performance:test": "node scripts/test-postbuild-css.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

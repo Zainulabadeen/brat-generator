@@ -42,13 +42,13 @@ export default function PageHero({
         ) : (
           <div className="page-hero-kicker reveal is-visible">{eyebrow}</div>
         )}
-        <h1 className="inner-hero-title reveal is-visible hero-delay-1">
+        <h1 className="inner-hero-title reveal is-visible">
           <span className="inner-hero-title-main">{firstLine}{secondLine ? ' ' : ''}</span>
           {secondLine ? (
             <span className="inner-hero-title-accent text-brat">{secondLine}</span>
           ) : null}
         </h1>
-        {description ? <p className="inner-hero-copy reveal is-visible hero-delay-2">{description}</p> : null}
+        {description ? <p className="inner-hero-copy reveal is-visible">{description}</p> : null}
       </div>
     </section>
   );

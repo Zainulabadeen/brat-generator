@@ -207,7 +207,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
     <div className="generator-embed-shell">
       <iframe
         ref={frameRef}
-        src={fallbackHtml ? undefined : "/brat-generator-embed.html"}
+        src={fallbackHtml ? undefined : (process.env.NODE_ENV === "development" ? "/brat-generator-embed.html" : "/brat-generator-embed/")}
         srcDoc={fallbackHtml || undefined}
         className="brat-generator-iframe"
         title="Brat Generator design tool"

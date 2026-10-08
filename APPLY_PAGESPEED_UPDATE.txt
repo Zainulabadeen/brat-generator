@@ -1,0 +1,29 @@
+BRAT GENERATOR - ALL PAGE PERFORMANCE PATCH (2026-10-08)
+
+BASE: Only your uploaded Brat-Generator-SOURCE(1).zip.
+
+CHANGES ONLY ZIP: extract into the ROOT of your existing VS Code Brat Generator project and replace matching files.
+FULL PROJECT ZIP: complete backup of original uploaded project with these changes applied.
+
+Local test:
+  npm ci
+  npm run dev
+
+Static and SEO/build checks:
+  npm run performance:test
+  npm run performance:check
+  npm run technical:check
+  npm run build
+  npm run performance:export
+  npm run seo:check
+
+Production-style localhost server (after build):
+  npm run lighthouse:serve
+
+Git push:
+  git status
+  git add -A
+  git commit -m "Optimize PageSpeed across all indexable Brat Generator pages"
+  git push origin HEAD
+
+IMPORTANT: a real Next.js production build and fresh Lighthouse runs could not be executed here because npm registry access is blocked in the execution environment. Run the build and export checks on your PC before deploying. For full audit/limitations read PAGESPEED_OPTIMIZATION_2026-10-08.md.

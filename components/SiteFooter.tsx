@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="container container-wide">
         <div className="footer-grid footer-grid-four">
           <div className="footer-about">
-            <Link href="/" className="brand" aria-label="Brat Generator home" data-no-translate="true">
+            <Link prefetch={false} href="/" className="brand" aria-label="Brat Generator home" data-no-translate="true">
               <span className="brand-mark" aria-hidden="true">
                 <span className="brand-glow" />
                 <svg viewBox="0 0 40 40"><path d="M20 4 C25 8, 34 6, 36 14 C38 22, 30 24, 32 32 C28 36, 18 34, 14 36 C8 34, 4 28, 6 22 C2 16, 8 8, 14 8 C16 4, 18 2, 20 4 Z" /></svg>
@@ -19,30 +19,30 @@ export default function SiteFooter() {
 
           <div>
             <p className="footer-heading">Tools</p>
-            <Link href={pageLinks.home}>Brat Generator (Home)</Link>
-            <Link href={pageLinks.videoGenerator}>Brat Video Generator</Link>
-            <Link href={pageLinks.memeGenerator}>Brat Meme Generator</Link>
-            <Link href={pageLinks.imageGenerator}>Brat Image Generator</Link>
-            <Link href={pageLinks.albumGenerator}>Brat Album Cover Generator</Link>
-            <Link href={pageLinks.fontGenerator}>Brat Font Generator</Link>
+            <Link prefetch={false} href={pageLinks.home}>Brat Generator (Home)</Link>
+            <Link prefetch={false} href={pageLinks.videoGenerator}>Brat Video Generator</Link>
+            <Link prefetch={false} href={pageLinks.memeGenerator}>Brat Meme Generator</Link>
+            <Link prefetch={false} href={pageLinks.imageGenerator}>Brat Image Generator</Link>
+            <Link prefetch={false} href={pageLinks.albumGenerator}>Brat Album Cover Generator</Link>
+            <Link prefetch={false} href={pageLinks.fontGenerator}>Brat Font Generator</Link>
           </div>
 
           <div>
             <p className="footer-heading">Explore</p>
-            <Link href={pageLinks.features}>Features</Link>
-            <Link href={pageLinks.styles}>Brat Styles</Link>
-            <Link href={pageLinks.examples}>Brat Examples</Link>
-            <Link href={pageLinks.help}>Help</Link>
-            <Link href={pageLinks.faq}>FAQ</Link>
-            <Link href={pageLinks.about}>About</Link>
+            <Link prefetch={false} href={pageLinks.features}>Features</Link>
+            <Link prefetch={false} href={pageLinks.styles}>Brat Styles</Link>
+            <Link prefetch={false} href={pageLinks.examples}>Brat Examples</Link>
+            <Link prefetch={false} href={pageLinks.help}>Help</Link>
+            <Link prefetch={false} href={pageLinks.faq}>FAQ</Link>
+            <Link prefetch={false} href={pageLinks.about}>About</Link>
           </div>
 
           <div>
             <p className="footer-heading">Trust</p>
-            <Link href={pageLinks.privacy}>Privacy Policy</Link>
-            <Link href={pageLinks.cookies}>Cookie Policy</Link>
-            <Link href={pageLinks.terms}>Terms &amp; Disclaimer</Link>
-            <Link href={pageLinks.contact}>Contact</Link>
+            <Link prefetch={false} href={pageLinks.privacy}>Privacy Policy</Link>
+            <Link prefetch={false} href={pageLinks.cookies}>Cookie Policy</Link>
+            <Link prefetch={false} href={pageLinks.terms}>Terms &amp; Disclaimer</Link>
+            <Link prefetch={false} href={pageLinks.contact}>Contact</Link>
           </div>
         </div>
 

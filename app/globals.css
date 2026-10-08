@@ -3418,3 +3418,15 @@ main > .section{
 @media (max-width:560px){.example-settings{grid-template-columns:1fr}}
 
 .help-article-meta .help-maintained-note{color:#6a6a6a;font-size:.78rem;font-weight:600;letter-spacing:0;line-height:1.4}
+
+/* Performance: keep all first-viewport PageHero copy paint-ready across routes.
+   This suppresses the previous stagger only; the approved finished design is unchanged. */
+.page-hero-section .inner-hero-title,
+.page-hero-section .inner-hero-copy,
+.page-hero-section .page-hero-breadcrumb,
+.page-hero-section .page-hero-kicker{
+  animation:none!important;
+  transition:none!important;
+  opacity:1!important;
+  transform:none!important;
+}
