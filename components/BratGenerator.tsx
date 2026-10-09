@@ -76,7 +76,6 @@ function translateEmbeddedFrame(frame: HTMLIFrameElement | null, locale: LocaleC
   }
 }
 
-
 type BratStylePreset = 'green' | 'black' | 'white' | 'pink' | 'blue';
 
 const BRAT_STYLE_PRESETS: Record<BratStylePreset, { background: string; text: string }> = {
@@ -139,27 +138,52 @@ function applyStyleFromLocation(frame: HTMLIFrameElement | null) {
   applyStylePreset(frame, styleFromLocationHash());
 }
 
+async function fetchEmbedHtml(paths: string[]) {
+  for (const path of paths) {
+    try {
+      const response = await fetch(path, { credentials: 'same-origin' });
+      if (!response.ok) continue;
+      const html = await response.text();
+      if (html.includes('id="cv"') || html.includes("id='cv'")) return html;
+    } catch {
+      // Try the next path.
+    }
+  }
+  return null;
+}
+
 const DEFAULT_HEIGHT = 720;
 
 export default function BratGenerator({ priority = false }: { priority?: boolean }) {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
+  const fallbackRequestedRef = useRef(false);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
   const [fallbackHtml, setFallbackHtml] = useState<string | null>(null);
 
+  const ensureInlineFallback = async () => {
+    if (fallbackRequestedRef.current) return;
+    fallbackRequestedRef.current = true;
+    const html = await fetchEmbedHtml(['/brat-generator-embed/index.html', '/brat-generator-embed.html']);
+    if (html) setFallbackHtml(html);
+  };
+
   const handleLoad = () => {
     const frame = frameRef.current;
-    const bodyText = frame?.contentDocument?.body?.textContent || '';
-    const title = frame?.contentDocument?.title || '';
+    const doc = frame?.contentDocument;
+    const bodyText = doc?.body?.textContent || '';
+    const title = doc?.title || '';
+    const embedReady = !!doc?.getElementById('cv');
     const missingEmbed =
+      !embedReady ||
       bodyText.includes('That Page Went Off-Track') ||
+      bodyText.includes('This content is blocked') ||
+      bodyText.includes('Contact the site owner to fix the issue') ||
       /(^|\s)404(\s|$)/i.test(title) ||
       bodyText.includes('The page you requested does not exist');
 
     if (missingEmbed && !fallbackHtml) {
-      import('@/lib/embedDocuments').then((module) => {
-        setFallbackHtml(module.BRAT_GENERATOR_EMBED_HTML);
-      });
+      void ensureInlineFallback();
       return;
     }
 
@@ -188,7 +212,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
         const nextHeight = Number(data.height);
         if (Number.isFinite(nextHeight) && nextHeight > 0) {
           setHeight((current) => {
-            const safeHeight = Math.max(620, Math.min(Math.ceil(nextHeight), 1800));
+            const safeHeight = Math.max(620, Math.min(Math.ceil(nextHeight), 2200));
             return Math.abs(current - safeHeight) > 2 ? safeHeight : current;
           });
         }
@@ -207,7 +231,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
     <div className="generator-embed-shell">
       <iframe
         ref={frameRef}
-        src={fallbackHtml ? undefined : (process.env.NODE_ENV === "development" ? "/brat-generator-embed.html" : "/brat-generator-embed/")}
+        src={fallbackHtml ? undefined : (process.env.NODE_ENV === 'development' ? '/brat-generator-embed.html' : '/brat-generator-embed/')}
         srcDoc={fallbackHtml || undefined}
         className="brat-generator-iframe"
         title="Brat Generator design tool"
@@ -215,7 +239,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
         style={{ height: `${height}px` }}
         scrolling="no"
         allow="clipboard-read; clipboard-write"
-        loading={priority ? "eager" : "lazy"}
+        loading={priority ? 'eager' : 'eager'}
       />
     </div>
   );

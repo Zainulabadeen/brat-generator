@@ -30,13 +30,19 @@
       <!-- Canvas -->
       <div class="canvas-area">
         <div class="mobile-preview-head"><span>Live preview</span><span id="mobile-draft-status" aria-live="polite">Editing locally</span></div>
-        <button class="undo-btn" id="undoBtn">&#8617; Undo</button>
+        <div class="mobile-compose-row">
+          <label class="mobile-text-field" for="mobileTxtIn">
+            <span>Text</span>
+            <input class="mobile-text-input" id="mobileTxtIn" value="brat" placeholder="type your text&#8230;" />
+          </label>
+          <button class="undo-btn" id="undoBtn">&#8617; Undo</button>
+        </div>
         <div class="canvas-wrap">
           <div class="checker"></div>
           <canvas id="cv" width="420" height="420"></canvas>
         </div>
         <div class="canvas-actions">
-          <select class="size-sel" id="sizeSel">
+          <select class="size-sel" id="sizeSel" aria-label="Canvas size">
             <option value="800x800">800 &times; 800</option>
             <option value="1000x1000" selected>1000 &times; 1000</option>
             <option value="1200x1200">1200 &times; 1200</option>
@@ -216,6 +222,16 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="mobile-export-actions">
+        <button class="dl-btn" id="mobileDlBtn">
+          <svg viewBox="0 0 16 16"><path d="M8 12.5L3.5 8H6V2h4v6h2.5L8 12.5zM2 14h12v1.5H2V14z"/></svg>
+          Download Image
+        </button>
+        <button class="ghost-btn" id="mobileCopyBtn">Copy</button>
+        <button class="ghost-btn" id="mobileShareBtn">Share Link</button>
+        <button class="ghost-btn" id="mobileResetBtn">Reset All</button>
       </div>
     </div>
   </div>
@@ -663,7 +679,10 @@
   }
 
   /* Mobile editor: preview first, compact category controls below. */
-  .mobile-edit-nav,.mobile-preview-head{display:none}
+  .mobile-edit-nav,.mobile-preview-head,.mobile-compose-row,.mobile-export-actions{display:none}
+  .mobile-text-field{display:flex;flex-direction:column;gap:6px;font:700 11px system-ui;color:#5b5b5b;letter-spacing:.05em;text-transform:uppercase}
+  .mobile-text-input{width:100%;min-height:44px;padding:11px 13px;font-size:16px;border:1.5px solid #e4e4e4;border-radius:12px;background:#fff;color:#111;outline:none;transition:border-color .15s,box-shadow .15s}
+  .mobile-text-input:focus{border-color:#8ace00;box-shadow:0 0 0 3px rgba(138,206,0,.12)}
   .gradient-second{display:none;align-items:center;gap:12px;padding:10px;border:1px solid #e8e8e8;border-radius:10px;background:#fafafa}
   .gradient-second .field-label{margin:0;flex:1}
   .gradient-second input{height:38px;width:68px;border:1px solid #ddd;border-radius:8px;padding:3px;background:#fff}
@@ -672,22 +691,24 @@
     .brat-app-wrapper .top-bar{height:auto;min-height:52px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:8px 10px;overflow:visible}
     .brat-app-wrapper .mode-btn{min-width:0;white-space:normal;padding:8px 2px;min-height:39px;font-size:10px;letter-spacing:0;color:#656565}
     .brat-app-wrapper .body{display:flex;flex-direction:column;min-height:0}
-    .brat-app-wrapper .canvas-area{padding:12px 12px 16px;gap:11px;align-items:stretch;justify-content:flex-start}
-    .mobile-preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#444;font:700 11px system-ui}
-    #mobile-draft-status{color:#698a25;font-size:10px;font-weight:600}
-    .brat-app-wrapper .undo-btn{position:static;align-self:flex-start;order:0;z-index:2;min-height:38px;padding:8px 14px;font-size:12px;color:#333}
+    .brat-app-wrapper .canvas-area{padding:12px 12px 12px;gap:10px;align-items:stretch;justify-content:flex-start}
+    .mobile-preview-head{display:none!important}
+    #mobile-draft-status{display:none!important}
+    .mobile-compose-row{display:flex;align-items:flex-end;gap:8px;width:100%;order:0}
+    .mobile-compose-row .mobile-text-field{flex:1;min-width:0}
+    .brat-app-wrapper .undo-btn{position:static;align-self:auto;order:0;z-index:2;min-height:44px;padding:0 12px;font-size:11px;line-height:1;color:#333;border-radius:12px;white-space:nowrap}
     .brat-app-wrapper .canvas-wrap{display:flex;width:100%;min-height:0;justify-content:center;order:1}
-    .brat-app-wrapper #cv{max-height:min(54vw,280px);max-width:100%;object-fit:contain;width:auto;height:auto}
-    .brat-app-wrapper .canvas-actions{order:2;display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%;margin-top:1px}
-    .brat-app-wrapper .canvas-actions>*{min-width:0;width:100%;height:44px;font-size:11px;display:flex;align-items:center;justify-content:center;padding:8px 6px;text-align:center}
-    .brat-app-wrapper .canvas-actions .size-sel{grid-column:1/-1;display:block;text-align:left;padding:8px 32px 8px 12px}
-    .brat-app-wrapper .canvas-actions #dlBtn{background:#121212;color:white}
-    .mobile-edit-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:9px 8px 7px;background:#fff;border-bottom:1px solid #e9e9e9}
+    .brat-app-wrapper #cv{max-height:min(58vw,300px);max-width:100%;object-fit:contain;width:auto;height:auto}
+    .brat-app-wrapper .canvas-actions{order:2;display:grid;grid-template-columns:1fr;gap:8px;width:100%;margin-top:0}
+    .brat-app-wrapper .canvas-actions>*{min-width:0;width:100%;height:46px;font-size:12px;display:flex;align-items:center;justify-content:center;padding:8px 8px;text-align:center}
+    .brat-app-wrapper .canvas-actions .size-sel{grid-column:1/-1;display:block;text-align:left;padding:10px 34px 10px 12px}
+    .brat-app-wrapper .canvas-actions .ghost-btn,.brat-app-wrapper .canvas-actions .dl-btn{display:none!important}
+    .mobile-edit-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:10px 8px 8px;background:#fff;border-top:1px solid #ebebeb;border-bottom:1px solid #e9e9e9}
     .mobile-edit-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:58px;padding:6px 1px;border:1px solid transparent;border-radius:12px;background:transparent;color:#646464;font-family:system-ui;cursor:pointer}
     .mobile-edit-tab>span{height:23px;display:grid;place-items:center;font-size:21px;font-weight:700;line-height:1}
     .mobile-edit-tab>small{font-size:10px;font-weight:650}
     .mobile-edit-tab.is-selected{background:#ecf8d9;border-color:#caeaa2;color:#233500}
-    .brat-app-wrapper .panel{min-height:110px;max-height:none;overflow:visible;border-top:0;padding:12px 14px 18px;gap:12px}
+    .brat-app-wrapper .panel{min-height:110px;max-height:none;overflow:visible;border-top:0;padding:12px 14px 14px;gap:12px}
     .brat-app-wrapper .panel>.divider{display:none}
     .brat-app-wrapper .panel>div[data-mobile-group]{display:none}
     .brat-app-wrapper .panel>div[data-mobile-group].mobile-group-visible{display:block}
@@ -699,6 +720,10 @@
     .brat-app-wrapper .panel .effects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
     .brat-app-wrapper .panel .effect-row{min-width:0;padding:6px 8px;min-height:43px}
     .brat-app-wrapper .panel .effect-label{font-size:10px}
+    .mobile-export-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 14px 18px;background:#fff}
+    .mobile-export-actions>*{min-width:0;width:100%;min-height:46px;font-size:12px;display:flex;align-items:center;justify-content:center;padding:8px 10px;text-align:center}
+    .mobile-export-actions .dl-btn{background:#121212;color:#fff}
+    .mobile-export-actions .dl-btn svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
   }
 </style>
 
@@ -860,7 +885,10 @@
 
   /* ── Sync UI ── */
   function syncUI() {
-    document.getElementById('txtIn').value       = S.text;
+    const mainTxt=document.getElementById('txtIn');
+    const mobileTxt=document.getElementById('mobileTxtIn');
+    if(mainTxt && document.activeElement!==mainTxt) mainTxt.value = S.text;
+    if(mobileTxt && document.activeElement!==mobileTxt) mobileTxt.value = S.text;
     document.getElementById('fontSel').value     = S.font;
     document.getElementById('fsSl').value        = S.fs;   document.getElementById('fsVal').textContent   = S.fs;
     document.getElementById('lsSl').value        = S.ls;   document.getElementById('lsVal').textContent   = S.ls;
@@ -914,10 +942,14 @@
 
   /* ── Text input ── */
   let txtT;
-  document.getElementById('txtIn').addEventListener('input', e => {
-    S.text = e.target.value; draw();
-    clearTimeout(txtT); txtT = setTimeout(pushHist, 500);
-  });
+  function onTextInput(value){
+    S.text = value;
+    draw();
+    clearTimeout(txtT);
+    txtT = setTimeout(pushHist, 500);
+  }
+  document.getElementById('txtIn').addEventListener('input', e => onTextInput(e.target.value));
+  document.getElementById('mobileTxtIn').addEventListener('input', e => onTextInput(e.target.value));
 
   /* ── Font ── */
   document.getElementById('fontSel').addEventListener('change', e => {
@@ -1007,7 +1039,7 @@
   document.getElementById('undoBtn').addEventListener('click', undo);
 
   /* ── Reset ── */
-  document.getElementById('resetBtn').addEventListener('click', () => {
+  function resetEditor() {
     S = {
       text:'brat', bg:'#8ace00', fg:'#000000',
       font:'Arial Narrow', fs:80, ls:0, blur:0,
@@ -1020,7 +1052,9 @@
     cv.width = 420; cv.height = 420;
     document.querySelectorAll('.brat-app-wrapper .mode-btn').forEach((x, i) => x.classList.toggle('on', i === 1));
     syncUI(); pushHist(); draw();
-  });
+  }
+  document.getElementById('resetBtn').addEventListener('click', resetEditor);
+  document.getElementById('mobileResetBtn').addEventListener('click', resetEditor);
 
   /* ── Export ── */
   function renderFull() {
@@ -1041,7 +1075,12 @@
     return dc;
   }
 
-  document.getElementById('dlBtn').addEventListener('click', () => {
+  function setButtonText(ids, text, restore){
+    ids.forEach(id=>{const btn=document.getElementById(id); if(btn) btn.textContent=text;});
+    if(restore){setTimeout(()=>ids.forEach(id=>{const btn=document.getElementById(id); if(btn) btn.textContent=restore;}),1800);}
+  }
+
+  function downloadImage(){
     let dc;
     try { dc=renderFull();if(!dc)return; } catch(err){alert('This export needs too much memory. Please select a smaller canvas or lower resolution.');return;}
     const mime=S.fmt==='jpg'?'image/jpeg':S.fmt==='webp'?'image/webp':'image/png';
@@ -1052,27 +1091,24 @@
       setTimeout(()=>URL.revokeObjectURL(url),30000);
       dc.width=0;dc.height=0;
     },mime,0.94);
-  });
+  }
 
-  document.getElementById('copyBtn').addEventListener('click', () => {
+  function copyImage(){
     if(!navigator.clipboard?.write||!window.ClipboardItem){alert('Copy is not supported in this browser. Use Download Image instead.');return;}
     let dc;try{dc=renderFull();if(!dc)return;}catch(err){return;}
     dc.toBlob(blob => {
       dc.width=0;dc.height=0;
       if(!blob||!navigator.clipboard?.write||!window.ClipboardItem)return;
       navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
-        .then(() => {
-          const btn = document.getElementById('copyBtn');
-          btn.textContent = 'Copied!';
-          setTimeout(() => btn.textContent = 'Copy', 1800);
-        })
-        .catch(() => {
-          const btn = document.getElementById('copyBtn');
-          btn.textContent = 'N/A';
-          setTimeout(() => btn.textContent = 'Copy', 1800);
-        });
+        .then(() => setButtonText(['copyBtn','mobileCopyBtn'], 'Copied!', 'Copy'))
+        .catch(() => setButtonText(['copyBtn','mobileCopyBtn'], 'N/A', 'Copy'));
     }, 'image/png');
-  });
+  }
+
+  document.getElementById('dlBtn').addEventListener('click', downloadImage);
+  document.getElementById('mobileDlBtn').addEventListener('click', downloadImage);
+  document.getElementById('copyBtn').addEventListener('click', copyImage);
+  document.getElementById('mobileCopyBtn').addEventListener('click', copyImage);
 
   function loadSharedState(){
     try{
@@ -1109,7 +1145,7 @@
       syncUI(); draw();
     }catch(ignore){}
   }
-  document.getElementById('shareBtn').addEventListener('click', async () => {
+  async function shareLink(){
     try{
       const url=new URL(window.parent.location.href);
       url.searchParams.delete('style');
@@ -1117,10 +1153,12 @@
       Object.entries(values).forEach(([key,value])=>url.searchParams.set(key,String(value)));
       url.hash='generator';
       await navigator.clipboard.writeText(url.toString());
-      const btn=document.getElementById('shareBtn');btn.textContent='Link Copied!';setTimeout(()=>btn.textContent='Share Link',1800);
+      setButtonText(['shareBtn','mobileShareBtn'],'Link Copied!','Share Link');
       if(window.parent&&window.parent!==window) window.parent.postMessage({type:'brat-generator-share',url:url.toString()},'*');
-    }catch(ignore){const btn=document.getElementById('shareBtn');btn.textContent='Copy Failed';setTimeout(()=>btn.textContent='Share Link',1800);}
-  });
+    }catch(ignore){setButtonText(['shareBtn','mobileShareBtn'],'Copy Failed','Share Link');}
+  }
+  document.getElementById('shareBtn').addEventListener('click', shareLink);
+  document.getElementById('mobileShareBtn').addEventListener('click', shareLink);
 
   function restoreDraft(){
     try{
@@ -1165,12 +1203,24 @@
   window.addEventListener('load',sendHeight,{once:true});
   window.addEventListener('resize',sendHeight,{passive:true});
   document.addEventListener('click',function(e){
-    var el=e.target && e.target.closest ? e.target.closest('#dlBtn') : null;
+    var el=e.target && e.target.closest ? e.target.closest('#dlBtn,#mobileDlBtn') : null;
     if(el){ try{ parent.postMessage({type:'brat-generator-download'},'*'); }catch(err){} }
     setTimeout(sendHeight,60);
   });
+  document.addEventListener('input',function(){ setTimeout(sendHeight,30); },true);
+  document.addEventListener('change',function(){ setTimeout(sendHeight,30); },true);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(function(){ sendHeight(); });
+    var root=document.querySelector('.brat-app-wrapper');
+    if(root) ro.observe(root);
+  }
+  if(window.MutationObserver){
+    var mo=new MutationObserver(function(){ sendHeight(); });
+    mo.observe(document.body,{attributes:true,childList:true,subtree:true});
+  }
   setTimeout(sendHeight,120);
   setTimeout(sendHeight,500);
+  setTimeout(sendHeight,1000);
 })();
 </script>
 </body>

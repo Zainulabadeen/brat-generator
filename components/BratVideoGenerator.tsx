@@ -76,11 +76,26 @@ function translateEmbeddedFrame(frame: HTMLIFrameElement | null, locale: LocaleC
   }
 }
 
+async function fetchEmbedHtml(paths: string[]) {
+  for (const path of paths) {
+    try {
+      const response = await fetch(path, { credentials: 'same-origin' });
+      if (!response.ok) continue;
+      const html = await response.text();
+      if (html.includes('bvg-root')) return html;
+    } catch {
+      // Try the next path.
+    }
+  }
+  return null;
+}
+
 const DEFAULT_HEIGHT = 940;
 
 export default function BratVideoGenerator() {
   const { locale } = useLanguage();
   const frameRef = useRef<HTMLIFrameElement | null>(null);
+  const fallbackRequestedRef = useRef(false);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
   const [fallbackHtml, setFallbackHtml] = useState<string | null>(null);
 
@@ -91,7 +106,7 @@ export default function BratVideoGenerator() {
         if (!toolRoot) return;
         const nextHeight = Math.max(Math.ceil(toolRoot.scrollHeight || 0), 820);
         setHeight((current) => {
-          const safeHeight = Math.min(nextHeight, 2200);
+          const safeHeight = Math.min(nextHeight, 2600);
           return Math.abs(current - safeHeight) > 2 ? safeHeight : current;
         });
       } catch {
@@ -100,19 +115,29 @@ export default function BratVideoGenerator() {
     });
   };
 
+  const ensureInlineFallback = async () => {
+    if (fallbackRequestedRef.current) return;
+    fallbackRequestedRef.current = true;
+    const html = await fetchEmbedHtml(['/brat-video-generator-embed/index.html', '/brat-video-generator-embed.html']);
+    if (html) setFallbackHtml(html);
+  };
+
   const handleLoad = () => {
     const frame = frameRef.current;
-    const bodyText = frame?.contentDocument?.body?.textContent || '';
-    const title = frame?.contentDocument?.title || '';
+    const doc = frame?.contentDocument;
+    const bodyText = doc?.body?.textContent || '';
+    const title = doc?.title || '';
+    const embedReady = !!doc?.getElementById('bvg-root');
     const missingEmbed =
+      !embedReady ||
       bodyText.includes('That Page Went Off-Track') ||
+      bodyText.includes('This content is blocked') ||
+      bodyText.includes('Contact the site owner to fix the issue') ||
       /(^|\s)404(\s|$)/i.test(title) ||
       bodyText.includes('The page you requested does not exist');
 
     if (missingEmbed && !fallbackHtml) {
-      import('@/lib/embedDocuments').then((module) => {
-        setFallbackHtml(module.BRAT_VIDEO_GENERATOR_EMBED_HTML);
-      });
+      void ensureInlineFallback();
       return;
     }
 
@@ -149,14 +174,14 @@ export default function BratVideoGenerator() {
     <div className="video-generator-embed-shell">
       <iframe
         ref={frameRef}
-        src={fallbackHtml ? undefined : "/brat-video-generator-embed/"}
+        src={fallbackHtml ? undefined : '/brat-video-generator-embed/'}
         srcDoc={fallbackHtml || undefined}
         className="brat-video-generator-iframe"
         title="Brat Video Generator"
         onLoad={handleLoad}
         style={{ height: `${height}px` }}
         scrolling="no"
-        loading="lazy"
+        loading="eager"
         allow="clipboard-read; clipboard-write; fullscreen"
       />
     </div>

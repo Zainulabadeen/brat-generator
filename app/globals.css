@@ -3452,7 +3452,8 @@ main > .section{
   .mobile-control-group.selected{display:flex}
   .creative-tool-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:11px}
   .creative-tool-actions>*{width:100%;min-width:0;flex:auto!important;min-height:43px;text-align:center;font-size:12px;padding-inline:7px}
-  .creative-tool-preview-head{margin-bottom:8px}
+  .creative-tool-preview-head{margin-bottom:8px;justify-content:flex-end}
+  .creative-tool-preview-head span:first-child{display:none}
   .creative-tool .tool-field input:not([type=checkbox]),.creative-tool .tool-field select,.creative-tool .tool-field textarea{font-size:16px}
   .creative-tool .tool-toggle-row{flex-wrap:wrap;gap:12px}
   .creative-tool .tool-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
