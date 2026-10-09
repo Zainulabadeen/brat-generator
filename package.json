@@ -22,7 +22,12 @@
     "postbuild": "node scripts/postbuild-inline-home-css.mjs",
     "performance:export": "node scripts/performance-export-check.mjs",
     "performance:test": "node scripts/test-postbuild-css.mjs",
-    "mobile:check": "node scripts/mobile-editor-regression-check.mjs"
+    "mobile:check": "node scripts/mobile-editor-regression-check.mjs",
+    "production:smoke": "node scripts/production-route-smoke.mjs",
+    "lighthouse:mobile": "node scripts/lighthouse-mobile-all.mjs",
+    "lighthouse:mobile:all": "node scripts/lighthouse-mobile-all.mjs --all",
+    "lighthouse:mobile:live": "node scripts/lighthouse-mobile-all.mjs --all --live",
+    "release:verify": "npm run mobile:check && npm run performance:check && npm run technical:check && npm run performance:test && npm run build && npm run performance:export && npm run onpage:check && node scripts/prelive-check.mjs && npm run production:smoke"
   },
   "dependencies": {
     "next": "16.3.4",

@@ -1,0 +1,35 @@
+name: Live production mobile Lighthouse — Brat Generator Pro
+
+on:
+  workflow_dispatch:
+  deployment_status:
+
+jobs:
+  live-mobile-audit:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      (github.event.deployment.environment == 'Production' || github.event.deployment.environment == 'production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Lighthouse CLI
+        run: npm install --global lighthouse@12
+      - name: Audit real live canonical URLs on mobile
+        run: npm run lighthouse:mobile:live
+        env:
+          BRAT_LIVE_BASE_URL: https://bratgeneratorpro.net
+      - name: Save mobile audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brat-live-mobile-${{ github.run_number }}
+          path: artifacts/lighthouse-live/
+          if-no-files-found: ignore
+          retention-days: 30

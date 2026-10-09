@@ -1,0 +1,50 @@
+name: Build and mobile Lighthouse — Brat Generator Pro
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  production-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+      - name: Install Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked project dependencies
+        run: npm ci
+      - name: Source regression checks
+        run: |
+          npm run mobile:check
+          npm run performance:check
+          npm run technical:check
+          npm run performance:test
+      - name: Real Next.js production static export
+        run: npm run build
+      - name: Built HTML/SEO audits
+        run: |
+          npm run performance:export
+          npm run onpage:check
+          node scripts/prelive-check.mjs
+      - name: Real HTTP smoke test all 22 exported routes
+        run: npm run production:smoke
+      - name: Install real Chrome Lighthouse CLI
+        run: npm install --global lighthouse@12
+      - name: Run mobile Lighthouse for all 22 indexable routes
+        run: npm run lighthouse:mobile:all
+      - name: Upload audit reports even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brat-mobile-lighthouse-${{ github.run_number }}
+          path: artifacts/lighthouse-mobile/
+          if-no-files-found: ignore
+          retention-days: 30
