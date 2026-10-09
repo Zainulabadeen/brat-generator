@@ -1,0 +1,15 @@
+BRAT GENERATOR PRO — MOBILE EDITOR UPDATE
+1. Back up your existing project.
+2. Extract CHANGES ONLY ZIP into your existing VS Code project ROOT. Allow overwrite.
+3. npm ci
+4. npm run mobile:check
+5. npm run performance:check
+6. npm run technical:check
+7. npm run performance:test
+8. npm run dev
+9. Test every tool on phone-width browser viewport.
+10. npm run build
+11. npm run performance:export
+12. npm run seo:check
+13. git add -A && git commit -m "Improve mobile tool editors and prevent generator memory crashes" && git push origin HEAD
+For audit, caveats and test details read MOBILE_EDITOR_UPDATE_2026-10-10.md.

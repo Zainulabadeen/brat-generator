@@ -43,6 +43,12 @@
 
     <!-- VIEW: LYRICS -->
     <div class="bvg-view is-active" data-view-panel="lyrics">
+      <div class="bvg-mobile-preview" aria-label="Live lyric preview"><div id="bvg-mobile-preview-text">Your lyrics appear here</div></div>
+      <nav class="bvg-mobile-edit-nav" aria-label="Video editing sections">
+        <button class="is-current" type="button" data-mobile-editor="text" aria-pressed="true">Aa <small>Lyrics</small></button>
+        <button type="button" data-mobile-editor="audio" aria-pressed="false">♫ <small>Audio</small></button>
+        <button type="button" data-mobile-editor="export" aria-pressed="false">↓ <small>Export</small></button>
+      </nav>
 
       <!-- 3. TEXT INPUT SECTION -->
       <div class="bvg-field-row">
@@ -534,6 +540,22 @@
     #bvg-root .bvg-btn { font-size: 12px; padding: 7px 10px; }
     #bvg-root .bvg-dropzone-plus { width: 40px; height: 40px; line-height: 38px; font-size: 22px; }
   }
+
+  /* Keep the current video player on desktop; compact steps on phones. */
+  #bvg-root .bvg-mobile-preview,#bvg-root .bvg-mobile-edit-nav{display:none}
+  @media(max-width:768px){
+    #bvg-root .bvg-mobile-preview{display:grid;place-items:center;margin:0 0 12px;min-height:118px;max-height:155px;overflow:hidden;background:#8ace00;border-radius:12px;padding:15px;color:#101010;text-align:center}
+    #bvg-root #bvg-mobile-preview-text{font:800 clamp(20px,5.5vw,30px)/1.1 Arial,sans-serif;overflow-wrap:anywhere;max-width:100%;max-height:115px;overflow:hidden;filter:blur(.4px)}
+    #bvg-root .bvg-mobile-edit-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:14px}
+    #bvg-root .bvg-mobile-edit-nav button{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;border:1px solid #e3e3dd;border-radius:11px;background:#f9f9f6;color:#444;min-height:57px;cursor:pointer;font-size:21px}
+    #bvg-root .bvg-mobile-edit-nav button small{font-size:11px;font-weight:700}
+    #bvg-root .bvg-mobile-edit-nav .is-current{background:#eff8dd;color:#243900;border-color:#c6e89f}
+    #bvg-root .bvg-view[data-view-panel=lyrics]>[data-mobile-editor-group]{display:none}
+    #bvg-root .bvg-view[data-view-panel=lyrics]>[data-mobile-editor-group].is-current{display:block}
+    #bvg-root .bvg-textarea{height:120px;font-size:16px;min-height:120px}
+    #bvg-root .bvg-dropzone{padding:17px 12px}
+    #bvg-root .bvg-export{min-height:48px}
+  }
 </style>
 
 <script>
@@ -606,6 +628,28 @@
         ? ('Video exports as ' + videoSpec.label + ' in this browser. GIF and Frames are silent and capped at about 12 seconds; Frames contain up to 60 PNG images.')
         : 'This browser does not support in-browser video recording. GIF and Frames are still available for short silent clips (up to about 12 seconds).';
     }
+
+
+    // Mobile-only section switcher: keep existing text/audio/export logic intact.
+    (function setupMobileEditor(){
+      var panel=root.querySelector('[data-view-panel="lyrics"]');
+      var groups={text:[],audio:[],export:[]};
+      [root.querySelector('.bvg-field-row'),lyricsTextarea,makeSetsBtn,timingPanel].forEach(function(el){if(el)groups.text.push(el);});
+      [dropzone,audioTrim].forEach(function(el){if(el)groups.audio.push(el);});
+      [root.querySelector('.bvg-formats'),exportNote,root.querySelector('.bvg-settings')].forEach(function(el){if(el)groups.export.push(el);});
+      Object.keys(groups).forEach(function(key){
+        var wrapper=document.createElement('div');wrapper.dataset.mobileEditorGroup=key;
+        if(key==='text')wrapper.classList.add('is-current');
+        groups[key].forEach(function(el){wrapper.appendChild(el);});
+        panel.appendChild(wrapper);
+      });
+      var nav=root.querySelector('.bvg-mobile-edit-nav');
+      nav.querySelectorAll('button').forEach(function(btn){btn.addEventListener('click',function(){
+        var current=btn.dataset.mobileEditor;
+        panel.querySelectorAll('[data-mobile-editor-group]').forEach(function(el){el.classList.toggle('is-current',el.dataset.mobileEditorGroup===current);});
+        nav.querySelectorAll('button').forEach(function(item){var active=item===btn;item.classList.toggle('is-current',active);item.setAttribute('aria-pressed',String(active));});
+      });});
+    })();
 
     // ---- Tab switching: Lyrics / Preview ----
     tabs.forEach(function (tab) {
@@ -681,9 +725,14 @@
       if (timingPanel && !timingPanel.hidden) buildTimingEditor();
     }
     lyricsTextarea.addEventListener('input', onLyricsChanged);
+    var videoSaveTimer=0;
+    try {var videoDraft=localStorage.getItem('brat-video-lyrics-v1');if(videoDraft){lyricsTextarea.value=videoDraft.slice(0,4000);onLyricsChanged();}}catch(e){}
+    lyricsTextarea.addEventListener('input',function(){clearTimeout(videoSaveTimer);videoSaveTimer=setTimeout(function(){try{localStorage.setItem('brat-video-lyrics-v1',lyricsTextarea.value.slice(0,4000));}catch(e){}},400);});
+    window.addEventListener('pagehide',function(){try{localStorage.setItem('brat-video-lyrics-v1',lyricsTextarea.value.slice(0,4000));}catch(e){}});
 
     function syncPreview() {
       previewText.textContent = lyricsTextarea.value.trim() || 'Type your brat lyrics here...';
+      var mini=root.querySelector('#bvg-mobile-preview-text');if(mini)mini.textContent=lyricsTextarea.value.trim() || 'Your lyrics appear here';
     }
 
     // ---- Audio dropzone: click, drag & drop ----
@@ -1134,6 +1183,22 @@
         if (document.exitFullscreen) document.exitFullscreen();
       }
     });
+
+    // Content in the selected mobile panel can grow when timing lines are added.
+    // Tell the parent iframe to resize instead of clipping controls.
+    (function reportToolHeight(){
+      var pending=0;
+      function update(){
+        if(pending)return;
+        pending=requestAnimationFrame(function(){pending=0;
+          try{window.parent.postMessage({type:'brat-video-generator-height',height:Math.ceil(root.getBoundingClientRect().height)+8},'*');}catch(e){}
+        });
+      }
+      if('ResizeObserver' in window){new ResizeObserver(update).observe(root);}
+      root.addEventListener('click',function(){setTimeout(update,80);});
+      window.addEventListener('resize',update,{passive:true});
+      update();
+    })();
 
     // ---- Init ----
     syncPreview();

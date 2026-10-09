@@ -29,6 +29,7 @@
 
       <!-- Canvas -->
       <div class="canvas-area">
+        <div class="mobile-preview-head"><span>Live preview</span><span id="mobile-draft-status" aria-live="polite">Editing locally</span></div>
         <button class="undo-btn" id="undoBtn">&#8617; Undo</button>
         <div class="canvas-wrap">
           <div class="checker"></div>
@@ -53,6 +54,14 @@
           <button class="ghost-btn" id="resetBtn">Reset All</button>
         </div>
       </div>
+
+      <nav class="mobile-edit-nav" aria-label="Editor controls">
+        <button type="button" class="mobile-edit-tab is-selected" data-edit-tab="text" aria-pressed="true"><span aria-hidden="true">Aa</span><small>Text</small></button>
+        <button type="button" class="mobile-edit-tab" data-edit-tab="color" aria-pressed="false"><span aria-hidden="true">◉</span><small>Colours</small></button>
+        <button type="button" class="mobile-edit-tab" data-edit-tab="type" aria-pressed="false"><span aria-hidden="true">T</span><small>Type</small></button>
+        <button type="button" class="mobile-edit-tab" data-edit-tab="effects" aria-pressed="false"><span aria-hidden="true">✦</span><small>Effects</small></button>
+        <button type="button" class="mobile-edit-tab" data-edit-tab="export" aria-pressed="false"><span aria-hidden="true">↓</span><small>Export</small></button>
+      </nav>
 
       <!-- Controls panel -->
       <div class="panel">
@@ -81,6 +90,10 @@
             <div class="csw"          style="background:#111111" data-col="#111111"></div>
             <div class="csw"          style="background:#ff4500" data-col="#ff4500"></div>
             <div class="csw"          style="background:#ffd700" data-col="#ffd700"></div>
+          </div>
+          <div class="gradient-second" id="gradientControls">
+            <label for="g2Pick" class="field-label">Gradient second colour</label>
+            <input type="color" id="g2Pick" value="#00c8ff" aria-label="Gradient second colour" />
           </div>
           <div class="bg-text-row">
             <div class="indicator" id="bgIndicator">
@@ -648,12 +661,58 @@
     .brat-app-wrapper .panel { max-height: none; border-left: none; border-top: 1px solid #ebebeb; }
     .brat-app-wrapper .canvas-area { padding: 24px 16px 20px; }
   }
+
+  /* Mobile editor: preview first, compact category controls below. */
+  .mobile-edit-nav,.mobile-preview-head{display:none}
+  .gradient-second{display:none;align-items:center;gap:12px;padding:10px;border:1px solid #e8e8e8;border-radius:10px;background:#fafafa}
+  .gradient-second .field-label{margin:0;flex:1}
+  .gradient-second input{height:38px;width:68px;border:1px solid #ddd;border-radius:8px;padding:3px;background:#fff}
+  .brat-app-wrapper .panel.is-gradient .gradient-second{display:flex}
+  @media (max-width:800px){
+    .brat-app-wrapper .top-bar{height:auto;min-height:52px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:8px 10px;overflow:visible}
+    .brat-app-wrapper .mode-btn{min-width:0;white-space:normal;padding:8px 2px;min-height:39px;font-size:10px;letter-spacing:0;color:#656565}
+    .brat-app-wrapper .body{display:flex;flex-direction:column;min-height:0}
+    .brat-app-wrapper .canvas-area{padding:12px 12px 16px;gap:11px;align-items:stretch;justify-content:flex-start}
+    .mobile-preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#444;font:700 11px system-ui}
+    #mobile-draft-status{color:#698a25;font-size:10px;font-weight:600}
+    .brat-app-wrapper .undo-btn{position:static;align-self:flex-start;order:0;z-index:2;min-height:38px;padding:8px 14px;font-size:12px;color:#333}
+    .brat-app-wrapper .canvas-wrap{display:flex;width:100%;min-height:0;justify-content:center;order:1}
+    .brat-app-wrapper #cv{max-height:min(54vw,280px);max-width:100%;object-fit:contain;width:auto;height:auto}
+    .brat-app-wrapper .canvas-actions{order:2;display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%;margin-top:1px}
+    .brat-app-wrapper .canvas-actions>*{min-width:0;width:100%;height:44px;font-size:11px;display:flex;align-items:center;justify-content:center;padding:8px 6px;text-align:center}
+    .brat-app-wrapper .canvas-actions .size-sel{grid-column:1/-1;display:block;text-align:left;padding:8px 32px 8px 12px}
+    .brat-app-wrapper .canvas-actions #dlBtn{background:#121212;color:white}
+    .mobile-edit-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:9px 8px 7px;background:#fff;border-bottom:1px solid #e9e9e9}
+    .mobile-edit-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:58px;padding:6px 1px;border:1px solid transparent;border-radius:12px;background:transparent;color:#646464;font-family:system-ui;cursor:pointer}
+    .mobile-edit-tab>span{height:23px;display:grid;place-items:center;font-size:21px;font-weight:700;line-height:1}
+    .mobile-edit-tab>small{font-size:10px;font-weight:650}
+    .mobile-edit-tab.is-selected{background:#ecf8d9;border-color:#caeaa2;color:#233500}
+    .brat-app-wrapper .panel{min-height:110px;max-height:none;overflow:visible;border-top:0;padding:12px 14px 18px;gap:12px}
+    .brat-app-wrapper .panel>.divider{display:none}
+    .brat-app-wrapper .panel>div[data-mobile-group]{display:none}
+    .brat-app-wrapper .panel>div[data-mobile-group].mobile-group-visible{display:block}
+    .brat-app-wrapper .panel .field-label{font-size:11px;color:#5b5b5b}
+    .brat-app-wrapper .panel input:not([type=checkbox]),.brat-app-wrapper .panel select{min-height:42px;font-size:16px}
+    .brat-app-wrapper .effect-row{min-height:43px}
+    .brat-app-wrapper .panel .color-row{gap:9px}
+    .brat-app-wrapper .panel .csw{width:40px;height:40px}
+    .brat-app-wrapper .panel .effects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .brat-app-wrapper .panel .effect-row{min-width:0;padding:6px 8px;min-height:43px}
+    .brat-app-wrapper .panel .effect-label{font-size:10px}
+  }
 </style>
 
 <script>
   // Script ke selectors ko bhi scoped kiya gaya hai taake koi conflict na ho
   const cv  = document.getElementById('cv');
-  const ctx = cv.getContext('2d');
+  const previewContext = cv.getContext('2d');
+  const DRAFT_KEY = 'brat-generator-pro-draft-v2';
+  const HISTORY_KEYS = ['text','bg','fg','font','fs','ls','blur','lower','mirror','flip','noise','scribble','bold','align','isGrad','g2','cw','ch','fmt','res','autoFit','wrap'];
+  function snapshot(){const out={};HISTORY_KEYS.forEach(k=>{out[k]=S[k]});return out;}
+  let saveTimer=0;
+  function saveDraft(){try{localStorage.setItem(DRAFT_KEY, JSON.stringify(snapshot()));const status=document.getElementById('mobile-draft-status');if(status)status.textContent='Saved on this device';}catch(e){const status=document.getElementById('mobile-draft-status');if(status)status.textContent='Autosave unavailable';}}
+  function scheduleDraft(){clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,450);}
+
 
   const MODES = {
     brat:      { bg:'#8ace00', fg:'#000000', font:'Arial Narrow', fs:80,  blur:0,   scribble:false, isGrad:false },
@@ -679,10 +738,10 @@
 
   /* ── History ── */
   function pushHist() {
-    const s = JSON.stringify(S);
+    const s = JSON.stringify(snapshot()); // Never nest history inside another history entry.
     S.hist = S.hist.slice(0, S.hIdx + 1);
     S.hist.push(s);
-    if (S.hist.length > 60) S.hist.shift();
+    if (S.hist.length > 40) S.hist.shift();
     S.hIdx = S.hist.length - 1;
   }
 
@@ -696,8 +755,10 @@
   }
 
   /* ── Draw ── */
-  function draw() {
-    const W = cv.width, H = cv.height;
+  function draw(targetCanvas = cv) {
+    const W = targetCanvas.width, H = targetCanvas.height;
+    const ctx = targetCanvas === cv ? previewContext : targetCanvas.getContext('2d', {willReadFrequently: !!S.noise});
+    if (!ctx) return;
     ctx.clearRect(0, 0, W, H);
 
     if (S.isGrad) {
@@ -794,6 +855,7 @@
     });
     ctx.restore();
     ctx.filter = 'none';
+    if (targetCanvas === cv) scheduleDraft();
   }
 
   /* ── Sync UI ── */
@@ -812,6 +874,8 @@
     document.getElementById('bgSwatch').style.background = S.bg;
     document.getElementById('fgSwatch').style.background = S.fg;
     document.getElementById('bgPick').value = S.bg;
+    document.getElementById('g2Pick').value = S.g2;
+    document.querySelector('.brat-app-wrapper .panel').classList.toggle('is-gradient',!!S.isGrad);
     document.getElementById('fgPick').value = S.fg;
     document.getElementById('autoFit').checked = S.autoFit !== false;
     document.getElementById('wrapText').checked = !!S.wrap;
@@ -821,6 +885,20 @@
     document.querySelectorAll('.brat-app-wrapper #fmtSeg .seg-btn').forEach(b => b.classList.toggle('on', b.dataset.fmt === S.fmt));
     document.querySelectorAll('.brat-app-wrapper #resSeg .seg-btn').forEach(b => b.classList.toggle('on', parseInt(b.dataset.res) === S.res));
   }
+
+  document.getElementById('g2Pick').addEventListener('input',e=>{S.g2=e.target.value;S.isGrad=true;document.querySelector('.brat-app-wrapper .panel').classList.add('is-gradient');draw();});
+  document.getElementById('g2Pick').addEventListener('change',()=>pushHist());
+
+  /* ── Mobile category navigation ── */
+  (function initMobileCategories(){
+    const panel=document.querySelector('.brat-app-wrapper .panel');
+    const children=Array.from(panel.children);
+    const groups={0:'text',2:'color',4:'type',5:'type',6:'type',7:'effects',9:'effects',11:'text',13:'export',14:'export'};
+    children.forEach((node,index)=>{if(groups[index])node.dataset.mobileGroup=groups[index];});
+    function activate(tab){panel.querySelectorAll('[data-mobile-group]').forEach(el=>el.classList.toggle('mobile-group-visible',el.dataset.mobileGroup===tab));document.querySelectorAll('.mobile-edit-tab').forEach(btn=>{const active=btn.dataset.editTab===tab;btn.classList.toggle('is-selected',active);btn.setAttribute('aria-pressed',String(active));});}
+    document.querySelectorAll('.mobile-edit-tab').forEach(btn=>btn.addEventListener('click',()=>activate(btn.dataset.editTab)));
+    activate('text');
+  })();
 
   /* ── Mode buttons ── */
   document.querySelectorAll('.brat-app-wrapper .mode-btn').forEach(b => b.addEventListener('click', () => {
@@ -853,6 +931,8 @@
     s.classList.add('on');
     document.getElementById('bgSwatch').style.background = S.bg;
     document.getElementById('bgPick').value = S.bg;
+    document.getElementById('g2Pick').value = S.g2;
+    document.querySelector('.brat-app-wrapper .panel').classList.toggle('is-gradient',!!S.isGrad);
     pushHist(); draw();
   }));
 
@@ -944,28 +1024,42 @@
 
   /* ── Export ── */
   function renderFull() {
-    const w = S.cw * S.res, h = S.ch * S.res;
-    const dc = document.createElement('canvas');
-    dc.width = w; dc.height = h;
-    const dx  = dc.getContext('2d');
-    const ow  = cv.width, oh = cv.height;
-    cv.width  = w; cv.height = h; draw();
-    dx.drawImage(cv, 0, 0);
-    cv.width  = ow; cv.height = oh; draw();
+    const requestedW=S.cw*S.res,requestedH=S.ch*S.res;
+    // 8M pixels bounds peak mobile memory; one canvas instead of two full-sized canvases.
+    const mobile=window.matchMedia('(max-width:800px)').matches;
+    const limit=mobile?8000000:25000000;
+    const safeScale=Math.min(1,Math.sqrt(limit/(requestedW*requestedH)));
+    if(safeScale<1){
+      const safeW=Math.round(requestedW*safeScale),safeH=Math.round(requestedH*safeScale);
+      if(!window.confirm('This export is '+requestedW+' × '+requestedH+' pixels and may crash a low-memory browser. Download a safer '+safeW+' × '+safeH+' version instead? Select Cancel to choose a lower resolution.'))return null;
+    }
+    const dc=document.createElement('canvas');
+    dc.width=Math.max(1,Math.round(requestedW*safeScale));
+    dc.height=Math.max(1,Math.round(requestedH*safeScale));
+    draw(dc);
+    if(safeScale<1){const status=document.getElementById('mobile-draft-status');if(status)status.textContent='Export scaled for device safety';}
     return dc;
   }
 
   document.getElementById('dlBtn').addEventListener('click', () => {
-    const dc   = renderFull();
-    const mime = S.fmt === 'jpg' ? 'image/jpeg' : S.fmt === 'webp' ? 'image/webp' : 'image/png';
-    const a    = document.createElement('a');
-    a.download = `brat.${S.fmt}`;
-    a.href     = dc.toDataURL(mime, 0.94);
-    a.click();
+    let dc;
+    try { dc=renderFull();if(!dc)return; } catch(err){alert('This export needs too much memory. Please select a smaller canvas or lower resolution.');return;}
+    const mime=S.fmt==='jpg'?'image/jpeg':S.fmt==='webp'?'image/webp':'image/png';
+    dc.toBlob(blob=>{
+      if(!blob){alert('Export failed. Try PNG at 1× or 2× resolution.');return;}
+      const url=URL.createObjectURL(blob);const a=document.createElement('a');
+      a.download=`brat.${S.fmt}`;a.href=url;a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),30000);
+      dc.width=0;dc.height=0;
+    },mime,0.94);
   });
 
   document.getElementById('copyBtn').addEventListener('click', () => {
-    renderFull().toBlob(blob => {
+    if(!navigator.clipboard?.write||!window.ClipboardItem){alert('Copy is not supported in this browser. Use Download Image instead.');return;}
+    let dc;try{dc=renderFull();if(!dc)return;}catch(err){return;}
+    dc.toBlob(blob => {
+      dc.width=0;dc.height=0;
+      if(!blob||!navigator.clipboard?.write||!window.ClipboardItem)return;
       navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
         .then(() => {
           const btn = document.getElementById('copyBtn');
@@ -1028,6 +1122,21 @@
     }catch(ignore){const btn=document.getElementById('shareBtn');btn.textContent='Copy Failed';setTimeout(()=>btn.textContent='Share Link',1800);}
   });
 
+  function restoreDraft(){
+    try{
+      const query=new URL(window.parent.location.href).searchParams;
+      if (['text','bg','fg','font','grad','size','fs','style'].some(k=>query.has(k)))return;
+      const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
+      if(!saved||typeof saved!=='object')return;
+      HISTORY_KEYS.forEach(k=>{if(Object.prototype.hasOwnProperty.call(saved,k)&&typeof saved[k]===typeof S[k])S[k]=saved[k];});
+      if(![800,1000,1200,1080,1920].includes(S.cw) || ![800,1000,1200,1350,1920,1080,630].includes(S.ch)){S.cw=1000;S.ch=1000;}
+      cv.width=420;cv.height=Math.round(420*S.ch/S.cw);
+      syncUI();draw();
+    }catch(e){}
+  }
+  window.addEventListener('pagehide',saveDraft);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveDraft();});
+
   /* ── Keyboard shortcut: Ctrl+Z ── */
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); undo(); }
@@ -1035,6 +1144,7 @@
 
   /* ── Init ── */
   loadSharedState();
+  restoreDraft();
   pushHist();
   draw();
 </script>

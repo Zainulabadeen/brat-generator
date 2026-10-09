@@ -21,7 +21,8 @@
     "cleanup:review": "node scripts/remove-review-leftovers.mjs",
     "postbuild": "node scripts/postbuild-inline-home-css.mjs",
     "performance:export": "node scripts/performance-export-check.mjs",
-    "performance:test": "node scripts/test-postbuild-css.mjs"
+    "performance:test": "node scripts/test-postbuild-css.mjs",
+    "mobile:check": "node scripts/mobile-editor-regression-check.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

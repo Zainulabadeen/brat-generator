@@ -129,6 +129,13 @@ export default function BratVideoGenerator() {
     const onMessage = (event: MessageEvent) => {
       const data = event.data;
       if (!data || typeof data !== 'object') return;
+      if (data.type === 'brat-video-generator-height') {
+        const requested = Number(data.height);
+        if (Number.isFinite(requested) && requested > 0) setHeight((current) => {
+          const safe = Math.min(2600, Math.max(520, Math.ceil(requested)));
+          return Math.abs(current - safe) > 3 ? safe : current;
+        });
+      }
       if (data.type === 'brat-video-generator-export') {
         trackEvent('brat_video_export_click', { tool_version: 'embedded-video-generator' });
       }

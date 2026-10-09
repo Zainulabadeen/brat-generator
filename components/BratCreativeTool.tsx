@@ -169,6 +169,55 @@ export default function BratCreativeTool({ mode }: Props) {
   const [transparent, setTransparent] = useState(false);
   const [sticker, setSticker] = useState('none');
   const [imageGenerated, setImageGenerated] = useState(mode !== 'image');
+  const [mobileTab, setMobileTab] = useState<'text' | 'colour' | 'type' | 'effects'>('text');
+  const [exportError, setExportError] = useState('');
+  const [imageOptionsOpen, setImageOptionsOpen] = useState(false);
+  const restoredDraftRef = useRef(false);
+
+  // Store only lightweight settings. Uploaded images stay on the user's device and
+  // deliberately never enter localStorage (large data URLs cause mobile crashes).
+  useEffect(() => {
+    try {
+      const draft = JSON.parse(localStorage.getItem(`brat-creative-${mode}-v1`) || 'null');
+      if (draft && typeof draft === 'object') {
+        if (typeof draft.text === 'string') setText(draft.text.slice(0, 220));
+        if (typeof draft.secondaryText === 'string') setSecondaryText(draft.secondaryText.slice(0, 140));
+        if (/^#[0-9a-f]{6}$/i.test(draft.bgColor)) setBgColor(draft.bgColor);
+        if (/^#[0-9a-f]{6}$/i.test(draft.textColor)) setTextColor(draft.textColor);
+        if (FONT_OPTIONS.includes(draft.font)) setFont(draft.font);
+        if (Number.isFinite(draft.fontSize)) setFontSize(Math.min(180, Math.max(32, draft.fontSize)));
+        if (Number.isFinite(draft.blur)) setBlur(Math.min(8, Math.max(0, draft.blur)));
+        if (Number.isFinite(draft.lineHeight)) setLineHeight(Math.min(1.45, Math.max(.75, draft.lineHeight)));
+        if (Number.isFinite(draft.letterSpacing)) setLetterSpacing(Math.min(36, Math.max(-6, draft.letterSpacing)));
+        if (['left', 'center', 'right'].includes(draft.align)) setAlign(draft.align);
+        const match = PRESETS.find(p => p.label === draft.preset);
+        if (match) setPreset(match);
+        if (['png', 'jpeg', 'webp'].includes(draft.format)) setFormat(draft.format);
+        if (typeof draft.lofi === 'boolean') setLofi(draft.lofi);
+        if (typeof draft.mirror === 'boolean') setMirror(draft.mirror);
+        if (typeof draft.whiteBlock === 'boolean') setWhiteBlock(draft.whiteBlock);
+        if (typeof draft.transparent === 'boolean') setTransparent(draft.transparent);
+        if (typeof draft.sticker === 'string') setSticker(draft.sticker);
+        if (typeof draft.imageGenerated === 'boolean' && mode === 'image') setImageGenerated(draft.imageGenerated);
+      }
+    } catch { /* Storage can be disabled in private browsing. */ }
+    restoredDraftRef.current = true;
+  }, [mode]);
+
+  useEffect(() => {
+    if (!restoredDraftRef.current) return;
+    const id = window.setTimeout(() => {
+      try {
+        localStorage.setItem(`brat-creative-${mode}-v1`, JSON.stringify({
+          text, secondaryText, bgColor, textColor, font, fontSize, blur,
+          lineHeight, letterSpacing, align, preset: preset.label, format,
+          lofi, mirror, whiteBlock, transparent, sticker, imageGenerated,
+        }));
+      } catch { /* No fatal error if local storage is full or blocked. */ }
+    }, 500);
+    return () => window.clearTimeout(id);
+  }, [mode, text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight,
+    letterSpacing, align, preset, format, lofi, mirror, whiteBlock, transparent, sticker, imageGenerated]);
 
   const actualPreset = useMemo(() => {
     if (mode === 'album') return { label: 'Album 3000', width: 3000, height: 3000 };
@@ -245,13 +294,16 @@ export default function BratCreativeTool({ mode }: Props) {
   const onBackground = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+    if (file.size > 16 * 1024 * 1024) { setExportError('This image is over 16 MB. Please choose a smaller JPG, PNG, or WebP.'); return; }
     const url = URL.createObjectURL(file);
     const image = new Image();
     image.onload = () => {
       setBackgroundImage(image);
       setBackgroundName(file.name);
+      setExportError('');
       URL.revokeObjectURL(url);
     };
+    image.onerror = () => { URL.revokeObjectURL(url); setExportError('Could not open this image. Try a JPG, PNG or WebP file.'); };
     image.src = url;
   };
 
@@ -264,22 +316,28 @@ export default function BratCreativeTool({ mode }: Props) {
   const download = async () => {
     if (mode === 'image' && !imageGenerated) return;
     const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
-    const blob = await makeBlob(mime, format === 'jpeg' ? .94 : undefined);
-    if (!blob) return;
+    let blob: Blob | null = null;
+    try { blob = await makeBlob(mime, format === 'jpeg' ? .94 : undefined); }
+    catch { setExportError('Export needs more memory. Please try a smaller canvas or JPG.'); return; }
+    if (!blob) { setExportError('Export failed. Try PNG or a smaller canvas size.'); return; }
+    setExportError('');
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `brat-${mode}-${Date.now()}.${format === 'jpeg' ? 'jpg' : format}`;
     a.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 30000);
   };
 
   const copyImage = async () => {
     if (mode === 'image' && !imageGenerated) return;
     if (!('ClipboardItem' in window) || !navigator.clipboard?.write) return;
-    const blob = await makeBlob('image/png');
-    if (!blob) return;
-    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    try {
+      const blob = await makeBlob('image/png');
+      if (!blob) { setExportError('Copy failed. Try downloading PNG instead.'); return; }
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      setExportError('');
+    } catch { setExportError('Copy is unavailable in this browser. Use Download instead.'); }
   };
 
   const reset = () => {
@@ -303,6 +361,8 @@ export default function BratCreativeTool({ mode }: Props) {
     setTransparent(false);
     setSticker('none');
     setImageGenerated(mode !== 'image');
+    setExportError('');
+    try { localStorage.removeItem(`brat-creative-${mode}-v1`); } catch {}
   };
 
   if (mode === 'image') {
@@ -326,6 +386,8 @@ export default function BratCreativeTool({ mode }: Props) {
 
           <p className="tool-inline-note">Your text becomes the artwork. This is a text-led design tool, not an AI scene or photo generator.</p>
 
+          <details className={`image-mobile-settings ${imageOptionsOpen ? 'mobile-open' : ''}`} open>
+          <summary onClick={(event) => { event.preventDefault(); setImageOptionsOpen((v) => !v); }}>Design settings <span>Colours, size, font and effects</span></summary>
           <div className="image-quick-settings">
             <label className="tool-field"><span>Background</span><div className="color-input"><input type="color" value={bgColor} onChange={(e) => { setBgColor(e.target.value); setImageGenerated(false); }} /><code>{bgColor.toUpperCase()}</code></div></label>
             <label className="tool-field"><span>Text colour</span><div className="color-input"><input type="color" value={textColor} onChange={(e) => { setTextColor(e.target.value); setImageGenerated(false); }} /><code>{textColor.toUpperCase()}</code></div></label>
@@ -345,6 +407,7 @@ export default function BratCreativeTool({ mode }: Props) {
             <label><input type="checkbox" checked={whiteBlock} onChange={(e) => { setWhiteBlock(e.target.checked); setImageGenerated(false); }} /> White block</label>
           </div>
 
+          </details>
           <button className="image-generate-btn" type="button" onClick={generateImage}>Create Brat Image</button>
 
           <div className={`image-output ${imageGenerated ? 'has-image' : ''}`}>
@@ -357,6 +420,7 @@ export default function BratCreativeTool({ mode }: Props) {
                   <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
                   <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
                 </div>
+                {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
               </>
             ) : (
               <div className="image-output-placeholder">
@@ -380,6 +444,14 @@ export default function BratCreativeTool({ mode }: Props) {
 
       <div className="creative-tool-grid">
         <div className="creative-tool-controls">
+          <nav className="creative-mobile-tabs" aria-label="Editing options">
+            {([['text','Text','Aa'],['colour','Colours','◉'],['type','Type','T'],['effects','Effects','✦']] as const).map(([id,label,glyph]) => (
+              <button key={id} type="button" onClick={() => setMobileTab(id)} className={mobileTab === id ? 'active' : ''} aria-pressed={mobileTab === id}>
+                <strong aria-hidden="true">{glyph}</strong><span>{label}</span>
+              </button>
+            ))}
+          </nav>
+          <div className={`mobile-control-group ${mobileTab === 'text' ? 'selected' : ''}`} data-mobile-group="text">
           <label className="tool-field">
             <span>{mode === 'album' ? 'Cover title' : mode === 'meme' ? 'Top text' : 'Your text'}</span>
             <textarea value={text} onChange={(e) => setText(e.target.value.slice(0, 220))} rows={mode === 'meme' ? 2 : 3} />
@@ -392,6 +464,8 @@ export default function BratCreativeTool({ mode }: Props) {
             </label>
           ) : null}
 
+          </div>
+          <div className={`mobile-control-group ${mobileTab === 'colour' ? 'selected' : ''}`} data-mobile-group="colour">
           <div className="tool-row two">
             <label className="tool-field"><span>Background</span><div className="color-input"><input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} /><code>{bgColor.toUpperCase()}</code></div></label>
             <label className="tool-field"><span>Text colour</span><div className="color-input"><input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} /><code>{textColor.toUpperCase()}</code></div></label>
@@ -401,6 +475,8 @@ export default function BratCreativeTool({ mode }: Props) {
             {['#8ACE00','#f17ac6','#ffffff','#111111','#6d66ff','#18b8ec','#ff4b18'].map((color) => <button key={color} type="button" aria-label={`Use ${color}`} style={{ background: color }} onClick={() => setBgColor(color)} />)}
           </div>
 
+          </div>
+          <div className={`mobile-control-group ${mobileTab === 'type' ? 'selected' : ''}`} data-mobile-group="type">
           <div className="tool-row two">
             <label className="tool-field"><span>Font</span><select value={font} onChange={(e) => setFont(e.target.value)}>{FONT_OPTIONS.map((item) => <option key={item}>{item}</option>)}</select></label>
             <label className="tool-field"><span>Alignment</span><select value={align} onChange={(e) => setAlign(e.target.value as CanvasTextAlign)}><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
@@ -414,6 +490,8 @@ export default function BratCreativeTool({ mode }: Props) {
             <label className="tool-slider"><span>Letter spacing <b>{letterSpacing}px</b></span><input type="range" min="-6" max="36" step="1" value={letterSpacing} onChange={(e) => setLetterSpacing(Number(e.target.value))} /></label>
           ) : null}
 
+          </div>
+          <div className={`mobile-control-group ${mobileTab === 'effects' ? 'selected' : ''}`} data-mobile-group="effects">
           {mode !== 'font' ? (
             <label className="tool-field tool-upload"><span>Background image (optional)</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={onBackground} /><small>{backgroundName || 'PNG, JPG or WebP — stays in your browser'}</small></label>
           ) : null}
@@ -428,6 +506,7 @@ export default function BratCreativeTool({ mode }: Props) {
             <label><input type="checkbox" checked={whiteBlock} onChange={(e) => setWhiteBlock(e.target.checked)} /> White block</label>
             {mode === 'font' ? <label><input type="checkbox" checked={transparent} onChange={(e) => setTransparent(e.target.checked)} /> Transparent BG</label> : null}
           </div>
+          </div>
         </div>
 
         <div className="creative-tool-preview-wrap">
@@ -439,6 +518,7 @@ export default function BratCreativeTool({ mode }: Props) {
             <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
             <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
           </div>
+          {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
         </div>
       </div>
     </div>
