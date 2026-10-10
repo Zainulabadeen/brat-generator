@@ -3419,90 +3419,111 @@ main > .section{
 
 .help-article-meta .help-maintained-note{color:#6a6a6a;font-size:.78rem;font-weight:600;letter-spacing:0;line-height:1.4}
 
-/* October 2026: mobile tool cleanup requested by owner. */
-.tool-action.primary{
-  background:#111!important;
-  border-color:#111!important;
-  color:#fff!important;
+/* Performance: keep all first-viewport PageHero copy paint-ready across routes.
+   This suppresses the previous stagger only; the approved finished design is unchanged. */
+.page-hero-section .inner-hero-title,
+.page-hero-section .inner-hero-copy,
+.page-hero-section .page-hero-breadcrumb,
+.page-hero-section .page-hero-kicker{
+  animation:none!important;
+  transition:none!important;
+  opacity:1!important;
+  transform:none!important;
 }
-.tool-action.primary:hover{background:#1b1b1b!important}
-.creative-tool-action-shell{padding-top:16px}
-.creative-tool-desktop-actions{display:block;padding:0 24px 24px;background:#fff}
-.creative-tool-desktop-actions .creative-tool-action-shell{padding-top:0}
-.creative-tool-mobile-primary,
-.creative-tool-mobile-tabs,
-.creative-mobile-panels{display:none}
-.creative-tool-mobile-primary{padding:24px 24px 0;background:#fbfbf8}
-.creative-tool-mobile-tabs{
-  margin:0;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:10px;
-}
-.creative-mobile-tab{
-  min-height:82px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  font:inherit;
-  color:#50505a;
-  cursor:pointer;
-}
-.creative-mobile-tab.is-active{background:#eef5dc;border-color:#bfd782;color:#111}
-.creative-mobile-tab-icon{font-size:24px;line-height:1;font-weight:800}
-.creative-mobile-tab-label{font-size:13px;font-weight:800}
-.creative-mobile-panel{display:block}
-.image-desktop-settings{display:block}
-.image-desktop-primary{display:flex}
 
-@media (min-width:621px){
-  .creative-tool-controls > .creative-mobile-panel:last-child{display:none}
+/* Mobile editing workspace. Desktop layout/copy remains unchanged. */
+.creative-mobile-tabs{display:none}
+.mobile-control-group{display:contents}
+.image-mobile-settings{display:contents}
+.image-mobile-settings>summary{display:none}
+.tool-export-error{padding:10px 12px;border-radius:9px;background:#fff0ec;color:#8d3327;font-size:12px;font-weight:700}
+@media(max-width:900px){
+  .creative-tool-grid{display:flex;flex-direction:column;min-height:0}
+  .creative-tool-preview-wrap{order:-1;min-height:0!important;padding:14px!important;border-bottom:1px solid #e9e9e9}
+  .creative-tool-canvas-shell{min-height:0!important;height:auto;max-height:340px;aspect-ratio:1.12/1;overflow:hidden;flex:none;padding:10px}
+  .creative-tool-canvas-shell canvas{max-height:310px;max-width:100%;object-fit:contain}
+  .creative-tool-controls{padding:12px 14px 16px!important;display:block;border:0!important;min-height:110px}
+  .creative-mobile-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:0 0 14px}
+  .creative-mobile-tabs button{border:1px solid transparent;border-radius:12px;min-height:61px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#f7f7f3;color:#565656;cursor:pointer}
+  .creative-mobile-tabs button.active{background:#eff8df;border-color:#c9e8ab;color:#263900}
+  .creative-mobile-tabs strong{font-size:20px;line-height:1}
+  .creative-mobile-tabs span{font-size:11px;font-weight:750}
+  .mobile-control-group{display:none;flex-direction:column;gap:13px}
+  .mobile-control-group.selected{display:flex}
+  .creative-tool-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:11px}
+  .creative-tool-actions>*{width:100%;min-width:0;flex:auto!important;min-height:43px;text-align:center;font-size:12px;padding-inline:7px}
+  .creative-tool-preview-head{margin-bottom:8px}
+  .creative-tool .tool-field input:not([type=checkbox]),.creative-tool .tool-field select,.creative-tool .tool-field textarea{font-size:16px}
+  .creative-tool .tool-toggle-row{flex-wrap:wrap;gap:12px}
+  .creative-tool .tool-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .creative-tool .tool-row.two>label{min-width:0}
+  .creative-tool .tool-upload input[type=file]{width:100%;max-width:100%}
+  .image-mobile-settings{display:block;border:1px solid #e5e5dd;border-radius:14px;padding:0 12px;background:#fcfcfa}
+  .image-mobile-settings>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;cursor:pointer;font-size:13px;font-weight:800}
+  .image-mobile-settings>summary span{font-size:10px;color:#777;font-weight:500;text-align:right}
+  .image-mobile-settings[open]>summary{border-bottom:1px solid #ededeb;margin-bottom:13px}
+  .image-mobile-settings .image-quick-settings{margin-top:0}
+  .image-mobile-settings>div,.image-mobile-settings>label{margin-bottom:13px}
+  .image-prompt-main{gap:12px!important}
+  .image-prompt-field textarea{min-height:85px}
+  .image-output-canvas canvas{max-height:340px}
+  .image-output-actions{margin-top:12px}
+}
+@media(max-width:380px){
+  .creative-tool .tool-row.two{grid-template-columns:1fr}
+  .creative-mobile-tabs button{min-height:56px}
+  .creative-tool-canvas-shell{max-height:290px}
+}
+
+@media(max-width:800px){.brat-generator-iframe{min-height:620px!important}}
+@media(max-width:900px){.image-mobile-settings:not(.mobile-open)>:not(summary){display:none!important}}
+
+/* Mobile-only creative editor refinements: desktop layout above 900px is unchanged. */
+.creative-tool-mobile-primary,
+.creative-tool-mobile-export,
+.creative-mobile-edit-text-cta,
+.image-mobile-live-preview,
+.image-mobile-editor{display:none}
+
+@media (max-width:900px){
+  /* Fixed SVG dimensions prevent icons from stretching in narrow buttons. */
+  .creative-mobile-tabs button{min-width:0;gap:5px;padding:7px 3px}
+  .creative-mobile-tabs button svg{display:block;width:22px;height:22px;min-width:22px;max-width:22px;flex:none;stroke-width:1.9}
+  .creative-mobile-tabs button span{font-size:11px;line-height:1.1}
+
+  /* Natural editing order: text -> preview -> settings -> export. */
+  .creative-tool-mobile-primary{display:flex;flex-direction:column;gap:12px;padding:14px 14px 2px;background:#fff}
+  .creative-tool-mobile-primary .tool-field{width:100%;margin:0}
+  .creative-tool-mobile-primary textarea{min-height:68px;resize:vertical;max-height:132px}
+  .creative-tool-controls [data-mobile-group="text"] > .tool-field{display:none!important}
+  .creative-mobile-edit-text-cta{display:block;width:100%;min-height:42px;padding:10px;border:1px solid #e2e7d8;border-radius:11px;background:#f7faed;font-size:12px;font-weight:750;color:#314400;cursor:pointer}
+
+  /* Original preview action block stays in the DOM for desktop; mobile gets a footer. */
+  .creative-tool-preview-wrap > .creative-tool-actions,
+  .creative-tool-preview-wrap > .tool-export-error{display:none!important}
+  .creative-tool-mobile-export{display:block;padding:0 14px 18px;background:#fff}
+  .creative-tool-mobile-export .creative-tool-actions{margin-top:0}
+  .creative-tool .tool-action.primary{background:#101010;color:#fff;border-color:#101010}
+  .creative-tool .tool-action.primary:hover{background:#232323;border-color:#232323}
 }
 
 @media (max-width:620px){
-  .creative-tool-mobile-primary{display:flex;flex-direction:column;gap:16px}
-  .tool-desktop-primary,
-  .image-desktop-primary,
-  .image-desktop-settings,
-  .creative-tool-head > span,
-  .creative-tool-desktop-actions{display:none!important}
-
-  .creative-tool-grid{display:flex;flex-direction:column}
-  .creative-tool-preview-wrap{order:1;min-height:0;padding:16px;background:#fff}
-  .creative-tool-controls{order:2;padding:16px;background:#fbfbf8;border-bottom:0;border-right:0}
-  .creative-tool-preview-head{margin-bottom:10px}
-  .creative-tool-preview-head span:first-child{display:none}
-  .creative-tool-preview-head span:last-child{margin-left:auto}
-  .creative-tool-canvas-shell{min-height:250px;padding:8px}
-  .creative-tool-canvas-shell canvas{max-height:520px}
-
-  .creative-tool-mobile-tabs,
-  .creative-mobile-panels{display:grid}
-  .creative-tool-mobile-tabs{margin-bottom:12px}
-  .creative-mobile-panel{display:none;gap:14px}
-  .creative-mobile-panel.is-active{display:grid}
-  .creative-mobile-panel .creative-tool-action-shell{padding-top:0}
-  .creative-tool-controls > .desktop-panel{display:none}
-  .creative-tool-controls > .desktop-panel.is-active{display:grid}
-
-  .creative-mobile-tab{
-    min-height:74px;
-    border-radius:14px;
-    gap:5px;
-    padding:8px 6px;
-  }
-  .creative-mobile-tab-icon{font-size:18px}
-  .creative-mobile-tab-label{font-size:12px}
-
-  .tool-toggle-row{gap:8px}
-  .tool-toggle-row label{font-size:12px;padding:8px 10px}
-
-  .image-prompt-main{padding:16px;gap:16px}
-  .image-output{min-height:250px;padding:10px}
-  .image-output-live{margin-bottom:0}
-  .image-output-canvas{min-height:240px}
+  /* Image: retain original desktop Create flow but use a separate live mobile canvas. */
+  .image-prompt-tool .tool-inline-note,
+  .image-prompt-tool .image-mobile-settings,
+  .image-prompt-tool .image-generate-btn,
+  .image-prompt-tool .image-output{display:none!important}
+  .image-mobile-live-preview{display:grid;place-items:center;min-height:230px;padding:10px;background:#f5f5f3;border:1px solid #e9e9e7;border-radius:15px;overflow:hidden}
+  .image-mobile-live-preview canvas{display:block;width:auto;height:auto;max-width:100%;max-height:320px;object-fit:contain;border-radius:9px}
+  .image-mobile-editor{display:block;background:#fff}
+  .image-mobile-tabbar{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
+  .image-mobile-tabbar button{min-height:65px;gap:5px}
+  .image-mobile-edit-panels{padding:0 1px}
+  .image-mobile-edit-panels>div{display:none}
+  .image-mobile-edit-panels>div.shown{display:flex;flex-direction:column;gap:12px}
+  .image-mobile-edit-panels .tool-row.two{margin:0}
+  .image-mobile-edit-panels .tool-preset-row{flex-wrap:wrap}
+  .image-mobile-export-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:16px}
+  .image-mobile-export-actions>*{min-width:0;width:100%;min-height:44px;text-align:center}
+  .image-mobile-editor>.tool-export-error{margin-top:10px}
 }

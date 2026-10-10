@@ -231,7 +231,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
     <div className="generator-embed-shell">
       <iframe
         ref={frameRef}
-        src={fallbackHtml ? undefined : (process.env.NODE_ENV === 'development' ? '/brat-generator-embed.html' : '/brat-generator-embed/')}
+        src={fallbackHtml ? undefined : (process.env.NODE_ENV === "development" ? "/brat-generator-embed.html" : "/brat-generator-embed/")}
         srcDoc={fallbackHtml || undefined}
         className="brat-generator-iframe"
         title="Brat Generator design tool"
@@ -239,7 +239,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
         style={{ height: `${height}px` }}
         scrolling="no"
         allow="clipboard-read; clipboard-write"
-        loading={priority ? 'eager' : 'eager'}
+        loading={priority ? "eager" : "lazy"}
       />
     </div>
   );

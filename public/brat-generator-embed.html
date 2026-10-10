@@ -35,8 +35,9 @@
             <span>Text</span>
             <input class="mobile-text-input" id="mobileTxtIn" value="brat" placeholder="type your text&#8230;" />
           </label>
-          <button class="undo-btn" id="undoBtn">&#8617; Undo</button>
+          <button class="undo-btn" id="mobileUndoBtn">&#8617; Undo</button>
         </div>
+        <button class="undo-btn desktop-undo-btn" id="undoBtn">&#8617; Undo</button>
         <div class="canvas-wrap">
           <div class="checker"></div>
           <canvas id="cv" width="420" height="420"></canvas>
@@ -694,6 +695,7 @@
     .brat-app-wrapper .canvas-area{padding:12px 12px 12px;gap:10px;align-items:stretch;justify-content:flex-start}
     .mobile-preview-head{display:none!important}
     #mobile-draft-status{display:none!important}
+    .brat-app-wrapper .desktop-undo-btn{display:none!important}
     .mobile-compose-row{display:flex;align-items:flex-end;gap:8px;width:100%;order:0}
     .mobile-compose-row .mobile-text-field{flex:1;min-width:0}
     .brat-app-wrapper .undo-btn{position:static;align-self:auto;order:0;z-index:2;min-height:44px;padding:0 12px;font-size:11px;line-height:1;color:#333;border-radius:12px;white-space:nowrap}
@@ -946,6 +948,9 @@
   let txtT;
   function onTextInput(value){
     S.text = value;
+    const a=document.getElementById('txtIn'), b=document.getElementById('mobileTxtIn');
+    if(a && document.activeElement!==a) a.value=value;
+    if(b && document.activeElement!==b) b.value=value;
     draw();
     clearTimeout(txtT);
     txtT = setTimeout(pushHist, 500);
@@ -1039,6 +1044,7 @@
 
   /* ── Undo ── */
   document.getElementById('undoBtn').addEventListener('click', undo);
+  document.getElementById('mobileUndoBtn').addEventListener('click', undo);
 
   /* ── Reset ── */
   function resetEditor() {

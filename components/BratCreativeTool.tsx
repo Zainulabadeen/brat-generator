@@ -5,6 +5,7 @@ import { CREATIVE_CANVAS_PRESETS as PRESETS, FONT_OPTIONS } from '@/lib/toolCapa
 
 type ToolMode = 'meme' | 'image' | 'font' | 'album';
 type ExportFormat = 'png' | 'jpeg' | 'webp';
+type ImageMobileTab = 'colours' | 'type' | 'effects';
 
 type Props = { mode: ToolMode };
 
@@ -30,6 +31,16 @@ const modeConfig = {
     helper: 'Build square cover art with a title, optional artist line, colour, blur, and high-resolution export.',
   },
 } as const;
+
+// Mobile-only tab artwork. Fixed-size strokes avoid distorted glyphs on small phones.
+function MobileToolIcon({ kind }: { kind: string }) {
+  const common = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true as const };
+  if (kind === 'text') return <svg {...common}><path d="M4 19 10 5l6 14M6 15h8M15 9h6M18 9v10" /></svg>;
+  if (kind === 'colour' || kind === 'colours') return <svg {...common}><circle cx="12" cy="12" r="8" /><path d="M12 4a8 8 0 0 1 0 16Z" /></svg>;
+  if (kind === 'type') return <svg {...common}><path d="M4 6h16M12 6v13M7 19h10" /></svg>;
+  if (kind === 'effects') return <svg {...common}><path d="m12 2 2.1 7.9L22 12l-7.9 2.1L12 22l-2.1-7.9L2 12l7.9-2.1L12 2Z" /></svg>;
+  return <svg {...common}><path d="M12 3v14m-5-5 5 5 5-5M4 19h16" /></svg>;
+}
 
 function coverDraw(ctx: CanvasRenderingContext2D, image: HTMLImageElement, width: number, height: number) {
   const scale = Math.max(width / image.width, height / image.height);
@@ -148,6 +159,8 @@ function drawTextLines(
 
 export default function BratCreativeTool({ mode }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mobileImageCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mobileTextRef = useRef<HTMLDivElement | null>(null);
   const config = modeConfig[mode];
   const [text, setText] = useState<string>(config.defaultText);
   const [secondaryText, setSecondaryText] = useState<string>(mode === 'album' ? 'your name' : 'that was so brat');
@@ -172,6 +185,7 @@ export default function BratCreativeTool({ mode }: Props) {
   const [mobileTab, setMobileTab] = useState<'text' | 'colour' | 'type' | 'effects'>('text');
   const [exportError, setExportError] = useState('');
   const [imageOptionsOpen, setImageOptionsOpen] = useState(false);
+  const [imageMobileTab, setImageMobileTab] = useState<ImageMobileTab>('colours');
   const restoredDraftRef = useRef(false);
 
   // Store only lightweight settings. Uploaded images stay on the user's device and
@@ -288,8 +302,20 @@ export default function BratCreativeTool({ mode }: Props) {
 
   useEffect(() => {
     if (canvasRef.current && (mode !== 'image' || imageGenerated)) render(canvasRef.current);
+    if (mode === 'image' && mobileImageCanvasRef.current && window.matchMedia('(max-width:620px)').matches) render(mobileImageCanvasRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight, letterSpacing, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker, mode, imageGenerated]);
+
+  // Render when rotating/resizing into mobile mode without changing editor settings.
+  useEffect(() => {
+    if (mode !== 'image') return;
+    const media = window.matchMedia('(max-width:620px)');
+    const update = () => { if (media.matches && mobileImageCanvasRef.current) render(mobileImageCanvasRef.current); };
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, text, secondaryText, bgColor, textColor, font, fontSize, blur, lineHeight,
+    letterSpacing, align, preset, backgroundImage, lofi, mirror, whiteBlock, transparent, sticker]);
 
   const onBackground = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -314,7 +340,7 @@ export default function BratCreativeTool({ mode }: Props) {
   };
 
   const download = async () => {
-    if (mode === 'image' && !imageGenerated) return;
+    if (mode === 'image' && !imageGenerated && !window.matchMedia('(max-width:620px)').matches) return;
     const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
     let blob: Blob | null = null;
     try { blob = await makeBlob(mime, format === 'jpeg' ? .94 : undefined); }
@@ -330,7 +356,7 @@ export default function BratCreativeTool({ mode }: Props) {
   };
 
   const copyImage = async () => {
-    if (mode === 'image' && !imageGenerated) return;
+    if (mode === 'image' && !imageGenerated && !window.matchMedia('(max-width:620px)').matches) return;
     if (!('ClipboardItem' in window) || !navigator.clipboard?.write) return;
     try {
       const blob = await makeBlob('image/png');
@@ -385,6 +411,55 @@ export default function BratCreativeTool({ mode }: Props) {
           </label>
 
           <p className="tool-inline-note">Your text becomes the artwork. This is a text-led design tool, not an AI scene or photo generator.</p>
+
+          {/* This mobile editor is independent of the approved desktop Create/Preview layout. */}
+          <div className="image-mobile-live-preview" aria-label="Live Brat image preview">
+            <canvas ref={mobileImageCanvasRef} />
+          </div>
+          <div className="image-mobile-editor">
+            <nav className="creative-mobile-tabs image-mobile-tabbar" aria-label="Image editing categories">
+              {([['colours','Colours'],['type','Type'],['effects','Effects']] as const).map(([id,label]) => (
+                <button key={id} type="button" className={imageMobileTab === id ? 'active' : ''} aria-pressed={imageMobileTab === id} onClick={() => setImageMobileTab(id)}>
+                  <MobileToolIcon kind={id}/><span>{label}</span>
+                </button>
+              ))}
+            </nav>
+            <div className="image-mobile-edit-panels">
+              <div className={imageMobileTab === 'colours' ? 'shown' : ''}>
+                <div className="tool-row two">
+                  <label className="tool-field"><span>Background</span><div className="color-input"><input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}/><code>{bgColor.toUpperCase()}</code></div></label>
+                  <label className="tool-field"><span>Text colour</span><div className="color-input"><input type="color" value={textColor} onChange={e => setTextColor(e.target.value)}/><code>{textColor.toUpperCase()}</code></div></label>
+                </div>
+                <div className="tool-preset-row">
+                  {['#8ACE00','#f17ac6','#ffffff','#111111','#6d66ff','#18b8ec','#ff4b18'].map(color => <button key={color} type="button" aria-label={`Use ${color}`} style={{background:color}} onClick={() => setBgColor(color)}/>)}
+                </div>
+              </div>
+              <div className={imageMobileTab === 'type' ? 'shown' : ''}>
+                <label className="tool-field"><span>Canvas size</span><select value={preset.label} onChange={e => setPreset(PRESETS.find(p => p.label === e.target.value) || PRESETS[0])}>{PRESETS.map(item => <option key={item.label} value={item.label}>{item.shortLabel}</option>)}</select></label>
+                <div className="tool-row two">
+                  <label className="tool-field"><span>Font</span><select value={font} onChange={e => setFont(e.target.value)}>{FONT_OPTIONS.map(item => <option key={item}>{item}</option>)}</select></label>
+                  <label className="tool-field"><span>Alignment</span><select value={align} onChange={e => setAlign(e.target.value as CanvasTextAlign)}><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
+                </div>
+                <label className="tool-slider"><span>Text size <b>{fontSize}px</b></span><input type="range" min="32" max="180" value={fontSize} onChange={e => setFontSize(Number(e.target.value))}/></label>
+              </div>
+              <div className={imageMobileTab === 'effects' ? 'shown' : ''}>
+                <label className="tool-slider"><span>Blur <b>{blur.toFixed(1)}px</b></span><input type="range" min="0" max="8" step="0.5" value={blur} onChange={e => setBlur(Number(e.target.value))}/></label>
+                <label className="tool-field tool-upload"><span>Background image (optional)</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={onBackground}/><small>{backgroundName || 'PNG, JPG or WebP'}</small></label>
+                <div className="tool-toggle-row">
+                  <label><input type="checkbox" checked={lofi} onChange={e => setLofi(e.target.checked)}/> Lo-fi photo</label>
+                  <label><input type="checkbox" checked={mirror} onChange={e => setMirror(e.target.checked)}/> Mirror</label>
+                  <label><input type="checkbox" checked={whiteBlock} onChange={e => setWhiteBlock(e.target.checked)}/> White block</label>
+                </div>
+              </div>
+            </div>
+            <div className="creative-tool-actions image-mobile-export-actions">
+              <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
+              <button className="tool-action primary" type="button" onClick={download}>Download</button>
+              <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
+            </div>
+            {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
+          </div>
 
           <details className={`image-mobile-settings ${imageOptionsOpen ? 'mobile-open' : ''}`} open>
           <summary onClick={(event) => { event.preventDefault(); setImageOptionsOpen((v) => !v); }}>Design settings <span>Colours, size, font and effects</span></summary>
@@ -442,12 +517,22 @@ export default function BratCreativeTool({ mode }: Props) {
         <span>{config.helper}</span>
       </div>
 
+      <div className="creative-tool-mobile-primary" ref={mobileTextRef}>
+        <label className="tool-field">
+          <span>{mode === 'album' ? 'Cover title' : mode === 'meme' ? 'Top text' : 'Your text'}</span>
+          <textarea value={text} onChange={e => setText(e.target.value.slice(0,220))} rows={2}/>
+        </label>
+        {(mode === 'meme' || mode === 'album') && (
+          <label className="tool-field"><span>{mode === 'album' ? 'Artist / subtitle' : 'Bottom text'}</span><input value={secondaryText} onChange={e => setSecondaryText(e.target.value.slice(0,140))}/></label>
+        )}
+      </div>
+
       <div className="creative-tool-grid">
         <div className="creative-tool-controls">
           <nav className="creative-mobile-tabs" aria-label="Editing options">
-            {([['text','Text','Aa'],['colour','Colours','◉'],['type','Type','T'],['effects','Effects','✦']] as const).map(([id,label,glyph]) => (
-              <button key={id} type="button" onClick={() => setMobileTab(id)} className={mobileTab === id ? 'active' : ''} aria-pressed={mobileTab === id}>
-                <strong aria-hidden="true">{glyph}</strong><span>{label}</span>
+            {([['text','Text'],['colour','Colours'],['type','Type'],['effects','Effects']] as const).map(([id,label]) => (
+              <button key={id} type="button" onClick={() => { setMobileTab(id); if (id === 'text') mobileTextRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }} className={mobileTab === id ? 'active' : ''} aria-pressed={mobileTab === id}>
+                <MobileToolIcon kind={id}/><span>{label}</span>
               </button>
             ))}
           </nav>
@@ -464,6 +549,7 @@ export default function BratCreativeTool({ mode }: Props) {
             </label>
           ) : null}
 
+          <button className="creative-mobile-edit-text-cta" type="button" onClick={() => mobileTextRef.current?.scrollIntoView({ behavior:'smooth', block:'center' })}>Edit text above preview ↑</button>
           </div>
           <div className={`mobile-control-group ${mobileTab === 'colour' ? 'selected' : ''}`} data-mobile-group="colour">
           <div className="tool-row two">
@@ -520,6 +606,15 @@ export default function BratCreativeTool({ mode }: Props) {
           </div>
           {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
         </div>
+      </div>
+      <div className="creative-tool-mobile-export">
+        <div className="creative-tool-actions">
+          <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
+          <button className="tool-action primary" type="button" onClick={download}>Download</button>
+          <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+          <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
+        </div>
+        {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
       </div>
     </div>
   );
