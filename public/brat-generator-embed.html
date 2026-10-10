@@ -230,7 +230,6 @@
           <svg viewBox="0 0 16 16"><path d="M8 12.5L3.5 8H6V2h4v6h2.5L8 12.5zM2 14h12v1.5H2V14z"/></svg>
           Download Image
         </button>
-        <button class="ghost-btn" id="mobileCopyBtn">Copy Image</button>
         <button class="ghost-btn" id="mobileShareBtn">Share Link</button>
         <button class="ghost-btn" id="mobileShareImageBtn">Share Image</button>
         <button class="ghost-btn" id="mobileResetBtn">Reset All</button>
@@ -1181,7 +1180,6 @@
   document.getElementById('dlBtn').addEventListener('click', downloadImage);
   document.getElementById('mobileDlBtn').addEventListener('click', downloadImage);
   document.getElementById('copyBtn').addEventListener('click', copyImage);
-  document.getElementById('mobileCopyBtn').addEventListener('click', copyImage);
   document.getElementById('mobileShareImageBtn').addEventListener('click', shareImage);
 
   function loadSharedState(){

@@ -3534,3 +3534,9 @@ main > .section{
   .creative-tool .creative-tool-mobile-export .mobile-share-image,
   .creative-tool .image-mobile-export-actions .mobile-share-image{display:flex!important;align-items:center;justify-content:center}
 }
+
+/* Mobile-only: native Share Image replaces unsupported Android Copy Image.
+   Keep desktop Copy Image buttons and the existing share/download controls intact. */
+@media (max-width:900px){
+  .creative-tool .mobile-hidden-copy{display:none!important}
+}

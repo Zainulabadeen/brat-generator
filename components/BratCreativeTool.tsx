@@ -515,7 +515,7 @@ export default function BratCreativeTool({ mode }: Props) {
             <div className="creative-tool-actions image-mobile-export-actions">
               <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
               <button className="tool-action primary" type="button" onClick={download}>Download</button>
-              <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action mobile-hidden-copy" type="button" onClick={copyImage}>Copy Image</button>
               <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
               <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
             </div>
@@ -553,7 +553,7 @@ export default function BratCreativeTool({ mode }: Props) {
                 <div className="creative-tool-actions image-output-actions">
                   <select aria-label="Download format" value={format} onChange={(e) => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
                   <button className="tool-action primary" type="button" onClick={download}>Download</button>
-                  <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+                  <button className="tool-action mobile-hidden-copy" type="button" onClick={copyImage}>Copy Image</button>
               <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
                   <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
                 </div>
@@ -663,7 +663,7 @@ export default function BratCreativeTool({ mode }: Props) {
           <div className="creative-tool-actions">
             <select aria-label="Download format" value={format} onChange={(e) => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
             <button className="tool-action primary" type="button" onClick={download}>Download</button>
-            <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+            <button className="tool-action mobile-hidden-copy" type="button" onClick={copyImage}>Copy Image</button>
               <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
             <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
           </div>
@@ -674,7 +674,7 @@ export default function BratCreativeTool({ mode }: Props) {
         <div className="creative-tool-actions">
           <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
           <button className="tool-action primary" type="button" onClick={download}>Download</button>
-          <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+          <button className="tool-action mobile-hidden-copy" type="button" onClick={copyImage}>Copy Image</button>
               <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
           <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
         </div>
