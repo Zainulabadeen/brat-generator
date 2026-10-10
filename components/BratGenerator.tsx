@@ -171,6 +171,11 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
   const handleLoad = () => {
     const frame = frameRef.current;
     const doc = frame?.contentDocument;
+    // An iframe can first load a temporary empty document before the tool URL.
+    // Do not treat this as a failed network response and mount a second copy.
+    let frameUrl = '';
+    try { frameUrl = frame?.contentWindow?.location?.href || ''; } catch { /* Cross-origin error documents */ }
+    if (frameUrl === 'about:blank' && !fallbackHtml) return;
     const bodyText = doc?.body?.textContent || '';
     const title = doc?.title || '';
     const embedReady = !!doc?.getElementById('cv');

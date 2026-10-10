@@ -1272,7 +1272,8 @@
 </script>
 <script>
 (function(){
-  var heightRaf=0;
+  // Avoid duplicate iframe/parent work: only notify on actual height changes.
+  var heightRaf=0, lastSentHeight=0;
   function sendHeight(){
     if(heightRaf) return;
     heightRaf=requestAnimationFrame(function(){
@@ -1280,6 +1281,8 @@
       try{
         var root=document.querySelector('.brat-app-wrapper');
         var height=root ? Math.ceil(root.scrollHeight) : Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);
+        if(height===lastSentHeight) return;
+        lastSentHeight=height;
         parent.postMessage({type:'brat-generator-height',height:height},'*');
       }catch(e){}
     });
@@ -1298,10 +1301,8 @@
     var root=document.querySelector('.brat-app-wrapper');
     if(root) ro.observe(root);
   }
-  if(window.MutationObserver){
-    var mo=new MutationObserver(function(){ sendHeight(); });
-    mo.observe(document.body,{attributes:true,childList:true,subtree:true});
-  }
+  // ResizeObserver and user events cover editor dimension changes.
+  // Avoid observing every document attribute/child on every edit.
   setTimeout(sendHeight,120);
   setTimeout(sendHeight,500);
   setTimeout(sendHeight,1000);

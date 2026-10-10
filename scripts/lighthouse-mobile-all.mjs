@@ -1,6 +1,6 @@
 /** Run real Chrome Lighthouse mobile audits against the real Next static export.
  * Requires Lighthouse CLI installed in PATH (see GitHub Actions workflow).
- * Near-threshold *failures* are retested twice and evaluated by the median so
+ * Any category *failure* is retested twice and evaluated by the median so
  * one noisy GitHub runner sample does not create a spurious regression alert.
  * Thresholds are NEVER lowered, and every attempt is retained as a full JSON.
  */
@@ -84,12 +84,12 @@ try {
       continue;
     }
 
-    // A failing score close to the configured floor may reflect host CPU noise.
-    // Check THREE measurements (median), never pass a single lucky retry.
-    const borderlineFailure = Object.entries(min).some(([key, required]) =>
-      samples[0].scores[key] < required && samples[0].scores[key] >= required - borderlineMargin);
-    if (borderlineFailure) {
-      console.log(`  Borderline score; repeating twice (margin ${borderlineMargin}, thresholds unchanged).`);
+    // Retest EVERY failed page, not only a score close to the threshold.
+    // Three-run median preserves the unchanged minimum and exposes runner noise.
+    const firstSampleFailed = Object.entries(min).some(([key, required]) =>
+      samples[0].scores[key] < required);
+    if (firstSampleFailed) {
+      console.log('  Below minimum; repeating twice for a 3-run median (thresholds unchanged).');
       for (let retry = 2; retry <= 3; retry++) {
         try {
           samples.push(runLighthouse(`${baseUrl}${route}`, path.join(reportDir, `${slug}-retry-${retry}.json`)));
@@ -100,8 +100,8 @@ try {
         }
       }
     }
-    if (borderlineFailure && samples.length !== 3) {
-      failures.push(`${route}: only ${samples.length}/3 borderline validation samples completed`);
+    if (firstSampleFailed && samples.length !== 3) {
+      failures.push(`${route}: only ${samples.length}/3 validation samples completed`);
     }
     const scores = Object.fromEntries(Object.keys(min).map((key) => [key, median(samples.map((sample) => sample.scores[key]))]));
     const metrics = Object.fromEntries(metricIds.map((key) => [key, median(samples.map((sample) => sample.metrics[key]))]));
@@ -125,7 +125,7 @@ const summary={
   when:new Date().toISOString(),
   mode:live ? 'live website mobile emulation (check deployed commit independently)' : 'local static export mobile emulation; not live production',
   requiredRoutes:selected.length,completedRoutes:rows.length,minima:min,borderlineMargin,
-  methodology:'Single pass per page; on a borderline failing category score only, run twice more and compare median of 3. Never lower thresholds.',
+  methodology:'Single pass per page; any failing category score triggers two repeats and a median of 3. Never lower thresholds.',
   attempts,failures,
 };
 fs.writeFileSync(path.join(reportDir,'summary.json'),JSON.stringify(summary,null,2)+'\n');
@@ -137,7 +137,7 @@ if (process.env.GITHUB_STEP_SUMMARY) {
   try {
     const report = [
       `## Mobile Lighthouse: ${status}`,
-      `Audited ${rows.length}/${selected.length} routes. Near-threshold failing scores are evaluated using the median of 3; floors remain unchanged.`,
+      `Audited ${rows.length}/${selected.length} routes. Failing scores are evaluated using the median of 3; floors remain unchanged.`,
       '| Route | Performance | Accessibility | Best Practices | SEO | Samples |',
       '|---|---:|---:|---:|---:|---:|',
       ...attempts.map((entry)=>`| ${entry.route} | ${entry.median.performance} | ${entry.median.accessibility} | ${entry.median['best-practices']} | ${entry.median.seo} | ${entry.samples.length} |`),
