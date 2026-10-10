@@ -3527,3 +3527,10 @@ main > .section{
   .image-mobile-export-actions>*{min-width:0;width:100%;min-height:44px;text-align:center}
   .image-mobile-editor>.tool-export-error{margin-top:10px}
 }
+
+/* Native mobile share is additive; desktop tool buttons/layout are untouched. */
+.creative-tool .mobile-share-image{display:none!important}
+@media(max-width:900px){
+  .creative-tool .creative-tool-mobile-export .mobile-share-image,
+  .creative-tool .image-mobile-export-actions .mobile-share-image{display:flex!important;align-items:center;justify-content:center}
+}

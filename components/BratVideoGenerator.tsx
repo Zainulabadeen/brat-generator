@@ -182,7 +182,7 @@ export default function BratVideoGenerator() {
         style={{ height: `${height}px` }}
         scrolling="no"
         loading="lazy"
-        allow="clipboard-read; clipboard-write; fullscreen"
+        allow="clipboard-read; clipboard-write; fullscreen; web-share"
       />
     </div>
   );

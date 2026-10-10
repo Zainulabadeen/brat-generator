@@ -230,9 +230,11 @@
           <svg viewBox="0 0 16 16"><path d="M8 12.5L3.5 8H6V2h4v6h2.5L8 12.5zM2 14h12v1.5H2V14z"/></svg>
           Download Image
         </button>
-        <button class="ghost-btn" id="mobileCopyBtn">Copy</button>
+        <button class="ghost-btn" id="mobileCopyBtn">Copy Image</button>
         <button class="ghost-btn" id="mobileShareBtn">Share Link</button>
+        <button class="ghost-btn" id="mobileShareImageBtn">Share Image</button>
         <button class="ghost-btn" id="mobileResetBtn">Reset All</button>
+        <p class="mobile-export-message" id="mobileExportMessage" role="status" aria-live="polite" hidden></p>
       </div>
     </div>
   </div>
@@ -726,6 +728,8 @@
     .mobile-export-actions>*{min-width:0;width:100%;min-height:46px;font-size:12px;display:flex;align-items:center;justify-content:center;padding:8px 10px;text-align:center}
     .mobile-export-actions .dl-btn{background:#121212;color:#fff}
     .mobile-export-actions .dl-btn svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
+    .mobile-export-message{grid-column:1/-1;font-size:11px;line-height:1.5;color:#536039;padding:4px 1px}
+    .mobile-export-message[hidden]{display:none!important}
     .brat-app-wrapper .panel>div[data-mobile-group="text"]>.field-label,
     .brat-app-wrapper .panel>div[data-mobile-group="text"]>#txtIn{display:none!important}
   }
@@ -801,14 +805,20 @@
     ctx.fillRect(0, 0, W, H);
 
     if (S.noise) {
-      const id = ctx.getImageData(0, 0, W, H), d = id.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const n = (Math.random() - .5) * 44;
-        d[i]   = Math.min(255, Math.max(0, d[i]   + n));
-        d[i+1] = Math.min(255, Math.max(0, d[i+1] + n));
-        d[i+2] = Math.min(255, Math.max(0, d[i+2] + n));
+      // On small devices process noise in strips rather than allocating a
+      // second full-resolution bitmap (3000² would otherwise add ~36 MB).
+      const rows=(targetCanvas!==cv && window.matchMedia('(max-width:800px)').matches) ? 128 : H;
+      for(let top=0;top<H;top+=rows){
+        const blockHeight=Math.min(rows,H-top);
+        const id=ctx.getImageData(0,top,W,blockHeight),d=id.data;
+        for(let i=0;i<d.length;i+=4){
+          const n=(Math.random()-.5)*44;
+          d[i]=Math.min(255,Math.max(0,d[i]+n));
+          d[i+1]=Math.min(255,Math.max(0,d[i+1]+n));
+          d[i+2]=Math.min(255,Math.max(0,d[i+2]+n));
+        }
+        ctx.putImageData(id,0,top);
       }
-      ctx.putImageData(id, 0, 0);
     }
 
     if (S.scribble) {
@@ -1065,58 +1075,114 @@
   document.getElementById('mobileResetBtn').addEventListener('click', resetEditor);
 
   /* ── Export ── */
-  function renderFull() {
+  const IS_MOBILE = () => window.matchMedia('(max-width:800px)').matches;
+  function exportStatus(message){
+    const status=document.getElementById('mobileExportMessage');
+    if(status && IS_MOBILE()){status.textContent=message;status.hidden=!message;}
+  }
+  function renderFull(forCopy=false) {
     const requestedW=S.cw*S.res,requestedH=S.ch*S.res;
-    // 8M pixels bounds peak mobile memory; one canvas instead of two full-sized canvases.
-    const mobile=window.matchMedia('(max-width:800px)').matches;
-    const limit=mobile?8000000:25000000;
-    const safeScale=Math.min(1,Math.sqrt(limit/(requestedW*requestedH)));
-    if(safeScale<1){
-      const safeW=Math.round(requestedW*safeScale),safeH=Math.round(requestedH*safeScale);
+    const pixels=requestedW*requestedH;
+    // A 3000x3000 output (9 MP) is legitimate on modern mobile browsers.
+    // Limit only very large allocations. Do not silently downgrade a requested resolution.
+    if(IS_MOBILE() && pixels>20000000){
+      exportStatus('This '+requestedW+' × '+requestedH+' output needs significant memory. Choose 1×/2× or a smaller canvas before exporting.');
+      return null;
+    }
+    const desktopScale=IS_MOBILE()?1:Math.min(1,Math.sqrt(25000000/pixels));
+    if(!IS_MOBILE() && desktopScale<1){
+      const safeW=Math.round(requestedW*desktopScale),safeH=Math.round(requestedH*desktopScale);
       if(!window.confirm('This export is '+requestedW+' × '+requestedH+' pixels and may crash a low-memory browser. Download a safer '+safeW+' × '+safeH+' version instead? Select Cancel to choose a lower resolution.'))return null;
     }
     const dc=document.createElement('canvas');
-    dc.width=Math.max(1,Math.round(requestedW*safeScale));
-    dc.height=Math.max(1,Math.round(requestedH*safeScale));
+    dc.width=Math.max(1,Math.round(requestedW*desktopScale));
+    dc.height=Math.max(1,Math.round(requestedH*desktopScale));
     draw(dc);
-    if(safeScale<1){const status=document.getElementById('mobile-draft-status');if(status)status.textContent='Export scaled for device safety';}
     return dc;
   }
-
+  function encodeCanvas(dc,mime,quality){
+    return new Promise((resolve,reject)=>{
+      try { dc.toBlob(b=>{dc.width=0;dc.height=0; b?resolve(b):reject(new Error('Image export is not supported at this resolution.'));},mime,quality); }
+      catch(e){dc.width=0;dc.height=0; reject(e);}
+    });
+  }
   function setButtonText(ids, text, restore){
     ids.forEach(id=>{const btn=document.getElementById(id); if(btn) btn.textContent=text;});
     if(restore){setTimeout(()=>ids.forEach(id=>{const btn=document.getElementById(id); if(btn) btn.textContent=restore;}),1800);}
   }
-
-  function downloadImage(){
+  async function downloadImage(){
+    exportStatus('');
     let dc;
-    try { dc=renderFull();if(!dc)return; } catch(err){alert('This export needs too much memory. Please select a smaller canvas or lower resolution.');return;}
+    try { dc=renderFull(); if(!dc)return; }
+    catch(e){exportStatus('Not enough memory for this canvas. Try a smaller size.');return;}
     const mime=S.fmt==='jpg'?'image/jpeg':S.fmt==='webp'?'image/webp':'image/png';
-    dc.toBlob(blob=>{
-      if(!blob){alert('Export failed. Try PNG at 1× or 2× resolution.');return;}
-      const url=URL.createObjectURL(blob);const a=document.createElement('a');
-      a.download=`brat.${S.fmt}`;a.href=url;a.click();
+    try{
+      const blob=await encodeCanvas(dc,mime,0.94);
+      const url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.download='brat.'+S.fmt;a.href=url;a.click();
       setTimeout(()=>URL.revokeObjectURL(url),30000);
-      dc.width=0;dc.height=0;
-    },mime,0.94);
+      exportStatus('Download started: '+S.cw*S.res+' × '+S.ch*S.res+'.');
+    }catch(e){exportStatus('Export failed on this device. Try a smaller resolution or JPG.');}
   }
-
   function copyImage(){
-    if(!navigator.clipboard?.write||!window.ClipboardItem){alert('Copy is not supported in this browser. Use Download Image instead.');return;}
-    let dc;try{dc=renderFull();if(!dc)return;}catch(err){return;}
-    dc.toBlob(blob => {
-      dc.width=0;dc.height=0;
-      if(!blob||!navigator.clipboard?.write||!window.ClipboardItem)return;
-      navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
-        .then(() => setButtonText(['copyBtn','mobileCopyBtn'], 'Copied!', 'Copy'))
-        .catch(() => setButtonText(['copyBtn','mobileCopyBtn'], 'N/A', 'Copy'));
-    }, 'image/png');
+    exportStatus('');
+    if(!navigator.clipboard?.write||!window.ClipboardItem){
+      exportStatus('Image clipboard is unavailable. Tap Share Image to send the picture, or Download Image to save it.');return;
+    }
+    let dc;
+    try{dc=renderFull(true);if(!dc)return;}
+    catch(e){exportStatus('Image needs more memory. Choose a smaller resolution.');return;}
+    if(!IS_MOBILE()){
+      // Preserve existing desktop flow, which already works for laptop users.
+      dc.toBlob(blob=>{
+        dc.width=0;dc.height=0;
+        if(!blob)return;
+        navigator.clipboard.write([new ClipboardItem({'image/png':blob})])
+          .then(()=>setButtonText(['copyBtn'],'Copied!','Copy'))
+          .catch(()=>setButtonText(['copyBtn'],'N/A','Copy'));
+      },'image/png');
+      return;
+    }
+    // IMPORTANT: call clipboard.write synchronously during the tap gesture.
+    // Awaiting canvas.toBlob() first can cause Android Chrome to lose user activation.
+    const blobPromise=encodeCanvas(dc,'image/png');
+    try{
+      const item=new ClipboardItem({'image/png':blobPromise});
+      navigator.clipboard.write([item]).then(()=>{
+        setButtonText(['mobileCopyBtn'],'Copied!','Copy Image');
+        exportStatus('PNG image copied. Some Android apps do not accept pasted images; use Share Image for WhatsApp.');
+      }).catch(()=>exportStatus('This mobile browser cannot copy the image directly. Tap Share Image to send it, or Download Image.'));
+    }catch(e){exportStatus('Image clipboard is not supported. Use Share Image or Download Image.');}
   }
-
+  // Share Image is separate from Share Link. A small canvas becomes a genuine
+  // PNG file, passed to Android/iOS native share targets (WhatsApp, etc.).
+  function shareImage(){
+    exportStatus('');
+    if(!navigator.share||!navigator.canShare){exportStatus('Sharing images is unavailable in this browser. Download the PNG and share it from Photos or Files.');return;}
+    try{
+      const shareCanvas=document.createElement('canvas');
+      const scale=Math.min(1,1200/Math.max(S.cw,S.ch));
+      shareCanvas.width=Math.round(S.cw*scale);
+      shareCanvas.height=Math.round(S.ch*scale);
+      draw(shareCanvas);
+      // Synchronous encoding keeps navigator.share() inside the trusted tap.
+      const data=shareCanvas.toDataURL('image/png').split(',')[1];
+      shareCanvas.width=0;shareCanvas.height=0;
+      const binary=atob(data),bytes=new Uint8Array(binary.length);
+      for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+      const file=new File([bytes],'brat-design.png',{type:'image/png'});
+      if(!navigator.canShare({files:[file]})){
+        exportStatus('Native image sharing is unavailable. Download the PNG and share it from your Gallery.');return;
+      }
+      const result=navigator.share({files:[file],title:'Brat design'});
+      if(result && typeof result.catch==='function')result.catch(e=>{if(e.name!=='AbortError')exportStatus('Could not open the share sheet. Download the PNG and share it from your Gallery.');});
+    }catch(e){exportStatus('Could not prepare image for sharing. Please download the PNG instead.');}
+  }
   document.getElementById('dlBtn').addEventListener('click', downloadImage);
   document.getElementById('mobileDlBtn').addEventListener('click', downloadImage);
   document.getElementById('copyBtn').addEventListener('click', copyImage);
   document.getElementById('mobileCopyBtn').addEventListener('click', copyImage);
+  document.getElementById('mobileShareImageBtn').addEventListener('click', shareImage);
 
   function loadSharedState(){
     try{
@@ -1153,17 +1219,27 @@
       syncUI(); draw();
     }catch(ignore){}
   }
-  async function shareLink(){
+  function shareLink(){
     try{
       const url=new URL(window.parent.location.href);
       url.searchParams.delete('style');
       const values={text:S.text,bg:S.bg,fg:S.fg,font:S.font,fs:S.fs,ls:S.ls,blur:S.blur,lower:S.lower?'1':'0',mirror:S.mirror?'1':'0',flip:S.flip?'1':'0',noise:S.noise?'1':'0',scribble:S.scribble?'1':'0',bold:S.bold?'1':'0',align:S.align,size:S.cw+'x'+S.ch,fmt:S.fmt,res:String(S.res),fit:S.autoFit?'1':'0',wrap:S.wrap?'1':'0',grad:S.isGrad?'1':'0',g2:S.g2};
       Object.entries(values).forEach(([key,value])=>url.searchParams.set(key,String(value)));
       url.hash='generator';
-      await navigator.clipboard.writeText(url.toString());
-      setButtonText(['shareBtn','mobileShareBtn'],'Link Copied!','Share Link');
-      if(window.parent&&window.parent!==window) window.parent.postMessage({type:'brat-generator-share',url:url.toString()},'*');
-    }catch(ignore){setButtonText(['shareBtn','mobileShareBtn'],'Copy Failed','Share Link');}
+      // Native OS share sheet must start directly from the user's tap.
+      if(IS_MOBILE() && navigator.share){
+        const result=navigator.share({title:'Brat Generator design',url:url.toString()});
+        if(result && typeof result.catch==='function')result.catch(err=>{
+          if(err.name!=='AbortError')exportStatus('Sharing link unavailable. Copy Link instead in a supported browser.');
+        });
+        return;
+      }
+      navigator.clipboard.writeText(url.toString()).then(()=>{
+        setButtonText(['shareBtn','mobileShareBtn'],'Link Copied!','Share Link');
+        exportStatus('Design link copied. Paste it into WhatsApp or any chat.');
+      }).catch(()=>exportStatus('Copy Link is not available. Open the page from a supported browser.'));
+      if(window.parent&&window.parent!==window)window.parent.postMessage({type:'brat-generator-share',url:url.toString()},'*');
+    }catch(ignore){exportStatus('Could not create the link. Please try again.');}
   }
   document.getElementById('shareBtn').addEventListener('click', shareLink);
   document.getElementById('mobileShareBtn').addEventListener('click', shareLink);

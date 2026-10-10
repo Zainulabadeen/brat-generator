@@ -335,8 +335,20 @@ export default function BratCreativeTool({ mode }: Props) {
 
   const makeBlob = async (type: string, quality?: number) => {
     const exportCanvas = document.createElement('canvas');
-    render(exportCanvas, true, mode === 'font' && transparent && type === 'image/jpeg');
-    return await new Promise<Blob | null>((resolve) => exportCanvas.toBlob(resolve, type, quality));
+    const mobile = window.matchMedia('(max-width:900px)').matches;
+    if (mobile && actualPreset.width * actualPreset.height > 20_000_000) {
+      throw new Error('This resolution is too large for a safe mobile export. Select a smaller canvas.');
+    }
+    try {
+      render(exportCanvas, true, mode === 'font' && transparent && type === 'image/jpeg');
+      return await new Promise<Blob | null>((resolve, reject) => {
+        try { exportCanvas.toBlob(resolve, type, quality); }
+        catch (error) { reject(error); }
+      });
+    } finally {
+      // Release the 3000 x 3000 bitmap as soon as encoding is finished.
+      if (mobile) { exportCanvas.width = 0; exportCanvas.height = 0; }
+    }
   };
 
   const download = async () => {
@@ -357,13 +369,61 @@ export default function BratCreativeTool({ mode }: Props) {
 
   const copyImage = async () => {
     if (mode === 'image' && !imageGenerated && !window.matchMedia('(max-width:620px)').matches) return;
-    if (!('ClipboardItem' in window) || !navigator.clipboard?.write) return;
+    if (!('ClipboardItem' in window) || !navigator.clipboard?.write) {
+      setExportError('This browser cannot copy a PNG image. On mobile, try Share Image or Download.');
+      return;
+    }
+    const mobile = window.matchMedia('(max-width:900px)').matches;
+    if (mobile) {
+      // Do not await toBlob before clipboard.write: Android may lose the tap gesture.
+      try {
+        const pendingPng = makeBlob('image/png').then(blob => {
+          if (!blob) throw new Error('PNG generation failed');
+          return blob;
+        });
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': pendingPng })]);
+        setExportError('PNG copied. If WhatsApp cannot paste it, use Share Image to send the picture directly.');
+      } catch {
+        setExportError('Your browser could not copy the PNG. Use Share Image or Download instead.');
+      }
+      return;
+    }
+    // Preserve the approved desktop copying flow.
     try {
       const blob = await makeBlob('image/png');
       if (!blob) { setExportError('Copy failed. Try downloading PNG instead.'); return; }
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
       setExportError('');
     } catch { setExportError('Copy is unavailable in this browser. Use Download instead.'); }
+  };
+
+  const shareImageMobile = () => {
+    if (!window.matchMedia('(max-width:900px)').matches) return;
+    if (!navigator.share || !navigator.canShare) {
+      setExportError('This browser does not support image sharing. Download and send the file from your Gallery.');
+      return;
+    }
+    try {
+      const preview = mode === 'image' ? mobileImageCanvasRef.current : canvasRef.current;
+      if (!preview || !preview.width || !preview.height) throw new Error('No preview ready');
+      // Prepare a real image File synchronously, then open the native share sheet
+      // in this same user gesture (no await before navigator.share).
+      const png = preview.toDataURL('image/png').split(',')[1];
+      const binary = atob(png);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      const file = new File([bytes], `brat-${mode}.png`, { type: 'image/png' });
+      if (!navigator.canShare({ files: [file] })) {
+        setExportError('Native image sharing is not supported. Download the PNG and share it from your Gallery.');
+        return;
+      }
+      setExportError('');
+      void navigator.share({ files: [file], title: 'Brat design' }).catch(error => {
+        if (error.name !== 'AbortError') setExportError('Could not open sharing. Download the PNG to share from your Gallery.');
+      });
+    } catch {
+      setExportError('Could not prepare the image for sharing. Download the PNG instead.');
+    }
   };
 
   const reset = () => {
@@ -456,6 +516,7 @@ export default function BratCreativeTool({ mode }: Props) {
               <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
               <button className="tool-action primary" type="button" onClick={download}>Download</button>
               <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
               <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
             </div>
             {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
@@ -493,6 +554,7 @@ export default function BratCreativeTool({ mode }: Props) {
                   <select aria-label="Download format" value={format} onChange={(e) => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
                   <button className="tool-action primary" type="button" onClick={download}>Download</button>
                   <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
                   <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
                 </div>
                 {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
@@ -602,6 +664,7 @@ export default function BratCreativeTool({ mode }: Props) {
             <select aria-label="Download format" value={format} onChange={(e) => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
             <button className="tool-action primary" type="button" onClick={download}>Download</button>
             <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
             <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
           </div>
           {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}
@@ -612,6 +675,7 @@ export default function BratCreativeTool({ mode }: Props) {
           <select aria-label="Download format" value={format} onChange={e => setFormat(e.target.value as ExportFormat)}><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select>
           <button className="tool-action primary" type="button" onClick={download}>Download</button>
           <button className="tool-action" type="button" onClick={copyImage}>Copy Image</button>
+              <button className="tool-action mobile-share-image" type="button" onClick={shareImageMobile}>Share Image</button>
           <button className="tool-action subtle" type="button" onClick={reset}>Reset</button>
         </div>
         {exportError ? <p className="tool-export-error" role="alert">{exportError}</p> : null}

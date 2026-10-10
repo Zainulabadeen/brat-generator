@@ -110,6 +110,8 @@
         <button class="bvg-export" id="bvg-export" type="button" disabled>
           <span class="bvg-export-label">Export Video</span>
         </button>
+        <button class="bvg-share-export" id="bvg-share-export" type="button" hidden>Share last export</button>
+        <p class="bvg-share-feedback" id="bvg-share-feedback" role="status" aria-live="polite" hidden></p>
       </div>
     </div>
 
@@ -542,6 +544,12 @@
   }
 
   /* Keep the current video player on desktop; compact steps on phones. */
+  #bvg-root .bvg-share-export{display:none!important}
+  #bvg-root .bvg-share-feedback[hidden]{display:none!important}
+  #bvg-root .bvg-share-feedback{font-size:12px;line-height:1.5;color:#536039;padding:6px 0}
+  @media(max-width:800px){
+    #bvg-root .bvg-share-export:not([hidden]){display:block!important;width:100%;margin-top:10px;min-height:44px;padding:10px 14px;border-radius:12px;border:1px solid #d0d0d0;background:#fff;color:#111;font-weight:700;cursor:pointer}
+  }
   #bvg-root .bvg-mobile-preview,#bvg-root .bvg-mobile-edit-nav{display:none}
   @media(max-width:768px){
     #bvg-root .bvg-mobile-preview{display:grid;place-items:center;margin:0 0 12px;min-height:118px;max-height:155px;overflow:hidden;background:#8ace00;border-radius:12px;padding:15px;color:#101010;text-align:center}
@@ -580,6 +588,9 @@
     var fpsSlider         = root.querySelector('#bvg-fps');
     var fpsValue          = root.querySelector('#bvg-fps-value');
     var exportBtn         = root.querySelector('#bvg-export');
+    var shareExportBtn = root.querySelector('#bvg-share-export');
+    var shareFeedback = root.querySelector('#bvg-share-feedback');
+    var lastMobileExport=null;
     var previewText       = root.querySelector('#bvg-preview-text');
     var tabs              = root.querySelectorAll('.bvg-tab');
     var viewPanels        = root.querySelectorAll('[data-view-panel]');
@@ -883,6 +894,11 @@
     }
 
     function triggerDownload(blob, filename) {
+      if(window.matchMedia('(max-width:800px)').matches){
+        lastMobileExport={blob:blob,filename:filename};
+        if(shareExportBtn)shareExportBtn.hidden=false;
+        if(shareFeedback)shareFeedback.hidden=true;
+      }
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
@@ -892,6 +908,29 @@
       a.remove();
       setTimeout(function () { URL.revokeObjectURL(url); }, 3000);
     }
+
+    if(shareExportBtn)shareExportBtn.addEventListener('click',function(){
+      if(!lastMobileExport)return;
+      if(!navigator.share||!navigator.canShare){
+        shareFeedback.textContent='Your browser cannot share this file directly. Share the downloaded file from your Gallery or Files app.';
+        shareFeedback.hidden=false;return;
+      }
+      try{
+        var file=new File([lastMobileExport.blob],lastMobileExport.filename,{type:lastMobileExport.blob.type||'application/octet-stream'});
+        if(!navigator.canShare({files:[file]})){
+          shareFeedback.textContent='Sharing this export format is not supported. Send the downloaded file from your Files app.';
+          shareFeedback.hidden=false;return;
+        }
+        // Native share is initiated from the user click without awaiting a promise.
+        var result=navigator.share({files:[file],title:'Brat video'});
+        if(result&&result.catch)result.catch(function(err){
+          if(err.name!=='AbortError'){
+            shareFeedback.textContent='Sharing failed. Send the downloaded file from your Files app.';
+            shareFeedback.hidden=false;
+          }
+        });
+      }catch(err){shareFeedback.textContent='Cannot share this file. Use the downloaded copy.';shareFeedback.hidden=false;}
+    });
 
     function startProgress(label) {
       state.exporting = true;

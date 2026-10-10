@@ -238,7 +238,7 @@ export default function BratGenerator({ priority = false }: { priority?: boolean
         onLoad={handleLoad}
         style={{ height: `${height}px` }}
         scrolling="no"
-        allow="clipboard-read; clipboard-write"
+        allow="clipboard-read; clipboard-write; web-share"
         loading={priority ? "eager" : "lazy"}
       />
     </div>
